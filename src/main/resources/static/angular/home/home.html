@@ -1,0 +1,24 @@
+<div class="join">
+    <div id="join-title">Perseus <span ng-bind="user.name"></span></div>
+    <div ng-hide="user.name">
+    	<a href="#/login">Login</a>
+    	<a href="#/registration">Register</a>
+    </div>
+    
+	<div ng-show="user.name">
+		<p><a href="#/jointeam">Join a Team</a></p>
+		<div ng-show="user.privileges==1">
+			<a href="#/newteam">New Team</a>
+			<div>Your teams:</div>
+			<span ng-show="user.name">
+				<div ng-repeat="team in lista | filter:{ iduser: user.id }"">
+					<a href="#/team/{{team.id}}" ng-bind="team.team"></a>
+				</div>
+			</span>
+		</div>
+		<p>
+			<a href="" ng-click="logout()">Logout</a>
+		</p>
+	</div>
+	
+</div>

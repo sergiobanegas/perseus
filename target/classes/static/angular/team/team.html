@@ -1,0 +1,15 @@
+<div class="join">
+    <div id="join-title">Kurento Room</div>
+	<h3>{{team.name}}</h3>
+	<div ng-repeat="room in rooms | filter: {team : team.id}">
+		<a href="" ng-click="register(room.name)" ng-bind="room.name"></a>
+	</div>
+	<div ng-if="user.privileges==1">
+		<form role="form" ng-submit="newRoom(room)" accept-charset="UTF-8">
+			<p>Room name <input type="text" ng-model="room.name"/>
+			Privileges <input type="checkbox" ng-model="room.privileges"></p>
+			<input type="submit" value="New room">
+		</form>
+	</div>
+	<a href="#" ng-click="logout()">Logout</a>
+</div>
