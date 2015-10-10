@@ -1,24 +1,24 @@
 <div class="join">
-    <div id="join-title">Kurento Room</div>
+    <div id="join-title">Perseus</div>
      <form role="form" ng-submit="newTeam(Team)" accept-charset="UTF-8">
-
+			<h3>New team</h3>
             <div class="card__content">
-<!--                 <lx-text-field label="User name" fixed-label="true" icon="account"> -->
-                    Team name <input type="text" ng-model="Team.name" required>
-<!--                 </lx-text-field> -->
-<!-- 				<lx-text-field label="Password" fixed-label="true" icon="account-key"> -->
-                    Password <input type="password" ng-model="Team.password" required>
-<!--                 </lx-text-field> -->
-					Repeat password <input type="password" ng-model="password" required>
+                <lx-text-field label="Team name" fixed-label="true" icon="account">
+                    <input type="text" ng-model="Team.name" required>
+                </lx-text-field>
+				<lx-text-field label="Password" fixed-label="true" icon="account-key">
+                    <input type="password" ng-model="Team.password" required>
+                </lx-text-field>
+				<lx-text-field label="Repeat password" fixed-label="true" icon="account-key">
+                    <input type="password" ng-model="password" required>
+                </lx-text-field>
             </div>
 
             <div class="card__actions">
                 <div class="grid">
                     <div class="grid__col6">
                         <button class="btn btn--l btn--blue btn--raised" lx-ripple type="button" ng-click="clear()">Clear</button>
-                    </div>
-                    <div class="grid__col6">
-                        <button id="joinBtn" class="btn btn--l btn--green btn--raised" lx-ripple type="submit" >Register</button>
+                        <button id="joinBtn" class="btn btn--l btn--green btn--raised" lx-ripple type="submit" >Create</button>
                     </div>
                 </div>
                 <br>

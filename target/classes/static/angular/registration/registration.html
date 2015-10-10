@@ -1,25 +1,22 @@
-<div class="join">
+<div class="join" ng-hide="user.name">
     <div id="join-title">Kurento Room</div>
      <form role="form" ng-submit="register(newUser)" accept-charset="UTF-8">
-
             <div class="card__content">
-<!--                 <lx-text-field label="User name" fixed-label="true" icon="account"> -->
+                <lx-text-field label="User name" fixed-label="true" icon="account">
                     <input type="text" ng-model="newUser.name" required>
-<!--                 </lx-text-field> -->
-<!-- 				<lx-text-field label="Password" fixed-label="true" icon="account-key"> -->
+                </lx-text-field>
+				<lx-text-field label="Password" fixed-label="true" icon="account-key">
                     <input type="password" ng-model="newUser.password" required>
-<!--                 </lx-text-field> -->
-<!--                 <lx-text-field label="Email" fixed-label="true" icon="email"> -->
+                </lx-text-field>
+                <lx-text-field label="Email" fixed-label="true" icon="email">
                     <input type="text" ng-model="newUser.email" required>
-<!--                 </lx-text-field> -->
+                </lx-text-field>
             </div>
 
             <div class="card__actions">
                 <div class="grid">
                     <div class="grid__col6">
-                        <button class="btn btn--l btn--blue btn--raised" lx-ripple type="button" ng-click="clear()">Clear</button>
-                    </div>
-                    <div class="grid__col6">
+                        <button class="btn btn--l btn--blue btn--raised" lx-ripple ng-click="clear()">Clear</button>
                         <button id="joinBtn" class="btn btn--l btn--green btn--raised" lx-ripple type="submit" >Register</button>
                     </div>
                 </div>
@@ -29,4 +26,6 @@
         </form>
 	Hola {{hola}}, there are {{users.length}} people registered.
 </div>
-
+<div ng-show="user.name">
+ You've already logged in
+</div>

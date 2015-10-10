@@ -1,7 +1,7 @@
 {
   "name": "kurento-room-demo",
   "version": "6.1.0",
-  "description": "Kurento Room Demo",
+  "description": "A collaborative app",
   "authors": [
     "Kurento <info@kurento.org>"
   ],

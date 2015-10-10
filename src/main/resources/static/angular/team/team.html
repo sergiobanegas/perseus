@@ -1,15 +1,35 @@
-<div class="join">
-    <div id="join-title">Kurento Room</div>
-	<h3>{{team.name}}</h3>
-	<div ng-repeat="room in rooms | filter: {team : team.id}">
-		<a href="" ng-click="register(room.name)" ng-bind="room.name"></a>
+<div class="join" ng-show="participate()==1">
+    <div id="join-title">Team {{team.name}}</div>
+	<div id="roomlist">
+		<p>Room list</p>
+		<div ng-repeat="room in rooms | filter: {team : team.id}">
+			<a href="" ng-click="register(room.name)" ng-bind="room.name"></a>
+		</div>
+		<button ng-show="user.privileges==1" class="btn btn--m btn--blue btn--raised" ng-click="opendDialog('newRoom')" lx-tooltip="New room" tooltip-position="bottom">
+			New room
+		</button>	
 	</div>
-	<div ng-if="user.privileges==1">
+	
+	<lx-dialog class="dialog dialog--l" id="newRoom" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+		<div class="card bgc-purple-500 tc-white-1 p">
+				<b>New room</b>			
+		</div>
 		<form role="form" ng-submit="newRoom(room)" accept-charset="UTF-8">
-			<p>Room name <input type="text" ng-model="room.name"/>
-			Privileges <input type="checkbox" ng-model="room.privileges"></p>
-			<input type="submit" value="New room">
+			<div class="p++">
+				<lx-text-field label="Room name" fixed-label="true" icon="account"> 
+					<input type="text" ng-model="room.name"/>
+				</lx-text-field>
+				<input type="checkbox" id="checkbox1" class="checkbox__input" ng-model="room.privileges">
+				<label for="checkbox1" class="checkbox__label">Privileges</label>
+				<div class="dialog__actions">
+					<button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+		      		<button type="submit" class="btn btn--m btn--green btn--raised" lx-ripple lx-dialog-close>Create</button>
+				</div>
+			</div>
 		</form>
-	</div>
-	<a href="#" ng-click="logout()">Logout</a>
+	</lx-dialog>
+	<button class="btn btn--m btn--red btn--raised" ng-click="logout()" lx-ripple>Logout</button>
+</div>
+<div ng-hide="participate()==1">
+	You don't work in this team.
 </div>

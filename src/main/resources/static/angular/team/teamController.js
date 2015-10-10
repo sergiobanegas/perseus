@@ -3,7 +3,7 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceKurentoRoom, LxNotificationService) {
+kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, LxNotificationService,  LxDialogService) {
   
     $http.get('/getAllRooms').
 	    success(function (data, status, headers, config) {
@@ -25,6 +25,17 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	$scope.user=serviceUser.getSession();
 	$scope.team=serviceTeam.getTeam($routeParams.id);
 	$scope.rooms=serviceRoom.getRooms();
+	$scope.participate = function(){
+		var participates=0;
+		if ($scope.user.name){
+			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
+				if ((serviceParticipate.getParticipates()[i].iduser==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
+					participates=1;
+				}
+			}
+		}
+		return participates;
+	};
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
@@ -159,5 +170,13 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 		$window.location.href = '#/call';
 	};
     
+	$scope.opendDialog = function(dialogId){
+	    LxDialogService.open(dialogId);
+	};
+	
+	$scope.closingDialog = function(dialogId){
+	    LxDialogService.close(dialogId);
+	};
+	
     
 });

@@ -1,23 +1,45 @@
 <div class="join">
-    <div id="join-title">Perseus <span ng-bind="user.name"></span></div>
-    <div ng-hide="user.name">
-    	<a href="#/login">Login</a>
-    	<a href="#/registration">Register</a>
-    </div>
-    
+    <div id="join-title">Perseus - 
+    	<span ng-bind="user.name"></span>
+    </div></p>
+    	<button ng-hide="user.name" class="btn btn--l btn--blue btn--icon" ng-click="opendDialog('login')" lx-tooltip="LOGIN" tooltip-position="bottom">
+    		<i class="mdi mdi-account-key"></i>
+		</button>
+		<lx-dialog class="dialog dialog--l" id="login" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+			<div class="card bgc-purple-500 tc-white-1 p">
+				<b>Login</b>			
+			</div>
+			<form ng-submit="login()">
+			   	<div class="p++">
+					<lx-text-field label="Name" fixed-label="true" icon="account"> 
+						<input type="text" ng-model="userName"> 
+					</lx-text-field>
+					<lx-text-field label="Password" fixed-label="true" icon="key"> 
+						<input type="password" ng-model="password"> 
+					</lx-text-field>
+					<div class="dialog__actions">
+						<button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+	      				<button type="submit" class="btn btn--m btn--green btn--raised" lx-ripple lx-dialog-close>Enter</button>
+					</div>
+				</div>		
+				<div class="divider divider--dark"></div>
+				<div class="p+++">
+					Are you new?
+					<a href="#/registration" class="btn btn--m btn--purple btn--raised" lx-ripple lx-dialog-close>Register</a>
+				</div>
+			</form>
+		</lx-dialog>
 	<div ng-show="user.name">
 		<p><a href="#/jointeam">Join a Team</a></p>
-		<div ng-show="user.privileges==1">
-			<a href="#/newteam">New Team</a>
-			<div>Your teams:</div>
-			<span ng-show="user.name">
-				<div ng-repeat="team in lista | filter:{ iduser: user.id }"">
-					<a href="#/team/{{team.id}}" ng-bind="team.team"></a>
-				</div>
-			</span>
-		</div>
+		<a href="#/newteam">New Team</a>
+		<div>Your teams:</div>
+		<span ng-show="user.name">
+			<div ng-repeat="team in teams | filter:{ iduser: user.id }"">
+				<a href="#/team/{{team.id}}" ng-bind="team.team"></a>
+			</div>
+		</span>
 		<p>
-			<a href="" ng-click="logout()">Logout</a>
+			<button class="btn btn--m btn--red btn--raised" ng-click="logout()" lx-ripple>Logout</button>
 		</p>
 	</div>
 	

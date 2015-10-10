@@ -3,7 +3,7 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.controller('loginController', function ($scope, $http, ServiceParticipant, $window, serviceKurentoRoom, LxNotificationService) {
+kurento_room.controller('loginKurentoController', function ($scope, $http, ServiceParticipant, $window, serviceKurentoRoom, LxNotificationService) {
 
 
     $http.get('/getAllRooms').

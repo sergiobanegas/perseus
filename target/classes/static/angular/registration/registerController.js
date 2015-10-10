@@ -4,7 +4,7 @@
 
 kurento_room.controller('registerController', function ($scope, $window, serviceUser, $location, $route, $filter, LxNotificationService) {
 	$scope.users=serviceUser.getUsers();
-	
+	$scope.user=serviceUser.getSession();
 	$scope.register = function(newUser) {
 		if ( $filter('filter')($scope.users, { name: newUser.name }).length==0 ){			
 			if ((newUser.name==="admin")&&(newUser.password==="1234")){
