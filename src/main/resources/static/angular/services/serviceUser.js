@@ -50,7 +50,7 @@ function serviceUser($resource, $timeout, $cookieStore) {
 	function getUser(id) {
 		for (var i = 0; i < users.length; i++) {
 			if (users[i].id.toString() === id.toString()) {
-				
+				return users[i];
 			}
 		}
 	};
