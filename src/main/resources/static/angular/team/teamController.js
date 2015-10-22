@@ -23,7 +23,7 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	     });
 
 	$scope.user=serviceUser.getSession();
-	$scope.team=serviceTeam.getTeam($routeParams.id);
+	$scope.teams=serviceTeam.getTeams();
 	$scope.rooms=serviceRoom.getRooms();
 	$scope.participate = function(){
 		var participates=0;

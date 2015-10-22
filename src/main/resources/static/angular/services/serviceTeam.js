@@ -4,14 +4,10 @@ serviceTeam.$inject = [ "$resource", "$timeout"];
 
 function serviceTeam($resource, $timeout) {
 
-	var TeamResource = $resource('/teams/:id', {
-		id : '@id'
-	}, {
-		update : {
-			method : "PUT"
-		}
-	});
-
+	var TeamResource = $resource('/teams/:id', 
+			{ id : '@id'}, 
+			{ update : {method : "PUT"}}
+		);
 	var teams = [];
 	
 	function autoreload(){
@@ -42,13 +38,13 @@ function serviceTeam($resource, $timeout) {
 		return teams;
 	}
 
-	function getTeam(id) {
+	function getTeam(id) {	
 		for (var i = 0; i < teams.length; i++) {
-			if (teams[i].id.toString() === id) {
+			if (teams[i].id.toString() === id.toString()) {
 				return teams[i];
 			}
 		}
-	}
+	};
 
 	function newTeam(newTeam) {
 		new TeamResource(newTeam).$save(function(team) {

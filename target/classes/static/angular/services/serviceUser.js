@@ -6,6 +6,7 @@ function serviceUser($resource, $timeout, $cookieStore) {
 
 	var UserResource = $resource('/users/:id', 
 		{ id : '@id'}, 
+		{ get:    {method:'GET'},
 		{ update : {method : "PUT"}}
 	);
 

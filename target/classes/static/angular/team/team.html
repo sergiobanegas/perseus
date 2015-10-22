@@ -1,5 +1,5 @@
 <div class="join" ng-show="participate()==1">
-    <div id="join-title">Team {{team.name}}</div>
+    <div id="join-title">Team {{teams}}</div>
 	<div id="roomlist">
 		<p>Room list</p>
 		<div ng-repeat="room in rooms | filter: {team : team.id}">
