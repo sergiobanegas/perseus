@@ -19,6 +19,10 @@ kurento_room.config(function ($routeProvider) {
                 templateUrl: 'angular/registration/registration.html',
                 controller: 'registerController'
             })
+            .when('/user/:id', {
+                templateUrl: 'angular/user/user.html',
+                controller: 'userController'
+            })
             .when('/newteam', {
                 templateUrl: 'angular/team/newteam.html',
                 controller: 'newTeamController'

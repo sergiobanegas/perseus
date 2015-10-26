@@ -1,4 +1,4 @@
-El primer user es {{primerUser}}
+{{infoTeam(1)}}
 <div class="join">
     <div id="join-title">Perseus - 
     	<span ng-bind="user.name"></span>
@@ -6,7 +6,7 @@ El primer user es {{primerUser}}
     	<button ng-hide="user.name" class="btn btn--l btn--blue btn--icon" ng-click="opendDialog('login')" lx-tooltip="LOGIN" tooltip-position="bottom">
     		<i class="mdi mdi-account-key"></i>
 		</button>
-		<lx-dialog class="dialog dialog--l" id="login" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+		<lx-dialog class="dialog dialog--l" id="login" auto-close="true" onclose="closingDialog('login')" onscrollend="scrollEndDialog()">	
 			<div class="card bgc-purple-500 tc-white-1 p">
 				<b>Login</b>			
 			</div>
@@ -31,12 +31,13 @@ El primer user es {{primerUser}}
 			</form>
 		</lx-dialog>
 	<div ng-show="user.name">
+		<a href="#/user/{{user.id}}">Your profile</a>
 		<p><a href="#/jointeam">Join a Team</a></p>
 		<a href="#/newteam">New Team</a>
 		<div>Your teams:</div>
 		<span ng-show="user.name">
 			<div ng-repeat="team in teams | filter:{ iduser: user.id }"">
-				<a href="#/team/{{team.id}}" ng-bind="team.team"></a>
+				<a href="#/team/{{team.idteam}}">{{team.idteam}}</a>
 			</div>
 		</span>
 		<p>

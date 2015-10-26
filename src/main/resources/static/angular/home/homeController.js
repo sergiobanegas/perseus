@@ -3,15 +3,16 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('homeController', function ($scope, $window, serviceUser, serviceParticipate, $location, $route, $filter, LxNotificationService, LxDialogService) {
+kurento_room.controller('homeController', function ($resource, $scope, $window, serviceUser, serviceParticipate, serviceTeam, $location, $route, $filter, LxNotificationService, LxDialogService) {
+	
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
-	$scope.prueba = serviceUser.getUser(1);
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.primerUser=serviceUser.getUser(1);
-	
 	$scope.userName = "";
 		
+	$scope.teamName="";
+	
 	$scope.password = "";
 		
 	$scope.login = function() {
@@ -37,7 +38,11 @@ kurento_room.controller('homeController', function ($scope, $window, serviceUser
 		user={};
 		$route.reload();
 		LxNotificationService.success("Goodbye!");
-	}
+	};
+	
+	$scope.infoTeam = function(teamId){
+		return serviceTeam.getTeam(teamId);
+	};
 	
 	$scope.opendDialog = function(dialogId){
 	    LxDialogService.open(dialogId);

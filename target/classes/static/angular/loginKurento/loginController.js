@@ -148,5 +148,3 @@ kurento_room.controller('loginKurentoController', function ($scope, $http, Servi
         $scope.roomName = "";
     };
 });
-
-

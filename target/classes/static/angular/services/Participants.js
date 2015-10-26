@@ -89,7 +89,7 @@ function Participants() {
 	}
     
     function updateVideoStyle() {
-        var MAX_WIDTH = 14;
+        var MAX_WIDTH = 30;
         var numParticipants = Object.keys(participants).length;
         var maxParticipantsWithMaxWidth = 98 / MAX_WIDTH;
 

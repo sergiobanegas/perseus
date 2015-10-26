@@ -1,13 +1,14 @@
 kurento_room.factory("serviceTeam", serviceTeam);
 
-serviceTeam.$inject = [ "$resource", "$timeout"];
+serviceTeam.$inject = [ "$resource", "$timeout", "$http"];
 
-function serviceTeam($resource, $timeout) {
+function serviceTeam($resource, $timeout, $http) {
 
 	var TeamResource = $resource('/teams/:id', 
 			{ id : '@id'}, 
 			{ update : {method : "PUT"}}
 		);
+
 	var teams = [];
 	
 	function autoreload(){
@@ -23,7 +24,8 @@ function serviceTeam($resource, $timeout) {
 		getTeam : getTeam,		
 		newTeam : newTeam,
 		updateTeam : updateTeam,
-		deleteTeam : deleteTeam
+		deleteTeam : deleteTeam,
+		getOne : getOne
 	}
 
 	function reload(){
@@ -37,14 +39,19 @@ function serviceTeam($resource, $timeout) {
 	function getTeams() {
 		return teams;
 	}
+	
+	function getOne(teamId){
+		var team = TeamResource.get({id:teamId});
+		return team;
+	}
 
-	function getTeam(id) {	
+	function getTeam(id) {
 		for (var i = 0; i < teams.length; i++) {
-			if (teams[i].id.toString() === id.toString()) {
+			if (teams[i].id.toString() === id) {
 				return teams[i];
 			}
 		}
-	};
+	}
 
 	function newTeam(newTeam) {
 		new TeamResource(newTeam).$save(function(team) {

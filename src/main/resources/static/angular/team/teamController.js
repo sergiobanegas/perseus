@@ -3,7 +3,7 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, LxNotificationService,  LxDialogService) {
+kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, LxNotificationService, LxDialogService) {
   
     $http.get('/getAllRooms').
 	    success(function (data, status, headers, config) {
@@ -21,15 +21,27 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	     error(function (data, status, headers, config) {
 	    	 
 	     });
+	$scope.roomName = serviceKurentoRoom.getRoomName();
+    $scope.userName = serviceKurentoRoom.getUserName();
+    $scope.participants = ServiceParticipant.getParticipants();
+    $scope.kurento = serviceKurentoRoom.getKurento();
+	
+    window.onbeforeunload = function () {
+    	//not necessary if not connected
+    	if (ServiceParticipant.isConnected()) {
+    		serviceKurentoRoom.getKurento().close();
+    	}
+    };
 
 	$scope.user=serviceUser.getSession();
-	$scope.teams=serviceTeam.getTeams();
+	$scope.team=serviceTeam.getTeam($routeParams.id);
 	$scope.rooms=serviceRoom.getRooms();
+	$scope.chatMessage="";
 	$scope.participate = function(){
 		var participates=0;
 		if ($scope.user.name){
 			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
-				if ((serviceParticipate.getParticipates()[i].iduser==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
+				if ((serviceParticipate.getParticipates()[i].iduser==$scope.user.id)&&(serviceParticipate.getParticipates()[i].idteam==$routeParams.id)){
 					participates=1;
 				}
 			}
@@ -44,12 +56,6 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 }
 	
 	$scope.newRoom = function(room){
-		if (room.privileges){
-			room.privileges=1;
-		}
-		else{
-			room.privileges=0;
-		}
 		room.team=$scope.team.id;
 		serviceRoom.newRoom(room);
 		$route.reload();
@@ -169,6 +175,26 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 		//redirect to call
 		$window.location.href = '#/call';
 	};
+	
+	$scope.sendMessage = function () {
+        console.log("Sending message", $scope.chatMessage);
+        var kurento = serviceKurentoRoom.getKurento();
+        kurento.sendMessage($scope.roomName, $scope.user.name, $scope.chatMessage);
+        $scope.message = "";
+    };
+    
+    $scope.toggleChat = function () {
+        var selectedEffect = "slide";
+        // most effect types need no options passed by default
+        var options = {direction: "right"};
+        if ($("#effect").is(':visible')) {
+            $("#content").animate({width: '100%'}, 500);
+        } else {
+            $("#content").animate({width: '80%'}, 500);
+        }
+        // run the effect
+        $("#effect").toggle(selectedEffect, options, 500);
+    };
     
 	$scope.opendDialog = function(dialogId){
 	    LxDialogService.open(dialogId);
@@ -177,6 +203,10 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	$scope.closingDialog = function(dialogId){
 	    LxDialogService.close(dialogId);
 	};
+	
+	$scope.exit = function(){
+		$window.location.href = '#/';
+	}
 	
     
 });

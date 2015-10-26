@@ -13,7 +13,7 @@ public class Participate {
 	private Integer id;
 	
 	private Integer iduser;
-	private String team;
+	private Integer idteam;
 	
 	private int privileges;
 	
@@ -33,8 +33,8 @@ public class Participate {
 		return privileges;
 	}
 	
-	public String getTeam() {
-		return team;
+	public Integer getIdteam() {
+		return idteam;
 	}
 	
 	public void setIduser(Integer iduser) {
@@ -45,8 +45,8 @@ public class Participate {
 		this.privileges = privileges;
 	}
 	
-	public void setTeam(String team) {
-		this.team = team;
+	public void setIdteam(Integer idteam) {
+		this.idteam = idteam;
 	}
 	
 	public void setId(Integer id) {

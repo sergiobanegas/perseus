@@ -79,13 +79,14 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
     }
     
     //chat
-    $scope.message;
+    $scope.chatMessage;
 
     $scope.sendMessage = function () {
-        console.log("Sending message", $scope.message);
-        var kurento = serviceKurentoRoom.getKurento();
-        kurento.sendMessage($scope.roomName, $scope.userName, $scope.message);
-        $scope.message = "";
+    	  
+//        console.log("Sending message", $scope.chatMessage);
+//        var kurento = serviceKurentoRoom.getKurento();
+//        kurento.sendMessage($scope.roomName, $scope.userName, $scope.chatMessage);
+//        $scope.chatMessage = "";
     };
 
     //open or close chat when click in chat button
@@ -141,5 +142,3 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
     	});
     };
 });
-
-
