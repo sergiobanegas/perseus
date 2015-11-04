@@ -3,14 +3,14 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('homeController', function ($resource, $scope, $window, serviceUser, serviceParticipate, serviceTeam, $location, $route, $filter, LxNotificationService, LxDialogService) {
+kurento_room.controller('homeController', function ($http, $resource, $scope, $window, serviceUser, serviceParticipate, serviceTeam, $location, $route, $filter, LxNotificationService, LxDialogService) {
 	
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.primerUser=serviceUser.getUser(1);
 	$scope.userName = "";
-		
+	
 	$scope.teamName="";
 	
 	$scope.password = "";

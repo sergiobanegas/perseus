@@ -1,9 +1,10 @@
 kurento_room.factory("serviceUser", serviceUser);
 
-serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore"];
+serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore", "$http"];
 
-function serviceUser($resource, $timeout, $cookieStore) {
-
+function serviceUser($resource, $timeout, $cookieStore, $http) {
+	
+	
 	var UserResource = $resource('/users/:id', 
 		{ id : '@id'}, 
 		{ update : {method : "PUT"}}
@@ -26,7 +27,7 @@ function serviceUser($resource, $timeout, $cookieStore) {
 		loginUser : loginUser,
 		logout : logout,
 		getUsers : getUsers,
-		getUser : getUser,		
+		getUser : getUser,
 		newUser : newUser,
 		updateUser : updateUser,
 		deleteUser : deleteUser

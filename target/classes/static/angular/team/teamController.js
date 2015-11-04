@@ -18,9 +18,9 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	    	console.log(JSON.stringify(data));
 	    	$scope.clientConfig = data;
 	     }).
-	     error(function (data, status, headers, config) {
-	    	 
-	     });
+	     error(function (data, status, headers, config) {	 
+	});
+	
 	$scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
@@ -32,9 +32,13 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
     		serviceKurentoRoom.getKurento().close();
     	}
     };
-
+    $scope.team={};
+    $http.get('/teams/'+$routeParams.id)
+	  .then(function(result) {
+	    $scope.team = result.data;
+	});
 	$scope.user=serviceUser.getSession();
-	$scope.team=serviceTeam.getTeam($routeParams.id);
+	
 	$scope.rooms=serviceRoom.getRooms();
 	$scope.chatMessage="";
 	$scope.participate = function(){

@@ -2,10 +2,14 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('userController', function ($scope, $route, $routeParams, $window, serviceUser, LxNotificationService, LxDialogService) {
+kurento_room.controller('userController', function ($http, $scope, $route, $routeParams, $window, serviceUser, LxNotificationService, LxDialogService) {
   
 	$scope.user=serviceUser.getSession();
-	$scope.userProfile=serviceUser.getUser($routeParams.id);
+	$scope.userProfile={};
+	$http.get('/users/'+$routeParams.id)
+	  .then(function(result) {
+	    $scope.userProfile = result.data;
+	});
 	$scope.editName=0;
 	$scope.editEmail=0;
 	
