@@ -18,7 +18,6 @@ public class User {
 	private String name;
 	private String password;
 	private String email;
-	private String company;
 	
 	private int privileges;
 	
@@ -28,10 +27,6 @@ public class User {
 	
 	public Integer getId() {
 		return id;
-	}
-	
-	public String getCompany() {
-		return company;
 	}
 	
 	public String getEmail() {
@@ -48,11 +43,7 @@ public class User {
 	
 	public int getPrivileges() {
 		return privileges;
-	}
-	
-	public void setCompany(String company) {
-		this.company = company;
-	}
+	}	
 	
 	public void setEmail(String email) {
 		this.email = email;

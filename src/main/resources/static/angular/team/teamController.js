@@ -3,7 +3,7 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, LxNotificationService, LxDialogService) {
+kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {
   
     $http.get('/getAllRooms').
 	    success(function (data, status, headers, config) {
@@ -25,7 +25,8 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();
-	
+    $scope.chatMessages = serviceChatMessage.getChatMessages();
+    
     window.onbeforeunload = function () {
     	//not necessary if not connected
     	if (ServiceParticipant.isConnected()) {
@@ -175,17 +176,22 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 		serviceKurentoRoom.setKurento(kurento);
 		serviceKurentoRoom.setRoomName($scope.roomName);
 		serviceKurentoRoom.setUserName($scope.user.name);
-		
+		serviceKurentoRoom.setTeam($scope.team.id);
 		//redirect to call
 		$window.location.href = '#/call';
 	};
 	
-	$scope.sendMessage = function () {
-        console.log("Sending message", $scope.chatMessage);
-        var kurento = serviceKurentoRoom.getKurento();
-        kurento.sendMessage($scope.roomName, $scope.user.name, $scope.chatMessage);
-        $scope.message = "";
-    };
+	$scope.chatMessage;
+	
+	$scope.sendMessage = function () {   	
+  	  var message = {};
+  	  message.room="main";
+  	  message.team=$scope.team.id;
+  	  message.text=$scope.chatMessage;
+  	  message.user=serviceUser.getSession().name;
+  	  $scope.chatMessage="";
+  	  serviceChatMessage.newChatMessage(message);
+	};
     
     $scope.toggleChat = function () {
         var selectedEffect = "slide";

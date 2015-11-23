@@ -16,12 +16,16 @@
 					
 					            <div style="height: 30em;  overflow: scroll;">
 					                <ul class="list">
-					
+										<li ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomName }" class="list-row list-row--has-primary list-row--has-separator mt+" >
+												<div class="bgc-blue-500" style="padding:5px;border-radius: 10px;">
+													<p>{{message.user}}:</p>
+													<strong>{{message.text}}</strong>
+												</div>											
+										</li>
 					                    <!--chat messages with scroll-->
 					
 					                </ul>
-					            </div>
-					
+					            </div>					
 					            <!--message and button to send-->
 					            <div>
 					                <form>

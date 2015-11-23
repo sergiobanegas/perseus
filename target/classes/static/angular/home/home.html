@@ -37,7 +37,7 @@
 		<a href="#/newteam">New Team</a>
 		<div>Your teams:</div>
 		<span ng-show="user.name">
-			<div ng-repeat="team in teams | filter:{ iduser: user.id }"">
+			<div ng-repeat="team in teams | filter:{ iduser: user.id }">
 				<a href="#/team/{{team.idteam}}">{{team.idteam}}</a>
 			</div>
 		</span>

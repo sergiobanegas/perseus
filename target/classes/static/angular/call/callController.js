@@ -3,13 +3,15 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.controller('callController', function ($scope, $window, ServiceParticipant, serviceKurentoRoom, Fullscreen, LxNotificationService) {
+kurento_room.controller('callController', function ($scope, $window, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
 
+	$scope.team = serviceKurentoRoom.getTeam();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();
-
+    $scope.chatMessages = serviceChatMessage.getChatMessages();
+    
     $scope.leaveRoom = function () {
 
         serviceKurentoRoom.getKurento().close();
@@ -81,12 +83,14 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
     //chat
     $scope.chatMessage;
 
-    $scope.sendMessage = function () {
-    	  
-//        console.log("Sending message", $scope.chatMessage);
-//        var kurento = serviceKurentoRoom.getKurento();
-//        kurento.sendMessage($scope.roomName, $scope.userName, $scope.chatMessage);
-//        $scope.chatMessage = "";
+    $scope.sendMessage = function () {   	
+    	  var message = {};
+    	  message.room=$scope.roomName;
+    	  message.team=$scope.team.id;
+    	  message.text=$scope.chatMessage;
+    	  message.user=$scope.userName;
+    	  $scope.chatMessage="";
+    	  serviceChatMessage.newChatMessage(message);
     };
 
     //open or close chat when click in chat button
