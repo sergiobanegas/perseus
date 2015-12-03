@@ -1,6 +1,5 @@
 /*
- * @author Micael Gallego (micael.gallego@gmail.com)
- * @author Raquel Díaz González
+ * @author Sergio Banegas Cortijo
  */
 
 kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {

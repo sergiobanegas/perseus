@@ -1,6 +1,5 @@
 /*
- * @author Micael Gallego (micael.gallego@gmail.com)
- * @author Raquel Díaz González
+ * @author Sergio Banegas Cortijo
  */
 
 kurento_room.controller('callController', function ($scope, $window, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
@@ -18,7 +17,6 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
 
         ServiceParticipant.removeParticipants();
 
-        //redirect to login
         $window.location.href = '#/login';
     };
 
@@ -91,20 +89,6 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
     	  message.user=$scope.userName;
     	  $scope.chatMessage="";
     	  serviceChatMessage.newChatMessage(message);
-    };
-
-    //open or close chat when click in chat button
-    $scope.toggleChat = function () {
-        var selectedEffect = "slide";
-        // most effect types need no options passed by default
-        var options = {direction: "right"};
-        if ($("#effect").is(':visible')) {
-            $("#content").animate({width: '100%'}, 500);
-        } else {
-            $("#content").animate({width: '80%'}, 500);
-        }
-        // run the effect
-        $("#effect").toggle(selectedEffect, options, 500);
     };
     
     $scope.desktopShare = function(){

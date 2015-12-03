@@ -4,6 +4,14 @@ html, body {
     padding: 0;
 }
 
+
+#centraldiv{
+	border-radius:7px;
+	border-color:black;
+	border-style:solid;
+	padding:20px;
+}
+
 #buttonActions>button{
     font-size: 1.9rem;
 }

@@ -1,6 +1,5 @@
 /*
- * @author Micael Gallego (micael.gallego@gmail.com)
- * @author Raquel Díaz González
+ * @author Sergio Banegas Cortijo
  */
 
 kurento_room.controller('joinTeamController', function ($scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter, LxNotificationService) {

@@ -40,9 +40,6 @@ kurento_room.controller('homeController', function ($http, $resource, $scope, $w
 		LxNotificationService.success("Goodbye!");
 	};
 	
-	$scope.infoTeam = function(teamId){
-		return serviceTeam.getTeam(teamId);
-	};
 	
 	$scope.opendDialog = function(dialogId){
 	    LxDialogService.open(dialogId);

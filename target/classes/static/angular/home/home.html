@@ -1,12 +1,12 @@
-<button ng-click="getUser(1)">Prueba</button>
-
 <div class="join">
-    <div id="join-title">Perseus - 
-    	<span ng-bind="user.name"></span>
-    </div></p>
-    	<button ng-hide="user.name" class="btn btn--l btn--blue btn--icon" ng-click="opendDialog('login')" lx-tooltip="LOGIN" tooltip-position="bottom">
-    		<i class="mdi mdi-account-key"></i>
-		</button>
+    <div id="join-title">Perseus 
+    	<span ng-show="user.name">
+    		- <span ng-bind="user.name"></span>
+    	</span>
+    	
+    </div>
+    <div class="card p+" id="centraldiv">
+   	 	<button class="btn btn--xl btn--blue btn--raised" ng-click="opendDialog('login')" ng-hide="user.name" lx-ripple>LOGIN</button>
 		<lx-dialog class="dialog dialog--l" id="login" auto-close="true" onclose="closingDialog('login')" onscrollend="scrollEndDialog()">	
 			<div class="card bgc-purple-500 tc-white-1 p">
 				<b>Login</b>			
@@ -31,19 +31,28 @@
 				</div>
 			</form>
 		</lx-dialog>
-	<div ng-show="user.name">
-		<a href="#/user/{{user.id}}">Your profile</a>
-		<p><a href="#/jointeam">Join a Team</a></p>
-		<a href="#/newteam">New Team</a>
-		<div>Your teams:</div>
-		<span ng-show="user.name">
-			<div ng-repeat="team in teams | filter:{ iduser: user.id }">
-				<a href="#/team/{{team.idteam}}">{{team.idteam}}</a>
+	<div ng-show="user.name" flex-container="column" flex-align="space-between center">
+			<div class="p">
+				<a ng-href="#/user/{{user.id}}">
+					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>My profile</button>
+				</a>
 			</div>
-		</span>
+			<div class="p">
+				<a ng-href="#/newteam">
+					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>New team</button>
+				</a>
+			</div>
+			<span class="fs-title display-block mb">Your teams:</span>
+				<ul class="list" ng-repeat="team in teams | filter:{ iduser: user.id }">
+					<li class="list-row list-row--has-separator">
+						<div class="list-row__content">
+							<a href="#/team/{{team.idteam}}" ng-bind="team.id"></a>
+						</div>
+					
+					</li>
+				</ul>
 		<p>
 			<button class="btn btn--m btn--red btn--raised" ng-click="logout()" lx-ripple>Logout</button>
 		</p>
 	</div>
-	
 </div>

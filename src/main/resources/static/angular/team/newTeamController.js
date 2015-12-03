@@ -27,4 +27,8 @@ kurento_room.controller('newTeamController', function ($scope, $window, serviceU
 			LxNotificationService.error("A team with that name already exists!");
 		}
 	};
+	
+	$scope.exit = function(){
+		$window.location.href = '#/';
+	}
 });
