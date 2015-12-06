@@ -25,7 +25,7 @@ function serviceParticipate($resource, $timeout) {
 		newParticipate : newParticipate,
 		updateParticipate : updateParticipate,
 		deleteParticipate : deleteParticipate
-	}
+		}
 
 	function reload(){
 		return ParticipateResource.query(function(newParticipates){
@@ -62,4 +62,5 @@ function serviceParticipate($resource, $timeout) {
 			Participates.splice(Participates.indexOf(Participate), 1);
 		});
 	}	
+	
 }

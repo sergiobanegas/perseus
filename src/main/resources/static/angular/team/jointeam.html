@@ -1,21 +1,19 @@
-<div class="join">
-    <div id="join-title">Perseus</div>
+<button class="icon icon--xl icon--red icon--circled mdi mdi-exit-to-app" ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:20px;"></button>
+<div class="join card" style="margin-top:100px" id="centraldiv">
      <form role="form" ng-submit="join(Team)" accept-charset="UTF-8">
 			<h3>Join a team</h3>
             <div class="card__content">
-                <lx-text-field label="Team name" fixed-label="true" icon="account">
+                <lx-text-field label="Team name" fixed-label="true">
                     <input type="text" ng-model="Team.name" required>
                 </lx-text-field>
-				<lx-text-field label="Password" fixed-label="true" icon="account-key">
+				<lx-text-field label="Password" fixed-label="true">
                     <input type="password" ng-model="Team.password" required>
                 </lx-text-field>
             </div>
-
             <div class="card__actions">
                 <div class="grid">
                     <div class="grid__col6">
-                        <button class="btn btn--l btn--blue btn--raised" lx-ripple type="button" ng-click="clear()">Clear</button>
-                        <button id="joinBtn" class="btn btn--l btn--green btn--raised" lx-ripple type="submit" >Join team</button>
+                        <button style="float:right"id="joinBtn" class="btn btn--l btn--green btn--raised" lx-ripple type="submit" >Join team</button>
                     </div>
                 </div>
                 <br>

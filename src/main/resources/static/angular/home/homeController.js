@@ -11,10 +11,12 @@ kurento_room.controller('homeController', function ($http, $resource, $scope, $w
 	$scope.primerUser=serviceUser.getUser(1);
 	$scope.userName = "";
 	
+	$scope.teamsUser=[];	
+	
 	$scope.teamName="";
 	
-	$scope.password = "";
-		
+	$scope.password = "";	
+	
 	$scope.login = function() {
 			if ($scope.userName && $scope.password){
 				var array= $filter('filter')($scope.users, { name: $scope.userName, password: $scope.password });
@@ -29,7 +31,7 @@ kurento_room.controller('homeController', function ($http, $resource, $scope, $w
 				}
 			}
 			else{
-				LxNotificationService.error('Rellena todos los campos');
+				LxNotificationService.error('Fill in all fields');
 			}
 	};
 	

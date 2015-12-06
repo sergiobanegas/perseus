@@ -21,4 +21,7 @@ kurento_room.controller('registerController', function ($scope, $window, service
 			LxNotificationService.error('¡Ya existe un usuario con ese nombre!');
 		}
 	};
+	$scope.exit = function(){
+		$window.location.href = '#/';
+	}
 });

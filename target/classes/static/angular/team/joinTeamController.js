@@ -14,6 +14,8 @@ kurento_room.controller('joinTeamController', function ($scope, $window, service
 					var newParticipate={};
 					newParticipate.iduser=$scope.user.id;
 					newParticipate.idteam=TeamJoined.id;
+					newParticipate.userName=$scope.user.name;
+					newParticipate.teamName=Team.name;
 					serviceParticipate.newParticipate(newParticipate);	
 					$window.location.href = '#/';
 					LxNotificationService.success("You succesfully joined "+Team.name+"!");	
@@ -25,5 +27,8 @@ kurento_room.controller('joinTeamController', function ($scope, $window, service
 		else{
 			LxNotificationService.error("The name of the team or the password of the team are incorrect!");
 		}
+	};
+	$scope.exit = function(){
+		$window.location.href = '#/';
 	};
 });

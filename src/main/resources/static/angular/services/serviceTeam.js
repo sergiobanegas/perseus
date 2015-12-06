@@ -62,6 +62,7 @@ function serviceTeam($resource, $timeout, $http) {
 	function updateTeam(updatedTeam) {
 		updatedTeam.$update();
 	}
+	
 
 	function deleteTeam(team) {
 		team.$remove(function() {

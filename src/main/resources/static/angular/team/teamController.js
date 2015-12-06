@@ -61,15 +61,21 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	
 	$scope.newRoom = function(room){
 		room.team=$scope.team.id;
+		if (room.privileges){
+			room.privileges=1;
+		}
+		else{
+			room.privileges=0;
+		}
 		serviceRoom.newRoom(room);
-		$route.reload();
-		LxNotificationService.success("Room "+room.name+" created!");	
+		LxNotificationService.success("Room "+room.name+" created!");
+		$window.location.reload();
 	};
 	
 
-	$scope.register = function (roomname) {
+	$scope.register = function (room) {
 	
-		$scope.roomName = roomname;
+		$scope.roomName = room.name;
 		
 		var wsUri = 'ws://' + location.host + '/room';
 		
