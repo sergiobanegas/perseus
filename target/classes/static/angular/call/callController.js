@@ -7,14 +7,6 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
 	$scope.user=serviceUser.getSession();
 	$scope.team = serviceKurentoRoom.getTeam();
     $scope.roomName = serviceKurentoRoom.getRoomName();
-    $scope.admission = function(){
-	    if ($scope.roomPrivileges==1 && $scope.user.privileges==0){
-	    	return 0;
-	    }
-	    else{
-	    	return 1;
-	    }
-    }
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();

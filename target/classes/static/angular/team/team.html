@@ -1,37 +1,39 @@
-<button class="icon icon--xl icon--red icon--circled mdi mdi-exit-to-app" ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:20px;"></button>	
+<button class="icon icon--xl icon--red icon--circled mdi mdi-exit-to-app" ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:16px;"></button>	
 <div flex-container="row" ng-show="participate()==1" style="height:100%;border-bottom-style:solid">
 	    <div flex-item="3" class="bgc-black-4"">
-	        <lx-dropdown>
-			    <button class="btn btn--m btn--black btn--flat" lx-ripple lx-dropdown-toggle>
-			        {{user.name}}
-			    </button>
-			    <lx-dropdown-menu>
-			        <ul>
-			            <li><a class="dropdown-link" href="#/user/{{user.id}}">Your profile</a></li>
-			            <li><a class="dropdown-link">Under construction</a></li>
-			            <li><a class="dropdown-link">Under construction</a></li>
-			            <li class="dropdown-divider"></li>
-			            <li><span class="dropdown-link dropdown-link--is-header">Under construction</span></li>
-			            <li><a class="dropdown-link" ng-click="logout()">Logout</a></li>
-			        </ul>
-			    </lx-dropdown-menu>
-			</lx-dropdown>
-	        <span class="fs-title display-block mb" style="padding-left:10px">
-	       	 Rooms
-	        <button style="float:right; margin-right:20px"ng-show="user.privileges==1" class="btn btn--m btn--blue btn--raised" ng-click="opendDialog('newRoom')" lx-tooltip="New room" tooltip-position="bottom">
-				New room
-			</button>
-	        </span>
+			<div class="card bgc-purple-500 tc-white-1">
+		        <span class="fs-title display-block" style="padding-left:10px">
+			       	<lx-dropdown>
+			       		<a style="cursor:pointer">
+			        		<i class="icon icon--m icon--white icon--flat mdi mdi-chevron-down" lx-ripple lx-dropdown-toggle></i>
+			    		</a>
+			    		<lx-dropdown-menu>
+			        	<ul>
+				            <li><a class="dropdown-link" href="#/user/{{user.id}}">Your profile</a></li>
+				            <li><a class="dropdown-link">Under construction</a></li>
+				            <li><a class="dropdown-link">Under construction</a></li>
+				            <li class="dropdown-divider"></li>
+				            <li><span class="dropdown-link dropdown-link--is-header">Under construction</span></li>
+				            <li><a class="dropdown-link" ng-click="logout()">Logout</a></li>
+				        </ul>
+			   			 </lx-dropdown-menu>
+					</lx-dropdown><b>Rooms</b> 
+			        <button style="float:right;"ng-show="user.privileges==1" class="btn btn--m btn--blue btn--raised" ng-click="opendDialog('newRoom')" lx-tooltip="New room" tooltip-position="bottom">
+						New room
+					</button>
+		        </span>
+	        </div>
 			
 	        <div class="divider divider--dark"></div>
 									
-	        <ul class="list mt++" ng-repeat="room in rooms | filter: {team : team.id}">
-	            <li class="list-row list-row--has-separator" ng-show="user.privileges>=room.privileges">
+	        <ul class="list mt" ng-repeat="room in rooms | filter: {team : team.id}">
+	            <li class="list-row list-row--has-separator data-table__clickable-row" ng-show="user.privileges>=room.privileges">
 	                <div class="list-row__primary">
-	                    <i class="icon icon--s icon--grey icon--flat mdi mdi-send"></i>
+	                	<i ng-click="register(room)" ng-show="room.privileges==0" class="icon icon--xs icon--green icon--flat mdi mdi-checkbox-blank-circle"></i>
+	                    <i ng-click="register(room)" ng-show="room.privileges>0" class="icon icon--xs icon--yellow icon--flat mdi mdi-star-circle"></i>
 	                </div>
 	                <div class="list-row__content">
-	                    <a ng-click="register(room)" ng-bind="room.name"></a>
+	                    <a ng-click="register(room)" ng-bind="room.name" style=" display:block; text-transform: capitalize;"></a>
 	                </div>
 	            </li>
 	        </ul>
