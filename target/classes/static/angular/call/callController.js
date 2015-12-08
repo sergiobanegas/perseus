@@ -12,14 +12,13 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     $scope.kurento = serviceKurentoRoom.getKurento();
     $scope.chatMessages = serviceChatMessage.getChatMessages();
     
-    
     $scope.leaveRoom = function () {
 
         serviceKurentoRoom.getKurento().close();
 
         ServiceParticipant.removeParticipants();
 
-        $window.location.href = '#/login';
+        $window.location.href = '#/team/'+$scope.team;
     };
 
     window.onbeforeunload = function () {
@@ -42,13 +41,13 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     $scope.onOffVolume = function () {
         var localStream = serviceKurentoRoom.getLocalStream();
         var element = document.getElementById("buttonVolume");
-        if (element.classList.contains("md-volume-off")) { //on
-            element.classList.remove("md-volume-off");
-            element.classList.add("md-volume-up");
+        if (element.classList.contains("mdi-volume-off")) { //on
+            element.classList.remove("mdi-volume-off");
+            element.classList.add("mdi-volume-high");
             localStream.audioEnabled = true;
         } else { //off
-            element.classList.remove("md-volume-up");
-            element.classList.add("md-volume-off");
+            element.classList.remove("mdi-volume-high");
+            element.classList.add("mdi-volume-off");
             localStream.audioEnabled = false;
 
         }
@@ -57,17 +56,18 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     $scope.onOffVideocam = function () {
         var localStream = serviceKurentoRoom.getLocalStream();
         var element = document.getElementById("buttonVideocam");
-        if (element.classList.contains("md-videocam-off")) {//on
-            element.classList.remove("md-videocam-off");
-            element.classList.add("md-videocam");
+        if (element.classList.contains("mdi-video-off")) {//on
+            element.classList.remove("mdi-video-off");
+            element.classList.add("mdi-video");
             localStream.videoEnabled = true;
         } else {//off
-            element.classList.remove("md-videocam");
-            element.classList.add("md-videocam-off");
+            element.classList.remove("mdi-video");
+            element.classList.add("mdi-video-off");
             localStream.videoEnabled = false;
         }
     };
 
+    //not used for now
     $scope.disconnectStream = function() {
     	var localStream = serviceKurentoRoom.getLocalStream();
     	var participant = ServiceParticipant.getMainParticipant();
@@ -96,42 +96,4 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     $scope.desktopShare = function(){
     	
     }
-    
-    $scope.showHat = function () {
-    	var targetHat = false;
-    	var offImgStyle = "md-mood";
-    	var offColorStyle = "btn--deep-purple";
-    	var onImgStyle = "md-face-unlock";
-    	var onColorStyle = "btn--purple";
-    	var element = document.getElementById("hatButton");
-        if (element.classList.contains(offImgStyle)) { //off
-            element.classList.remove(offImgStyle);
-            element.classList.remove(offColorStyle);
-            element.classList.add(onImgStyle);
-            element.classList.add(onColorStyle);
-            targetHat = true;
-        } else if (element.classList.contains(onImgStyle)) { //on
-            element.classList.remove(onImgStyle);
-            element.classList.remove(onColorStyle);
-            element.classList.add(offImgStyle);
-            element.classList.add(offColorStyle);
-            targetHat = false;
-        }
-    	
-        var hatTo = targetHat ? "on" : "off";
-    	console.log("Toggle hat to " + hatTo);
-    	serviceKurentoRoom.getKurento().sendCustomRequest({hat: targetHat}, function (error, response) {
-    		if (error) {
-                console.error("Unable to toggle hat " + hatTo, error);
-                LxNotificationService.alert('Error!', "Unable to toggle hat " + hatTo, 
-                		'Ok', function(answer) {});
-        		return false;
-            } else {
-            	console.debug("Response on hat toggle", response);
-            }
-    	});
-    };
-    $scope.exitRoom = function(){
-		$window.location.href = '#/team/'+$scope.team;
-	};
 });

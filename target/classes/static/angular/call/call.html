@@ -1,22 +1,29 @@
-<div flex-container="row">
-	<div flex-item="2" style="border-right-style:solid" class="bgc-black-4">
+<div flex-container="row" style="position:absolute;height:100%;width:100%">
+ <div id="main-video" style="display:none"></div>
+	<div flex-item="2" style="border-right-style:solid;bottom:0%" class="bgc-black-4">
 		<a class="fs-title display-block">
 			<b ng-bind="roomName"></b>
 		</a>
-		<button class="icon icon--xl icon--red icon--circled mdi mdi-exit-to-app" ng-click="exitRoom()" title="Go to main page" style="position:absolute;z-index:1; right:3px;top:3px;"></button>
 	</div>
 	<div flex-item flex-container="column">
-		<div id="participants">
-		         	   <!--small videos-->
-		</div>
-		
+		<div id="top">
+			<div id="participants">
+			         	   
+			</div>		
+			<div class="mb" align="center" style="margin: 1em; padding-bottom: 5px" id="buttonActions"> 
+	            <button class="btn btn--xl btn--teal btn--fab mdi mdi-volume-high" lx-ripple ng-click="onOffVolume()" id="buttonVolume" title="Audio toggle"></button> <!--mute audio-->
+	            <button class="btn btn--xl btn--grey btn--fab mdi mdi-video" lx-ripple ng-click="onOffVideocam()" id="buttonVideocam" title="Video toggle"></button> <!--mute video-->
+	<!--             <button class="btn btn--xl btn--orange btn--fab mdi md-desktop-mac " lx-ripple ng-click="" title="Desktop sharing"></button> compartir escritorio -->
+	            <button class="btn btn--xl btn--red btn--fab mdi mdi-phone-hangup" lx-ripple ng-click="leaveRoom()" id="buttonLeaveRoom" title="Leave room"></button> <!--colgar-->
+	            <button class="btn btn--xl btn--green btn--fab mdi mdi-fullscreen" lx-ripple ng-click="goFullscreen()" title="Fullscreen"></button> <!--fullscreen-->
+	        </div>
+        </div>
 		<div class="toggler" style="border-top-style:solid">
-		        <div id="effect">
+		        <div>
 					            <div>
 					                <strong>Team chat</strong>
 					            </div>
-					
-					            <div style="height: 30em;  overflow: scroll;">
+					            <div style="height: 27em;  overflow: scroll;">
 					                <ul class="list">
 										<li ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomName }" class="list-row list-row--has-primary list-row--has-separator mt+" >
 												<div class="bgc-blue-500" style="padding:5px;border-radius: 10px;">
@@ -26,7 +33,7 @@
 										</li>					
 					                </ul>
 					            </div>					
-					            <div>
+					            <div id="send">
 					                <form>
 					                    <lx-text-field label="Message">
 					                        <input id="inputMessage" type="text" ng-model="chatMessage">

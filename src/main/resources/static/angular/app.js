@@ -11,10 +11,6 @@ kurento_room.config(function ($routeProvider) {
                 templateUrl: 'angular/home/home.html',
                 controller: 'homeController'
             })
-            .when('/login', {
-                templateUrl: 'angular/login/login.html',
-                controller: 'loginController'
-            })
             .when('/registration', {
                 templateUrl: 'angular/registration/registration.html',
                 controller: 'registerController'
@@ -38,9 +34,8 @@ kurento_room.config(function ($routeProvider) {
             .when('/call', {
                 templateUrl: 'angular/call/call.html',
                 controller: 'callController'
+            })
+            .otherwise({
+                templateUrl: 'error.html',
             });
-//            .otherwise({
-//                templateUrl: 'error.html',
-//                controller: 'MainController',
-//            });
 });

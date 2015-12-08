@@ -1,9 +1,9 @@
-<button class="icon icon--xl icon--red icon--circled mdi mdi-exit-to-app" ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:20px;"></button>	
+<button class="btn btn--xl btn--red btn--fab mdi mdi-exit-to-app"  ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:16px;"></button>	
 <div class="join card" id="centraldiv" style="margin-top:50px">
 <h1 ng-bind="userProfile.name"></h1>
 
 <div ng-show="userProfile.id==user.id">
-	<form ng-submit="updateUser()">
+	<form ng-submit="updateUser(userProfile)">
 		<div>
 			Name: {{user.name}}
 			<a href="" ng-click="showInput('name')">
