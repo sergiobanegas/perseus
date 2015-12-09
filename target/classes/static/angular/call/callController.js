@@ -5,7 +5,6 @@
 kurento_room.controller('callController', function ($scope, $route, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
 	
 	$scope.user=serviceUser.getSession();
-	$scope.team = serviceKurentoRoom.getTeam();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
@@ -15,7 +14,7 @@ kurento_room.controller('callController', function ($scope, $route, $window, ser
     $scope.leaveRoom = function () {
         serviceKurentoRoom.getKurento().close();
         ServiceParticipant.removeParticipants();
-        $window.location.href = '#/team/'+$scope.team;
+        $window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
     };
 
     window.onbeforeunload = function () {
@@ -82,7 +81,7 @@ kurento_room.controller('callController', function ($scope, $route, $window, ser
     $scope.sendMessage = function () {   	
     	  var message = {};
     	  message.room=$scope.roomName;
-    	  message.team=$scope.team.id;
+    	  message.team=serviceKurentoRoom.getTeam();
     	  message.text=$scope.chatMessage;
     	  message.user=$scope.userName;
     	  $scope.chatMessage="";

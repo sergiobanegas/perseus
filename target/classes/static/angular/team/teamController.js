@@ -24,7 +24,6 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	  .then(function(result) {
 	    $scope.roomsHttp = result.data;
 	});
-	
 	$scope.chatMessagesHttp=[];
 	$http.get('/chatmessages')
 	  .then(function(result) {
@@ -36,6 +35,8 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	  .then(function(result) {
 	    $scope.participatesHttp = result.data;
 	});
+	
+	$scope.teams2 = serviceTeam.getTeams();
 	
 	$scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.userName = serviceKurentoRoom.getUserName();
@@ -70,7 +71,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 		return participates;
 	};
 	
-	$scope.exitTeam = function(){
+	$scope.leaveTeam = function(){
 		for (var i = 0; i<$scope.participatesHttp.length;i++){
 			if ($scope.participatesHttp[i].iduser == $scope.user.id && $scope.participatesHttp[i].idteam == $scope.team.id){
 				serviceParticipate.deleteParticipate($scope.participatesHttp[i]);
@@ -87,16 +88,18 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 				serviceRoom.deleteRoom($scope.roomsHttp[i]);
 			}
 		}
+		
 		for (var i = 0; i<$scope.chatMessagesHttp.length;i++){
 			if ($scope.chatMessagesHttp[i].team == $scope.team.id){
-				serviceChatMessage.deleteRoom($scope.chatMessagesHttp[i]);
+				serviceChatMessage.deleteChatMessage($scope.chatMessagesHttp[i]);
 			}
-		}
+		}				
 		for (var i = 0; i<$scope.participatesHttp.length;i++){
 			if ($scope.participatesHttp[i].idteam == $scope.team.id){
 				serviceParticipate.deleteParticipate($scope.participatesHttp[i]);
 			}
 		}
+		
 		serviceTeam.deleteTeam($scope.team);
 		$window.location.href = '#/';
 		LxNotificationService.success("Team deleted!");
@@ -119,7 +122,6 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 		}
 		serviceRoom.newRoom(room);
 		LxNotificationService.success("Room "+room.name+" created!");
-		$window.location.reload();
 	};
 	
 	$scope.deleteRoom = function(room){

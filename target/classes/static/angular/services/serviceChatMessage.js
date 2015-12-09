@@ -57,8 +57,7 @@ function serviceChatMessage($resource, $timeout) {
 	}
 
 	function deleteChatMessage(chatMessage) {
-		chatMessage.$remove(function() {
-			chatMessages.splice(chatMessages.indexOf(chatMessage), 1);
-		});
+		var chatmessage = $resource('/chatmessages/:id', { id: chatMessage.id});
+		chatmessage.delete();
 	}	
 }
