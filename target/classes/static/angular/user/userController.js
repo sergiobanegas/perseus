@@ -20,8 +20,8 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 		$scope.editName=0;
 		$scope.editEmail=0;
 		$route.reload();
-		LxNotificationService.success("¡Changes successfully made!");
-	}
+		LxNotificationService.success("Changes successfully made!");
+	};
 	
 	$scope.showInput = function(option){
 		switch (option){
@@ -42,27 +42,23 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 				}
 				break;
 		}
-	}
+	};
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
-		LxNotificationService.success("¡Hasta pronto!");
-	}
+		LxNotificationService.success("Goodbye!");
+	};
 	
 	$scope.deleteAccount = function(){
 		serviceUser.deleteUser($scope.userProfile);
 		serviceUser.logout();
 		$window.location.href = '#/';
 	    LxNotificationService.success("Come back soon!");
-	}
+	};
 	
 	$scope.opendDialog = function(dialogId){
 	    LxDialogService.open(dialogId);
-	};
-	
-	$scope.closingDialog = function(dialogId){
-	    LxDialogService.close(dialogId);
 	};
 	
 	$scope.exit = function(){

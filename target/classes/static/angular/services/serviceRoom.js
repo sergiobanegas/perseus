@@ -58,8 +58,9 @@ function serviceRoom($resource, $timeout) {
 	}
 
 	function deleteRoom(room) {
-		room.$remove(function() {
-			rooms.splice(rooms.indexOf(room), 1);
-		});
-	}	
+		var room = $resource('/rooms/:id', { id: room.id});
+		room.delete();
+	};
+	
+	
 }

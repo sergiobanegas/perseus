@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('callController', function ($scope, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
+kurento_room.controller('callController', function ($scope, $route, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
 	
 	$scope.user=serviceUser.getSession();
 	$scope.team = serviceKurentoRoom.getTeam();
@@ -13,11 +13,8 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     $scope.chatMessages = serviceChatMessage.getChatMessages();
     
     $scope.leaveRoom = function () {
-
         serviceKurentoRoom.getKurento().close();
-
         ServiceParticipant.removeParticipants();
-
         $window.location.href = '#/team/'+$scope.team;
     };
 
@@ -27,8 +24,7 @@ kurento_room.controller('callController', function ($scope, $window, serviceUser
     		serviceKurentoRoom.getKurento().close();
     	}
     };
-
-
+    
     $scope.goFullscreen = function () {
 
         if (Fullscreen.isEnabled())

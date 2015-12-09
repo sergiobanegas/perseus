@@ -8,6 +8,7 @@ kurento_room.controller('homeController', function ($http, $resource, $scope, $w
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
+	$scope.teams2 = serviceTeam.getTeams();
 	$scope.primerUser=serviceUser.getUser(1);
 	$scope.userName = "";
 	
@@ -47,7 +48,4 @@ kurento_room.controller('homeController', function ($http, $resource, $scope, $w
 	    LxDialogService.open(dialogId);
 	};
 	
-	$scope.closingDialog = function(dialogId){
-	    LxDialogService.close(dialogId);
-	};
 });

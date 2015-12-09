@@ -8,15 +8,17 @@ kurento_room.controller('newTeamController', function ($scope, $window, serviceU
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
-	$scope.newTeam = function(Team) {
-		if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length==0){			
+	$scope.newTeam = function(Team) {//conseguir id de team
+		if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
 				if (Team.password===$scope.password){
-					serviceTeam.newTeam(Team);	
-					var newParticipate={};
-					newParticipate.iduser=$scope.user.id;
-					newParticipate.team=Team.name;
-					serviceParticipate.newParticipate(newParticipate);
-					$window.location.href = '#/home';
+					serviceTeam.newTeam(Team);
+//					var newParticipate={};
+//					newParticipate.iduser=$scope.user.id;
+//					newParticipate.userName=$scope.user.name;
+//					newParticipate.teamName=a.name;
+//					newParticipate.idteam=teamadded.id;
+//					serviceParticipate.newParticipate(newParticipate);
+					$window.location.href = '#/';
 					LxNotificationService.success("You succesfully created "+Team.name+"!");
 				}
 				else{

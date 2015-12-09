@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('teamController', function ($scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {
+kurento_room.controller('teamController', function ($rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {
   
     $http.get('/getAllRooms').
 	    success(function (data, status, headers, config) {
@@ -18,6 +18,23 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	    	$scope.clientConfig = data;
 	     }).
 	     error(function (data, status, headers, config) {	 
+	});
+	$scope.roomsHttp=[];
+	$http.get('/rooms')
+	  .then(function(result) {
+	    $scope.roomsHttp = result.data;
+	});
+	
+	$scope.chatMessagesHttp=[];
+	$http.get('/chatmessages')
+	  .then(function(result) {
+	    $scope.chatMessagesHttp = result.data;
+	});
+	
+	$scope.participatesHttp=[];
+	$http.get('/participates')
+	  .then(function(result) {
+	    $scope.participatesHttp = result.data;
 	});
 	
 	$scope.roomName = serviceKurentoRoom.getRoomName();
@@ -53,6 +70,39 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 		return participates;
 	};
 	
+	$scope.exitTeam = function(){
+		for (var i = 0; i<$scope.participatesHttp.length;i++){
+			if ($scope.participatesHttp[i].iduser == $scope.user.id && $scope.participatesHttp[i].idteam == $scope.team.id){
+				serviceParticipate.deleteParticipate($scope.participatesHttp[i]);
+			}
+		}
+		$window.location.href = '#/';
+		LxNotificationService.success("You exit the team!");
+		$route.reload();
+	};
+	
+	$scope.deleteTeam = function(){
+		for (var i = 0; i<$scope.roomsHttp.length;i++){
+			if ($scope.roomsHttp[i].idteam == $scope.team.id){
+				serviceRoom.deleteRoom($scope.roomsHttp[i]);
+			}
+		}
+		for (var i = 0; i<$scope.chatMessagesHttp.length;i++){
+			if ($scope.chatMessagesHttp[i].team == $scope.team.id){
+				serviceChatMessage.deleteRoom($scope.chatMessagesHttp[i]);
+			}
+		}
+		for (var i = 0; i<$scope.participatesHttp.length;i++){
+			if ($scope.participatesHttp[i].idteam == $scope.team.id){
+				serviceParticipate.deleteParticipate($scope.participatesHttp[i]);
+			}
+		}
+		serviceTeam.deleteTeam($scope.team);
+		$window.location.href = '#/';
+		LxNotificationService.success("Team deleted!");
+		$route.reload();
+	}
+	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
@@ -72,6 +122,10 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 		$window.location.reload();
 	};
 	
+	$scope.deleteRoom = function(room){
+		serviceRoom.deleteRoom(room);
+		LxNotificationService.success("Room "+room.name+" deleted!");
+	};
 
 	$scope.register = function (room) {
 	
@@ -215,13 +269,19 @@ kurento_room.controller('teamController', function ($scope, $http, $route, $rout
 	    LxDialogService.open(dialogId);
 	};
 	
-	$scope.closingDialog = function(dialogId){
-	    LxDialogService.close(dialogId);
-	};
-	
 	$scope.exit = function(){
 		$window.location.href = '#/';
-	}
+	};
 	
+	$rootScope.$on('$locationChangeSuccess', function() {
+        $rootScope.actualLocation = $location.path();
+    });        
+
+	$rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
+	   if (oldLocation == "/call"){
+	    	serviceKurentoRoom.getKurento().close();
+		    ServiceParticipant.removeParticipants();
+	   }
+    });
     
 });

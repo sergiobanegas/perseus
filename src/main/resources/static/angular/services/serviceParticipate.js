@@ -58,9 +58,8 @@ function serviceParticipate($resource, $timeout) {
 	}
 
 	function deleteParticipate(Participate) {
-		Participate.$remove(function() {
-			Participates.splice(Participates.indexOf(Participate), 1);
-		});
+		var participate = $resource('/participates/:id', { id: Participate.id});
+		participate.delete();
 	}	
 	
 }

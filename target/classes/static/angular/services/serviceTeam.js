@@ -56,7 +56,7 @@ function serviceTeam($resource, $timeout, $http) {
 	function newTeam(newTeam) {
 		new TeamResource(newTeam).$save(function(team) {
 			teams.push(team);
-		});
+		});		
 	}
 
 	function updateTeam(updatedTeam) {
@@ -65,8 +65,7 @@ function serviceTeam($resource, $timeout, $http) {
 	
 
 	function deleteTeam(team) {
-		team.$remove(function() {
-			teams.splice(teams.indexOf(team), 1);
-		});
-	}	
+		var team = $resource('/teams/:id', { id: team.id});
+		team.delete();
+	};
 }

@@ -77,8 +77,10 @@ function serviceUser($resource, $timeout, $cookieStore) {
 	}
 
 	function deleteUser(user) {
-		user.$remove(function() {
-			users.splice(users.indexOf(user), 1);
-		});
+		var user = $resource('/users/:id', { id: user.id});
+		user.delete();
+//		user.$remove(function() {
+//			users.splice(users.indexOf(user), 1);
+//		});
 	}	
 }
