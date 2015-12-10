@@ -1,11 +1,8 @@
 Perseus
 =================
 
-Perseus is a team collaboration app based on [Kurento], a WebRTC media server and a set of client APIs.
-
-Perseus uses AngularJS on the client-side and Java on back-end.
-The application server-side is connected to a local Mysql database using JpaRepositories.
-
+Perseus is a online team collaboration application which offers you the possibility of communicate with your team wherever you are with a simple and intuitive interface. 
+Perseus uses [Kurento] for the media transmission, AngularJS on the client-side and Java and MySQL on back-end.
 
 Installation details
 ---------------
