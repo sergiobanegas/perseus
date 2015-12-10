@@ -71,10 +71,6 @@ v0.1
 * Join a team.
 * Create/delete team rooms.
 * Chat messages.
-* One unique administrator.
+* A single administrator.
 
-[kurentoms]: http://twitter.com/kurentoms
-[LGPL License]: http://www.gnu.org/licenses/lgpl-2.1.html
-[GitHub repository]: https://github.com/sergiobanegas/perseus
-[GitHub Kurento group]: https://github.com/kurento
 [Kurento]: http://kurento.org
