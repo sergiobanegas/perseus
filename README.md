@@ -1,122 +1,80 @@
-[![][KurentoImage]][website]
-
-Copyright © 2014 Kurento. Licensed under [LGPL License].
-
-kurento-room-demo
+Perseus
 =================
 
-Kurento Room Demo implements the group communications with WebRTC using 
-services from Kurento Room Server.
+Perseus is a team collaboration app based on [Kurento], a WebRTC media server and a set of client APIs.
 
-The client-side implementation of this demo application is an AngularJS module
-that uses the KurentoRoom.js library from the room server package. 
-It also integrates the room server's Spring application for the server-side 
-of the Room API. This API is made up of the Room SDK and the signaling 
-component. For client-server communications the API uses JSON-RPC messages 
-over WebSockets.
+Perseus uses AngularJS on the client-side and Java on back-end.
+The application server-side is connected to a local Mysql database using JpaRepositories.
+
 
 Installation details
 ---------------
 
-#### Execute Kurento Room Demo 6.0.x
+#### Install Kurento Media Server
+In order to install the latest stable Kurento Media Server you have to type the following commands, one at a time and in the same order as listed here:
 
-* Build
-```sh
-cd kurento-room-demo
-mvn clean install -U
+```
+echo "deb http://ubuntu.kurento.org trusty kms6" | sudo tee /etc/apt/sources.list.d/kurento.list
+wget -O - http://ubuntu.kurento.org/kurento.gpg.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install kurento-media-server-6.0
+```
+Now Kurento Media Server is installed and started. If want to stop it and start it again use the following commands:
+```
+sudo service kurento-media-server-6.0 start
+sudo service kurento-media-server-6.0 stop
 ```
 
-* Unzip distribution files
-```sh
-cd target
-unzip kurento-room-demo-6.0.0-SNAPSHOT.zip
+#### Install Bower
+```
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+sudo apt-get install -y nodejs
+sudo npm install -g bower
 ```
 
-* Execute start script
-```sh
-cd kurento-room-demo-6.0.0-SNAPSHOT
-./bin/start.sh
+#### Install Maven
+In order to compile the project, you must have Maven installed in your computer. If you don't have it, type this command to install it:
+```
+sudo apt-get install maven
+```
+It take a few minutes, be patient.
+
+#### Install MySQL
+Perseus works with a MySQL database in order to save the users
+and teams data. You have to install MySQL server:
+```
+sudo apt-get install mysql-server
+```	
+The default user and password of the database is "root" "pass". If you want to change the default MySQL connection, you have to change the credentials in the application.properties file inside the project.
+
+####Clone the repository
+```
+git clone https://github.com/Kurento/kurento-tutorial-java.git
 ```
 
-* Configure logging
-```sh
-vim kurento-room-demo-6.0.0-SNAPSHOT/config/kroomdemo-log4j.properties
+####Run Perseus
 ```
-> Log file by default will be located in kurento-room-demo-6.0.0-SNAPSHOT/logs/
-
-* Configure server
-```sh
-vim kurento-room-demo-6.0.0-SNAPSHOT/config/kroomdemo.conf.json
+cd kurento-tutorial-java/kurento-hello-world
+git checkout 6.1.0
+mvn compile exec:java
 ```
+The administrator user and password is set default as "admin" - "1234".
 
-#### Start Kurento Room Demo 6.0.x as daemon (kroomdemo) in Ubuntu or CentOS
+####Release notes
+v0.1
+* Basic video transfer.
+* Hide video cam.
+* Turn off sound streaming.
+* Full screen on a video call.
+* User system: user registration, update credentials and remove account.
+* Create/delete a team.
+* Join a team.
+* Create/delete team rooms.
+* Chat messages.
+* One unique administrator.
 
-* Build
-```sh
-cd kurento-room-demo
-mvn clean install -U
-```
-
-* Unzip distribution files
-```sh
-cd target
-unzip kurento-room-demo-6.0.0-SNAPSHOT.zip
-```
-
-* Execute install script
-```sh
-cd kurento-room-demo-6.0.0-SNAPSHOT
-sudo ./bin/install.sh
-```
-> The service (kroomdemo) will be automatically started.
-
-* Control the service (Ubuntu)
-```sh
-sudo service kroomdemo {start|stop|status|restart|reload}
-```
-
-* Configure logging
-```sh
-sudo vim /etc/kurento/kroomdemo-log4j.properties
-```
-> Log file by default will be located in /var/log/kurento/
-
-* Configure server
-```sh
-sudo vim /etc/kurento/kroomdemo.conf.json
-```
-
-What is Kurento
----------------
-Kurento provides an open platform for video processing and streaming
-based on standards.
-
-This platform has several APIs and components which provide solutions
-to the requirements of multimedia content application developers.
-These include:
-
-  * Kurento Media Server (KMS). A full featured media server providing
-    the capability to create and manage dynamic multimedia pipelines.
-  * Kurento Clients. Libraries to create applications with media
-    capabilities. Kurento provides libraries for Java, browser JavaScript,
-    and Node.js.
-
-
-Source
-------
-The source code of this project can be cloned from the [GitHub repository].
-Code for other Kurento projects can be found in the [GitHub Kurento group].
-
-
-News and Website
-----------------
-Information about Kurento can be found on our [website].
-Follow us on Twitter @[kurentoms].
-
-
-[KurentoImage]: https://secure.gravatar.com/avatar/21a2a12c56b2a91c8918d5779f1778bf?s=120
 [kurentoms]: http://twitter.com/kurentoms
 [LGPL License]: http://www.gnu.org/licenses/lgpl-2.1.html
-[GitHub repository]: https://github.com/Kurento/kurento-tutorial-java
+[GitHub repository]: https://github.com/sergiobanegas/perseus
 [GitHub Kurento group]: https://github.com/kurento
-[website]: http://kurento.org
+[Kurento]: http://kurento.org
