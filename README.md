@@ -52,7 +52,7 @@ git clone https://github.com/sergiobanegas/perseus.git
 ####Run Perseus
 ```
 cd perseus
-git checkout 6.1.0
+git checkout
 mvn compile exec:java
 ```
 The administrator user and password is set default as "admin" - "1234".
