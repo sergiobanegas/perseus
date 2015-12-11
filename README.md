@@ -44,20 +44,20 @@ sudo apt-get install mysql-server
 ```	
 The default user and password of the database is "root" "pass". If you want to change the default MySQL connection, you have to change the credentials in the application.properties file inside the project.
 
-####Clone the repository
+#### Clone the repository
 ```
 git clone https://github.com/sergiobanegas/perseus.git
 ```
 
-####Run Perseus
+#### Run Perseus
 ```
 cd perseus
 git checkout
 mvn compile exec:java
 ```
-The administrator user and password is set default as "admin" - "1234".
+The administrator user and password is set default as "admin" - "1234". You have to create an user with this credentials to have admin privileges.
 
-####Release notes
+#### Release notes
 v0.1
 * Basic video transfer.
 * Hide video cam.
@@ -67,6 +67,7 @@ v0.1
 * Create/delete a team.
 * Join a team.
 * Create/delete team rooms.
+* Exclusive rooms for users with privileges.
 * Chat messages.
 * A single administrator.
 
