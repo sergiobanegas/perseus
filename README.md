@@ -46,12 +46,12 @@ The default user and password of the database is "root" "pass". If you want to c
 
 ####Clone the repository
 ```
-git clone https://github.com/Kurento/kurento-tutorial-java.git
+git clone https://github.com/sergiobanegas/perseus.git
 ```
 
 ####Run Perseus
 ```
-cd kurento-tutorial-java/kurento-hello-world
+cd perseus
 git checkout 6.1.0
 mvn compile exec:java
 ```
