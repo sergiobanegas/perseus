@@ -16,7 +16,7 @@ wget -O - http://ubuntu.kurento.org/kurento.gpg.key | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install kurento-media-server-6.0
 ```
-Now Kurento Media Server is installed and started. If want to stop it and start it again use the following commands:
+Now Kurento Media Server is installed and started. To stop it and start it again use the following commands:
 ```
 sudo service kurento-media-server-6.0 start
 sudo service kurento-media-server-6.0 stop
@@ -30,7 +30,7 @@ sudo npm install -g bower
 ```
 
 #### Install Maven
-In order to compile the project, you must have Maven installed in your computer. If you don't have it, type this command to install it:
+In order to compile the project, you must have Maven installed in your computer. Type this command to install it:
 ```
 sudo apt-get install maven
 ```
@@ -60,7 +60,7 @@ The administrator user and password is set default as "admin" - "1234". You have
 #### Release notes
 v0.1
 * Basic video transfer.
-* Hide video cam.
+* Hide video.
 * Turn off sound streaming.
 * Full screen on a video call.
 * User system: user registration, update credentials and remove account.
