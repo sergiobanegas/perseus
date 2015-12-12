@@ -84,7 +84,8 @@ v0.1
 ![profile](https://cloud.githubusercontent.com/assets/10667581/11763445/2f59f8cc-a10b-11e5-9749-17fe4766368d.jpg)
 
 #####Create team and join an existing one
-![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763535/0264bfba-a10f-11e5-8eec-be3d4103b55d.jpg)![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
+![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763550/c1fe4bb6-a10f-11e5-8ea8-cb2b128b4339.jpg)
+![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
 If you create a team, you have to enter it after (this will be fixed in the next release).
 
 #####Team
