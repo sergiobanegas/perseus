@@ -72,28 +72,28 @@ v0.1
 * A single administrator.
 
 #### Features
-#Main page
+#####Main page
 ![login](https://cloud.githubusercontent.com/assets/10667581/11763452/4c8a11fc-a10b-11e5-9c44-8dedfded9811.jpg)
 ![main](https://cloud.githubusercontent.com/assets/10667581/11763503/278a80f6-a10d-11e5-9093-b7aee06a10df.jpg)
 
-#Login and registration
+#####Login and registration
 ![login2](https://cloud.githubusercontent.com/assets/10667581/11763460/817c5f3c-a10b-11e5-86d6-9f0fcfb1c165.jpg)	
 ![register](https://cloud.githubusercontent.com/assets/10667581/11763453/5022980c-a10b-11e5-8af8-8af2eedb2d22.jpg)
 
-#Profile
+#####Profile
 ![profile](https://cloud.githubusercontent.com/assets/10667581/11763445/2f59f8cc-a10b-11e5-9749-17fe4766368d.jpg)
 
-#Create team and join an existing one
+#####Create team and join an existing one
 ![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763447/39d0fce2-a10b-11e5-8c6b-fd87c690b5e1.jpg)
 ![newteam](https://cloud.githubusercontent.com/assets/10667581/11763449/4444ab7e-a10b-11e5-8e16-512ec9ac38e1.jpg)
 If you create a team, you have to enter it after (this will be fixed in the next release).
 
-#Team
+#####Team
 ![team](https://cloud.githubusercontent.com/assets/10667581/11763428/fbdbb2e8-a109-11e5-894a-e63d5f111dc8.png)
 To create a new room, click in the blue top left button.
 ![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)
 By clicking the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
 
-#Room
+#####Room
 ![room](https://cloud.githubusercontent.com/assets/10667581/11763427/fa8531a8-a109-11e5-8025-29714a2297e1.png)
 [Kurento]: http://kurento.org
