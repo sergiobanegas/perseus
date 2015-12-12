@@ -85,13 +85,13 @@ v0.1
 
 #####Create team and join an existing one
 ![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763447/39d0fce2-a10b-11e5-8c6b-fd87c690b5e1.jpg)
-![newteam](https://cloud.githubusercontent.com/assets/10667581/11763449/4444ab7e-a10b-11e5-8e16-512ec9ac38e1.jpg)
+![newteam](https://cloud.githubusercontent.com/assets/10667581/11763449/4444ab7e-a10b-11e5-8e16-512ec9ac38e1.jpg)<br/> 
 If you create a team, you have to enter it after (this will be fixed in the next release).
 
 #####Team
 ![team](https://cloud.githubusercontent.com/assets/10667581/11763428/fbdbb2e8-a109-11e5-894a-e63d5f111dc8.png)
 To create a new room, click in the blue top left button.
-![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)
+![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
 By clicking the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
 
 #####Room
