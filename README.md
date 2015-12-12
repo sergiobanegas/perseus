@@ -6,9 +6,8 @@ Perseus uses [Kurento] for the media transmission, Java and MySQL on back-end an
 
 Installation details
 ---------------
-Perseus only works in Ubuntu 14.04.
 
-#### Install Kurento Media Server
+#### Install Kurento Media Server (only on Ubuntu 14.04)
 In order to install the latest stable Kurento Media Server you have to type the following commands, one at a time and in the same order as listed here:
 
 ```
