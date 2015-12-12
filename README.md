@@ -73,8 +73,7 @@ v0.1
 
 #### Screenshots
 #####Main page
-![login](https://cloud.githubusercontent.com/assets/10667581/11763452/4c8a11fc-a10b-11e5-9c44-8dedfded9811.jpg)
-![main](https://cloud.githubusercontent.com/assets/10667581/11763503/278a80f6-a10d-11e5-9093-b7aee06a10df.jpg)
+![login](https://cloud.githubusercontent.com/assets/10667581/11763566/ac7dc892-a110-11e5-852f-74dc3dbeab87.jpg)![main](https://cloud.githubusercontent.com/assets/10667581/11763567/b266419e-a110-11e5-8c58-254a26d73364.jpg)
 
 #####Login and registration
 ![login2](https://cloud.githubusercontent.com/assets/10667581/11763460/817c5f3c-a10b-11e5-86d6-9f0fcfb1c165.jpg)	
