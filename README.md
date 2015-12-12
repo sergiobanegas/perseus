@@ -71,4 +71,29 @@ v0.1
 * Chat messages.
 * A single administrator.
 
+#### Features
+#Main page
+![login]
+![main]
+
+#Login and registration
+![login2]		
+![register]
+
+#Profile
+![profile]
+
+#Create team and join an existing one
+![joinateam]
+![newteam]
+If you create a team, you have to enter it after (this will be fixed in the next release).
+
+#Team
+![team]
+To create a new room, click in the blue top left button.
+![newroom]
+By clicking the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
+
+#Room
+![room]
 [Kurento]: http://kurento.org

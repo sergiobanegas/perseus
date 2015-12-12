@@ -36,7 +36,7 @@
 		                 <a ng-click="register(room)" style="text-transform: capitalize;">
 		                 	<span ng-bind="room.name"></span>
 		                 </a> 
-		                 <button style="float:right" ng-click="opendDialog('deleteRoom')" ng-show="user.privileges>0" class="btn btn--s btn--red btn--fab mdi mdi-delete"></button>           	      	
+		                 <button href="" style="float:right" ng-click="opendDialog('deleteRoom')" ng-show="user.privileges>0" class="btn btn--s btn--red btn--fab mdi mdi-delete"></button>           	      	
 	                </div>
 	            </li>
 	            <lx-dialog class="dialog dialog--l" id="deleteRoom" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
@@ -88,7 +88,6 @@
 	    		<div style="text-align:center">
 	    			<h1 ng-bind="team.name"></h1>
 	    		</div>
-	    		Participant images
 	    		<div class="toggler" style="width: 100%;height: 100%; border-top-style:solid" >
 			        <div id="effect">
 			            <!--head-->
@@ -122,7 +121,8 @@
     			</div>
 				<lx-dialog class="dialog dialog--l" id="newRoom" auto-close="true" onclose="closingDialog('newRoom')" onscrollend="scrollEndDialog('newRoom')">	
 					<div class="card bgc-purple-500 tc-white-1 p">
-							<b>New room</b>			
+							<b>New room</b>	
+							 	<i lx-dialog-close style="float:right;cursor:pointer" class="icon icon--s icon--white icon--flat mdi mdi-close"></i>		
 					</div>
 					<form role="form" ng-submit="newRoom(room)" accept-charset="UTF-8">
 						<div class="p++">
@@ -133,10 +133,7 @@
 								<input type="checkbox" id="checkbox1" class="checkbox__input" ng-model="room.privileges">
 								<label for="checkbox1" class="checkbox__label">Privileges</label>
 							</span>
-							<div class="dialog__actions">
-								<button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-					      		<button type="submit" class="btn btn--m btn--green btn--raised" lx-ripple lx-dialog-close>Create</button>
-							</div>
+							<button style="float:right" type="submit" class="btn btn--m btn--green btn--raised" lx-ripple lx-dialog-close>Create</button>
 						</div>
 					</form>
 				</lx-dialog>

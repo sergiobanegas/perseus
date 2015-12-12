@@ -1,9 +1,8 @@
 <button class="btn btn--xl btn--red btn--fab mdi mdi-exit-to-app"  ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:16px;"></button>	
 <div class="join card" id="centraldiv" style="margin-top:50px">
-<h1 ng-bind="userProfile.name"></h1>
+<h1 ng-bind="user.name"></h1>
 
 <div ng-show="userProfile.id==user.id">
-	<form ng-submit="updateUser(userProfile)">
 		<div>
 			Name: {{user.name}}
 			<a href="" ng-click="showInput('name')">
@@ -21,9 +20,8 @@
 		<p>
 			Privileges: {{user.privileges}} 
 		</p>	    
-		<input type="submit" class="btn btn--m btn--green btn--raised" style="float:left" ng-show="editName==1||editEmail==1" value="Confirm changes"/>
-    </form>
-    <button class="btn btn--m btn--red btn--raised" style="float:right" ng-click="opendDialog('deleteAccount')" lx-ripple>Delete account</button>
+		<input ng-click="updateUser(userProfile)" class="btn btn--m btn--green btn--raised" style="float:left" ng-show="editName==1||editEmail==1" value="Confirm changes"/>
+   		 <button class="btn btn--m btn--red btn--raised" style="float:right" ng-click="opendDialog('deleteAccount')" lx-ripple>Delete account</button>
    
     <lx-dialog class="dialog dialog--l" id="deleteAccount" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
 		<div class="card bgc-red-500 tc-white-1 p">
