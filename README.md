@@ -71,7 +71,7 @@ v0.1
 * Chat messages.
 * A single administrator.
 
-#### Features
+#### Screenshots
 #####Main page
 ![login](https://cloud.githubusercontent.com/assets/10667581/11763452/4c8a11fc-a10b-11e5-9c44-8dedfded9811.jpg)
 ![main](https://cloud.githubusercontent.com/assets/10667581/11763503/278a80f6-a10d-11e5-9093-b7aee06a10df.jpg)
