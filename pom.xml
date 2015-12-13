@@ -45,7 +45,7 @@
 
 	<properties>
 		<!-- Main class -->
-		<start-class>org.kurento.room.demo.PerseusApp</start-class>
+		<start-class>org.kurento.room.demo.KurentoRoomDemoApp</start-class>
 	</properties>
 
 	<build>
