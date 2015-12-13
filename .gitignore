@@ -1,4 +1,5 @@
 /target/
+/bower_components/
 /.settings/
 /.classpath
 /.project
