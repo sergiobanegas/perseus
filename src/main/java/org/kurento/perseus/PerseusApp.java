@@ -22,7 +22,6 @@ import org.kurento.commons.PropertiesManager;
 import org.kurento.jsonrpc.JsonUtils;
 import org.kurento.room.KurentoRoomServerApp;
 import org.kurento.room.kms.KmsManager;
-import org.kurento.room.rpc.JsonRpcUserControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -33,8 +32,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 @ComponentScan
 @EnableAutoConfiguration
 @Import(KurentoRoomServerApp.class)
@@ -45,31 +42,14 @@ public class PerseusApp {
 
 	private final static String KROOMDEMO_CFG_FILENAME = "kroomdemo.conf.json";
 
-	private static JsonObject DEFAULT_HAT_COORDS = new JsonObject();
-
 	static {
 		ConfigFileManager.loadConfigFile(KROOMDEMO_CFG_FILENAME);
-		DEFAULT_HAT_COORDS.addProperty("offsetXPercent", -0.35F);
-		DEFAULT_HAT_COORDS.addProperty("offsetYPercent", -1.2F);
-		DEFAULT_HAT_COORDS.addProperty("widthPercent", 1.6F);
-		DEFAULT_HAT_COORDS.addProperty("heightPercent", 1.6F);
 	}
-
-	private static final String IMG_FOLDER = "img/";
-
-	private final String DEFAULT_APP_SERVER_URL = PropertiesManager
-			.getProperty("app.uri", "http://localhost:8080");
 
 	private final Integer DEMO_KMS_NODE_LIMIT = PropertiesManager.getProperty(
 			"demo.kmsLimit", 10);
 	private final String DEMO_AUTH_REGEX = PropertiesManager
 			.getProperty("demo.authRegex");
-	private final String DEMO_HAT_URL = PropertiesManager.getProperty(
-			"demo.hatUrl", "mario-wings.png");
-
-	private final JsonObject DEMO_HAT_COORDS = PropertiesManager
-			.getPropertyJson("demo.hatCoords", DEFAULT_HAT_COORDS.toString(),
-					JsonObject.class);
 
 	private static ConfigurableApplicationContext context;
 
@@ -87,21 +67,6 @@ public class PerseusApp {
 				new FixedNKmsManager(kmsWsUris, DEMO_KMS_NODE_LIMIT);
 		fixedKmsManager.setAuthRegex(DEMO_AUTH_REGEX);
 		return fixedKmsManager;
-	}
-
-	@Bean
-	public JsonRpcUserControl userControl() {
-		DemoJsonRpcUserControl uc = new DemoJsonRpcUserControl();
-		String appServerUrl =
-				System.getProperty("app.server.url", DEFAULT_APP_SERVER_URL);
-		String hatUrl;
-		if (appServerUrl.endsWith("/"))
-			hatUrl = appServerUrl + IMG_FOLDER + DEMO_HAT_URL;
-		else
-			hatUrl = appServerUrl + "/" + IMG_FOLDER + DEMO_HAT_URL;
-		uc.setHatUrl(hatUrl);
-		uc.setHatCoords(DEMO_HAT_COORDS);
-		return uc;
 	}
 
 	public static ConfigurableApplicationContext start(String[] args, Object... sources) {
