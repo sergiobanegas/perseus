@@ -80,7 +80,6 @@ public class PerseusApp {
 		context = application.run();
 		return context;
 	}
-
 	public static void main(String[] args) throws Exception {
 		start(args, PerseusApp.class);
 	}

@@ -42,14 +42,32 @@ and teams data. You have to install MySQL server:
 ```
 sudo apt-get install mysql-server
 ```	
-The default user and password of the database is "root" "pass". If you want to change the default MySQL connection, you have to change the credentials in the application.properties file inside the project.
 
-#### Clone the repository
+####Create the Perseus database
+Login to the MySQL server from the command line:
+```
+mysql -u root -p
+```
+Create a database called "perseus":
+```
+create database perseus;
+```
+
+#### Option 1: Run the JAR file
+Download the .jar file from the link below:
+
+Execute the jar file with the following command:
+```
+java -jar perseus-6.1.0.jar
+```
+
+#### Option 2: Compile the project source files
+### Clone the repository
 ```
 git clone https://github.com/sergiobanegas/perseus.git
 ```
 
-#### Run Perseus
+### Run Perseus
 ```
 cd perseus
 git checkout
