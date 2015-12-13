@@ -34,10 +34,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 @Import(KurentoRoomServerApp.class)
-public class KurentoRoomDemoApp {
+public class PerseusApp {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(KurentoRoomDemoApp.class);
+			.getLogger(PerseusApp.class);
 
 	private final static String KROOMDEMO_CFG_FILENAME = "kroomdemo.conf.json";
 
@@ -114,7 +114,7 @@ public class KurentoRoomDemoApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(KurentoRoomDemoApp.class, args);
+		SpringApplication.run(PerseusApp.class, args);
 //		start();
 	}
 
