@@ -8,7 +8,6 @@
 		<version>6.1.0</version>
 	</parent>
 	<artifactId>perseus</artifactId>
-	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>Perseus</name>

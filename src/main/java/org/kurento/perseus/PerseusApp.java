@@ -26,13 +26,17 @@ import org.kurento.room.rpc.JsonRpcUserControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+@ComponentScan
+@EnableAutoConfiguration
 @Import(KurentoRoomServerApp.class)
 public class PerseusApp {
 
@@ -100,8 +104,7 @@ public class PerseusApp {
 		return uc;
 	}
 
-
-	public static ConfigurableApplicationContext start(Object... sources) {
+	public static ConfigurableApplicationContext start(String[] args, Object... sources) {
 
 		Object[] newSources = new Object[sources.length + 1];
 		newSources[0] = KurentoRoomServerApp.class;
@@ -114,8 +117,7 @@ public class PerseusApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(PerseusApp.class, args);
-//		start();
+		start(args, PerseusApp.class);
 	}
 
 	public static void stop() {
