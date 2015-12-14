@@ -42,6 +42,11 @@
 					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>New team</button>
 				</a>
 			</div>
+			<div class="p">
+				<a ng-href="#/admin">
+					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>Administration</button>
+				</a>
+			</div>
 			<span class="fs-title display-block mb">Your teams:</span>
 			<ul class="list" ng-repeat="team in teams | filter:{ iduser: user.id }">
 				<li class="list-row list-row--has-separator">

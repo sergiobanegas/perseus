@@ -11,6 +11,10 @@ kurento_room.config(function ($routeProvider) {
                 templateUrl: 'angular/home/home.html',
                 controller: 'homeController'
             })
+            .when('/admin', {
+                templateUrl: 'angular/admin/admin.html',
+                controller: 'adminController'
+            })
             .when('/registration', {
                 templateUrl: 'angular/registration/registration.html',
                 controller: 'registerController'
