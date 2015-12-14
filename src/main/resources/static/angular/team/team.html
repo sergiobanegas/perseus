@@ -27,18 +27,23 @@
 	        <div class="divider divider--dark"></div>
 									
 	        <ul class="list mt" ng-repeat="room in rooms | filter: {team : team.id}">
-	            <li class="list-row list-row--has-separator data-table__clickable-row" ng-show="user.privileges>=room.privileges">
+	            <li style="position:relative" class="list-row list-row--has-separator data-table__clickable-row" ng-show="user.privileges>=room.privileges">
 	                <div class="list-row__primary">
 	                	<i ng-click="register(room)" ng-show="room.privileges==0" class="icon icon--xs icon--green icon--flat mdi mdi-checkbox-blank-circle"></i>
 	                    <i ng-click="register(room)" ng-show="room.privileges>0" class="icon icon--xs icon--yellow icon--flat mdi mdi-star-circle"></i>
 	                </div>
 	                <div class="list-row__content" style="display:block">
-		                 <a ng-click="register(room)" style="text-transform: capitalize;">
+		                 <a ng-click="register(room)" style="text-transform: capitalize; display:block">
 		                 	<span ng-bind="room.name"></span>
-		                 </a> 
-		                 <button href="" style="float:right" ng-click="opendDialog('deleteRoom')" ng-show="user.privileges>0" class="btn btn--s btn--red btn--fab mdi mdi-delete"></button>           	      	
+		                 </a> 		                          	      	
 	                </div>
+	                
+	                <div class="list-row__primary" style="position:absolute;right:0px">
+		                	<i ng-click="opendDialog('deleteRoom')" ng-show="user.privileges>0" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
+		            </div>
+	                
 	            </li>
+	           
 	            <lx-dialog class="dialog dialog--l" id="deleteRoom" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
 					<div class="card bgc-red-500 tc-white-1 p">
 						<b>Delete room</b>			
