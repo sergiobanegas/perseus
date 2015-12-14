@@ -54,7 +54,7 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 	$scope.deleteAccount = function(){
 		serviceUser.deleteUser($scope.userProfile);
 		for (var i=0;i<$scope.participates.length;i++){
-			if ($scope.participates[i].iduser==$scope.user.id){
+			if ($scope.participates[i].iduser==$scope.userProfile.id){
 				serviceParticipate.deleteParticipate($scope.participates[i]);
 			}
 		}
