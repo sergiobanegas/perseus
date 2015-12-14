@@ -2,10 +2,11 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('userController', function ($http, $scope, $route, $routeParams, $window, serviceUser, LxNotificationService, LxDialogService) {
+kurento_room.controller('userController', function ($http, $scope, $route, $routeParams, $window, serviceUser, serviceParticipate, LxNotificationService, LxDialogService) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};
+	$scope.participates=serviceParticipate.getParticipates();
 	$http.get('/users/'+$routeParams.id)
 	  .then(function(result) {
 	    $scope.userProfile = result.data;
@@ -52,6 +53,11 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 	
 	$scope.deleteAccount = function(){
 		serviceUser.deleteUser($scope.userProfile);
+		for (var i=0;i<$scope.participates.length;i++){
+			if ($scope.participates[i].iduser==$scope.user.id){
+				serviceParticipate.deleteParticipate($scope.participates[i]);
+			}
+		}
 		serviceUser.logout();
 		$window.location.href = '#/';
 	    LxNotificationService.success("Come back soon!");
