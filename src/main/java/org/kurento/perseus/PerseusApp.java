@@ -24,6 +24,7 @@ import org.kurento.room.KurentoRoomServerApp;
 import org.kurento.room.kms.KmsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -52,7 +53,21 @@ public class PerseusApp {
 			.getProperty("demo.authRegex");
 
 	private static ConfigurableApplicationContext context;
-
+	
+	@Autowired
+	private UserRepository userRepository;
+	@Bean
+	public User firstUser(){
+		User admin = new User();
+		if (userRepository.findAll().isEmpty()){
+			admin.setName("admin");
+			admin.setPassword("1234");
+			admin.setPrivileges(1);
+			userRepository.save(admin);
+		}
+		return admin;
+	}
+	
 	@Bean
 	public KmsManager kmsManager() {
 		JsonArray kmsUris =
