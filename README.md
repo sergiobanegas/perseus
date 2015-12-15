@@ -90,6 +90,7 @@ v0.1
 * Exclusive rooms for users with privileges.
 * Chat messages.
 * A single administrator.
+* Admin panel: remove teams and users.
 
 Screenshots
 ---------------
@@ -115,5 +116,9 @@ To create a new room, click on the blue top left button.
 By clicking on the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
 
 ###Room
-![room](https://cloud.githubusercontent.com/assets/10667581/11763427/fa8531a8-a109-11e5-8025-29714a2297e1.png)
+![room](https://cloud.githubusercontent.com/assets/10667581/11826872/2be3f128-a388-11e5-8248-3d810a6e9598.jpg)
+
+###Admin panel
+![admin2](https://cloud.githubusercontent.com/assets/10667581/11827069/c5dc11f6-a389-11e5-8680-73d1f25fb534.jpg)
+![admin1](https://cloud.githubusercontent.com/assets/10667581/11827068/c44d791a-a389-11e5-9a59-4c2cf6c38319.jpg)
 [Kurento]: http://kurento.org
