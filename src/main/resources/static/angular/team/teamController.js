@@ -109,7 +109,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
-		LxNotificationService.success("¡Hasta pronto!");
+		LxNotificationService.success("Goodbye!");
 }
 	
 	$scope.newRoom = function(room){
