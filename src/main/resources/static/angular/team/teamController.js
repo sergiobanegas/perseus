@@ -133,7 +133,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	
 		$scope.roomName = room.name;
 		
-		var wsUri = 'ws://' + location.host + '/room';
+		var wsUri = 'wss://' + location.host + '/room';
 		
 		//show loopback stream from server
 		var displayPublished = $scope.clientConfig.loopbackRemote || false;
