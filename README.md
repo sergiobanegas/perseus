@@ -110,7 +110,7 @@ Screenshots
 If you create a team, you have to join it after (this will be fixed in the next release).
 
 ###Team
-![team](https://cloud.githubusercontent.com/assets/10667581/11763428/fbdbb2e8-a109-11e5-894a-e63d5f111dc8.png)
+![team](https://cloud.githubusercontent.com/assets/10667581/11827264/21f88e32-a38b-11e5-9bf7-64b836611111.jpg)
 To create a new room, click on the blue top left button.
 ![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
 By clicking on the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
