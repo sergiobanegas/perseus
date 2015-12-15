@@ -11,7 +11,7 @@
            		<div style="height: 27em; width:100%; overflow: scroll;overflow-x:hidden">
            			<ul class="list">
 	           			<li ng-repeat="user in users" class="list-row list-row--has-separator data-table__clickable-row">
-			                <div class="list-row__primary">
+			                <div class="list-row__primary" style="width:auto">
 			                	<a style="text-decoration:none; color:inherit" href="#/user/{{user.id}}" ng-bind="user.name"></a>
 			                </div>
 			                
@@ -47,13 +47,13 @@
         	<div style="height: 27em; width:100%; overflow: scroll;overflow-x:hidden">
            			<ul class="list">
 	           			<li ng-repeat="team in teams"  class="list-row list-row--has-separator data-table__clickable-row">
-			                <div class="list-row__primary">
+			                <div class="list-row__primary" style="width:auto">
 			                	<a href="#/team/{{team.id}}" style="text-decoration:none;color:inherit">
 				                   	<span ng-bind="team.name"></span>
 				                </a>
 			                </div>
-			                <div class="list-row__content">
-			                	<a href="#/team/{{team.id}}" style="display:block; text-decoration:none;color:inherit">
+			                <div class="list-row__content" style="text-align:center">
+			                	<a href="#/team/{{team.id}}" style="margin-right:0px;display:block; text-decoration:none;color:inherit">
 				                	{{(participates | filter: {idteam: team.id}).length}} members
 				                </a>
 			                </div>
@@ -68,7 +68,7 @@
 										Are you sure you want to this team?
 										<div class="dialog__actions">
 											<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-						      				<button ng-click="deleteTeam(team)" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete user</button>
+						      				<button ng-click="deleteTeam(team)" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete team</button>
 										</div>
 									</div>		
 							</lx-dialog>
