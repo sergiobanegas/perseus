@@ -3,7 +3,7 @@
   "version": "${project.version}",
   "description": "${project.description}",
   "authors": [
-    "Kurento <info@kurento.org>"
+    "Sergio Banegas <s.banegas@alumnos.urjc.es>"
   ],
   "main": "index.html",
   "moduleType": [
