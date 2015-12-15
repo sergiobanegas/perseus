@@ -7,6 +7,7 @@ Perseus uses [Kurento] for the media transmission, Java and MySQL on back-end an
 Installation details
 ---------------
 
+
 #### Install Kurento Media Server (only on Ubuntu 14.04)
 In order to install the latest stable Kurento Media Server you have to type the following commands, one at a time and in the same order as listed here:
 
@@ -48,7 +49,7 @@ java -jar perseus-6.1.0.jar
 ```
 
 #### Option 2: Compile the project source files
-#### Install Bower
+##### Install Bower
 ```
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 sudo apt-get install -y nodejs
@@ -75,7 +76,8 @@ mvn compile exec:java
 ```
 The administrator user and password is set default as "admin" - "1234". You have to create an user with this credentials to have admin privileges.
 
-#### Release notes
+Release notes
+---------------
 v0.1
 * Basic video transfer.
 * Hide video.
@@ -89,28 +91,29 @@ v0.1
 * Chat messages.
 * A single administrator.
 
-#### Screenshots
-#####Main page
+Screenshots
+---------------
+###Main page
 ![login](https://cloud.githubusercontent.com/assets/10667581/11763566/ac7dc892-a110-11e5-852f-74dc3dbeab87.jpg)![main](https://cloud.githubusercontent.com/assets/10667581/11763567/b266419e-a110-11e5-8c58-254a26d73364.jpg)
 
-#####Login and registration
+###Login and registration
 ![login2](https://cloud.githubusercontent.com/assets/10667581/11763460/817c5f3c-a10b-11e5-86d6-9f0fcfb1c165.jpg)	
 ![register](https://cloud.githubusercontent.com/assets/10667581/11763453/5022980c-a10b-11e5-8af8-8af2eedb2d22.jpg)
 
-#####Profile
+###Profile
 ![profile](https://cloud.githubusercontent.com/assets/10667581/11763445/2f59f8cc-a10b-11e5-9749-17fe4766368d.jpg)
 
-#####Create team and join an existing one
+###Create team and join an existing one
 ![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763550/c1fe4bb6-a10f-11e5-8ea8-cb2b128b4339.jpg)
 ![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
 If you create a team, you have to join it after (this will be fixed in the next release).
 
-#####Team
+###Team
 ![team](https://cloud.githubusercontent.com/assets/10667581/11763428/fbdbb2e8-a109-11e5-894a-e63d5f111dc8.png)
 To create a new room, click on the blue top left button.
 ![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
 By clicking on the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
 
-#####Room
+###Room
 ![room](https://cloud.githubusercontent.com/assets/10667581/11763427/fa8531a8-a109-11e5-8025-29714a2297e1.png)
 [Kurento]: http://kurento.org
