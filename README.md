@@ -48,26 +48,26 @@ java -jar perseus-6.1.0.jar
 ```
 
 #### Option 2: Compile the project source files
-### Install Bower
+#### Install Bower
 ```
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 sudo apt-get install -y nodejs
 sudo npm install -g bower
 ```
 
-### Install Maven
+##### Install Maven
 In order to compile the project, you must have Maven installed in your computer. Type this command to install it:
 ```
 sudo apt-get install maven
 ```
 It take a few minutes, be patient.
 
-### Clone the repository
+##### Clone the repository
 ```
 git clone https://github.com/sergiobanegas/perseus.git
 ```
 
-### Run Perseus
+##### Run Perseus
 ```
 cd perseus
 git checkout
