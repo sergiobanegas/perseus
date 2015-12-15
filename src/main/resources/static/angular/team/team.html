@@ -39,12 +39,12 @@
 	                </div>
 	                
 	                <div class="list-row__primary" style="position:absolute;right:0px">
-		                	<i ng-click="opendDialog('deleteRoom')" ng-show="user.privileges>0" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
+		                	<i ng-click="openDeleteRoom(room)" ng-show="user.privileges>0" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
 		            </div>
 	                
-	            </li>
-	           
-	            <lx-dialog class="dialog dialog--l" id="deleteRoom" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+	            </li>         
+	        </ul>
+	        <lx-dialog class="dialog dialog--l" id="deleteRoom" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
 					<div class="card bgc-red-500 tc-white-1 p">
 						<b>Delete room</b>			
 					</div>
@@ -52,11 +52,10 @@
 							Are you sure you want to delete this room?
 							<div class="dialog__actions">
 								<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-			      				<button ng-click="deleteRoom(room)" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete room</button>
+			      				<button ng-click="deleteRoom()" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete room</button>
 							</div>
 						</div>		
 				</lx-dialog>
-	        </ul>
 	        <div flex-item="3" style="position:absolute;right:2%;bottom:1%;width:100%;text-align:right;">
 	        <button style="float:right" class="btn btn--m btn--yellow btn--raised tc-indigo-600" ng-click="opendDialog('leaveTeam')" >Leave the team</button>
 	        <lx-dialog class="dialog dialog--l" id="leaveTeam" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	

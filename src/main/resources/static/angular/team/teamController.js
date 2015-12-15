@@ -121,12 +121,21 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 			room.privileges=0;
 		}
 		serviceRoom.newRoom(room);
+		room.privileges=0;
 		LxNotificationService.success("Room "+room.name+" created!");
 	};
 	
-	$scope.deleteRoom = function(room){
-		serviceRoom.deleteRoom(room);
-		LxNotificationService.success("Room "+room.name+" deleted!");
+	$scope.roomToDelete={};
+	
+	$scope.openDeleteRoom = function(room){
+		$scope.roomToDelete=room;
+		$scope.opendDialog('deleteRoom');
+	};
+	
+	$scope.deleteRoom = function(){
+		serviceRoom.deleteRoom($scope.roomToDelete);
+		LxNotificationService.success("Room "+$scope.roomToDelete.name+" deleted!");
+		$scope.roomToDelete={};
 	};
 
 	$scope.register = function (room) {
