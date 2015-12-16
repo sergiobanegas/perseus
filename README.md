@@ -120,5 +120,6 @@ By clicking on the yellow and red lower left buttons you can exit or delete the 
 ###Admin panel
 ![admin2](https://cloud.githubusercontent.com/assets/10667581/11827069/c5dc11f6-a389-11e5-8680-73d1f25fb534.jpg)
 ![admin1](https://cloud.githubusercontent.com/assets/10667581/11827068/c44d791a-a389-11e5-9a59-4c2cf6c38319.jpg)
+
 Note: you can't remove the default administrator user.
 [Kurento]: http://kurento.org
