@@ -18,6 +18,7 @@ public class Room {
 	private String name;
 	private int team;
 	private int privileges;
+	private Integer creator;
 	
 	public Room() {
 		// TODO Auto-generated constructor stub
@@ -39,6 +40,10 @@ public class Room {
 		return team;
 	}
 	
+	public Integer getCreator() {
+		return creator;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -53,6 +58,10 @@ public class Room {
 	
 	public void setTeam(int team) {
 		this.team = team;
+	}
+	
+	public void setCreator(Integer creator) {
+		this.creator = creator;
 	}
 
 }

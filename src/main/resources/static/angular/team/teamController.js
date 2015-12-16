@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('teamController', function ($rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {
+kurento_room.controller('teamController', function ($rootScope, $location, $window, $scope, $filter, $http, $route, $routeParams, ServiceParticipant, $window, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, LxNotificationService, LxDialogService) {
   
     $http.get('/getAllRooms').
 	    success(function (data, status, headers, config) {
@@ -19,6 +19,15 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	     }).
 	     error(function (data, status, headers, config) {	 
 	});
+	
+	$scope.user=serviceUser.getSession();
+	
+	$scope.team={};
+    $http.get('/teams/'+$routeParams.id)
+	  .then(function(result) {
+	    $scope.team = result.data;
+	});
+	
 	$scope.roomsHttp=[];
 	$http.get('/rooms')
 	  .then(function(result) {
@@ -31,13 +40,17 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	});
 	
 	$scope.participatesHttp=[];
+	$scope.participateUser={};
 	$http.get('/participates')
 	  .then(function(result) {
 	    $scope.participatesHttp = result.data;
+	    for (var i=0;i<$scope.participatesHttp.length;i++){
+	    	if ($scope.participatesHttp[i].userName==$scope.user.name && $scope.participatesHttp[i].idteam==$scope.team.id){
+	    		$scope.participateUser=$scope.participatesHttp[i];
+	    	}
+	    }
 	});
-	
-	$scope.teams2 = serviceTeam.getTeams();
-	
+		
 	$scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
@@ -50,12 +63,6 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
     		serviceKurentoRoom.getKurento().close();
     	}
     };
-    $scope.team={};
-    $http.get('/teams/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.team = result.data;
-	});
-	$scope.user=serviceUser.getSession();
 	
 	$scope.rooms=serviceRoom.getRooms();
 	$scope.chatMessage="";
@@ -114,6 +121,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	
 	$scope.newRoom = function(room){
 		room.team=$scope.team.id;
+		room.creator=$scope.user.id;
 		if (room.privileges){
 			room.privileges=1;
 		}

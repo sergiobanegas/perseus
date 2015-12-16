@@ -24,7 +24,7 @@
 	        <div class="divider divider--dark"></div>
 									
 	        <ul class="list mt" ng-repeat="room in rooms | filter: {team : team.id}">
-	            <li style="position:relative" class="list-row list-row--has-separator data-table__clickable-row" ng-show="user.privileges>=room.privileges">
+	            <li style="position:relative" class="list-row list-row--has-separator data-table__clickable-row" ng-show="user.privileges>=room.privileges || participateUser.teamPrivileges>=room.privileges">
 	                <div class="list-row__primary">
 	                	<i ng-click="register(room)" ng-show="room.privileges==0" class="icon icon--xs icon--green icon--flat mdi mdi-checkbox-blank-circle"></i>
 	                    <i ng-click="register(room)" ng-show="room.privileges>0" class="icon icon--xs icon--yellow icon--flat mdi mdi-star-circle"></i>
@@ -36,7 +36,7 @@
 	                </div>
 	                
 	                <div class="list-row__primary" style="position:absolute;right:0px">
-		                	<i ng-click="openDeleteRoom(room)" ng-show="user.privileges>0" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
+		                	<i ng-click="openDeleteRoom(room)" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
 		            </div>
 	                
 	            </li>         
@@ -67,8 +67,7 @@
 					</div>
 				</div>		
 			</lx-dialog>
-				        
-	        <button ng-show="user.privileges>0" style="float:right;margin-right:10px" class="btn btn--m btn--red btn--raised" ng-click="opendDialog('deleteTeam')">Delete team</button>
+	        <button ng-show="user.privileges>0 || participateUser.teamPrivileges>0" style="float:right;margin-right:10px" class="btn btn--m btn--red btn--raised" ng-click="opendDialog('deleteTeam')">Delete team</button>
 	       	<lx-dialog class="dialog dialog--l" id="deleteTeam" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
 				<div class="card bgc-red-500 tc-white-1 p">
 					<b>Delete team</b>			
@@ -128,7 +127,7 @@
 							<lx-text-field label="Room name" fixed-label="true" icon="account"> 
 								<input type="text" ng-model="room.name"/>
 							</lx-text-field>
-							<span ng-show="user.privileges==1">
+							<span ng-show="user.privileges>0|| participateUser.teamPrivileges>0">
 								<input type="checkbox" id="checkbox1" class="checkbox__input" ng-model="room.privileges">
 								<label for="checkbox1" class="checkbox__label">Privileges</label>
 							</span>
