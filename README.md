@@ -86,6 +86,7 @@ v0.1
 * User system: user registration, update credentials and remove account.
 * Create/delete a team.
 * Join a team.
+* Team privileges.
 * Create/delete team rooms.
 * Exclusive rooms for users with privileges.
 * Chat messages.
@@ -106,13 +107,12 @@ Screenshots
 ###Create team and join an existing one
 ![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763550/c1fe4bb6-a10f-11e5-8ea8-cb2b128b4339.jpg)
 ![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
-If you create a team, you have to join it after (this will be fixed in the next release).
 
 ###Team
 ![team](https://cloud.githubusercontent.com/assets/10667581/11827264/21f88e32-a38b-11e5-9bf7-64b836611111.jpg)
 To create a new room, click on the blue top left button.
 ![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
-By clicking on the yellow and red lower left buttons you can exit or delete the team if you have the privileges to do it.
+By clicking on the yellow and red lower left buttons you can exit or delete the team if you have administrator privileges or team privileges.
 
 ###Room
 ![room](https://cloud.githubusercontent.com/assets/10667581/11826872/2be3f128-a388-11e5-8248-3d810a6e9598.jpg)
