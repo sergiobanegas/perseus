@@ -25,7 +25,7 @@ kurento_room.controller('adminController', function ($http, $scope, $route, $rou
 				serviceParticipate.deleteParticipate($scope.participates[i]);
 			}
 		}
-		LxNotificationService.success("User"+$scope.userToDelete.name+" removed");
+		LxNotificationService.success("User "+$scope.userToDelete.name+" removed");
 		$scope.userToDelete={};
 	};
 	
@@ -53,7 +53,7 @@ kurento_room.controller('adminController', function ($http, $scope, $route, $rou
 			}
 		}
 		serviceTeam.deleteTeam($scope.teamToDelete);
-		LxNotificationService.success("Team"+$scope.teamToDelete.name+" deleted!");
+		LxNotificationService.success("Team "+$scope.teamToDelete.name+" deleted!");
 		$scope.teamToDelete={};
 	}
 	
