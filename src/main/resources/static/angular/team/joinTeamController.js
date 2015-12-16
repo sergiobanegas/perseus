@@ -16,6 +16,7 @@ kurento_room.controller('joinTeamController', function ($scope, $window, service
 					newParticipate.idteam=TeamJoined.id;
 					newParticipate.userName=$scope.user.name;
 					newParticipate.teamName=Team.name;
+					newParticipate.teamPrivileges=0;
 					serviceParticipate.newParticipate(newParticipate);	
 					$window.location.href = '#/';
 					LxNotificationService.success("You succesfully joined "+TeamJoined.name+"!");	
