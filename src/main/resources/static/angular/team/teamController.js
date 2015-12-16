@@ -78,7 +78,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 			}
 		}
 		$window.location.href = '#/';
-		LxNotificationService.success("You exit the team!");
+		LxNotificationService.success("You left the team");
 		$route.reload();
 	};
 	
@@ -102,7 +102,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 		
 		serviceTeam.deleteTeam($scope.team);
 		$window.location.href = '#/';
-		LxNotificationService.success("Team deleted!");
+		LxNotificationService.success("Team deleted");
 		$route.reload();
 	}
 	
@@ -122,7 +122,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 		}
 		serviceRoom.newRoom(room);
 		room.privileges=0;
-		LxNotificationService.success("Room "+room.name+" created!");
+		LxNotificationService.success("Room "+room.name+" created");
 	};
 	
 	$scope.roomToDelete={};
@@ -134,7 +134,7 @@ kurento_room.controller('teamController', function ($rootScope, $location, $wind
 	
 	$scope.deleteRoom = function(){
 		serviceRoom.deleteRoom($scope.roomToDelete);
-		LxNotificationService.success("Room "+$scope.roomToDelete.name+" deleted!");
+		LxNotificationService.success("Room "+$scope.roomToDelete.name+" deleted");
 		$scope.roomToDelete={};
 	};
 
