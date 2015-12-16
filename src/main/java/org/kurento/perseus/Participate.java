@@ -16,6 +16,7 @@ public class Participate {
 	private String userName;
 	private Integer idteam;
 	private String teamName;
+	private Integer teamPrivileges;
 	
 	private int privileges;
 	
@@ -47,6 +48,10 @@ public class Participate {
 		return teamName;
 	}
 	
+	public Integer getTeamPrivileges() {
+		return teamPrivileges;
+	}
+	
 	public void setIduser(Integer iduser) {
 		this.iduser = iduser;
 	}
@@ -65,6 +70,10 @@ public class Participate {
 	
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+	
+	public void setTeamPrivileges(Integer teamPrivileges) {
+		this.teamPrivileges = teamPrivileges;
 	}
 	
 	public void setId(Integer id) {
