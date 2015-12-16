@@ -12,36 +12,49 @@ kurento_room.controller('adminController', function ($http, $scope, $route, $rou
 	$scope.participates=serviceParticipate.getParticipates();
 	
 	
-	$scope.deleteUser = function(user){
-		serviceUser.deleteUser(user);
+	$scope.userToDelete={};
+	$scope.openDeleteUser = function(user){
+		$scope.userToDelete=user;
+		$scope.opendDialog('deleteUser');
+	};
+		
+	$scope.deleteUser = function(){
+		serviceUser.deleteUser($scope.userToDelete);
 		for (var i=0;i<$scope.participates.length;i++){
-			if ($scope.participates[i].iduser==user.id){
+			if ($scope.participates[i].iduser==$scope.userToDelete.id){
 				serviceParticipate.deleteParticipate($scope.participates[i]);
 			}
 		}
-		LxNotificationService.success("User"+user.name+" removed");
+		LxNotificationService.success("User"+$scope.userToDelete.name+" removed");
+		$scope.userToDelete={};
 	};
 	
 	
-	$scope.deleteTeam = function(team){
+	$scope.teamToDelete={};
+	$scope.openDeleteTeam = function(team){
+		$scope.teamToDelete=team;
+		$scope.opendDialog('deleteTeam');
+	};
+	
+	$scope.deleteTeam = function(){
 		for (var i = 0; i<$scope.rooms.length;i++){
-			if ($scope.rooms[i].team == team.id){
+			if ($scope.rooms[i].team == $scope.teamToDelete.id){
 				serviceRoom.deleteRoom($scope.rooms[i]);
 			}		
-		}
-		
+		}		
 		for (var i = 0; i<$scope.chatMessages.length;i++){
-			if ($scope.chatMessages[i].team == team.id){
+			if ($scope.chatMessages[i].team == $scope.teamToDelete.id){
 				serviceChatMessage.deleteChatMessage($scope.chatMessages[i]);
 			}
 		}				
 		for (var i = 0; i<$scope.participates.length;i++){
-			if ($scope.participates[i].idteam == team.id){
+			if ($scope.participates[i].idteam == $scope.teamToDelete.id){
 				serviceParticipate.deleteParticipate($scope.participates[i]);
 			}
 		}
-		serviceTeam.deleteTeam(team);
-		LxNotificationService.success("Team deleted!");
+		serviceTeam.deleteTeam($scope.teamToDelete);
+		LxNotificationService.success("Team"+$scope.teamToDelete.name+" deleted!");
+		$scope.teamToDelete={};
 	}
 	
 	$scope.opendDialog = function(dialogId){

@@ -22,23 +22,9 @@
 				            </div>
 			                
 			                <div class="list-row__primary" style="position:absolute;right:0px" ng-hide="user.name=='admin'">
-		                		<i ng-click="opendDialog('deleteUser')" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
+		                		<i ng-click="openDeleteUser(user)" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
 		           		    </div>
-		           		    <lx-dialog class="dialog dialog--l" id="deleteUser" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
-								<div class="card bgc-red-500 tc-white-1 p">
-									<b>Delete user</b>			
-								</div>
-								   	<div class="p++">
-										Are you sure you want to this user?
-										<div class="dialog__actions">
-											<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-						      				<button ng-click="deleteUser(user)" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete user</button>
-										</div>
-									</div>		
-							</lx-dialog>
-		            
 			            </li>
-
            			</ul>
 				</div>
         </lx-tab>
@@ -58,26 +44,40 @@
 				                </a>
 			                </div>
 			                <div class="list-row__primary" style="position:absolute;right:0px">
-		                		<i ng-click="opendDialog('deleteTeam')" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
+		                		<i ng-click="openDeleteTeam(team)" class="icon icon--s icon--red icon--flat mdi mdi-close-circle"></i>
 		           		    </div>
-		           		    <lx-dialog class="dialog dialog--l" id="deleteTeam" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
-								<div class="card bgc-red-500 tc-white-1 p">
-									<b>Delete team</b>			
-								</div>
-								   	<div class="p++">
-										Are you sure you want to this team?
-										<div class="dialog__actions">
-											<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-						      				<button ng-click="deleteTeam(team)" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete team</button>
-										</div>
-									</div>		
-							</lx-dialog>
 			            </li>
            			</ul>            
         	</div>
         </lx-tab>
     </lx-tabs>
 </div>
+<lx-dialog class="dialog dialog--l" id="deleteUser" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+	<div class="card bgc-red-500 tc-white-1 p">
+		<b>Delete user</b>			
+	</div>
+   	<div class="p++">
+		Are you sure you want to this user?
+		<div class="dialog__actions">
+			<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+ 			<button ng-click="deleteUser()" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete user</button>
+		</div>
+	</div>		
+</lx-dialog>
+
+<lx-dialog class="dialog dialog--l" id="deleteTeam" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">	
+	<div class="card bgc-red-500 tc-white-1 p">
+		<b>Delete team</b>			
+	</div>
+   	<div class="p++">
+		Are you sure you want to leave this team?
+		<div class="dialog__actions">
+			<button class="btn btn--m btn--blue btn--raised" lx-ripple lx-dialog-close>Cancel</button>
+			<button ng-click="deleteTeam()" class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Delete team</button>
+		</div>
+	</div>		
+</lx-dialog>
+
 </div>
 
 <div ng-hide="user.privileges>0">
