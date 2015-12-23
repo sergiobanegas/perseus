@@ -8,7 +8,7 @@ kurento_room.controller('newTeamController', function ($scope, $window, serviceU
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
-	$scope.newTeam = function(Team) {//conseguir id de team
+	$scope.newTeam = function(Team) {
 		if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
 				if (Team.password===$scope.password){
 					serviceTeam.newTeam(Team);
