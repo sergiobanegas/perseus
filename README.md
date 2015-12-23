@@ -42,10 +42,10 @@ create database perseus;
 
 #### Option 1: Run the JAR file
 #####Download the .jar file
-Download it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar).
 
 #####Download the keystore
-Download it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks).
 
 #####Execute the jar file
 Put both files on the same folder and execute the jar file with the following command:
