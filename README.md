@@ -71,9 +71,9 @@ It take a few minutes, be patient.
 ##### Download the application
 Click on one of the formats below in order to download the application in zip format or tar.gz format:
 
-A) [Zip format]
+A) [Zip format](https://github.com/sergiobanegas/perseus/archive/0.1.zip).
 
-B) [Tar.gz format]
+B) [Tar.gz format](https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz).
 
 Decompress the chosen file in order to run it.
 
@@ -130,6 +130,4 @@ By clicking on the yellow and red lower left buttons you can exit or delete the 
 ![admin1](https://cloud.githubusercontent.com/assets/10667581/11827068/c44d791a-a389-11e5-9a59-4c2cf6c38319.jpg)
 
 Note: you can't remove the default administrator user.
-[Kurento]: http://kurento.org
-[Zip format] : https://github.com/sergiobanegas/perseus/archive/0.1.zip
-[Tar.gz format] : https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
+[Kurento]: http://kurento.org 
