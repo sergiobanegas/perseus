@@ -71,12 +71,12 @@ sudo apt-get install maven
 It take a few minutes, be patient.
 
 ##### Download the application
-*Zip format:
+######Zip format:
 
 https://github.com/sergiobanegas/perseus/archive/0.1.zip
 
 
-*Tar.gz format:
+######Tar.gz format:
 
 https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
 
