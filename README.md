@@ -69,16 +69,15 @@ sudo apt-get install maven
 It take a few minutes, be patient.
 
 ##### Download the application
-######Zip format:
+Choose between zip format and tar.gz format:
 
+######A) Zip format
 https://github.com/sergiobanegas/perseus/archive/0.1.zip
 
-
-######Tar.gz format:
-
+######B) Tar.gz format
 https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
 
-Decompress it.
+Decompress the chosen file in order to run it.
 
 ##### Run Perseus
 ```
