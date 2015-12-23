@@ -1,7 +1,4 @@
 {
-   "kms": {
-      "uris": ["ws://localhost:8888/kurento", "ws://127.0.0.1:8888/kurento"]
-   },
    "app": {
       "uri": "https://localhost:8443/"
    },
@@ -10,14 +7,5 @@
          //milliseconds
          "requestTimeout": 20000
       }
-   },
-   "demo": {
-      "loopback" : {
-         "remote": false,
-         //matters only when remote is true
-         "andLocal": false
-      },
-      "authRegex": ".*",
-      "kmsLimit": 10
    }
 }
