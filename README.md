@@ -43,9 +43,16 @@ create database perseus;
 #### Option 1: Run the JAR file
 Download the .jar file from the link below:
 
-Execute the jar file with the following command:
+https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar
+
+Download the keystore:
+
+https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks
+
+
+Put both files on the same folder and execute the jar file with the following command:
 ```
-java -jar perseus-6.1.0.jar
+java -jar perseus-1.0.jar
 ```
 
 #### Option 2: Compile the project source files
@@ -63,18 +70,24 @@ sudo apt-get install maven
 ```
 It take a few minutes, be patient.
 
-##### Clone the repository
-```
-git clone https://github.com/sergiobanegas/perseus.git
-```
+##### Download the application
+*Zip format:
+
+https://github.com/sergiobanegas/perseus/archive/0.1.zip
+
+
+*Tar.gz format:
+
+https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
+
+Decompress it.
 
 ##### Run Perseus
 ```
 cd perseus
-git checkout
 mvn compile exec:java
 ```
-The administrator user and password is set default as "admin" - "1234". You have to create an user with this credentials to have admin privileges.
+The administrator user and password is set default as "admin" - "1234".
 
 Release notes
 ---------------
