@@ -42,10 +42,10 @@ create database perseus;
 
 #### Option 1: Run the JAR file
 #####Download the .jar file
-https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar
+Download it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar).
 
 #####Download the keystore
-https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks
+Download it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks).
 
 #####Execute the jar file
 Put both files on the same folder and execute the jar file with the following command:
@@ -69,13 +69,11 @@ sudo apt-get install maven
 It take a few minutes, be patient.
 
 ##### Download the application
-Choose between zip format and tar.gz format:
+Click on one of the formats below in order to download the application in zip format or tar.gz format:
 
-######A) Zip format
-https://github.com/sergiobanegas/perseus/archive/0.1.zip
+A) [Zip format]
 
-######B) Tar.gz format
-https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
+B) [Tar.gz format]
 
 Decompress the chosen file in order to run it.
 
@@ -133,3 +131,5 @@ By clicking on the yellow and red lower left buttons you can exit or delete the 
 
 Note: you can't remove the default administrator user.
 [Kurento]: http://kurento.org
+[Zip format] : https://github.com/sergiobanegas/perseus/archive/0.1.zip
+[Tar.gz format] : https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz
