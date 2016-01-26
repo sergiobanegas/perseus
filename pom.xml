@@ -203,7 +203,7 @@
 	  	<id>Java.Net</id>
 	  	<url>http://download.java.net/maven/2/</url>
 	    </repository>
-  </repositories>
+  	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.kurento</groupId>
