@@ -3,6 +3,8 @@ package org.kurento.perseus;
 
 
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class ChatMessage {
 	private String room;
 	private Integer team;
 	private String text;
-		
+	private String date;	
 	public ChatMessage() {
 		// TODO Auto-generated constructor stub
 	}
@@ -44,6 +46,10 @@ public class ChatMessage {
 		return text;
 	}
 	
+	public String getDate() {
+		return date;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -62,6 +68,10 @@ public class ChatMessage {
 	
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }
