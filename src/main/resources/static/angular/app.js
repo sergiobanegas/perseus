@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-var kurento_room = angular.module('kurento_room', ['ngResource', 'ngRoute', 'FBAngular', 'lumx', 'ngCookies']);
+var kurento_room = angular.module('kurento_room', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies']);
 
 kurento_room.config(function ($routeProvider) {
 
@@ -16,8 +16,7 @@ kurento_room.config(function ($routeProvider) {
                 controller: 'adminController'
             })
             .when('/registration', {
-                templateUrl: 'angular/registration/registration.html',
-                controller: 'registerController'
+                templateUrl: 'angular/registration/registration.html'
             })
             .when('/user/:id', {
                 templateUrl: 'angular/user/user.html',
