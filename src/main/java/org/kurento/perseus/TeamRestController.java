@@ -48,4 +48,10 @@ public class TeamRestController {
 	public Team updateTeam(@PathVariable int id, @RequestBody @Valid Team team) {
 		return teamRepository.save(team);
 	}
+	
+	@RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+	public List<Team> getTeamByName(@PathVariable String name) {
+		return teamRepository.findByName(name);
+	}
+	
 }
