@@ -2,12 +2,18 @@
 	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
 	<p>{{roomName}}</p>
-	
+	<md-button ng-click="inviteToRoom($event)" style="background-color:greenyellow">
+	             Invite people to the room
+	</md-button>
+	<md-button ng-click="leavePrivateRoom($event)" style="background-color:blue">
+	       Exit the room
+	</md-button>
+	{{room}}
 	</md-content-flex>
 	<div flex>
 		<div id="top">
  			<div id="participants"> 
-			         	   
+			         	   	
 			</div> 
 			<div class="mb" align="center" style="margin: 1em; padding-bottom: 5px" id="buttonActions"> 
 				<md-button ng-click="onOffVolume()" class="md-fab md-primary md-hue-1" aria-label="Volume_up" id="buttonVolume" title="Audio toggle">

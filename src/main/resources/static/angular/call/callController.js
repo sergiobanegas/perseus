@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('callController', function ($mdDialog, $scope, $route, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen) {
+kurento_room.controller('callController', function ($mdDialog, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
@@ -11,11 +11,105 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $route, $
     $scope.kurento = serviceKurentoRoom.getKurento();
     $scope.chatMessages = serviceChatMessage.getChatMessages();
     
+    $scope.room={};
+    $http.get('/rooms/'+serviceKurentoRoom.getTeam()+'/'+serviceKurentoRoom.getRoomName())
+	  .then(function(result) {
+	    $scope.room = result.data;
+	});
+    
+    
+    $scope.teamUsers=[];
+    $http.get('/participates/'+serviceKurentoRoom.getTeam()+'/members')
+	  .then(function(result) {
+	    $scope.teamUsers = result.data;
+	});
+
+    
+    $scope.leavePrivateRoom = function($event){
+    	var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      template:
+	    	  '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+		        '<md-toolbar>'+
+		        '<div class="md-toolbar-tools">'+
+		          '<span flex><h2>Leave room</h2></span>'+
+		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+		          '</md-button>'+
+		        '</div>'+
+		        '</md-toolbar>'+
+		        '<md-dialog-content>'+
+		        '<div class="md-dialog-content">'+
+		        "Are you sure you want to leave this room? You'll have to send a petition to enter again "+
+		        '</div>'+
+		        '  <md-dialog-actions>' +
+		        '  <md-button style="background-color:red" ng-click="leaveRoom()" >' +
+		        '      Leave' +
+		        '    </md-button>' +
+		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+		        '      Cancel' +
+		        '    </md-button>' +
+		        '  </md-dialog-actions>' +
+		        '</md-dialog>',
+	      locals: {
+	    	team: serviceKurentoRoom.getTeam(),
+	    	room: serviceKurentoRoom.getRoomName(),
+	    	user : $scope.user
+	      },
+	      controller: leaveRoomController
+	   })
+    }
+        
     $scope.leaveRoom = function () {
         serviceKurentoRoom.getKurento().close();
         ServiceParticipant.removeParticipants();
         $window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
     };
+    
+    $scope.inviteToRoom = function($event){ 	 
+    	var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      template:
+	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
+	        '<md-toolbar>'+
+	        '<div class="md-toolbar-tools">'+
+	          '<span flex><h2>Leave team</h2></span>'+
+	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+	          '</md-button>'+
+	        '</div>'+
+	        '</md-toolbar>'+
+	        '<md-dialog-content>'+
+	        '<div class="md-dialog-content">'+
+	        'Invite people to the room!'+
+	        '<div>'+
+	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers">'+
+	        '<div class="md-list-item-text">'+
+	        '<p>{{user.userName}}</p>'+
+	        '<md-icon ng-click="inviteUser(user.iduser, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">clear</md-icon>'+
+	        '</div>'+
+      '</md-list-item>{{room}}'+
+	        '<md-button class="md-primary" ng-click="sendInvitation(email)">'+
+	        'Enviar'+
+	        '</md-button>'+
+	        '</div>'+
+	        '</div>'+
+	        '</md-dialog>',
+	      locals: {
+	    	team: serviceKurentoRoom.getTeam(),
+	    	room: serviceKurentoRoom.getRoomName(),
+	    	teamUsers: $scope.teamUsers,
+	    	user : $scope.user
+	      },
+	      controller: inviteRoomController
+	   })
+    	
+    	
+    }
 
     window.onbeforeunload = function () {
     	//not necessary if not connected
@@ -99,3 +193,76 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $route, $
     	
     }
 });
+
+function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
+
+	$scope.teamUsers=teamUsers;
+	$scope.inviteUser = function(userid){
+		var roominvite={};
+		roominvite.user=userid;
+		roominvite.transmitter=user.id;
+		for (var i=0;i<serviceRoom.getRooms().length;i++){
+			if (serviceRoom.getRooms()[i].name==room){
+				roominvite.room=serviceRoom.getRooms()[i].id;
+			}
+		}
+		var exists=false;
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].room==roominvite.room && serviceRoomInvite.getRoomInvites()[i].user==userid){
+				exists=true;
+				break;
+			}
+		}
+		if (exists){
+			$scope.notification("An invitation was already sent to this user");
+		}else{
+			serviceRoomInvite.newRoomInvite(roominvite);
+			
+			$scope.notification("Invited");
+		}
+		
+	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+}
+function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
+		
+		$scope.leaveRoom = function(){	
+			var thisroom={};
+	    	for (var i=0;i<serviceRoom.getRooms().length;i++){
+	    		if (serviceRoom.getRooms()[i].name==room){
+	    			thisroom=serviceRoom.getRooms()[i];
+	    		}
+	    	}
+				for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+					if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id && serviceParticipateRoom.getParticipateRooms()[i].room==thisroom.id){
+						serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+						break;
+					}				
+				}
+				$mdDialog.hide();
+				$window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
+				$scope.notification("You left the room");			
+		}
+		
+		$scope.notification = function(text) {
+		    $mdToast.show(
+		      $mdToast.simple()
+		        .textContent(text)
+		        .position("bottom right")
+		        .hideDelay(3000)
+		    );
+		};
+		
+		$scope.closeDialog = function() {
+			$mdDialog.hide();
+		}
+
+}
