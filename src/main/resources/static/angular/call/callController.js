@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('callController', function ($scope, $route, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen, LxNotificationService) {
+kurento_room.controller('callController', function ($mdDialog, $scope, $route, $window, serviceUser, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
@@ -36,6 +36,7 @@ kurento_room.controller('callController', function ($scope, $route, $window, ser
     $scope.onOffVolume = function () {
         var localStream = serviceKurentoRoom.getLocalStream();
         var element = document.getElementById("buttonVolume");
+
         if (element.classList.contains("mdi-volume-off")) { //on
             element.classList.remove("mdi-volume-off");
             element.classList.add("mdi-volume-high");
@@ -67,8 +68,14 @@ kurento_room.controller('callController', function ($scope, $route, $window, ser
     	var localStream = serviceKurentoRoom.getLocalStream();
     	var participant = ServiceParticipant.getMainParticipant();
     	if (!localStream || !participant) {
-    		LxNotificationService.alert('Error!', "Not connected yet", 'Ok', function(answer) {
-            });
+    		$mdDialog.show(
+    			      $mdDialog.alert()
+    			        .parent(angular.element(document.querySelector('#popupContainer')))
+    			        .clickOutsideToClose(true)
+    			        .title('Error')
+    			        .textContent('Not conected yet')
+    			        .targetEvent(ev)
+    		);
     		return false;
     	}
     	ServiceParticipant.disconnectParticipant(participant);

@@ -1,31 +1,56 @@
-<button class="btn btn--xl btn--red btn--fab mdi mdi-exit-to-app"  ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:16px;"></button>	
-<div class="join card" ng-hide="user.name" id="centraldiv" style="margin-top:100px">
-    <h3>Registration</h3>
-     <form role="form" ng-submit="register(newUser)" accept-charset="UTF-8">
-            <div class="card__content">
-                <lx-text-field label="User name" fixed-label="true">
-                    <input type="text" ng-model="newUser.name" required>
-                </lx-text-field>
-				<lx-text-field label="Password" fixed-label="true">
-                    <input type="password" ng-model="newUser.password" required>
-                </lx-text-field>
-                <lx-text-field label="Email" fixed-label="true">
-                    <input type="text" ng-model="newUser.email" required>
-                </lx-text-field>
-            </div>
-
-            <div class="card__actions">
-                <div class="grid">
-                    <div class="grid__col6">
-                        <button id="joinBtn" class="btn btn--l btn--green btn--raised" style="float:right" lx-ripple type="submit" >Register</button>
-                    </div>
-                </div>
-                <br>
-            </div>
-
-        </form>
-	There are {{users.length}} people registered.
+<div ng-include="'./angular/toolbar.html'"></div>
+<div ng-controller="registerController">
+<form role="form" ng-submit="register(newUser)" accept-charset="UTF-8">
+<md-input-container class="md-icon-float md-block">
+    <label>Name</label>
+    <md-icon aria-label="Name" class="material-icons" style="color: blue;">person</md-icon>
+    <input ng-model="newUser.name">
+</md-input-container>
+<md-input-container class="md-icon-float md-block">
+    <label>Password</label>
+    <md-icon aria-label="Password" class="material-icons" style="color: blue;">vpn_key</md-icon>
+    <input type="password" ng-model="newUser.password">
+</md-input-container>
+<md-input-container class="md-icon-float md-block">
+    <label>Email</label>
+    <md-icon aria-label="Email" class="material-icons" style="color: blue;">email</md-icon>
+    <input type="email" ng-model="newUser.email">
+</md-input-container>
+<md-button class="md-raised md-primary" type="submit">Register</md-button>
+</form>
+<md-button class="md-raised" ng-click="showSimpleToast()">
+        Show With Action
+      </md-button>
 </div>
-<div ng-show="user.name">
- You've already logged in
-</div>
+    <!-- <button class="btn btn--xl btn--red btn--fab mdi mdi-exit-to-app"  ng-click="exit()" title="Go to main page" style="position:absolute;z-index:1; right:40px;top:16px;"></button>	 -->
+    
+<!-- <div class="join card" ng-hide="user.name" id="centraldiv" style="margin-top:100px"> -->
+<!--     <h3>Registration</h3> -->
+<!--      <form role="form" ng-submit="register(newUser)" accept-charset="UTF-8"> -->
+<!--             <div class="card__content"> -->
+<!--                 <lx-text-field label="User name" fixed-label="true"> -->
+<!--                     <input type="text" ng-model="newUser.name" required> -->
+<!--                 </lx-text-field> -->
+<!-- 				<lx-text-field label="Password" fixed-label="true"> -->
+<!--                     <input type="password" ng-model="newUser.password" required> -->
+<!--                 </lx-text-field> -->
+<!--                 <lx-text-field label="Email" fixed-label="true"> -->
+<!--                     <input type="text" ng-model="newUser.email" required> -->
+<!--                 </lx-text-field> -->
+<!--             </div> -->
+
+<!--             <div class="card__actions"> -->
+<!--                 <div class="grid"> -->
+<!--                     <div class="grid__col6"> -->
+<!--                         <button id="joinBtn" class="btn btn--l btn--green btn--raised" style="float:right" lx-ripple type="submit" >Register</button> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--                 <br> -->
+<!--             </div> -->
+
+<!--         </form> -->
+<!-- 	There are {{users.length}} people registered. -->
+<!-- </div> -->
+<!-- <div ng-show="user.name"> -->
+<!--  You've already logged in -->
+<!-- </div> -->

@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('newTeamController', function ($scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter, LxNotificationService) {
+kurento_room.controller('newTeamController', function ($mdToast, $scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
 
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
@@ -16,13 +16,23 @@ kurento_room.controller('newTeamController', function ($scope, $window, serviceU
 					LxNotificationService.success("You succesfully created "+Team.name+"!");
 				}
 				else{
-					LxNotificationService.success("The password doesn't match!");
-				}					
+					$scope.notification("The password doesn't match!");
+				}				
 		}
 		else{
-			LxNotificationService.error("A team with that name already exists!");
+			$scope.notification("A team with that name already exists!");
 		}
 	};
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	  };
+	
 	
 	$scope.exit = function(){
 		$window.location.href = '#/';

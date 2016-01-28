@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('registerController', function ($scope, $window, serviceUser, $location, $route, $filter, LxNotificationService) {
+kurento_room.controller('registerController', function ($mdToast, $document, $scope, $window, serviceUser, $location, $route, $filter) {
 	$scope.users=serviceUser.getUsers();
 	$scope.user=serviceUser.getSession();
 	$scope.register = function(newUser) {
@@ -10,13 +10,18 @@ kurento_room.controller('registerController', function ($scope, $window, service
 			newUser.privileges=0;
 			serviceUser.newUser(newUser);	
 			$window.location.href = '#/';
-			LxNotificationService.success("¡Bienvenido "+newUser.name+"!, ya puedes iniciar sesión con tu cuenta");	
 		}
 		else{
-			LxNotificationService.error('¡Ya existe un usuario con ese nombre!');
+			$scope.notification("An user with that name already exist");
 		}
 	};
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	}
+
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	  };
 });

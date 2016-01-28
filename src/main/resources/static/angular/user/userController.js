@@ -2,11 +2,10 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('userController', function ($http, $scope, $route, $routeParams, $window, serviceUser, serviceParticipate, LxNotificationService, LxDialogService) {
+kurento_room.controller('userController', function ($mdDialog, $http, $scope, $route, $routeParams, $window, serviceUser) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};
-	$scope.participates=serviceParticipate.getParticipates();
 	$http.get('/users/'+$routeParams.id)
 	  .then(function(result) {
 	    $scope.userProfile = result.data;
@@ -21,7 +20,6 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 		$scope.editName=0;
 		$scope.editEmail=0;
 		$route.reload();
-		LxNotificationService.success("Changes successfully made!");
 	};
 	
 	$scope.showInput = function(option){
@@ -45,29 +43,78 @@ kurento_room.controller('userController', function ($http, $scope, $route, $rout
 		}
 	};
 	
+	$scope.deleteAccount = function($event){
+		var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      template:
+	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+	        '<md-toolbar>'+
+	        '<div class="md-toolbar-tools">'+
+	          '<span flex><h2>Delete account</h2></span>'+
+	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+	          '</md-button>'+
+	        '</div>'+
+	        '</md-toolbar>'+
+	        '<md-dialog-content>'+
+	        '<div class="md-dialog-content">'+
+	        'Are you sure you want to delete your account? '+
+	        '</div>'+
+	        '  <md-dialog-actions>' +
+	        '  <md-button style="background-color:red" ng-click="deleteAccount()" >' +
+	        '      Delete' +
+	        '    </md-button>' +
+	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+	        '      Cancel' +
+	        '    </md-button>' +
+	        '  </md-dialog-actions>' +
+	        '</md-dialog>',
+	      locals: {
+	        user: $scope.userProfile
+	      },
+	      controller: userActionsController
+	   })
+	}
+	
+	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
-		LxNotificationService.success("Goodbye!");
-	};
-	
-	$scope.deleteAccount = function(){
-		serviceUser.deleteUser($scope.userProfile);
-		for (var i=0;i<$scope.participates.length;i++){
-			if ($scope.participates[i].iduser==$scope.userProfile.id){
-				serviceParticipate.deleteParticipate($scope.participates[i]);
-			}
-		}
-		serviceUser.logout();
-		$window.location.href = '#/';
-	    LxNotificationService.success("Come back soon!");
-	};
-	
-	$scope.opendDialog = function(dialogId){
-	    LxDialogService.open(dialogId);
 	};
 	
 	$scope.exit = function(){
 		$window.location.href = '#/';
 	}
 });
+
+
+function userActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceParticipate, user) {
+
+	$scope.deleteAccount = function(){
+		serviceUser.deleteUser(user);
+		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].iduser==user.id){
+				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		serviceUser.logout();
+		$mdDialog.hide();
+		$window.location.href = '#/';
+	    $scope.notification("Come back soon!");
+	};
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+}
