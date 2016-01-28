@@ -48,4 +48,9 @@ public class RoomRestController {
 	public Room updateRoom(@PathVariable int id, @RequestBody @Valid Room room) {
 		return roomRepository.save(room);
 	}
+	
+	@RequestMapping(value = "/{team}/{name}", method = RequestMethod.GET)
+	public List<Room> getRoomByNameAndTeam(@PathVariable int team, @PathVariable String name) {
+		return roomRepository.findByNameAndTeam(name, team);
+	}
 }
