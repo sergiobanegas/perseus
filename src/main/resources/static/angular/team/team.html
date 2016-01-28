@@ -1,5 +1,5 @@
 <div layout="row" ng-show="participate()==1 || user.privileges>0" style="height:100%">
-  <md-button class="md-fab md-primary" style="position:absolute; right:10px; top:10px;" aria-label="Notifications" ng-click="toggleRight()" ng-show="!isOpenRight() && (participateUser.teamPrivileges!=0 || user.privileges!=0)">
+  <md-button class="md-fab md-primary" style="position:absolute; right:10px; top:10px;" aria-label="Notifications" ng-click="toggleRight()" ng-show="!isOpenRight()">
           <md-icon class="material-icons">notifications</md-icon>
   </md-button>
   <md-content-flex flex="20" style="position:relative;background-color:gray">
@@ -100,7 +100,17 @@
     			</md-button>
  			 </md-list-item>
       	</div>
-       
+       Room invites
+       <md-list-item ng-repeat="invitation in roomInvitations()">
+    			<p> {{invitation.user}} </p>
+    			<p>{{invitation.room}}</p>
+    			<md-button class="md-icon-button" ng-click="acceptRoomInvitation(invitation)" title="Accept invitation" aria-label="Accept">
+    				<i class="material-icons">check_circle</i>
+    			</md-button>
+    			<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny invitation" aria-label="Deny">
+    				<i class="material-icons">cancel</i>
+    			</md-button>
+ 			 </md-list-item>
         <md-button ng-click="close()" class="md-primary">
           Close Sidenav Right
         </md-button>

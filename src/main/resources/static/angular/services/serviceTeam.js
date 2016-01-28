@@ -68,7 +68,7 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 			newParticipate.userName=user.name;
 			newParticipate.teamName=team.name;
 			newParticipate.idteam=team.id;
-			newParticipate.teamPrivileges=1;
+			newParticipate.teamPrivileges=2;
 			serviceParticipate.newParticipate(newParticipate);
 		});		
 	}

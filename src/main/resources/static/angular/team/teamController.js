@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, serviceRoom, serviceTeam, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
+kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
   
 	
 	
@@ -60,6 +60,25 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	  .then(function(result) {
 	    $scope.team = result.data;
 	});
+    
+    $scope.roomInvitations = function(){
+    	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
+    }
+    
+    $scope.acceptRoomInvitation = function(invitation){
+    	var participate={};
+    	participate.room=invitation.room;
+    	participate.user=invitation.user;
+    	participate.team=$scope.team.id;
+    	serviceParticipateRoom.newParticipateRoom(participate);
+    	serviceRoomInvite.deleteRoomInvite(invitation);
+    	$notification("Room invitation accepted");
+    }
+    
+    $scope.denyRoomInvitation = function(invitation){
+    	serviceRoomInvite.deleteRoomInvite(invitation);
+    	$notification("Room invitation canceled");
+    }
 	
     $scope.requests = function(){ 	
     	return $filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { team: $scope.team.id});
@@ -209,39 +228,90 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	
 	
 	$scope.leaveTeam = function($event){
-		var parentEl = angular.element(document.body);
-	    $mdDialog.show({
-	      parent: parentEl,
-	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Leave team</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Are you sure you want to leave this team? '+
-	        '</div>'+
-	        '  <md-dialog-actions>' +
-	        '  <md-button style="background-color:red" ng-click="leaveTeam()" >' +
-	        '      Leave' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
-	        '</md-dialog>',
-	      locals: {
-	    	team: $scope.team,
-	    	user: $scope.user
-	      },
-	      controller: exitTeamController
-	   })
+		var creator=false;
+		var userLeaving={};
+		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].teamPrivileges==2){
+				if (serviceParticipate.getParticipates()[i].iduser==$scope.user.id){
+						creator=true;
+						userLeaving=serviceParticipate.getParticipates()[i];
+						break;
+				}
+			}
+		}
+		if (creator){
+			$scope.notification("You are the creator");
+			var parentEl = angular.element(document.body);
+		    $mdDialog.show({
+		      parent: parentEl,
+		      targetEvent: $event,
+		      template:
+		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+		        '<md-toolbar>'+
+		        '<div class="md-toolbar-tools">'+
+		          '<span flex><h2>Leave team</h2></span>'+
+		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+		          '</md-button>'+
+		        '</div>'+
+		        '</md-toolbar>'+
+		        '<md-dialog-content>'+
+		        '<div class="md-dialog-content">'+
+		        'You are the creator, you need to select a new administrator in order to exit this team.'+
+		     '   <md-input-container>'+
+		     '   <label>State</label>'+
+		     '   <md-select ng-model="userState">'+
+		     '     <md-option ng-repeat="state in participates()" value="{{state.id}">'+
+		      '      {{state.id}}'+
+		      '    </md-option>'+
+		     '   </md-select>'+
+		    '  </md-input-container>'+
+		        '</div>'+
+		        '</md-dialog-content>'+
+		        '</md-dialog>',
+		      locals: {
+		    	team: $scope.team,
+		    	user: $scope.user
+		      },
+		      controller: exitTeamController
+		   })
+			
+		}
+//			else{
+//			var parentEl = angular.element(document.body);
+//		    $mdDialog.show({
+//		      parent: parentEl,
+//		      targetEvent: $event,
+//		      template:
+//		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+//		        '<md-toolbar>'+
+//		        '<div class="md-toolbar-tools">'+
+//		          '<span flex><h2>Leave team</h2></span>'+
+//		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+//		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+//		          '</md-button>'+
+//		        '</div>'+
+//		        '</md-toolbar>'+
+//		        '<md-dialog-content>'+
+//		        '<div class="md-dialog-content">'+
+//		        'Are you sure you want to leave this team? '+
+//		        '</div>'+
+//		        '  <md-dialog-actions>' +
+//		        '  <md-button style="background-color:red" ng-click="leaveTeam()" >' +
+//		        '      Leave' +
+//		        '    </md-button>' +
+//		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+//		        '      Cancel' +
+//		        '    </md-button>' +
+//		        '  </md-dialog-actions>' +
+//		        '</md-dialog>',
+//		      locals: {
+//		    	team: $scope.team,
+//		    	user: $scope.user
+//		      },
+//		      controller: exitTeamController
+//		   })
+//		}
 	};
 	
 	$scope.deleteTeam = function($event){
@@ -695,9 +765,14 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 		}
 }
 
-function exitTeamController($scope, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, team, user) {
+function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, team, user) {
 
-	
+	$scope.newAdmin='';
+	$scope.participates= function(){
+		var participates = $filter('filter')(serviceParticipate.getParticipates(), { idteam: team.id});
+		return participates;
+	}
+	    
 	$scope.leaveTeam = function(){
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].iduser == user.id && serviceParticipate.getParticipates()[i].idteam == team.id){
@@ -784,4 +859,8 @@ function invitePeopleController($scope, $http, $route, $mdDialog, $mdToast, serv
 	        .hideDelay(3000)
 	    );
 	};
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
 }
