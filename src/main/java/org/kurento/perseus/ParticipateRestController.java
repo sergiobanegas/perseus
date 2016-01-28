@@ -54,5 +54,10 @@ public class ParticipateRestController {
 		return participateRepository.findByTeamPrivilegesAndIdteam(1, team);
 	}
 	
+	@RequestMapping(value = "/{idteam}/members", method = RequestMethod.GET)
+	public List<Participate> getTeamMembers(@PathVariable Integer idteam) {
+		return participateRepository.findByIdteam(idteam);
+	}
+	
 	
 }
