@@ -48,4 +48,11 @@ public class ParticipateRestController {
 	public Participate updateParticipate(@PathVariable int id, @RequestBody @Valid Participate participate) {
 		return participateRepository.save(participate);
 	}
+	
+	@RequestMapping(value = "/{team}/privileges", method = RequestMethod.GET)
+	public List<Participate> getParticipateRoom(@PathVariable Integer team) {
+		return participateRepository.findByTeamPrivilegesAndIdteam(1, team);
+	}
+	
+	
 }
