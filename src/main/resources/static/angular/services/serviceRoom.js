@@ -1,8 +1,8 @@
 kurento_room.factory("serviceRoom", serviceRoom);
 
-serviceRoom.$inject = [ "$resource", "$timeout"];
+serviceRoom.$inject = [ "$resource", "$timeout", "serviceParticipateRoom"];
 
-function serviceRoom($resource, $timeout) {
+function serviceRoom($resource, $timeout, serviceParticipateRoom) {
 
 	var RoomResource = $resource('/rooms/:id', 
 		{ id : '@id'}, 
@@ -49,6 +49,13 @@ function serviceRoom($resource, $timeout) {
 	function newRoom(newRoom) {
 		new RoomResource(newRoom).$save(function(room) {
 			rooms.push(room);
+			if (room.privateRoom==1){
+				var newParticipate={};
+				newParticipate.user=room.creator;
+				newParticipate.room=room.id;
+				newParticipate.team=room.team;
+				serviceParticipateRoom.newParticipateRoom(newParticipate);
+			}
 		});
 			
 	}

@@ -1,8 +1,8 @@
 kurento_room.factory("serviceParticipate", serviceParticipate);
 
-serviceParticipate.$inject = [ "$resource", "$timeout"];
+serviceParticipate.$inject = [ "$resource", "$timeout", "$q", "$http"];
 
-function serviceParticipate($resource, $timeout) {
+function serviceParticipate($resource, $timeout, $q, $http) {
 
 	var ParticipateResource = $resource('/participates/:id', 
 		{ id : '@id'}, 
@@ -24,7 +24,8 @@ function serviceParticipate($resource, $timeout) {
 		getParticipate : getParticipate,		
 		newParticipate : newParticipate,
 		updateParticipate : updateParticipate,
-		deleteParticipate : deleteParticipate
+		deleteParticipate : deleteParticipate,
+		getModerators : getModerators
 		}
 
 	function reload(){
@@ -44,6 +45,17 @@ function serviceParticipate($resource, $timeout) {
 				return Participates[i];
 			}
 		}
+	}
+	
+	function getModerators(team){
+		var deferred = $q.defer();
+		$http.get('/participates/:team/privileges', { team: team}).success(function(data, status, headers, config){
+			deferred.resolve(data);
+		}).
+		error(function(data, status, headers, config){
+			deferred.reject(status);
+		});
+		return deferred.promise;;
 	}
 	
 	function newParticipate(newParticipate) {

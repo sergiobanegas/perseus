@@ -25,7 +25,8 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 		newTeam : newTeam,
 		updateTeam : updateTeam,
 		deleteTeam : deleteTeam,
-		getOne : getOne
+		getOne : getOne,
+		getTeamByName : getTeamByName
 	}
 
 	function reload(){
@@ -51,6 +52,11 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 				return teams[i];
 			}
 		}
+	}
+	
+	function getTeamByName(teamname){
+		var team = $resource('/teams/name/:name', { name: teamname});
+		return team;
 	}
 
 	function newTeam(newTeam) {
