@@ -1,63 +1,64 @@
-<div class="join" style="margin-top:100px">
-    <div class="fs-display-3 tc-purple-500 display-block">
-    	<b>Perseus</b>    	
-    </div>
-    <div class="card p+" id="centraldiv">
-   	 	<button class="btn btn--xl btn--blue btn--raised" ng-click="opendDialog('login')" ng-hide="user.name" lx-ripple>LOGIN</button>
-		<lx-dialog class="dialog dialog--l" id="login" auto-close="true" onclose="closingDialog()">	
-			<div class="card bgc-purple-500 tc-white-1 p">
-				<b>Login</b>			
+<md-content>
+    <md-toolbar ng-controller="homeController">
+      <div class="md-toolbar-tools">
+        <md-button ng-click="exit()"class="md-icon-button" aria-label="Settings">
+          <md-icon aria-label="Home" class="material-icons">home</md-icon>	
+        </md-button>
+        <h2>
+          <span>Perseus</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon aria-label="Favorite" class="material-icons" style="color: greenyellow;">favorite</md-icon>	
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+          <md-icon class="material-icons">more_vert</md-icon>
+        </md-button> 	
+        <md-button>Support</md-button>
+        <md-button ng-hide="user.name" ng-click="login($event)">Login</md-button>
+        <md-button ng-show="user.name" ng-click="logout()" class="md-icon-button" aria-label="Power_settings_new">
+          <md-icon class="material-icons">power_settings_new</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <div ng-show="user.name" layout="row">
+		  <div flex>{{user.name}}</div>
+		  <div flex>
+		  	<a ng-href="#/user/{{user.id}}"> 
+		  		<md-button style="background-color:greenyellow">
+	              My profile
+	           </md-button>
+ 			</a>
+ 			<div>
+				<md-button ng-click="joinTeam($event)" style="background-color:greenyellow">
+           		  Join a team
+				</md-button>
 			</div>
-			<div class="p++">
-				<lx-text-field label="Name" fixed-label="true" icon="account"> 
-					<input type="text" ng-model="userName"> 
-				</lx-text-field>
-				<lx-text-field label="Password" fixed-label="true" icon="key"> 
-					<input type="password" ng-model="password"> 
-				</lx-text-field>
-			</div>
-			<div class="dialog__actions">
-	      		<button ng-click="login()" class="btn btn--m btn--green btn--raised" lx-ripple lx-dialog-close>Enter</button>
-				<button class="btn btn--m btn--red btn--raised" lx-ripple lx-dialog-close>Cancel</button>
-			</div>		
-			<div class="divider divider--dark"></div>
-			<div class="p+++">
-				Are you new?
-				<a href="#/registration" class="btn btn--m btn--purple btn--raised" lx-ripple lx-dialog-close>Register</a>
-			</div>
-		</lx-dialog>
-		<div ng-show="user.name" flex-container="column" flex-align="space-between center">
-			<div class="p">
-				<a ng-href="#/user/{{user.id}}">
-					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>My profile</button>
-				</a>
-			</div>
-			<div class="p">
-				<a ng-href="#/jointeam">
-					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>Join a team</button>
-				</a>
-			</div>
-			<div class="p">
+			<div>
 				<a ng-href="#/newteam">
-					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>New team</button>
+					<md-button style="background-color:greenyellow">
+	            		 New team
+	           		</md-button>
 				</a>
 			</div>
-			<div class="p" ng-show="user.privileges>0">
+			<div ng-show="user.privileges>0">
 				<a ng-href="#/admin">
-					<button flex-item class="btn btn--xl btn--blue btn--raised" lx-ripple>Administration</button>
+					<md-button style="background-color:greenyellow">
+	              Administration
+	           </md-button>
 				</a>
 			</div>
-			<span class="fs-title display-block mb">Your teams:</span>
-			<ul class="list" ng-repeat="team in teams | filter:{ iduser: user.id }">
-				<li class="list-row list-row--has-separator">
-					<div class="list-row__content">
-						<a href="#/team/{{team.idteam}}" class="fs-title display-block" ng-bind="team.teamName" style="text-decoration:none"></a>
-					</div>				
-				</li>
-			</ul>
-			<p>
-				<button class="btn btn--m btn--red btn--raised" ng-click="logout()" lx-ripple>Logout</button>
-			</p>
-		</div>
+			<md-list>
+				<md-subheader class="md-no-sticky">
+					Your teams
+				</md-subheader>
+				<md-list-item class="md-2-line" ng-repeat="team in teams | filter:{ iduser: user.id }">
+			        <div class="md-list-item-text" layout="column">
+			          <h3><a href="#/team/{{team.idteam}}" ng-bind="team.teamName" style="text-decoration:none">{{ team.teamName }}</a></h3>
+			          <p>Descripcion</p>
+			        </div>
+			     </md-list-item>
+			</md-list>
+		  </div>
 	</div>
-</div>
+</md-content>
