@@ -17,8 +17,8 @@ public class Room {
 	
 	private String name;
 	private int team;
-	private int privileges;
 	private Integer creator;
+	private int privateRoom;
 	
 	public Room() {
 		// TODO Auto-generated constructor stub
@@ -32,16 +32,16 @@ public class Room {
 		return name;
 	}
 	
-	public int getPrivileges() {
-		return privileges;
-	}
-	
 	public int getTeam() {
 		return team;
 	}
 	
 	public Integer getCreator() {
 		return creator;
+	}
+	
+	public int getPrivateRoom() {
+		return privateRoom;
 	}
 	
 	public void setId(Integer id) {
@@ -52,16 +52,16 @@ public class Room {
 		this.name = name;
 	}
 	
-	public void setPrivileges(int privileges) {
-		this.privileges = privileges;
-	}
-	
 	public void setTeam(int team) {
 		this.team = team;
 	}
 	
 	public void setCreator(Integer creator) {
 		this.creator = creator;
+	}
+	
+	public void setPrivateRoom(int privateRoom) {
+		this.privateRoom = privateRoom;
 	}
 
 }
