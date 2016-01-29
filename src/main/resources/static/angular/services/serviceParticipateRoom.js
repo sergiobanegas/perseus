@@ -51,7 +51,7 @@ function serviceParticipateRoom($resource, $timeout) {
 	}
 
 	function updateParticipateRoom(updatedParticipateRoom) {
-		updatedParticipateRoom.$update();
+		ParticipateRoomResource.update({id: updatedParticipateRoom.id}, updatedParticipateRoom);
 	}
 
 	function deleteParticipateRoom(ParticipateRoom) {
