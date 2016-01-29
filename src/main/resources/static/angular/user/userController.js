@@ -90,15 +90,35 @@ kurento_room.controller('userController', function ($mdDialog, $http, $scope, $r
 });
 
 
-function userActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceParticipate, user) {
+function userActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, user) {
 
 	$scope.deleteAccount = function(){
-		serviceUser.deleteUser(user);
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].iduser==user.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].user==user.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==user.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
+			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].user==user.id){
+				serviceRequestJoinTeam.deleteRequestJoinTeam(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
+			}
+		}
+		serviceUser.deleteUser(user);
 		serviceUser.logout();
 		$mdDialog.hide();
 		$window.location.href = '#/';
