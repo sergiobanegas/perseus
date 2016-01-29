@@ -11,6 +11,14 @@ html, body {
 	padding:20px;
 }
 
+md-backdrop.md-select-backdrop {
+z-index:103;
+}
+
+.md-select-menu-container {
+z-index:104;
+}
+
 #buttonActions>button{
     font-size: 1.9rem;
 }
