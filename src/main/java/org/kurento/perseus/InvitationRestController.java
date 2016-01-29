@@ -23,6 +23,7 @@ public class InvitationRestController {
 		JSONObject json=new JSONObject(data);
 		String email=(String)json.get("email");
 		String teamName=(String)((JSONObject)json.get("team")).get("name");
+		String teamPassword=(String)((JSONObject)json.get("team")).get("password");
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -46,12 +47,14 @@ public class InvitationRestController {
 			//Seteamos el asunto
 			message.setSubject("Team invitation");
 			//Y por ultimo el texto.
-			String text="You have a new invitation to join the team <b>"+teamName+"</b>";
+			String text="You have a new invitation to join the team <b>"+teamName+"</b>. You can join the team now with the following credentials:"
+					+ "<br>Team name: <b>"+teamName+"</b></br>"
+							+ "Password: <b>"+teamPassword+"</b>";
 			message.setContent(text, "text/html; charset=utf-8");
 			//Esta orden envía el mensaje
 			Transport.send(message);
 			//Con esta imprimimos en consola que el mensaje fue enviado
-			System.out.println("Message send to "+email);
+			System.out.println("Message sent to "+email);
 			}catch (MessagingException e) {
 				//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 				System.out.println("Error sending the message.");
