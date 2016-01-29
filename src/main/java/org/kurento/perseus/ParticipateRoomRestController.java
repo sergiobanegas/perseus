@@ -49,6 +49,11 @@ public class ParticipateRoomRestController {
 		return participateRoomRepository.save(participate);
 	}
 	
+	@RequestMapping(value = "/room/{id}", method = RequestMethod.PUT)
+	public List<ParticipateRoom> findParticipateRoomByRoom(@PathVariable Integer room) {
+		return participateRoomRepository.findByRoom(room);
+	}
+	
 	@RequestMapping(value = "/{user}/{room}", method = RequestMethod.GET)
 	public List<ParticipateRoom> getParticipateRoom(@PathVariable Integer user, @PathVariable Integer room) {
 		return participateRoomRepository.findByUserAndRoom(user, room);
