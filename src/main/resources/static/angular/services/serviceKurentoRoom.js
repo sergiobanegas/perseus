@@ -8,6 +8,7 @@ kurento_room.service('serviceKurentoRoom', function () {
     var team;
     var roomName;
     var roomId;
+    var creator;
     var userName;
     var localStream;
 
@@ -25,6 +26,10 @@ kurento_room.service('serviceKurentoRoom', function () {
     
     this.getRoomId = function () {
         return roomId;
+    };
+    
+    this.getCreator = function () {
+        return creator;
     };
 
     this.setKurento = function (value) {
@@ -57,5 +62,9 @@ kurento_room.service('serviceKurentoRoom', function () {
 
     this.setUserName = function (value) {
         userName = value;
+    };
+    
+    this.setCreator = function (value) {
+        creator = value;
     };
 });
