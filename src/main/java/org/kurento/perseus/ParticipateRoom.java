@@ -15,6 +15,7 @@ public class ParticipateRoom {
 	private Integer user;
 	private Integer room;
 	private Integer team;
+	private Integer roomPrivileges;
 	
 	public ParticipateRoom() {
 		// TODO Auto-generated constructor stub
@@ -36,6 +37,10 @@ public class ParticipateRoom {
 		return team;
 	}
 	
+	public Integer getRoomPrivileges() {
+		return roomPrivileges;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -50,6 +55,10 @@ public class ParticipateRoom {
 	
 	public void setTeam(Integer team) {
 		this.team = team;
+	}
+	
+	public void setRoomPrivileges(Integer roomPrivileges) {
+		this.roomPrivileges = roomPrivileges;
 	}
 
 }
