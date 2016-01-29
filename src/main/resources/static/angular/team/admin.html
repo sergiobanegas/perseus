@@ -1,0 +1,17 @@
+<div>{{team.name}} - Administration</div>
+Admin users
+<div>
+	<md-list-item ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
+		<p> {{findUserById(member.iduser).name}} </p>
+		<p>{{findUserById(member.iduser).name}}</p>
+		<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
+			<i class="material-icons">star</i>
+		</md-button>
+		<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
+			<i class="material-icons">star_border</i>
+		</md-button>
+		<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
+			<i class="material-icons">cancel</i>
+		</md-button>
+	</md-list-item>
+</div>
