@@ -5,7 +5,10 @@
 
 kurento_room.controller('homeController', function ($mdDialog, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
 
+	
+	
 	$scope.borrar=serviceRequestJoinRoom.getRequestJoinRooms();
+	
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
@@ -146,8 +149,8 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		
 		$scope.login = function() {
 			if ($scope.userName && $scope.password){
-				var array= $filter('filter')($scope.users, { name: $scope.userName, password: $scope.password });
-				if (array.length!=0){
+				var array= $filter('filter')($scope.users, { name: $scope.userName});
+				if (array.length!=0 && array[0].password==$scope.password){
 					$mdDialog.hide();
 					serviceUser.loginUser(array[0]);
 					$scope.user=serviceUser.getSession();
