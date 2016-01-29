@@ -66,7 +66,7 @@ function serviceParticipate($resource, $timeout, $q, $http) {
 	}
 
 	function updateParticipate(updatedParticipate) {
-		updatedParticipate.$update();
+		ParticipateResource.update({id: updatedParticipate.id}, updatedParticipate);
 	}
 
 	function deleteParticipate(Participate) {
