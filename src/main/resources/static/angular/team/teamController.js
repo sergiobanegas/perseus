@@ -28,7 +28,6 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	
 	$scope.teamUsers = function(){
 		var teamUsers=[];
-		serviceParticipate.getParticipates();
 		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].idteam==$scope.team.id){
 				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].iduser));
@@ -61,6 +60,12 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	    $scope.team = result.data;
 	});
     
+    $scope.teamAdminPanel = function($event){
+
+    	
+    	
+    }
+    
     $scope.roomInvitations = function(){
     	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
     }
@@ -70,6 +75,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     	participate.room=invitation.room;
     	participate.user=invitation.user;
     	participate.team=$scope.team.id;
+    	participate.roomPrivileges=0;
     	serviceParticipateRoom.newParticipateRoom(participate);
     	serviceRoomInvite.deleteRoomInvite(invitation);
     	$notification("Room invitation accepted");
@@ -277,41 +283,41 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		   })
 			
 		}
-//			else{
-//			var parentEl = angular.element(document.body);
-//		    $mdDialog.show({
-//		      parent: parentEl,
-//		      targetEvent: $event,
-//		      template:
-//		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-//		        '<md-toolbar>'+
-//		        '<div class="md-toolbar-tools">'+
-//		          '<span flex><h2>Leave team</h2></span>'+
-//		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-//		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-//		          '</md-button>'+
-//		        '</div>'+
-//		        '</md-toolbar>'+
-//		        '<md-dialog-content>'+
-//		        '<div class="md-dialog-content">'+
-//		        'Are you sure you want to leave this team? '+
-//		        '</div>'+
-//		        '  <md-dialog-actions>' +
-//		        '  <md-button style="background-color:red" ng-click="leaveTeam()" >' +
-//		        '      Leave' +
-//		        '    </md-button>' +
-//		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-//		        '      Cancel' +
-//		        '    </md-button>' +
-//		        '  </md-dialog-actions>' +
-//		        '</md-dialog>',
-//		      locals: {
-//		    	team: $scope.team,
-//		    	user: $scope.user
-//		      },
-//		      controller: exitTeamController
-//		   })
-//		}
+			else{
+			var parentEl = angular.element(document.body);
+		    $mdDialog.show({
+		      parent: parentEl,
+		      targetEvent: $event,
+		      template:
+		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+		        '<md-toolbar>'+
+		        '<div class="md-toolbar-tools">'+
+		          '<span flex><h2>Leave team</h2></span>'+
+		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+		          '</md-button>'+
+		        '</div>'+
+		        '</md-toolbar>'+
+		        '<md-dialog-content>'+
+		        '<div class="md-dialog-content">'+
+		        'Are you sure you want to leave this team? '+
+		        '</div>'+
+		        '  <md-dialog-actions>' +
+		        '  <md-button style="background-color:red" ng-click="leaveTeam()" >' +
+		        '      Leave' +
+		        '    </md-button>' +
+		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+		        '      Cancel' +
+		        '    </md-button>' +
+		        '  </md-dialog-actions>' +
+		        '</md-dialog>',
+		      locals: {
+		    	team: $scope.team,
+		    	user: $scope.user
+		      },
+		      controller: exitTeamController
+		   })
+		}
 	};
 	
 	$scope.deleteTeam = function($event){
@@ -438,7 +444,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	      controller: roomController
 	   })
 	};
-	$scope.borrar=serviceParticipateRoom.getParticipateRooms();
+	$scope.roomId='';
 	$scope.register = function (room, $event) {
 		var participate=1;
 		if (room.privateRoom==1){
@@ -449,7 +455,11 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 					break;
 				}
 			}		
-		}		
+		}
+		if ($scope.participateUser.teamPrivileges>0){
+			participate=1;
+			
+		}
 		if (participate==0){
 			var parentEl = angular.element(document.body);
 		    $mdDialog.show({
@@ -467,7 +477,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		        '</md-toolbar>'+
 		        '<md-dialog-content>'+
 		        '<div class="md-dialog-content">'+
-		        '{{borrar}}You have no access for this private room, if you want to enter you can send a request by clicking the button below '+
+		        'You have no access for this private room, if you want to enter you can send a request by clicking the button below '+
 		        '<div>'+
 		        '  <md-button class="md-primary md-raised" ng-click="roomRequest()" >' +
 		        '      Send request' +
@@ -486,7 +496,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		}else{
 		
 		$scope.roomName = room.name;
-		
+		$scope.roomId=room.id;
 		var wsUri = 'wss://' + location.host + '/room';
 		
 		//show loopback stream from server
@@ -590,6 +600,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		//save kurento & roomName & userName in service
 		serviceKurentoRoom.setKurento(kurento);
 		serviceKurentoRoom.setRoomName($scope.roomName);
+		serviceKurentoRoom.setRoomId($scope.roomId);
 		serviceKurentoRoom.setUserName($scope.user.name);
 		serviceKurentoRoom.setTeam($scope.team.id);
 		//redirect to call
