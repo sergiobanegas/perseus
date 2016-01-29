@@ -133,6 +133,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     	newParticipate.user=request.user;
     	newParticipate.room=request.room;
     	newParticipate.team=$scope.team.id;
+    	newParticipate.roomPrivileges=0;
     	serviceParticipateRoom.newParticipateRoom(newParticipate);
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request accepted");
@@ -497,6 +498,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		
 		$scope.roomName = room.name;
 		$scope.roomId=room.id;
+		$scope.roomCreator=room.creator;
 		var wsUri = 'wss://' + location.host + '/room';
 		
 		//show loopback stream from server
@@ -601,6 +603,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		serviceKurentoRoom.setKurento(kurento);
 		serviceKurentoRoom.setRoomName($scope.roomName);
 		serviceKurentoRoom.setRoomId($scope.roomId);
+		serviceKurentoRoom.setCreator($scope.roomCreator);
 		serviceKurentoRoom.setUserName($scope.user.name);
 		serviceKurentoRoom.setTeam($scope.team.id);
 		//redirect to call
@@ -848,6 +851,7 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 }
 function invitePeopleController($scope, $http, $route, $mdDialog, $mdToast, serviceUser, $window, team, user) {
 	$scope.email="";
+	
 	$scope.sendInvitation = function(){
 		if ($scope.email==""){
 			$scope.notification("Please enter a email");

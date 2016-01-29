@@ -6,7 +6,7 @@
  	  <md-subheader class="md-no-sticky">Rooms</md-subheader>
  	  <md-button ng-click="newRoom($event)" style="background-color:greenyellow">
 	  	New room
-	  </md-button>{{borrar}}
+	  </md-button>
 	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms | filter: {team : team.id}">
 	    <md-icon class="material-icons">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
@@ -32,6 +32,11 @@
 	  <md-button ng-show="user.privileges>0 || participateUser.teamPrivileges>0" ng-click="deleteTeam($event)" style="background-color:red">
 	   	Delete team
 	  </md-button>
+	  <a ng-href="#/team/{{team.id}}/admin">
+		  <md-button ng-show="user.privileges>0 || participateUser.teamPrivileges==2" style="background-color:purple">
+		   	Admin panel
+		  </md-button>
+	  </a>
   </md-content-flex>
   
   <div flex>
@@ -75,7 +80,7 @@
         <h1 class="md-toolbar-tools">Notifications</h1>
       </md-toolbar>
       <md-content layout-padding>
-      	<div ng-show="user.privileges>0">
+      	<div ng-show="user.privileges>0 || participateUser.teamPrivileges>0">
       	User		Team
       		 <md-list-item ng-repeat="request in requests()">
     			<p> {{ request.user }} </p>
@@ -110,7 +115,7 @@
     			<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny invitation" aria-label="Deny">
     				<i class="material-icons">cancel</i>
     			</md-button>
- 			 </md-list-item>
+ 		</md-list-item>
         <md-button ng-click="close()" class="md-primary">
           Close Sidenav Right
         </md-button>
