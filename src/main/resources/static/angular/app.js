@@ -34,6 +34,10 @@ kurento_room.config(function ($routeProvider) {
                 templateUrl: 'angular/team/team.html',
                 controller: 'teamController'
             })
+            .when('/team/:id/admin', {
+                templateUrl: 'angular/team/admin.html',
+                controller: 'adminTeamController'
+            })
             .when('/call', {
                 templateUrl: 'angular/call/call.html',
                 controller: 'callController'
