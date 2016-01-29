@@ -2,10 +2,13 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('callController', function ($mdDialog, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, Fullscreen) {
+kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
+    $scope.roomId=serviceKurentoRoom.getRoomId();
+    $scope.creator=serviceKurentoRoom.getCreator();
+    
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();
@@ -16,6 +19,67 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $http, $r
 	  .then(function(result) {
 	    $scope.room = result.data;
 	});
+    
+    $scope.room = function(){
+    	for (var i=0;i<serviceRoom.getRooms().length;i++){
+    		if (serviceRoom.getRooms()[i].id==$scope.roomId){
+    			return serviceRoom.getRooms()[i];
+    		}
+    	}
+    }
+    
+    $scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+    
+    $scope.memberUser = function(){
+    	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id){
+    			return serviceParticipateRoom.getParticipateRooms()[i];
+    		}
+    	}
+    }
+    
+    $scope.findUserById = function(iduser){
+		for (var i=0; i< serviceUser.getUsers().length;i++){
+			if (serviceUser.getUsers()[i].id==iduser){
+				return serviceUser.getUsers()[i];
+				break;
+			}
+		}
+	}
+    
+    $scope.members= function(){
+    	var members=[];
+    	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].room==$scope.roomId){
+    			members.push(serviceParticipateRoom.getParticipateRooms()[i]);
+    		}
+    	}
+    	return members;
+    }
+    
+    $scope.kickUser = function(member){
+    	serviceParticipateRoom.deleteParticipateRoom(member);
+    	$scope.notification("User kicked from "+$scope.roomName);
+    }
+    
+    $scope.setModerator = function (member){
+    	member.roomPrivileges=1;
+		serviceParticipateRoom.updateParticipateRoom(member);
+		$scope.notification("New moderator added");
+    };
+
+	$scope.removeModerator = function (member){
+		member.roomPrivileges=0;
+		serviceParticipateRoom.updateParticipateRoom(member);
+		$scope.notification("Moderation permissions removed");
+	}
     
     
     $scope.teamUsers=[];
@@ -68,7 +132,15 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $http, $r
         $window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
     };
     
-    $scope.inviteToRoom = function($event){ 	 
+    $scope.inviteToRoom = function($event){ 
+    	var roomInvite;
+    	for (var i=0;i<serviceRoom.getRooms().length;i++){
+			if (serviceRoom.getRooms()[i].name==$scope.roomName){
+				roomInvite=serviceRoom.getRooms()[i].id;
+			}
+		}
+    	
+    	
     	var parentEl = angular.element(document.body);
 	    $mdDialog.show({
 	      parent: parentEl,
@@ -87,12 +159,12 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $http, $r
 	        '<div class="md-dialog-content">'+
 	        'Invite people to the room!'+
 	        '<div>'+
-	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers">'+
+	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers" ng-show="!roomMember(user)">'+
 	        '<div class="md-list-item-text">'+
 	        '<p>{{user.userName}}</p>'+
 	        '<md-icon ng-click="inviteUser(user.iduser, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">clear</md-icon>'+
 	        '</div>'+
-      '</md-list-item>{{room}}'+
+      '</md-list-item>'+
 	        '<md-button class="md-primary" ng-click="sendInvitation(email)">'+
 	        'Enviar'+
 	        '</md-button>'+
@@ -101,7 +173,7 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $http, $r
 	        '</md-dialog>',
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
-	    	room: serviceKurentoRoom.getRoomName(),
+	    	room: roomInvite,
 	    	teamUsers: $scope.teamUsers,
 	    	user : $scope.user
 	      },
@@ -194,18 +266,24 @@ kurento_room.controller('callController', function ($mdDialog, $scope, $http, $r
     }
 });
 
-function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
 
+	$scope.selectedUser='';
+	$scope.sessionUser=user;
 	$scope.teamUsers=teamUsers;
+	$scope.roomMember = function(participate){
+		for (var i=0;serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==participate.iduser && serviceParticipateRoom.getParticipateRooms()[i].room == room){
+				return true;
+			}
+		}
+		return false;
+	}		
 	$scope.inviteUser = function(userid){
 		var roominvite={};
 		roominvite.user=userid;
 		roominvite.transmitter=user.id;
-		for (var i=0;i<serviceRoom.getRooms().length;i++){
-			if (serviceRoom.getRooms()[i].name==room){
-				roominvite.room=serviceRoom.getRooms()[i].id;
-			}
-		}
+		roominvite.room=room;
 		var exists=false;
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
 			if (serviceRoomInvite.getRoomInvites()[i].room==roominvite.room && serviceRoomInvite.getRoomInvites()[i].user==userid){
@@ -221,6 +299,10 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 			$scope.notification("Invited");
 		}
 		
+	}
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
 	}
 	
 	$scope.notification = function(text) {
@@ -248,7 +330,7 @@ function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, 
 					}				
 				}
 				$mdDialog.hide();
-				$window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
+				$window.location.href = '#/team/'+team;
 				$scope.notification("You left the room");			
 		}
 		

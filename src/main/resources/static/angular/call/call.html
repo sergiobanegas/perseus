@@ -8,7 +8,25 @@
 	<md-button ng-click="leavePrivateRoom($event)" style="background-color:blue">
 	       Exit the room
 	</md-button>
-	{{room}}
+	<div>Members:</div>
+	
+	<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
+	
+    			<p> {{findUserById(member.user).name}}</p>
+    			<span ng-show="member.user!=creator">
+    				<md-button ng-show="memberUser().roomPrivileges==1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
+	    				<i class="material-icons">cancel</i>
+	    			</md-button>
+	    			<span ng-show="user.id==creator && member.user!=user.id">
+		    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
+							<i class="material-icons">star</i>
+						</md-button>
+						<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
+							<i class="material-icons">star_border</i>
+						</md-button>	
+					</span>		
+    			</span>
+ 		</md-list-item>
 	</md-content-flex>
 	<div flex>
 		<div id="top">
