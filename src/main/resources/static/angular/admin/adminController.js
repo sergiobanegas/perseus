@@ -90,13 +90,33 @@ kurento_room.controller('adminController', function ($mdDialog, $mdMedia, $scope
 		LxNotificationService.success("Goodbye!");
 	};
 });
-function adminActionsController($scope, $mdDialog, $mdToast, serviceUser, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, user, team) {
+function adminActionsController($scope, $mdDialog, $mdToast, serviceUser, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceParticipateRoom, user, team) {
 
 	$scope.deleteUser = function(){
 		serviceUser.deleteUser(user);
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].iduser==user.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].user==user.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}		
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==user.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
+			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].user==user.id){
+				serviceRequestJoinTeam.deleteRequestJoinRoom(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
 			}
 		}
 		$mdDialog.hide();
@@ -117,6 +137,26 @@ function adminActionsController($scope, $mdDialog, $mdToast, serviceUser, servic
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].idteam == team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].team==team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].team==team.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}		
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].team==team.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
+			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].team==team.id){
+				serviceRequestJoinTeam.deleteRequestJoinRoom(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
 			}
 		}
 		serviceTeam.deleteTeam(team);

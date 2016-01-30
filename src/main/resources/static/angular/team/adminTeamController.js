@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('adminTeamController', function ($scope, $http, $route, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, $window) {
+kurento_room.controller('adminTeamController', function ($scope, $http, $route, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
 	
 	$scope.hola="hola";
 	$scope.team={};
@@ -48,21 +48,23 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	
 	$scope.kickMember = function(member) {
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].iduser==member.iduser){
+			if (serviceParticipate.getParticipates()[i].iduser==member.iduser && serviceParticipate.getParticipates()[i].idteam==$scope.team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-				break;
 			}
 		}
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].user==member.iduser){
+			if (serviceRoomInvite.getRoomInvites()[i].user==member.iduser && serviceRoomInvite.getRoomInvites()[i].team==$scope.team.id){
 				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-				break;
 			}
 		}
 		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==member.iduser){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==member.iduser && serviceRequestJoinRoom.getRequestJoinRooms()[i].team==$scope.team.id){
 				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-				break;
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==member.iduser && serviceParticipateRoom.getParticipateRooms()[i].team==$scope.team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
 			}
 		}
 		$scope.notification("User kicked from the team");		
