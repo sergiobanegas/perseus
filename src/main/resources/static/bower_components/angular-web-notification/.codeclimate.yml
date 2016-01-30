@@ -1,0 +1,29 @@
+engines:
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+    - angular-web-notification.js
+exclude_paths:
+  - test/**/*
+  - test/*
+  - project/**/*
+  - project/*
+  - example/**/*
+  - example/*
+  - docs/**/*
+  - docs/*
+  - Gruntfile.js
+  - karma.conf.js
+  - .eslintrc.js
+  - .editorconfig
+  - .codeclimate.yml
+  - LICENSE
+  - README.md
+  - bower.json
+  - package.json
+  - .*.json
+  - .*.yml
+  - .*rc

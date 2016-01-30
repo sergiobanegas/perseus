@@ -1,0 +1,35 @@
+{
+  "name": "angular-web-notification",
+  "version": "0.0.59",
+  "description": "AngularJS service for displaying web notifications.",
+  "authors": [
+    "Sagie Gur-Ari <sagiegurari@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "http://github.com/sagiegurari/angular-web-notification",
+  "keywords": [
+    "AngularJS",
+    "notifications",
+    "web notifications"
+  ],
+  "main": "angular-web-notification.js",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "example",
+    "target"
+  ],
+  "dependencies": {
+    "HTML5-Desktop-Notifications2": "1.0.1",
+    "angular": "1.4.7"
+  },
+  "devDependencies": {
+    "jquery": "~2",
+    "angular-mocks": "1.4.7"
+  },
+  "resolutions": {
+    "angular": "1.4.7"
+  }
+}

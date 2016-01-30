@@ -1,0 +1,64 @@
+{
+  "name": "angular-web-notification",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AngularJS service for displaying web notifications.",
+  "author": {
+    "name": "Sagie Gur-Ari",
+    "email": "sagiegurari@gmail.com"
+  },
+  "license": "Apache-2.0",
+  "homepage": "http://github.com/sagiegurari/angular-web-notification",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/sagiegurari/angular-web-notification.git"
+  },
+  "bugs": {
+    "url": "http://github.com/sagiegurari/angular-web-notification/issues"
+  },
+  "keywords": [
+    "angularjs",
+    "web",
+    "notification"
+  ],
+  "main": "angular-web-notification.js",
+  "directories": {
+    "test": "test/spec",
+    "example": "example"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "clean": "grunt cleanup",
+    "lint": "grunt lint",
+    "docs": "grunt docs",
+    "build": "grunt build",
+    "prepush": "npm run build",
+    "synclibs": "npm install && npm update"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-coveralls": "latest",
+    "grunt-eslint": "latest",
+    "grunt-jscs": "latest",
+    "grunt-jsdoc-to-markdown": "latest",
+    "grunt-jslint": "latest",
+    "grunt-jsonlint": "latest",
+    "grunt-karma": "latest",
+    "grunt-todos": "latest",
+    "husky": "latest",
+    "karma": "latest",
+    "karma-cli": "latest",
+    "karma-coverage": "latest",
+    "karma-mocha": "latest",
+    "karma-phantomjs-launcher": "latest",
+    "karma-sinon-chai": "latest",
+    "load-grunt-configs": "latest",
+    "load-grunt-tasks": "latest",
+    "mocha": "latest",
+    "phantomjs-prebuilt": "latest",
+    "time-grunt": "latest"
+  }
+}

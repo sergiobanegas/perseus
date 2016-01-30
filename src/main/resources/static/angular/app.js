@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-var kurento_room = angular.module('kurento_room', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar']);
+var kurento_room = angular.module('kurento_room', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification']);
 
 kurento_room.config(function ($routeProvider) {
 

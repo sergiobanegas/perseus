@@ -3,10 +3,32 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('homeController', function ($mdDialog, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
+kurento_room.controller('homeController', function (webNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
 
+	Notification.requestPermission();
 	
-	
+	$scope.notification= function(){
+		webNotification.showNotification('Example Perseus Notification', {
+            body: 'Notification Text...',
+            icon: '../bower_components/HTML5-Desktop-Notifications/alert.ico',
+            onClick: function onNotificationClicked() {
+                window.alert('Notification clicked.');
+            },
+            autoClose: 4000 //auto close the notification after 2 seconds (you manually close it via hide function)
+        }, function onShow(error, hide) {
+            if (error) {
+                window.alert('Unable to show notification: ' + error.message);
+            } else {
+                console.log('Notification Shown.');
+
+                setTimeout(function hideNotification() {
+                    console.log('Hiding notification....');
+                    hide(); //manually close the notification (or let the autoClose close it)
+                }, 5000);
+            }
+        });
+	}
+
 	$scope.borrar=serviceRequestJoinRoom.getRequestJoinRooms();
 	
 	$scope.user = serviceUser.getSession();
