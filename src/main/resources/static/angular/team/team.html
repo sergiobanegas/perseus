@@ -24,8 +24,7 @@
       </md-list-item>
       <md-button ng-click="invitePeople($event)" style="background-color:greenyellow">
 	  	Invite people
-	  </md-button>
-      
+	  </md-button>     
       <md-button ng-click="leaveTeam($event)" style="background-color:greenyellow">
 	   	Leave team
 	  </md-button>
@@ -37,13 +36,83 @@
 		   	Admin panel
 		  </md-button>
 	  </a>
+	  <md-button ng-click="showPrivateMessages()">
+	   	Private messages
+	  </md-button>
   </md-content-flex>
   
   <div flex>
+  		<div ng-show="screen=='privateMessages'">
+  			Private Messages
+  			<p>Last conversations</p>{{}}
+  			<md-list-item ng-repeat="user in filterUniqueMessages()" ng-click="showUserMessages(user)">
+  				 <md-list-item class="md-2-line">
+  				 	<ng-letter-avatar data="{{findUserById(user).name}}" shape="round"></ng-letter-avatar>
+  				 <div class="md-list-item-text">
+  				 	<h3>{{findUserById(user).name}}</h3>
+  				 </div>
+		       <md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+  			</md-list-item>
+			<div class="md-block">
+			 		
+		<form ng-submit="newPrivateMessage()">
+			<md-input-container md-no-float>
+						<input ng-model="privateMessage" type="text" placeholder="New message" required>
+			</md-input-container>
+		    <md-autocomplete
+		        md-no-cache="noCache"
+		        md-selected-item="receiver"
+		        md-search-text-change="searchTextChange(searchText)"
+		        md-search-text="searchText"
+		        md-selected-item-change="selectedItemChange(user)"
+		        md-items="user in querySearch(searchText)"
+		        md-item-text="user.name"
+		        md-min-length="0"
+		        placeholder="Select receiver">
+		       	<md-item-template>
+		        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
+		        </md-item-template>
+		        <md-not-found>
+		          There's no user with the name "{{searchText}}".
+		        </md-not-found>
+		      </md-autocomplete>    
+				<md-button ng-show="privateMessage!='' && receiver.id" type="submit" class="md-primary">
+						Send
+				</md-button>
+				<md-button ng-hide="privateMessage!='' && receiver.id" ng-disables="true" type="submit" class="md-primary">
+						Send
+				</md-button>
+				</form>
+			</div>  			  			
+  		</div>
   		
-  		<div class="toggler" style="width: 100%;height: 100%; border-top-style:solid" >
+  		<div ng-show="screen=='privateUserMessages'">
+  			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
+					     <md-list-item class="md-2-line">
+<!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{message.user}}" /> -->
+						      <ng-letter-avatar data="{{findUserById(message.transmitter).name}}" shape="round"></ng-letter-avatar>
+						      <div class="md-list-item-text">
+						         <h3>{{findUserById(message.transmitter).name}}</h3>
+						         <p>{{message.text}}</p>
+						         <p>{{message.date}}</p>
+						       </div>
+						       <md-divider ng-if="!$last"></md-divider>
+					      </md-list-item>
+			 </md-list-item>
+			 <form ng-submit="replyMessage(replyText)">
+				 <md-input-container md-no-float>
+							<input ng-model="replyText" type="text" placeholder="New message" required>
+				</md-input-container>
+				<md-button type="submit" class="md-primary">
+					Send
+				</md-button>
+			</form>
+  		</div>
+  		
+  		
+  		<div ng-show="screen=='chat'" class="toggler">
 			<div id="effect">
-			     head
 			 	<div>
 			 		<strong>Team chat</strong>
 			 	</div>

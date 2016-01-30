@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
+kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
   
 	
 	
@@ -22,9 +22,85 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	     error(function (data, status, headers, config) {	 
 	});
 	
+	$scope.screen="chat";
+	
+	$scope.showPrivateMessages = function(){
+		$scope.screen="privateMessages";
+	}
 	$scope.user=serviceUser.getSession();
 	
+	$scope.team={};
+    $http.get('/teams/'+$routeParams.id)
+	  .then(function(result) {
+	    $scope.team = result.data;
+	});
+	
+	
 	$scope.participateRooms=serviceParticipateRoom.getParticipateRooms();
+	
+    $scope.receiver;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.teamUsers(), { name: query});
+	}
+	
+	$scope.privateMessages= function(){
+		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { team: $scope.team.id}); 
+	}
+	
+	$scope.filterMessages = function(message){
+	    return ((message.transmitter == $scope.user.id && message.receiver==$scope.userReceiver)|| (message.receiver == $scope.user.id && message.transmitter==$scope.userReceiver));
+	};
+	
+	$scope.filterUniqueMessages = function(){
+		var array=[];
+		var object;
+		var object2;
+		var object3;
+		var messages=$scope.privateMessages();
+		for (var i=0;i<messages.length;i++){
+			object={};
+			object2={};
+			if (messages[i].transmitter==$scope.user.id){
+				if (array.indexOf(messages[i].receiver)==-1){
+					array.push(messages[i].receiver);
+				}	
+			}
+			if(messages[i].receiver==$scope.user.id){
+				if (array.indexOf(messages[i].transmitter)==-1){
+					array.push(messages[i].transmitter);
+				}	
+			}
+		}
+		return array;
+	}
+	
+	$scope.userReceiver={};
+	$scope.showUserMessages = function(user){
+		$scope.userReceiver=user;
+		$scope.screen="privateUserMessages";
+	}
+		
+	$scope.privateMessage='';
+	$scope.newPrivateMessage = function(){
+		var privateMessage={};
+		privateMessage.transmitter=$scope.user.id;		
+		privateMessage.receiver=$scope.receiver.id;
+		privateMessage.team=$routeParams.id;
+		privateMessage.text=$scope.privateMessage;
+		servicePrivateMessage.newPrivateMessage(privateMessage);
+		$scope.notification("New private message");
+	}
+	
+	$scope.replyMessage = function(message){
+		var privateMessage={};
+		privateMessage.transmitter=$scope.user.id;		
+		privateMessage.receiver=$scope.userReceiver;
+		privateMessage.team=$routeParams.id;
+		privateMessage.text=message;
+		servicePrivateMessage.newPrivateMessage(privateMessage);
+		$scope.notification("New private message");
+		
+	}
 	
 	$scope.teamUsers = function(){
 		var teamUsers=[];
@@ -53,18 +129,6 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 			}
 		}
 	}
-	
-	$scope.team={};
-    $http.get('/teams/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.team = result.data;
-	});
-    
-    $scope.teamAdminPanel = function($event){
-
-    	
-    	
-    }
     
     $scope.roomInvitations = function(){
     	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
