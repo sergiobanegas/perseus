@@ -7,12 +7,16 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.roomId=serviceKurentoRoom.getRoomId();
-    $scope.creator=serviceKurentoRoom.getCreator();
+    $scope.creator=serviceKurentoRoom.getCreator();    
     
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();
     $scope.chatMessages = serviceChatMessage.getChatMessages();
+    
+    $scope.findUserById = function(id){
+    	return $http.get("/users/"+id);
+    }
     
     $scope.room={};
     $http.get('/rooms/'+serviceKurentoRoom.getTeam()+'/'+serviceKurentoRoom.getRoomName())
@@ -149,7 +153,7 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
 	        '<md-toolbar>'+
 	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Leave team</h2></span>'+
+	          '<span flex><h2>Invite people</h2></span>'+
 	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
 	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
 	          '</md-button>'+
@@ -162,12 +166,9 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers" ng-show="!roomMember(user)">'+
 	        '<div class="md-list-item-text">'+
 	        '<p>{{user.userName}}</p>'+
-	        '<md-icon ng-click="inviteUser(user.iduser, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">clear</md-icon>'+
+	        '<md-icon ng-click="inviteUser(user.iduser, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">add</md-icon>'+
 	        '</div>'+
       '</md-list-item>'+
-	        '<md-button class="md-primary" ng-click="sendInvitation(email)">'+
-	        'Enviar'+
-	        '</md-button>'+
 	        '</div>'+
 	        '</div>'+
 	        '</md-dialog>',
@@ -253,10 +254,10 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 
     $scope.sendMessage = function () {   	
     	  var message = {};
-    	  message.room=$scope.roomName;
+    	  message.room=$scope.roomId;
     	  message.team=serviceKurentoRoom.getTeam();
     	  message.text=$scope.chatMessage;
-    	  message.user=$scope.userName;
+    	  message.user=$scope.user.id;
     	  $scope.chatMessage="";
     	  serviceChatMessage.newChatMessage(message);
     };
