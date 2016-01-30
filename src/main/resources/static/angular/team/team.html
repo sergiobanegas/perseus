@@ -44,7 +44,10 @@
   <div flex>
   		<div ng-show="screen=='privateMessages'">
   			Private Messages
-  			<p>Last conversations</p>{{}}
+  			<md-button ng-click="showMainScreen()" class="md-icon-button" aria-label="Close">
+		        <md-icon class="material-icons">close</md-icon>
+		     </md-button>
+  			<p>Last conversations</p>
   			<md-list-item ng-repeat="user in filterUniqueMessages()" ng-click="showUserMessages(user)">
   				 <md-list-item class="md-2-line">
   				 	<ng-letter-avatar data="{{findUserById(user).name}}" shape="round"></ng-letter-avatar>
@@ -88,6 +91,9 @@
   		</div>
   		
   		<div ng-show="screen=='privateUserMessages'">
+  			<md-button ng-click="showMainScreen()" class="md-icon-button" aria-label="Close">
+		        <md-icon class="material-icons">close</md-icon>
+		     </md-button>
   			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
 					     <md-list-item class="md-2-line">
 <!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{message.user}}" /> -->
@@ -118,12 +124,12 @@
 			 	</div>
 			    <div style="height: 30em;  overflow: scroll;">
 			    
-			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: 'main' }">
+			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: 0 }">
 					     <md-list-item class="md-2-line">
 <!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{message.user}}" /> -->
-						      <ng-letter-avatar data="{{message.user}}" shape="round"></ng-letter-avatar>
+						      <ng-letter-avatar data="{{findUserById(message.user).name}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
-						         <h3>{{message.user}}</h3>
+						         <h3>{{findUserById(message.user).name}}</h3>
 						         <p>{{message.text}}</p>
 						         <p>{{message.date}}</p>
 						       </div>

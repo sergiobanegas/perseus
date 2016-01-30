@@ -24,6 +24,10 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	
 	$scope.screen="chat";
 	
+	$scope.showMainScreen = function(){
+		$scope.screen="chat";
+	}
+	
 	$scope.showPrivateMessages = function(){
 		$scope.screen="privateMessages";
 	}
@@ -34,14 +38,21 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	  .then(function(result) {
 	    $scope.team = result.data;
 	});
-	
-	
-	$scope.participateRooms=serviceParticipateRoom.getParticipateRooms();
-	
+		
     $scope.receiver;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.teamUsers(), { name: query});
+		return $filter('filter')($scope.teamUsers2(), { name: query});
 	}
+	
+	$scope.teamUsers2 = function(){
+		var teamUsers=[];
+		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].idteam==$scope.team.id && serviceParticipate.getParticipates()[i].iduser!=$scope.user.id){
+				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].iduser));
+			}
+		}
+		return teamUsers;
+	};
 	
 	$scope.privateMessages= function(){
 		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { team: $scope.team.id}); 
@@ -142,12 +153,12 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     	participate.roomPrivileges=0;
     	serviceParticipateRoom.newParticipateRoom(participate);
     	serviceRoomInvite.deleteRoomInvite(invitation);
-    	$notification("Room invitation accepted");
+    	$scope.notification("Room invitation accepted");
     }
     
     $scope.denyRoomInvitation = function(invitation){
     	serviceRoomInvite.deleteRoomInvite(invitation);
-    	$notification("Room invitation canceled");
+    	$scope.notification("Room invitation canceled");
     }
 	
     $scope.requests = function(){ 	
@@ -521,7 +532,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 				}
 			}		
 		}
-		if ($scope.participateUser.teamPrivileges>0){
+		if ($scope.participateUser.teamPrivileges>0 || $scope.user.privileges>0){
 			participate=1;
 			
 		}
@@ -632,10 +643,10 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		
 		        room.addEventListener("error-media", function (msg) {
 		            ServiceParticipant.alertMediaError($window, LxNotificationService, msg.error, function (answer) {
-		            	console.warn("Leave room because of error: " + answer);
-		            	if (answer) {
-		            		kurento.close(true);
-		            	}
+//		            	console.warn("Leave room because of error: " + answer);
+//		            	if (answer) {
+//		            		kurento.close(true);
+//		            	}
 		            });
 		        });
 		        
@@ -724,10 +735,10 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	
 	$scope.sendMessage = function () {   	
   	  var message = {};
-  	  message.room="main";
+  	  message.room=0;
   	  message.team=$scope.team.id;
   	  message.text=$scope.chatMessage;
-  	  message.user=serviceUser.getSession().name;
+  	  message.user=serviceUser.getSession().id;
   	  $scope.chatMessage="";
   	  serviceChatMessage.newChatMessage(message);
 	};
@@ -771,7 +782,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     
 });
 
-function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom) {
+function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
 	
 	$scope.participateUser=participateUser;
 	$scope.roomInput;
@@ -790,12 +801,13 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 	};
 	
 	   $scope.deleteRoom = function(){
-		   	$mdDialog.hide();
+		   
 			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
 				if (serviceParticipateRoom.getParticipateRooms()[i].team==team.id && serviceParticipateRoom.getParticipateRooms()[i].room==room.id){					
 					serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
 				}
 			}
+			
 			if (room.privateRoom==1){
 				for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
 					if (serviceRequestJoinRoom.getRequestJoinRooms()[i].room==room.id){
@@ -803,9 +815,14 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 					}
 				}
 			}
+			for (var i=0;i<serviceChatMessage.getChatMessages().length;i++){
+				if (serviceChatMessage.getChatMessages()[i].team==team.id && serviceChatMessage.getChatMessages()[i].room==room.id){
+					serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
+				}
+			}
 			$scope.notification("Room "+room.name+" deleted");
 			serviceRoom.deleteRoom(room);
-//			$scope.notification("Room "+room.name+" deleted");
+			$mdDialog.hide();
 		};
 		
 		$scope.roomRequest = function(){
@@ -843,7 +860,7 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 		}
 }
 
-function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, team, user) {
+function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, team, user) {
 
 	$scope.newAdmin='';
 	$scope.participates= function(){
@@ -876,6 +893,11 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 				serviceRoom.deleteRoom(serviceRoom.getRooms()[i]);
 			}
 		}	
+		for (var j=0;j<serviceParticipateRoom.getParticipateRooms().length;j++){
+			if (serviceParticipateRoom.getParticipateRooms()[j].team==team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[j]);
+			}
+		}
 		for (var i = 0; i<serviceChatMessage.getChatMessages().length;i++){
 			if (serviceChatMessage.getChatMessages()[i].team == team.id){
 				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
