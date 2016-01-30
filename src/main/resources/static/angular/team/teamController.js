@@ -47,8 +47,8 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	$scope.teamUsers2 = function(){
 		var teamUsers=[];
 		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].idteam==$scope.team.id && serviceParticipate.getParticipates()[i].iduser!=$scope.user.id){
-				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].iduser));
+			if (serviceParticipate.getParticipates()[i].team==$scope.team.id && serviceParticipate.getParticipates()[i].user!=$scope.user.id){
+				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
 			}
 		}
 		return teamUsers;
@@ -116,8 +116,8 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	$scope.teamUsers = function(){
 		var teamUsers=[];
 		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].idteam==$scope.team.id){
-				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].iduser));
+			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
+				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
 			}
 		}
 		return teamUsers;
@@ -173,10 +173,8 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     	var newParticipate={};
     	var user=$scope.findUserById(request.user);
     	var team=$scope.findTeamById(request.team);
-    	newParticipate.iduser=request.user;
-    	newParticipate.userName=user.name;
-    	newParticipate.idteam=request.team;
-    	newParticipate.teamName=team.name;
+    	newParticipate.user=request.user;
+    	newParticipate.team=request.team;
     	newParticipate.teamPrivileges=0;    	    	
     	serviceParticipate.newParticipate(newParticipate);
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
@@ -236,7 +234,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	  .then(function(result) {
 	    $scope.participatesHttp = result.data;
 	    for (var i=0;i<$scope.participatesHttp.length;i++){
-	    	if ($scope.participatesHttp[i].userName==$scope.user.name && $scope.participatesHttp[i].idteam==$scope.team.id){
+	    	if ($scope.participatesHttp[i].user==$scope.user.id && $scope.participatesHttp[i].team==$scope.team.id){
 	    		$scope.participateUser=$scope.participatesHttp[i];
 	    	}
 	    }
@@ -261,7 +259,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		var participates=0;
 		if ($scope.user.name){
 			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
-				if ((serviceParticipate.getParticipates()[i].iduser==$scope.user.id)&&(serviceParticipate.getParticipates()[i].idteam==$routeParams.id)){
+				if ((serviceParticipate.getParticipates()[i].user==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
 					participates=1;
 				}
 			}
@@ -314,7 +312,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		var userLeaving={};
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].teamPrivileges==2){
-				if (serviceParticipate.getParticipates()[i].iduser==$scope.user.id){
+				if (serviceParticipate.getParticipates()[i].user==$scope.user.id){
 						creator=true;
 						userLeaving=serviceParticipate.getParticipates()[i];
 						break;
@@ -864,13 +862,13 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 
 	$scope.newAdmin='';
 	$scope.participates= function(){
-		var participates = $filter('filter')(serviceParticipate.getParticipates(), { idteam: team.id});
+		var participates = $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
 		return participates;
 	}
 	    
 	$scope.leaveTeam = function(){
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].iduser == user.id && serviceParticipate.getParticipates()[i].idteam == team.id){
+			if (serviceParticipate.getParticipates()[i].user == user.id && serviceParticipate.getParticipates()[i].team == team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
@@ -904,7 +902,7 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 			}
 		}				
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].idteam == team.id){
+			if (serviceParticipate.getParticipates()[i].team == team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}

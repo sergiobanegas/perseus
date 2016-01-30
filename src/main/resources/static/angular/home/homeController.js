@@ -34,21 +34,19 @@ kurento_room.controller('homeController', function (webNotification, $mdDialog, 
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
-	$scope.teams2 = serviceTeam.getTeams();
 	$scope.primerUser=serviceUser.getUser(1);
 	$scope.teamsUser=[];	
 	$scope.teamName="";		
 	
 	$scope.fileUpload;
 	
-	$scope.uploadImage = function(){
-		var formData = new FormData();
-		formData.append("file", $scope.fileUpload);
-		$http.post("/uploaduserimage", formData, {
-			transformRequest: angular.identity,
-			headers: {'Content-Type': undefined}
-		});
-
+	$scope.findTeamById = function(idteam){
+		for (var i=0; i< serviceTeam.getTeams().length;i++){
+			if (serviceTeam.getTeams()[i].id==idteam){
+				return serviceTeam.getTeams()[i];
+				break;
+			}
+		}
 	}
 	
 	$scope.logout = function(){		
@@ -190,16 +188,14 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		$scope.joinTeam = function(Team) {
 			if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
 				var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
-					if ( $filter('filter')(serviceParticipate.getParticipates(), { iduser: $scope.user.id, idteam: TeamJoined.id }).length==0 ){			
+					if ( $filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: TeamJoined.id }).length==0 ){			
 						var newParticipate={};
-						newParticipate.iduser=$scope.user.id;
-						newParticipate.idteam=TeamJoined.id;
-						newParticipate.userName=$scope.user.name;
-						newParticipate.teamName=Team.name;
+						newParticipate.team=TeamJoined.id;
+						newParticipate.user=$scope.user.id;
 						newParticipate.teamPrivileges=0;
 						serviceParticipate.newParticipate(newParticipate);	
 						$mdDialog.hide();
-						$scope.notification("You succesfully joined "+TeamJoined.name+"!");	
+						$scope.notification("You succesfully joined the team!");	
 					}
 					else{
 						$scope.notification("You've already registered in the team "+Team.name);
@@ -228,7 +224,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 					}
 				}
 				if (team){
-					if ($filter('filter')(serviceParticipate.getParticipates(), { iduser: $scope.user.id, idteam: team.id }).length==0 ){			
+					if ($filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: team.id }).length==0 ){			
 						if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { user: $scope.user.id, team: team.id}).length==0){							
 							var newRequest={};
 							newRequest.user=$scope.user.id;
@@ -236,11 +232,11 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 							serviceRequestJoinTeam.newRequestJoinTeam(newRequest);
 //							var admins=serviceParticipate.getModerators(team.name);
 							for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-								if (serviceParticipate.getParticipates()[i].idteam=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
+								if (serviceParticipate.getParticipates()[i].team=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
 										var data= {
 												"user": $scope.user, 
 												"team": team,
-												"admin": $scope.findUserById(serviceParticipate.getParticipates()[i].iduser)
+												"admin": $scope.findUserById(serviceParticipate.getParticipates()[i].user)
 												};
 										$http.post("/sendrequestjointeam", data);
 								}

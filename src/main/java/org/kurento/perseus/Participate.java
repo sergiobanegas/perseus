@@ -12,14 +12,10 @@ public class Participate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private Integer iduser;
-	private String userName;
-	private Integer idteam;
-	private String teamName;
+	private Integer user;
+	private Integer team;
 	private Integer teamPrivileges;
-	
-	private int privileges;
-	
+		
 	public Participate() {
 		// TODO Auto-generated constructor stub
 	}
@@ -28,48 +24,25 @@ public class Participate {
 		return id;
 	}
 	
-	public Integer getIduser() {
-		return iduser;
+	public Integer getTeam() {
+		return team;
 	}
 	
-	public String getUserName() {
-		return userName;
+	public Integer getUser() {
+		return user;
 	}
 	
-	public int getPrivileges() {
-		return privileges;
-	}
-	
-	public Integer getIdteam() {
-		return idteam;
-	}
-	
-	public String getTeamName() {
-		return teamName;
-	}
 	
 	public Integer getTeamPrivileges() {
 		return teamPrivileges;
 	}
 	
-	public void setIduser(Integer iduser) {
-		this.iduser = iduser;
+	public void setTeam(Integer team) {
+		this.team = team;
 	}
 	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public void setPrivileges(int privileges) {
-		this.privileges = privileges;
-	}
-	
-	public void setIdteam(Integer idteam) {
-		this.idteam = idteam;
-	}
-	
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
+	public void setUser(Integer user) {
+		this.user = user;
 	}
 	
 	public void setTeamPrivileges(Integer teamPrivileges) {

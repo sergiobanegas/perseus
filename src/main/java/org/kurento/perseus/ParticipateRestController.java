@@ -51,12 +51,12 @@ public class ParticipateRestController {
 	
 	@RequestMapping(value = "/{team}/privileges", method = RequestMethod.GET)
 	public List<Participate> getParticipateRoom(@PathVariable Integer team) {
-		return participateRepository.findByTeamPrivilegesAndIdteam(1, team);
+		return participateRepository.findByTeamPrivilegesAndTeam(1, team);
 	}
 	
-	@RequestMapping(value = "/{idteam}/members", method = RequestMethod.GET)
-	public List<Participate> getTeamMembers(@PathVariable Integer idteam) {
-		return participateRepository.findByIdteam(idteam);
+	@RequestMapping(value = "/{team}/members", method = RequestMethod.GET)
+	public List<Participate> getTeamMembers(@PathVariable Integer team) {
+		return participateRepository.findByTeam(team);
 	}
 	
 	

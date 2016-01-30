@@ -64,10 +64,8 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 			teams.push(team);
 			var user=$cookieStore.get("user");
 			var newParticipate={};
-			newParticipate.iduser=user.id;
-			newParticipate.userName=user.name;
-			newParticipate.teamName=team.name;
-			newParticipate.idteam=team.id;
+			newParticipate.user=user.id;
+			newParticipate.team=team.id;
 			newParticipate.teamPrivileges=2;
 			serviceParticipate.newParticipate(newParticipate);
 		});		

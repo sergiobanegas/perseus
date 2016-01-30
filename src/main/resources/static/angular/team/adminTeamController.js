@@ -27,7 +27,7 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	$scope.members = function(){
 		var teamUsers=[];
 		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].idteam==$scope.team.id){
+			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
 				teamUsers.push(serviceParticipate.getParticipates()[i]);
 			}
 		}
@@ -48,7 +48,7 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	
 	$scope.kickMember = function(member) {
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].iduser==member.iduser && serviceParticipate.getParticipates()[i].idteam==$scope.team.id){
+			if (serviceParticipate.getParticipates()[i].user==member.iduser && serviceParticipate.getParticipates()[i].team==$scope.team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
