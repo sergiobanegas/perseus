@@ -17,8 +17,8 @@ public class ChatMessage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String user;
-	private String room;
+	private Integer user;
+	private Integer room;
 	private Integer team;
 	private String text;
 	private String date;	
@@ -30,7 +30,7 @@ public class ChatMessage {
 		return id;
 	}
 	
-	public String getRoom() {
+	public Integer getRoom() {
 		return room;
 	}
 	
@@ -38,7 +38,7 @@ public class ChatMessage {
 		return team;
 	}
 	
-	public String getUser() {
+	public Integer getUser() {
 		return user;
 	}
 	
@@ -54,7 +54,7 @@ public class ChatMessage {
 		this.id = id;
 	}
 	
-	public void setRoom(String room) {
+	public void setRoom(Integer room) {
 		this.room = room;
 	}
 	
@@ -62,7 +62,7 @@ public class ChatMessage {
 		this.team = team;
 	}
 	
-	public void setUser(String user) {
+	public void setUser(Integer user) {
 		this.user = user;
 	}
 	

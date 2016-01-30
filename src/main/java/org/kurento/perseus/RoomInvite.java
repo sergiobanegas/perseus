@@ -15,6 +15,7 @@ public class RoomInvite {
 	
 	private Integer user;
 	private Integer transmitter;
+	private Integer team;
 	private Integer room;
 		
 	public RoomInvite() {
@@ -33,6 +34,10 @@ public class RoomInvite {
 		return room;
 	}
 	
+	public Integer getTeam() {
+		return team;
+	}
+	
 	public Integer getTransmitter() {
 		return transmitter;
 	}
@@ -47,6 +52,10 @@ public class RoomInvite {
 	
 	public void setRoom(Integer room) {
 		this.room = room;
+	}
+	
+	public void setTeam(Integer team) {
+		this.team = team;
 	}
 	
 	public void setTransmitter(Integer transmitter) {
