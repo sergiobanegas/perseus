@@ -54,7 +54,7 @@ function serviceRoom($resource, $timeout, serviceParticipateRoom) {
 				newParticipate.user=room.creator;
 				newParticipate.room=room.id;
 				newParticipate.team=room.team;
-				newParticipate.roomPrivileges=1;
+				newParticipate.roomPrivileges=2;
 				serviceParticipateRoom.newParticipateRoom(newParticipate);
 			}
 		});
