@@ -2,9 +2,9 @@
  * @author Sergio Banegas Cortijo
  */
 
-var kurento_room = angular.module('kurento_room', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification']);
+var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification']);
 
-kurento_room.config(function ($routeProvider) {
+perseus.config(function ($routeProvider) {
 
     $routeProvider
             .when('/', {

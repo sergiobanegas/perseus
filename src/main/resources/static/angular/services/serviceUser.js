@@ -1,4 +1,4 @@
-kurento_room.factory("serviceUser", serviceUser);
+perseus.factory("serviceUser", serviceUser);
 
 serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore", "serviceParticipate", "serviceParticipateRoom", "serviceRoomInvite", "serviceRequestJoinRoom", "serviceRequestJoinTeam", "serviceChatMessage", "servicePrivateMessage"];
 

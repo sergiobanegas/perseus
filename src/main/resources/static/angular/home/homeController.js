@@ -3,7 +3,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('homeController', function (webNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
+perseus.controller('homeController', function (webNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
 
 	Notification.requestPermission();
 	

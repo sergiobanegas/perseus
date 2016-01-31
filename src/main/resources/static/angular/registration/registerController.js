@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('registerController', function ($mdToast, $document, $scope, $window, serviceUser, $location, $route, $filter) {
+perseus.controller('registerController', function ($mdToast, $document, $scope, $window, serviceUser, $location, $route, $filter) {
 	$scope.users=serviceUser.getUsers();
 	$scope.user=serviceUser.getSession();
 	$scope.register = function(newUser) {

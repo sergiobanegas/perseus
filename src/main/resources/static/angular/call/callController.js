@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
+perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();

@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('userController', function ($mdDialog, $http, $scope, $route, $routeParams, $window, serviceUser) {
+perseus.controller('userController', function ($mdDialog, $http, $scope, $route, $routeParams, $window, serviceUser) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};

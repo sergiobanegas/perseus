@@ -2,7 +2,7 @@
  * @author Raquel Díaz González
  */
 
-kurento_room.service('serviceKurentoRoom', function () {
+perseus.service('serviceKurentoRoom', function () {
 
     var kurento;
     var team;

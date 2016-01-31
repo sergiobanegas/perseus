@@ -1,4 +1,4 @@
-kurento_room.factory("servicePrivateMessage", servicePrivateMessage);
+perseus.factory("servicePrivateMessage", servicePrivateMessage);
 
 servicePrivateMessage.$inject = [ "$resource", "$timeout"];
 

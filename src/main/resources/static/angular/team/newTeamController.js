@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('newTeamController', function ($mdToast, $scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
+perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
 
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();

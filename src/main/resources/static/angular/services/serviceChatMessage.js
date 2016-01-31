@@ -1,4 +1,4 @@
-kurento_room.factory("serviceChatMessage", serviceChatMessage);
+perseus.factory("serviceChatMessage", serviceChatMessage);
 
 serviceChatMessage.$inject = [ "$resource", "$timeout"];
 

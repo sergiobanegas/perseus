@@ -1,4 +1,4 @@
-kurento_room.factory('ServiceParticipant', function () {
+perseus.factory('ServiceParticipant', function () {
 
     return new Participants();
 

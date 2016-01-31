@@ -1,4 +1,4 @@
-kurento_room.factory("serviceRequestJoinTeam", serviceRequestJoinTeam);
+perseus.factory("serviceRequestJoinTeam", serviceRequestJoinTeam);
 
 serviceRequestJoinTeam.$inject = [ "$resource", "$timeout"];
 
