@@ -124,21 +124,11 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	};
 	
 	$scope.findUserById = function(iduser){
-		for (var i=0; i< serviceUser.getUsers().length;i++){
-			if (serviceUser.getUsers()[i].id==iduser){
-				return serviceUser.getUsers()[i];
-				break;
-			}
-		}
+		return serviceUser.getUser(iduser);
 	}
 	
 	$scope.findTeamById = function(idteam){
-		for (var i=0; i< serviceTeam.getTeams().length;i++){
-			if (serviceTeam.getTeams()[i].id==idteam){
-				return serviceTeam.getTeams()[i];
-				break;
-			}
-		}
+		return serviceTeam.getTeam(idteam);
 	}
     
     $scope.roomInvitations = function(){
@@ -320,38 +310,33 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 			}
 		}
 		if (creator){
-			$scope.notification("You are the creator");
 			var parentEl = angular.element(document.body);
 		    $mdDialog.show({
 		      parent: parentEl,
 		      targetEvent: $event,
 		      template:
-		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">'+
 		        '<md-toolbar>'+
 		        '<div class="md-toolbar-tools">'+
-		          '<span flex><h2>Leave team</h2></span>'+
-		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-		          '</md-button>'+
+		        '<span flex><h2>Leave team</h2></span>'+
+		        '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+		        '<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+		        '</md-button>'+
 		        '</div>'+
 		        '</md-toolbar>'+
 		        '<md-dialog-content>'+
 		        '<div class="md-dialog-content">'+
-		        'You are the creator, you need to select a new administrator in order to exit this team.'+
-		     '   <md-input-container>'+
-		     '   <label>State</label>'+
-		     '   <md-select ng-model="userState">'+
-		     '     <md-option ng-repeat="state in participates()" value="{{state.id}">'+
-		      '      {{state.id}}'+
-		      '    </md-option>'+
-		     '   </md-select>'+
-		    '  </md-input-container>'+
+		        'You are the creator, you need to select a new administrator in the team administration panel in order to exit this team.'+
+				'<md-button ng-show="participateUser.teamPrivileges==2" ng-click="goAdminPanel()"style="background-color:purple">'+
+				' 	Admin panel'+
+				'</md-button>'+
 		        '</div>'+
 		        '</md-dialog-content>'+
 		        '</md-dialog>',
 		      locals: {
 		    	team: $scope.team,
-		    	user: $scope.user
+		    	user: $scope.user,
+		    	participateUser: $scope.participateUser
 		      },
 		      controller: exitTeamController
 		   })
@@ -387,47 +372,12 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		        '</md-dialog>',
 		      locals: {
 		    	team: $scope.team,
-		    	user: $scope.user
+		    	user: $scope.user,
+		    	participateUser: $scope.participateUser
 		      },
 		      controller: exitTeamController
 		   })
 		}
-	};
-	
-	$scope.deleteTeam = function($event){
-		var parentEl = angular.element(document.body);
-	    $mdDialog.show({
-	      parent: parentEl,
-	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Delete team</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Are you sure you want to delete this team? '+
-	        '</div>'+
-	        '  <md-dialog-actions>' +
-	        '  <md-button style="background-color:red" ng-click="deleteTeam()" >' +
-	        '      Delete' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
-	        '</md-dialog>',
-	      locals: {
-	    	team: $scope.team,
-	    	user: $scope.user
-	      },
-	      controller: exitTeamController
-	   })
 	};
 	
 	$scope.logout = function(){		
@@ -858,12 +808,32 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 		}
 }
 
-function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, team, user) {
+function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
 
+	$scope.participateUser=participateUser;
+	$scope.team=team;
 	$scope.newAdmin='';
 	$scope.participates= function(){
 		var participates = $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
 		return participates;
+	}
+	
+	$scope.goAdminPanel = function(){
+		$mdDialog.hide();
+		$window.location.href = '#/team/'+$scope.team.id+"/admin";
+	}
+	
+	$scope.findUserById = function(iduser){
+		return serviceUser.getUser(id);
+	}
+	
+	$scope.participates2 = function(){
+		var participates = $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
+		var users=[];
+		for (var i=0;i<participates.length;i++){
+			users.push($scope.findUserById(participates[i].user));
+		}
+		return users;
 	}
 	    
 	$scope.leaveTeam = function(){
@@ -872,46 +842,34 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user == user.id && serviceParticipateRoom.getParticipateRooms()[i].team == team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipate.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user == user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].team == team.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].transmitter == user.id && serviceRoomInvite.getRoomInvites()[i].team == team.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}		
 		$mdDialog.hide();
 		$window.location.href = '#/';
 		$scope.notification("You left the team");
 		$route.reload();
 	};
 	
+	$scope.receiver;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.participates2(), { name: query});
+	}
+	
+	
 	$scope.deleteTeam = function(){
-		for (var i = 0; i<serviceRoom.getRooms().length;i++){
-			if (serviceRoom.getRooms()[i].team == team.id){
-				if (serviceRoom.getRooms()[i].privateRoom==1){		
-					for (var j=0;j<serviceRequestJoinRoom.getRequestJoinRooms().length;j++){
-						if (serviceRequestJoinRoom.getRequestJoinRooms()[j].team==team.id){
-							serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[j]);
-						}
-					}
-				}
-				serviceRoom.deleteRoom(serviceRoom.getRooms()[i]);
-			}
-		}	
-		for (var j=0;j<serviceParticipateRoom.getParticipateRooms().length;j++){
-			if (serviceParticipateRoom.getParticipateRooms()[j].team==team.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[j]);
-			}
-		}
-		for (var i = 0; i<serviceChatMessage.getChatMessages().length;i++){
-			if (serviceChatMessage.getChatMessages()[i].team == team.id){
-				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
-			}
-		}				
-		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team == team.id){
-				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-			}
-		}
-		for (var i = 0; i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
-			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].team==team.id){
-				serviceRequestJoinTeam.deleteRequestJoinTeam(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
-			}
-		}
-		
 		serviceTeam.deleteTeam(team);
 		$mdDialog.hide();
 		$window.location.href = '#/';

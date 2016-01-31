@@ -1,8 +1,8 @@
 kurento_room.factory("serviceTeam", serviceTeam);
 
-serviceTeam.$inject = [ "$resource", "$timeout", "$http", "serviceParticipate", "$cookieStore"];
+serviceTeam.$inject = [ "$resource", "$timeout", "$http", "$cookieStore", "serviceParticipate", "serviceRoom", "serviceChatMessage", "servicePrivateMessage", "serviceParticipateRoom", "serviceRoomInvite", "serviceRequestJoinRoom", "serviceRequestJoinTeam"];
 
-function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStore) {
+function serviceTeam($resource, $timeout, $http, $cookieStore, serviceParticipate, serviceRoom, serviceChatMessage, servicePrivateMessage, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam) {
 
 	var TeamResource = $resource('/teams/:id', 
 			{ id : '@id'}, 
@@ -25,7 +25,6 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 		newTeam : newTeam,
 		updateTeam : updateTeam,
 		deleteTeam : deleteTeam,
-		getOne : getOne,
 		getTeamByName : getTeamByName
 	}
 
@@ -41,15 +40,11 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 		return teams;
 	}
 	
-	function getOne(teamId){
-		var team = TeamResource.get({id:teamId});
-		return team;
-	}
-
-	function getTeam(id) {
-		for (var i = 0; i < teams.length; i++) {
-			if (teams[i].id.toString() === id) {
+	function getTeam(id){
+		for (var i=0; i<teams.length;i++){
+			if (teams[i].id==id){
 				return teams[i];
+				break;
 			}
 		}
 	}
@@ -77,6 +72,46 @@ function serviceTeam($resource, $timeout, $http, serviceParticipate, $cookieStor
 	
 
 	function deleteTeam(team) {
+		for (var i = 0; i<serviceRoom.getRooms().length;i++){
+			if (serviceRoom.getRooms()[i].team == team.id){
+				serviceRoom.deleteRoom(serviceRoom.getRooms()[i]);
+			}		
+		}		
+		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].team == team.id){
+				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		for (var i = 0; i<serviceChatMessage.getChatMessages().length;i++){
+			if (serviceChatMessage.getChatMessages()[i].team == team.id){
+				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
+			}
+		}	
+		for (var i = 0; i<servicePrivateMessage.getPrivateMessages().length;i++){
+			if (servicePrivateMessage.getPrivateMessages()[i].team == team.id){
+				servicePrivateMessage.deletePrivateMessage(servicePrivateMessage.getPrivateMessages()[i]);
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].team==team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].team==team.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}		
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].team==team.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
+			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].team==team.id){
+				serviceRequestJoinTeam.deleteRequestJoinRoom(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
+			}
+		}
 		var team = $resource('/teams/:id', { id: team.id});
 		team.delete();
 	};

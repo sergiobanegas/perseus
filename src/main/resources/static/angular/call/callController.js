@@ -15,7 +15,7 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
     $scope.chatMessages = serviceChatMessage.getChatMessages();
     
     $scope.findUserById = function(id){
-    	return $http.get("/users/"+id);
+    	return serviceUser.getUser(id);
     }
     
     $scope.room={};
@@ -48,15 +48,6 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
     		}
     	}
     }
-    
-    $scope.findUserById = function(iduser){
-		for (var i=0; i< serviceUser.getUsers().length;i++){
-			if (serviceUser.getUsers()[i].id==iduser){
-				return serviceUser.getUsers()[i];
-				break;
-			}
-		}
-	}
     
     $scope.members= function(){
     	var members=[];
@@ -123,7 +114,7 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 		        '</md-dialog>',
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
-	    	room: serviceKurentoRoom.getRoomName(),
+	    	room: serviceKurentoRoom.getRoomId(),
 	    	user : $scope.user
 	      },
 	      controller: leaveRoomController
@@ -165,8 +156,8 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 	        '<div>'+
 	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers" ng-show="!roomMember(user)">'+
 	        '<div class="md-list-item-text">'+
-	        '<p>{{user.userName}}</p>'+
-	        '<md-icon ng-click="inviteUser(user.iduser, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">add</md-icon>'+
+	        '<p>{{findUserById(user.user).name}}</p>'+
+	        '<md-icon ng-click="inviteUser(user.user, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">add</md-icon>'+
 	        '</div>'+
       '</md-list-item>'+
 	        '</div>'+
@@ -267,7 +258,7 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
     }
 });
 
-function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, serviceUser, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
 
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
@@ -302,6 +293,10 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 		
 	}
 	
+	$scope.findUserById = function(iduser){
+		return serviceUser.getUser(iduser);
+	}
+	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
@@ -315,24 +310,20 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 	    );
 	};
 }
-function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
+function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
 		
 		$scope.leaveRoom = function(){	
-			var thisroom={};
-	    	for (var i=0;i<serviceRoom.getRooms().length;i++){
-	    		if (serviceRoom.getRooms()[i].name==room){
-	    			thisroom=serviceRoom.getRooms()[i];
-	    		}
-	    	}
-				for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-					if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id && serviceParticipateRoom.getParticipateRooms()[i].room==thisroom.id){
-						serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-						break;
-					}				
-				}
-				$mdDialog.hide();
-				$window.location.href = '#/team/'+team;
-				$scope.notification("You left the room");			
+			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+				if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id && serviceParticipateRoom.getParticipateRooms()[i].room==room){
+					serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+					break;
+				}				
+			}
+			serviceKurentoRoom.getKurento().close();
+	        ServiceParticipant.removeParticipants();
+			$mdDialog.hide();
+			$window.location.href = '#/team/'+team;
+			$scope.notification("You left the room");			
 		}
 		
 		$scope.notification = function(text) {

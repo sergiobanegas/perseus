@@ -22,14 +22,11 @@
 	          <p>{{ user.name }}</p>
 	        </div>
       </md-list-item>
-      <md-button ng-click="invitePeople($event)" style="background-color:greenyellow">
+      <md-button ng-click="invitePeople($event)" ng-show="participateUser.teamPrivileges>0" style="background-color:greenyellow">
 	  	Invite people
 	  </md-button>     
-      <md-button ng-click="leaveTeam($event)" style="background-color:greenyellow">
+      <md-button ng-show="participateUser.teamPrivileges<2" ng-click="leaveTeam($event)" style="background-color:greenyellow">
 	   	Leave team
-	  </md-button>
-	  <md-button ng-show="user.privileges>0 || participateUser.teamPrivileges>0" ng-click="deleteTeam($event)" style="background-color:red">
-	   	Delete team
 	  </md-button>
 	  <a ng-href="#/team/{{team.id}}/admin">
 		  <md-button ng-show="user.privileges>0 || participateUser.teamPrivileges==2" style="background-color:purple">

@@ -1,8 +1,8 @@
 kurento_room.factory("serviceUser", serviceUser);
 
-serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore"];
+serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore", "serviceParticipate", "serviceParticipateRoom", "serviceRoomInvite", "serviceRequestJoinRoom", "serviceRequestJoinTeam", "serviceChatMessage", "servicePrivateMessage"];
 
-function serviceUser($resource, $timeout, $cookieStore) {
+function serviceUser($resource, $timeout, $cookieStore, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceChatMessage, servicePrivateMessage) {
 	
 	
 	var UserResource = $resource('/users/:id', 
@@ -49,9 +49,10 @@ function serviceUser($resource, $timeout, $cookieStore) {
 	}
 
 	function getUser(id) {
-		for (var i = 0; i < users.length; i++) {
-			if (users[i].id.toString() === id.toString()) {
+		for (var i=0; i< users.length;i++){
+			if (users[i].id==id){
 				return users[i];
+				break;
 			}
 		}
 	};
@@ -77,10 +78,43 @@ function serviceUser($resource, $timeout, $cookieStore) {
 	}
 
 	function deleteUser(user) {
+		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].user==user.id){
+				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].user==user.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==user.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		
+		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
+			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].user==user.id){
+				serviceRequestJoinTeam.deleteRequestJoinTeam(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
+			}
+		}
+		for (var i=0;i<serviceChatMessage.getChatMessages().length;i++){
+			if (serviceChatMessage.getChatMessages()[i].user==user.id){
+				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
+			}
+		}
+		for (var i=0;i<servicePrivateMessage.getPrivateMessages().length;i++){
+			if (servicePrivateMessage.getPrivateMessages()[i].transmitter==user.id || servicePrivateMessage.getPrivateMessages()[i].receiver==user.id){
+				servicePrivateMessage.deletePrivateMessage(servicePrivateMessage.getPrivateMessages()[i]);
+			}
+		}
 		var user = $resource('/users/:id', { id: user.id});
 		user.delete();
-//		user.$remove(function() {
-//			users.splice(users.indexOf(user), 1);
-//		});
 	}	
 }

@@ -2,10 +2,10 @@
 	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
 	<p>{{roomName}}</p>
-	<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges==1" style="background-color:greenyellow">
+	<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
 	             Invite people to the room
 	</md-button>
-	<md-button ng-click="leavePrivateRoom($event)" style="background-color:blue">
+	<md-button ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2" style="background-color:blue">
 	       Exit the room
 	</md-button>
 	<div>Members:</div>
@@ -70,7 +70,7 @@
 				                <md-input-container md-no-float>
 						        	<input ng-model="chatMessage" placeholder="New message" required>
 						        </md-input-container>
-								<md-button class="md-primary">
+								<md-button type="submit" class="md-primary">
 							  		Send
 								</md-button>
 							</form>

@@ -207,12 +207,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		};
 		
 		$scope.findUserById = function(iduser){
-			for (var i=0; i< serviceUser.getUsers().length;i++){
-				if (serviceUser.getUsers()[i].id==iduser){
-					return serviceUser.getUsers()[i];
-					break;
-				}
-			}
+			return serviceUser.getUser(iduser);
 		}
 		
 		$scope.teamJoinRequest = function(name){		
