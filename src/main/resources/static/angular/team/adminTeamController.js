@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('adminTeamController', function ($scope, $http, $route, $filter, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
+perseus.controller('adminTeamController', function ($scope, $http, $route, $filter, $routeParams, $mdDialog, $mdToast, serviceNotification, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
 	
 	$scope.team={};
     $http.get('/teams/'+$routeParams.id)
@@ -42,13 +42,13 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 	$scope.setModerator = function (member){
 		member.teamPrivileges=1;
 		serviceParticipate.updateParticipate(member);
-		$scope.notification($scope.findUserById(member.user).name+" is now a moderator");
+		serviceNotification.showNotification("Moderator", $scope.findUserById(member.user).name+" is now a moderator");			
 	};
 	
 	$scope.removeModerator = function (member){
 			member.teamPrivileges=0;
 			serviceParticipate.updateParticipate(member);
-			$scope.notification($scope.findUserById(member.user).name+" is now a normal member");
+			serviceNotification.showNotification("Normal user", $scope.findUserById(member.user).name+" is now a normal member");			
 	}
 	
 	$scope.kickMember = function(member) {
@@ -72,7 +72,7 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
 			}
 		}
-		$scope.notification("User kicked from the team");		
+		serviceNotification.showNotification("User kicked", "The user"+$scope.findUserById(member.user).name+" has been kicked from the team");					
 	}	
 	
 	$scope.notification = function(text) {
@@ -115,6 +115,7 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 				serviceParticipateRoom.deleteParticipateRoom(serviceParticipate.getParticipateRooms()[i]);
 			}
 		}
+		
 		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
 			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user == $scope.user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].team == $scope.team.id){
 				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
@@ -126,7 +127,7 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 			}
 		}	
 		$window.location.href = '#/';
-		$scope.notification("You left the team");
+		serviceNotification.showNotification("Goodbye", "You left the team");					
 		
 	}
 	

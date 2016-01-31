@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
+perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceNotification, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
 
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
@@ -13,7 +13,7 @@ perseus.controller('newTeamController', function ($mdToast, $scope, $window, ser
 				if (Team.password===$scope.password){
 					serviceTeam.newTeam(Team);
 					$window.location.href = '#/';
-					LxNotificationService.success("You succesfully created "+Team.name+"!");
+					serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
 				}
 				else{
 					$scope.notification("The password doesn't match!");
@@ -32,9 +32,5 @@ perseus.controller('newTeamController', function ($mdToast, $scope, $window, ser
 	        .hideDelay(3000)
 	    );
 	  };
-	
-	
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	}
+
 });

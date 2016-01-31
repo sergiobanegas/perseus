@@ -2,13 +2,14 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('registerController', function ($mdToast, $document, $scope, $window, serviceUser, $location, $route, $filter) {
+perseus.controller('registerController', function ($mdToast, $scope, $window, $filter, serviceNotification, serviceUser) {
 	$scope.users=serviceUser.getUsers();
 	$scope.user=serviceUser.getSession();
 	$scope.register = function(newUser) {
 		if ( $filter('filter')($scope.users, { name: newUser.name }).length==0 ){			
 			newUser.privileges=0;
-			serviceUser.newUser(newUser);	
+			serviceUser.newUser(newUser);
+			serviceNotification.showNotification("Welcome to perseus", "It's a pleasure to have you with us "+newUser.name);
 			$window.location.href = '#/';
 		}
 		else{

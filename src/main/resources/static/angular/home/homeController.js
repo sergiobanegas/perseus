@@ -3,32 +3,10 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('homeController', function (webNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
+perseus.controller('homeController', function (webNotification, serviceNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
 
 	Notification.requestPermission();
 	
-	$scope.notification= function(){
-		webNotification.showNotification('Example Perseus Notification', {
-            body: 'Notification Text...',
-            icon: '../bower_components/HTML5-Desktop-Notifications/alert.ico',
-            onClick: function onNotificationClicked() {
-                window.alert('Notification clicked.');
-            },
-            autoClose: 4000 //auto close the notification after 2 seconds (you manually close it via hide function)
-        }, function onShow(error, hide) {
-            if (error) {
-                window.alert('Unable to show notification: ' + error.message);
-            } else {
-                console.log('Notification Shown.');
-
-                setTimeout(function hideNotification() {
-                    console.log('Hiding notification....');
-                    hide(); //manually close the notification (or let the autoClose close it)
-                }, 5000);
-            }
-        });
-	}
-
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
@@ -148,7 +126,7 @@ perseus.controller('homeController', function (webNotification, $mdDialog, $mdTo
 	   })
 	};	
 });
-function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
+function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
 	   $scope.user = serviceUser.getSession();
 	   $scope.users = serviceUser.getUsers();
 	   $scope.userName = "";
@@ -182,7 +160,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 						newParticipate.teamPrivileges=0;
 						serviceParticipate.newParticipate(newParticipate);	
 						$mdDialog.hide();
-						$scope.notification("You succesfully joined the team!");	
+						serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
 					}
 					else{
 						$scope.notification("You've already registered in the team "+Team.name);
@@ -222,7 +200,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 										$http.post("/sendrequestjointeam", data);
 								}
 								$mdDialog.hide();
-								$scope.notification("A petition was sent to the team "+team.name);
+								serviceNotification.showNotification("Petition sent", "A petition was sent to the team "+team.name);
 								return 0;
 							}		
 						}else{

@@ -241,7 +241,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     }
 });
 
-function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, serviceUser, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotification, serviceRoom, serviceUser, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
 
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
@@ -272,8 +272,7 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 			$scope.notification("An invitation was already sent to this user");
 		}else{
 			serviceRoomInvite.newRoomInvite(roominvite);
-			
-			$scope.notification("Invited");
+			serviceNotification.showNotification("The invitation was sent", "Sent");			
 		}		
 	}
 	
@@ -294,7 +293,7 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 	    );
 	};
 }
-function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
+function leaveRoomController($scope, $filter, $mdDialog, serviceNotification, serviceRoom, $window, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
 		
 		$scope.leaveRoom = function(){	
 			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
@@ -307,17 +306,8 @@ function leaveRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom, 
 	        ServiceParticipant.removeParticipants();
 			$mdDialog.hide();
 			$window.location.href = '#/team/'+team;
-			$scope.notification("You left the room");			
+			serviceNotification.showNotification("You left the room", "Goodbye!");			
 		}
-		
-		$scope.notification = function(text) {
-		    $mdToast.show(
-		      $mdToast.simple()
-		        .textContent(text)
-		        .position("bottom right")
-		        .hideDelay(3000)
-		    );
-		};
 		
 		$scope.closeDialog = function() {
 			$mdDialog.hide();

@@ -27,7 +27,7 @@ function serviceParticipateRoom($resource, $timeout) {
 		newParticipateRoom : newParticipateRoom,
 		updateParticipateRoom : updateParticipateRoom,
 		deleteParticipateRoom : deleteParticipateRoom
-		}
+	}
 
 	function reload(){
 		return ParticipateRoomResource.query(function(newParticipateRooms){

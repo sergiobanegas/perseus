@@ -89,26 +89,18 @@ perseus.controller('userController', function ($mdDialog, $http, $scope, $route,
 });
 
 
-function userActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceChatMessage, servicePrivateMessage, user) {
+function userActionsController($scope, $mdDialog, $window, serviceNotification, serviceUser, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceChatMessage, servicePrivateMessage, user) {
 
 	$scope.deleteAccount = function(){
 		serviceUser.deleteUser(user);
 		serviceUser.logout();
 		$mdDialog.hide();
 		$window.location.href = '#/';
-	    $scope.notification("Come back soon!");
+		serviceNotification.showNotification("Goodbye "+user.name, "Come back soon!");
 	};
 	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
 	
-	$scope.notification = function(text) {
-	    $mdToast.show(
-	      $mdToast.simple()
-	        .textContent(text)
-	        .position("bottom right")
-	        .hideDelay(3000)
-	    );
-	};
 }

@@ -143,7 +143,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		privateMessage.team=$routeParams.id;
 		privateMessage.text=$scope.privateMessage;
 		servicePrivateMessage.newPrivateMessage(privateMessage);
-		$scope.notification("New private message");
 	}
 	
 	$scope.replyMessage = function(message){
@@ -153,7 +152,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		privateMessage.team=$routeParams.id;
 		privateMessage.text=message;
 		servicePrivateMessage.newPrivateMessage(privateMessage);
-		$scope.notification("New private message");
 	}
 	//end private messages
 	//notifications
@@ -630,7 +628,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     
 });
 
-function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
+function roomController($scope, $http, $mdDialog, $mdToast, serviceNotification, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
 	
 	$scope.userRequestRoom={};
 	$http.get('/requestjoinrooms/'+room.id+'/'+user.id)
@@ -651,12 +649,12 @@ function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window
 		}
 		serviceRoom.newRoom($scope.roomInput);
 		$mdDialog.hide();
-		$scope.notification("Room "+$scope.roomInput.name+" created");
+		serviceNotification.showNotification("Room created!", "The room "+$scope.roomInput.name+" has been created");
 	};
 	
 	$scope.deleteRoom = function(){	   
 		serviceRoom.deleteRoom(room);
-		$scope.notification("Room "+room.name+" deleted");
+		serviceNotification.showNotification("Room deleted", "The room "+room.name+" has been deleted");		
 		$mdDialog.hide();
 	};
 		
@@ -670,7 +668,7 @@ function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window
 			request.team=team.id;
 			serviceRequestJoinRoom.newRequestJoinRoom(request);
 			$mdDialog.hide();
-			$scope.notification("Request to join "+room.name+" sent");
+			serviceNotification.showNotification("Request sent", "The request to join the room "+room.name+" has been sent");				
 		}
 	}
 	   
@@ -688,7 +686,7 @@ function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window
 	}
 }
 
-function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
+function exitTeamController($scope, $http, $filter, $mdDialog, serviceNotification, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
 
 	$scope.participatesTeam=[];
 	$http.get('/participates/'+team.id+'/members')
@@ -741,7 +739,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, service
 		}		
 		$mdDialog.hide();
 		$window.location.href = '#/';
-		$scope.notification("You left the team");
+		serviceNotification.showNotification("Goodbye", "You left the team");
 		$route.reload();
 	};
 		
@@ -749,24 +747,15 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, service
 		serviceTeam.deleteTeam(team);
 		$mdDialog.hide();
 		$window.location.href = '#/';
-		$scope.notification("Team deleted");
+		serviceNotification.showNotification("Deleted", "The team "+team.name+" has been deleted");
 	}
 	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
-	
-	$scope.notification = function(text) {
-	    $mdToast.show(
-	      $mdToast.simple()
-	        .textContent(text)
-	        .position("bottom right")
-	        .hideDelay(3000)
-	    );
-	};
 
 }
-function invitePeopleController($scope, $http, $route, $mdDialog, $mdToast, serviceUser, $window, team, user) {
+function invitePeopleController($scope, $http, $route, $mdDialog, serviceNotification, serviceUser, $window, team, user) {
 	
 	$scope.email="";
 	$scope.sendInvitation = function(){
@@ -778,19 +767,10 @@ function invitePeopleController($scope, $http, $route, $mdDialog, $mdToast, serv
 					"team": team
 					};
 			$http.post("/sendinvitation", data);
-			$scope.notification("Invitation sent to "+$scope.email);
+			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
 			$scope.email="";
 		}
 	}
-	
-	$scope.notification = function(text) {
-	    $mdToast.show(
-	      $mdToast.simple()
-	        .textContent(text)
-	        .position("bottom right")
-	        .hideDelay(3000)
-	    );
-	};
 	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
