@@ -1,17 +1,49 @@
 <div>{{team.name}} - Administration</div>
 Admin users
 <div>
-	<md-list-item ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
-		<p> {{findUserById(member.iduser).name}} </p>
-		<p>{{findUserById(member.iduser).name}}</p>
-		<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
-			<i class="material-icons">star</i>
-		</md-button>
-		<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
-			<i class="material-icons">star_border</i>
-		</md-button>
-		<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
-			<i class="material-icons">cancel</i>
-		</md-button>
-	</md-list-item>
+	<div ng-show="screen=='users'">
+		Users
+		<md-list-item ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
+			<p> {{findUserById(member.user).name}} </p>
+			<p>{{findUserById(member.user).email}}</p>
+			<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
+				<i class="material-icons">star</i>
+			</md-button>
+			<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
+				<i class="material-icons">star_border</i>
+			</md-button>
+			<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
+				<i class="material-icons">cancel</i>
+			</md-button>
+		</md-list-item>
+	</div>
+	<div ng-show="screen=='leaveTeam'">
+		<p>If you want to leave the team, you need to give administration privileges to another user</p>
+		<md-autocomplete
+			        md-no-cache="noCache"
+			        md-selected-item="newAdmin"
+			        md-search-text-change="searchTextChange(searchText)"
+			        md-search-text="searchText"
+			        md-selected-item-change="selectedItemChange(user)"
+			        md-items="user in querySearch(searchText)"
+			        md-item-text="user.name"
+			        md-min-length="0"
+			        placeholder="Select receiver">
+			       	<md-item-template>
+			        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
+			        </md-item-template>
+			        <md-not-found>
+			        </md-not-found>
+			          There's no user with the name "{{searchText}}".
+		</md-autocomplete>    
+		<md-button ng-show="newAdmin.id" ng-click="leaveTeam()" class="md-raised md-primary">
+		    Give privileges and leave team
+	</md-button>
+	</div>
+	<md-button ng-click="openLeaveTeamScreen()" class="md-raised md-primary">
+		   	Leave team
+	</md-button>
+	 <md-button ng-click="deleteTeam($event)" style="background-color:red">
+	   	Delete team
+	  </md-button>
 </div>

@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-kurento_room.controller('adminTeamController', function ($scope, $http, $route, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
+kurento_room.controller('adminTeamController', function ($scope, $http, $route, $filter, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
 	
 	$scope.hola="hola";
 	$scope.team={};
@@ -10,18 +10,14 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	  .then(function(result) {
 	    $scope.team = result.data;
 	});
-	
+	$scope.screen="users";
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
+	
 	$scope.findUserById = function(iduser){
-		for (var i=0; i< serviceUser.getUsers().length;i++){
-			if (serviceUser.getUsers()[i].id==iduser){
-				return serviceUser.getUsers()[i];
-				break;
-			}
-		}
+		return serviceUser.getUser(iduser);
 	}
 	
 	$scope.members = function(){
@@ -34,36 +30,46 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 		return teamUsers;
 	};	
 	
+	$scope.membersAdminList = function(){
+		var teamUsers=[];
+		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].team==$scope.team.id && serviceParticipate.getParticipates()[i].user!=$scope.user.id){
+				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
+			}
+		}
+		return teamUsers;
+	};	
+	
 	$scope.setModerator = function (member){
 			member.teamPrivileges=1;
 			serviceParticipate.updateParticipate(member);
-			$scope.notification(member.userName+" is now a moderator");
+			$scope.notification($scope.findUserById(member.user).name+" is now a moderator");
 	};
 	
 	$scope.removeModerator = function (member){
 			member.teamPrivileges=0;
 			serviceParticipate.updateParticipate(member);
-			$scope.notification(member.userName+" is now a normal member");
+			$scope.notification($scope.findUserById(member.user).name+" is now a normal member");
 	}
 	
 	$scope.kickMember = function(member) {
 		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].user==member.iduser && serviceParticipate.getParticipates()[i].team==$scope.team.id){
+			if (serviceParticipate.getParticipates()[i].user==member.user && serviceParticipate.getParticipates()[i].team==$scope.team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].user==member.iduser && serviceRoomInvite.getRoomInvites()[i].team==$scope.team.id){
+			if (serviceRoomInvite.getRoomInvites()[i].user==member.user && serviceRoomInvite.getRoomInvites()[i].team==$scope.team.id){
 				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
 			}
 		}
 		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==member.iduser && serviceRequestJoinRoom.getRequestJoinRooms()[i].team==$scope.team.id){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==member.user && serviceRequestJoinRoom.getRequestJoinRooms()[i].team==$scope.team.id){
 				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
 			}
 		}
 		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user==member.iduser && serviceParticipateRoom.getParticipateRooms()[i].team==$scope.team.id){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==member.user && serviceParticipateRoom.getParticipateRooms()[i].team==$scope.team.id){
 				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
 			}
 		}
@@ -79,8 +85,86 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	    );
 	  };
 	
-	
 	$scope.exit = function(){
 		$window.location.href = '#/';
 	}
+	
+	$scope.openLeaveTeamScreen = function(){
+		$scope.screen="leaveTeam";
+	}
+	
+	$scope.newAdmin;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.membersAdminList(), { name: query});
+	}	
+	
+	$scope.leaveTeam = function(){
+		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].user==$scope.newAdmin.id){
+				var updateParticipate=serviceParticipate.getParticipates()[i];				
+				updateParticipate.teamPrivileges=2;
+				serviceParticipate.updateParticipate(updateParticipate);				
+			}
+		}
+		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].user == $scope.user.id && serviceParticipate.getParticipates()[i].team == $scope.team.id){
+				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
+			}
+		}
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user == $scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].team == $scope.team.id){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipate.getParticipateRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
+			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user == $scope.user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].team == $scope.team.id){
+				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
+			}
+		}
+		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
+			if (serviceRoomInvite.getRoomInvites()[i].transmitter == $scope.user.id && serviceRoomInvite.getRoomInvites()[i].team == $scope.team.id){
+				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
+			}
+		}	
+		$window.location.href = '#/';
+		$scope.notification("You left the team");
+		
+	}
+	
+	$scope.deleteTeam = function($event){
+		var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      template:
+	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
+	        '<md-toolbar>'+
+	        '<div class="md-toolbar-tools">'+
+	          '<span flex><h2>Delete team</h2></span>'+
+	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+	          '</md-button>'+
+	        '</div>'+
+	        '</md-toolbar>'+
+	        '<md-dialog-content>'+
+	        '<div class="md-dialog-content">'+
+	        'Are you sure you want to delete this team? '+
+	        '</div>'+
+	        '  <md-dialog-actions>' +
+	        '  <md-button style="background-color:red" ng-click="deleteTeam()" >' +
+	        '      Delete' +
+	        '    </md-button>' +
+	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+	        '      Cancel' +
+	        '    </md-button>' +
+	        '  </md-dialog-actions>' +
+	        '</md-dialog>',
+	      locals: {
+	    	team: $scope.team,
+	    	user: $scope.user,
+	    	participateUser: $scope.participateUser
+	      },
+	      controller: exitTeamController
+	   })
+	};
 });
