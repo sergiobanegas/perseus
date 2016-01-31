@@ -93,72 +93,12 @@ kurento_room.controller('adminController', function ($mdDialog, $mdMedia, $scope
 function adminActionsController($scope, $mdDialog, $mdToast, serviceUser, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceParticipateRoom, user, team) {
 
 	$scope.deleteUser = function(){
-		serviceUser.deleteUser(user);
-		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].iduser==user.id){
-				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-			}
-		}
-		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].user==user.id){
-				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-			}
-		}		
-		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==user.id){
-				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
-			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].user==user.id){
-				serviceRequestJoinTeam.deleteRequestJoinRoom(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
-			}
-		}
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-			}
-		}
+		serviceUser.deleteUser(user);		
 		$mdDialog.hide();
 		$scope.notification("User "+user.name+" removed");
 	};
 	
 	$scope.deleteTeam = function(){
-		for (var i = 0; i<serviceRoom.getRooms().length;i++){
-			if (serviceRoom.getRooms()[i].team == team.id){
-				serviceRoom.deleteRoom(serviceRoom.getRooms()[i]);
-			}		
-		}		
-		for (var i = 0; i<serviceChatMessage.getChatMessages().length;i++){
-			if (serviceChatMessage.getChatMessages()[i].team == team.id){
-				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
-			}
-		}				
-		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].idteam == team.id){
-				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-			}
-		}
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].team==team.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].team==team.id){
-				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-			}
-		}		
-		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].team==team.id){
-				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRequestJoinTeam.getRequestJoinTeams().length;i++){
-			if (serviceRequestJoinTeam.getRequestJoinTeams()[i].team==team.id){
-				serviceRequestJoinTeam.deleteRequestJoinRoom(serviceRequestJoinTeam.getRequestJoinTeams()[i]);
-			}
-		}
 		serviceTeam.deleteTeam(team);
 		$mdDialog.hide();
 		$scope.notification("Team "+team.name+" deleted");
