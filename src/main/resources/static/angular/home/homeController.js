@@ -29,34 +29,21 @@ kurento_room.controller('homeController', function (webNotification, $mdDialog, 
         });
 	}
 
-	$scope.borrar=serviceRequestJoinRoom.getRequestJoinRooms();
-	
 	$scope.user = serviceUser.getSession();
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
-	$scope.primerUser=serviceUser.getUser(1);
-	$scope.teamsUser=[];	
 	$scope.teamName="";		
 	
 	$scope.fileUpload;
 	
-	$scope.findTeamById = function(idteam){
-		for (var i=0; i< serviceTeam.getTeams().length;i++){
-			if (serviceTeam.getTeams()[i].id==idteam){
-				return serviceTeam.getTeams()[i];
-				break;
-			}
-		}
+	$scope.findTeamById = function(id){
+		return serviceTeam.getTeam(id);
 	}
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		user={};
 		$route.reload();
-	};
-	
-	$scope.exit = function(){
-		$window.location.href = '#/';
 	};
 	
 	$scope.login = function($event) {
@@ -109,6 +96,7 @@ kurento_room.controller('homeController', function (webNotification, $mdDialog, 
 	      controller: DialogController
 	   })
 	};
+	
 	$scope.joinTeam = function($event){
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({
@@ -158,8 +146,7 @@ kurento_room.controller('homeController', function (webNotification, $mdDialog, 
 	      },
 	      controller: DialogController
 	   })
-	};
-	
+	};	
 });
 function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
 	   $scope.user = serviceUser.getSession();
@@ -225,7 +212,6 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 							newRequest.user=$scope.user.id;
 							newRequest.team=team.id;
 							serviceRequestJoinTeam.newRequestJoinTeam(newRequest);
-//							var admins=serviceParticipate.getModerators(team.name);
 							for (var i=0;i<serviceParticipate.getParticipates().length;i++){
 								if (serviceParticipate.getParticipates()[i].team=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
 										var data= {

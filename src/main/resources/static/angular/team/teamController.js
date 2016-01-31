@@ -3,25 +3,37 @@
  */
 
 kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
-  
-	
-	
-    $http.get('/getAllRooms').
-	    success(function (data, status, headers, config) {
-	        console.log(JSON.stringify(data));
-	        $scope.listRooms = data;
-	    }).
-	    error(function (data, status, headers, config) {
-    });
-
+	//Kurento client config
 	$http.get('/getClientConfig').
-	     success(function (data, status, headers, config) {
-	    	console.log(JSON.stringify(data));
-	    	$scope.clientConfig = data;
-	     }).
-	     error(function (data, status, headers, config) {	 
-	});
+	    success(function (data, status, headers, config) {
+	   	console.log(JSON.stringify(data));
+	   	$scope.clientConfig = data;
+	    }).
+	    error(function (data, status, headers, config) {	 
+    });
+	//global variables
+	$scope.user=serviceUser.getSession();
 	
+	$scope.team={};
+    $http.get('/teams/'+$routeParams.id)
+	  .then(function(result) {
+	    $scope.team = result.data;
+	});
+    
+    $scope.participatesHttp=[];
+	$scope.participateUser={};
+	$http.get('/participates')
+	  .then(function(result) {
+	    $scope.participatesHttp = result.data;
+	    for (var i=0;i<$scope.participatesHttp.length;i++){
+	    	if ($scope.participatesHttp[i].user==$scope.user.id && $scope.participatesHttp[i].team==$scope.team.id){
+	    		$scope.participateUser=$scope.participatesHttp[i];
+	    	}
+	    }
+	});
+	$scope.rooms = serviceRoom.getRooms();
+	$scope.chatMessages = serviceChatMessage.getChatMessages();    
+	//Screens
 	$scope.screen="chat";
 	
 	$scope.showMainScreen = function(){
@@ -31,27 +43,65 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	$scope.showPrivateMessages = function(){
 		$scope.screen="privateMessages";
 	}
-	$scope.user=serviceUser.getSession();
 	
-	$scope.team={};
-    $http.get('/teams/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.team = result.data;
-	});
+	$scope.userReceiver={};
+	$scope.showUserMessages = function(user){
+		$scope.userReceiver=user;
+		$scope.screen="privateUserMessages";
+	}
 		
     $scope.receiver;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.teamUsers2(), { name: query});
+		return $filter('filter')($scope.teamUsersWithoutUser(), { name: query});
+	}
+	//end screens
+	//auxiliar search functions
+	$scope.findUserById = function(iduser){
+		return serviceUser.getUser(iduser);
 	}
 	
-	$scope.teamUsers2 = function(){
+	$scope.findTeamById = function(idteam){
+		return serviceTeam.getTeam(idteam);
+	}
+	
+	$scope.userMembership = function(){
+		var participates=0;
+		if ($scope.user.name){
+			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
+				if ((serviceParticipate.getParticipates()[i].user==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
+					participates=1;
+				}
+			}
+		}
+		return participates;
+	};
+	//end auxiliar search functions
+	//chat message
+	$scope.chatMessage;
+	
+	$scope.sendMessage = function () {   	
+		var message = {};
+  		message.room=0;
+  		message.team=$scope.team.id;
+  		message.text=$scope.chatMessage;
+  		message.user=serviceUser.getSession().id;
+  		$scope.chatMessage="";
+  		serviceChatMessage.newChatMessage(message);
+	};
+	//end chat message
+	//private messages
+	$scope.teamUsers = function(){
 		var teamUsers=[];
 		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team==$scope.team.id && serviceParticipate.getParticipates()[i].user!=$scope.user.id){
+			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
 				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
 			}
 		}
 		return teamUsers;
+	};
+	
+	$scope.teamUsersWithoutUser = function(){
+		return $filter('filter')($scope.teamUsers(), { id: '!'+$scope.user.id}); 
 	};
 	
 	$scope.privateMessages= function(){
@@ -62,7 +112,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	    return ((message.transmitter == $scope.user.id && message.receiver==$scope.userReceiver)|| (message.receiver == $scope.user.id && message.transmitter==$scope.userReceiver));
 	};
 	
-	$scope.filterUniqueMessages = function(){
+	$scope.filterMessagesContacts = function(){
 		var array=[];
 		var object;
 		var object2;
@@ -84,12 +134,6 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		}
 		return array;
 	}
-	
-	$scope.userReceiver={};
-	$scope.showUserMessages = function(user){
-		$scope.userReceiver=user;
-		$scope.screen="privateUserMessages";
-	}
 		
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
@@ -110,27 +154,24 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		privateMessage.text=message;
 		servicePrivateMessage.newPrivateMessage(privateMessage);
 		$scope.notification("New private message");
-		
 	}
+	//end private messages
+	//notifications
+	 $scope.showNotifications = function(){
+ 		return $mdSidenav('right').toggle();
+	 }
+	 
+	 $scope.isNotificationsOpened = function(){
+	   return $mdSidenav('right').isOpen();
+	 };
+ 
+	$scope.close = function () {
+	      $mdSidenav('right').close()
+	        .then(function () {
+	          $log.debug("close RIGHT is done");
+	        });
+	 };
 	
-	$scope.teamUsers = function(){
-		var teamUsers=[];
-		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
-				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
-			}
-		}
-		return teamUsers;
-	};
-	
-	$scope.findUserById = function(iduser){
-		return serviceUser.getUser(iduser);
-	}
-	
-	$scope.findTeamById = function(idteam){
-		return serviceTeam.getTeam(idteam);
-	}
-    
     $scope.roomInvitations = function(){
     	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
     }
@@ -206,59 +247,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request denied");
     }
-    
-	$scope.roomsHttp=[];
-	$http.get('/rooms')
-	  .then(function(result) {
-	    $scope.roomsHttp = result.data;
-	});
-	$scope.chatMessagesHttp=[];
-	$http.get('/chatmessages')
-	  .then(function(result) {
-	    $scope.chatMessagesHttp = result.data;
-	});
-	
-	$scope.participatesHttp=[];
-	$scope.participateUser={};
-	$http.get('/participates')
-	  .then(function(result) {
-	    $scope.participatesHttp = result.data;
-	    for (var i=0;i<$scope.participatesHttp.length;i++){
-	    	if ($scope.participatesHttp[i].user==$scope.user.id && $scope.participatesHttp[i].team==$scope.team.id){
-	    		$scope.participateUser=$scope.participatesHttp[i];
-	    	}
-	    }
-	});
-		
-	$scope.roomName = serviceKurentoRoom.getRoomName();
-    $scope.userName = serviceKurentoRoom.getUserName();
-    $scope.participants = ServiceParticipant.getParticipants();
-    $scope.kurento = serviceKurentoRoom.getKurento();
-    $scope.chatMessages = serviceChatMessage.getChatMessages();
-    
-    window.onbeforeunload = function () {
-    	//not necessary if not connected
-    	if (ServiceParticipant.isConnected()) {
-    		serviceKurentoRoom.getKurento().close();
-    	}
-    };
-	
-	$scope.rooms=serviceRoom.getRooms();
-	$scope.chatMessage="";
-	$scope.participate = function(){
-		var participates=0;
-		if ($scope.user.name){
-			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
-				if ((serviceParticipate.getParticipates()[i].user==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
-					participates=1;
-				}
-			}
-		}
-		return participates;
-	};
-	
-	
-	
+    //end notifications	
 	$scope.invitePeople = function($event){
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({
@@ -295,8 +284,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	      controller: invitePeopleController
 	   })
 	};
-	
-	
+
 	$scope.leaveTeam = function($event){
 		var creator=false;
 		var userLeaving={};
@@ -394,10 +382,10 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
 	        '<md-toolbar>'+
 	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>New room</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
+	        '<span flex><h2>New room</h2></span>'+
+	        '<md-button class="md-icon-button" ng-click="closeDialog()">'+
+	        '<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
+	        '</md-button>'+
 	        '</div>'+
 	        '</md-toolbar>'+
 	        '<md-dialog-content>'+
@@ -411,14 +399,14 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
             'Private'+
 	        '</md-checkbox>'+
 	        '</div>'+
-	        '  <md-dialog-actions>' +
-	        '  <md-button class="md-primary md-raised" ng-click="newRoom(newRoom)" >' +
-	        '      Create' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
+	        '<md-dialog-actions>' +
+	        '<md-button class="md-primary md-raised" ng-click="newRoom(newRoom)" >' +
+	        '  Create' +
+	        '</md-button>' +
+	        '<md-button ng-click="closeDialog()" class="md-primary">' +
+	        'Cancel' +
+	        '</md-button>' +
+	        '</md-dialog-actions>' +
 	        '</md-dialog>',
 	      locals: {
 	        room: {},
@@ -482,9 +470,8 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		}
 		if ($scope.participateUser.teamPrivileges>0 || $scope.user.privileges>0){
 			participate=1;
-			
 		}
-		if (participate==0){
+		if (participate==0){		
 			var parentEl = angular.element(document.body);
 		    $mdDialog.show({
 		      parent: parentEl,
@@ -500,7 +487,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		        '</div>'+
 		        '</md-toolbar>'+
 		        '<md-dialog-content>'+
-		        '<div class="md-dialog-content">'+
+		        '<div class="md-dialog-content">{{userRequestRoom}}'+
 		        'You have no access for this private room, if you want to enter you can send a request by clicking the button below '+
 		        '<div>'+
 		        '  <md-button class="md-primary md-raised" ng-click="roomRequest()" >' +
@@ -518,12 +505,11 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		      controller: roomController
 		   })
 		}else{
-		
+			
 		$scope.roomName = room.name;
 		$scope.roomId=room.id;
 		$scope.roomCreator=room.creator;
 		var wsUri = 'wss://' + location.host + '/room';
-		
 		//show loopback stream from server
 		var displayPublished = $scope.clientConfig.loopbackRemote || false;
 		//also show local stream when display my remote
@@ -536,7 +522,7 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		
 		    //TODO token should be generated by the server or a 3rd-party component  
 		    //kurento.setRpcParams({token : "securityToken"});
-		
+		    
 		    room = kurento.Room({
 		        room: $scope.roomName,
 		        user: $scope.user.name
@@ -629,96 +615,10 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
 		serviceKurentoRoom.setCreator($scope.roomCreator);
 		serviceKurentoRoom.setUserName($scope.user.name);
 		serviceKurentoRoom.setTeam($scope.team.id);
-		//redirect to call
 		$window.location.href = '#/call';
 		}
-	};
-	$scope.toggleLeft = buildDelayedToggler('left');
-    $scope.toggleRight = buildToggler('right');
-    $scope.isOpenRight = function(){
-      return $mdSidenav('right').isOpen();
-    };
-    function debounce(func, wait, context) {
-        var timer;
-        return function debounced() {
-          var context = $scope,
-              args = Array.prototype.slice.call(arguments);
-          $timeout.cancel(timer);
-          timer = $timeout(function() {
-            timer = undefined;
-            func.apply(context, args);
-          }, wait || 10);
-        };
-      }
-      /**
-       * Build handler to open/close a SideNav; when animation finishes
-       * report completion in console
-       */
-      function buildDelayedToggler(navID) {
-        return debounce(function() {
-          $mdSidenav(navID)
-            .toggle()
-            .then(function () {
-              $log.debug("toggle " + navID + " is done");
-            });
-        }, 200);
-      }
-      function buildToggler(navID) {
-        return function() {
-          $mdSidenav(navID)
-            .toggle()
-            .then(function () {
-              $log.debug("toggle " + navID + " is done");
-            });
-        }
-      }
-	$scope.close = function () {
-	      $mdSidenav('right').close()
-	        .then(function () {
-	          $log.debug("close RIGHT is done");
-	        });
-	    };
-	
-	$scope.chatMessage;
-	
-	$scope.sendMessage = function () {   	
-  	  var message = {};
-  	  message.room=0;
-  	  message.team=$scope.team.id;
-  	  message.text=$scope.chatMessage;
-  	  message.user=serviceUser.getSession().id;
-  	  $scope.chatMessage="";
-  	  serviceChatMessage.newChatMessage(message);
-	};
-    
-    $scope.toggleChat = function () {
-        var selectedEffect = "slide";
-        // most effect types need no options passed by default
-        var options = {direction: "right"};
-        if ($("#effect").is(':visible')) {
-            $("#content").animate({width: '100%'}, 500);
-        } else {
-            $("#content").animate({width: '80%'}, 500);
-        }
-        // run the effect
-        $("#effect").toggle(selectedEffect, options, 500);
-    };
-	
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	};
-	
-	$rootScope.$on('$locationChangeSuccess', function() {
-        $rootScope.actualLocation = $location.path();
-    });        
+	};	   
 
-	$rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
-	   if (oldLocation == "/call"){
-	    	serviceKurentoRoom.getKurento().close();
-		    ServiceParticipant.removeParticipants();
-	   }
-    });
-	
 	$scope.notification = function(text) {
 	    $mdToast.show(
 	      $mdToast.simple()
@@ -730,7 +630,13 @@ kurento_room.controller('teamController', function ($filter, $mdDialog, $mdMedia
     
 });
 
-function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
+function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
+	
+	$scope.userRequestRoom={};
+	$http.get('/requestjoinrooms/'+room.id+'/'+user.id)
+	  .then(function(result) {
+	    $scope.userRequestRoom = result.data[0];
+	});
 	
 	$scope.participateUser=participateUser;
 	$scope.roomInput;
@@ -748,68 +654,48 @@ function roomController($scope, $mdDialog, $mdToast, serviceRoom, $window, room,
 		$scope.notification("Room "+$scope.roomInput.name+" created");
 	};
 	
-	   $scope.deleteRoom = function(){
-		   
-			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-				if (serviceParticipateRoom.getParticipateRooms()[i].team==team.id && serviceParticipateRoom.getParticipateRooms()[i].room==room.id){					
-					serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-				}
-			}
-			
-			if (room.privateRoom==1){
-				for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-					if (serviceRequestJoinRoom.getRequestJoinRooms()[i].room==room.id){
-						serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-					}
-				}
-			}
-			for (var i=0;i<serviceChatMessage.getChatMessages().length;i++){
-				if (serviceChatMessage.getChatMessages()[i].team==team.id && serviceChatMessage.getChatMessages()[i].room==room.id){
-					serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
-				}
-			}
-			$scope.notification("Room "+room.name+" deleted");
+	$scope.deleteRoom = function(){	   
 			serviceRoom.deleteRoom(room);
+			$scope.notification("Room "+room.name+" deleted");
 			$mdDialog.hide();
-		};
+	};
 		
-		$scope.roomRequest = function(){
+	$scope.roomRequest = function(){
+		if ($scope.userRequestRoom){				
+			$scope.notification("You already sent a request to the room "+room.name);
+		}else{
 			var request={};
 			request.user=user.id;
 			request.room=room.id;
 			request.team=team.id;
-			var exists=false;
-			for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-				if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].room==room.id){
-					exists=true;
-				}
-			}
-			if (exists){				
-				$scope.notification("You already sent a request to the room "+room.name);
-			}else{
-				serviceRequestJoinRoom.newRequestJoinRoom(request);
-				$mdDialog.hide();
-				$scope.notification("Request to join "+room.name+" sent");
-			}
-		}
-	   
-		$scope.notification = function(text) {
-		    $mdToast.show(
-		      $mdToast.simple()
-		        .textContent(text)
-		        .position("bottom right")
-		        .hideDelay(3000)
-		    );
-		  };
-		
-	
-		$scope.closeDialog = function() {
+			serviceRequestJoinRoom.newRequestJoinRoom(request);
 			$mdDialog.hide();
+			$scope.notification("Request to join "+room.name+" sent");
 		}
+	}
+	   
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
 }
 
-function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
+function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
 
+	$scope.participatesTeam=[];
+	$http.get('/participates/'+team.id+'/members')
+	  .then(function(result) {
+	    $scope.participatesTeam = result.data[0];
+	});
+	
 	$scope.participateUser=participateUser;
 	$scope.team=team;
 	$scope.newAdmin='';
@@ -825,17 +711,13 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 	
 	$scope.findUserById = function(iduser){
 		return serviceUser.getUser(id);
+	}  
+	
+	$scope.receiver;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.participatesTeam, { name: query});
 	}
 	
-	$scope.participates2 = function(){
-		var participates = $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
-		var users=[];
-		for (var i=0;i<participates.length;i++){
-			users.push($scope.findUserById(participates[i].user));
-		}
-		return users;
-	}
-	    
 	$scope.leaveTeam = function(){
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
 			if (serviceParticipate.getParticipates()[i].user == user.id && serviceParticipate.getParticipates()[i].team == team.id){
@@ -862,20 +744,13 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 		$scope.notification("You left the team");
 		$route.reload();
 	};
-	
-	$scope.receiver;
-	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.participates2(), { name: query});
-	}
-	
-	
+		
 	$scope.deleteTeam = function(){
 		serviceTeam.deleteTeam(team);
 		$mdDialog.hide();
 		$window.location.href = '#/';
 		$scope.notification("Team deleted");
 	}
-	
 	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
@@ -892,8 +767,8 @@ function exitTeamController($scope, $filter, $mdDialog, $mdToast, serviceRoom, $
 
 }
 function invitePeopleController($scope, $http, $route, $mdDialog, $mdToast, serviceUser, $window, team, user) {
-	$scope.email="";
 	
+	$scope.email="";
 	$scope.sendInvitation = function(){
 		if ($scope.email==""){
 			$scope.notification("Please enter a email");

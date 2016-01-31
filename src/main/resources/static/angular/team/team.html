@@ -1,5 +1,5 @@
-<div layout="row" ng-show="participate()==1 || user.privileges>0" style="height:100%">
-  <md-button class="md-fab md-primary" style="position:absolute; right:10px; top:10px;" aria-label="Notifications" ng-click="toggleRight()" ng-show="!isOpenRight()">
+<div layout="row" ng-show="userMembership()==1 || user.privileges>0" style="height:100%">
+  <md-button class="md-fab md-primary" style="position:absolute; right:10px; top:10px;" aria-label="Notifications" ng-click="showNotifications()" ng-show="!isNotificationsOpened()">
           <md-icon class="material-icons">notifications</md-icon>
   </md-button>
   <md-content-flex flex="20" style="position:relative;background-color:gray">
@@ -45,7 +45,7 @@
 		        <md-icon class="material-icons">close</md-icon>
 		     </md-button>
   			<p>Last conversations</p>
-  			<md-list-item ng-repeat="user in filterUniqueMessages()" ng-click="showUserMessages(user)">
+  			<md-list-item ng-repeat="user in filterMessagesContacts()" ng-click="showUserMessages(user)">
   				 <md-list-item class="md-2-line">
   				 	<ng-letter-avatar data="{{findUserById(user).name}}" shape="round"></ng-letter-avatar>
   				 <div class="md-list-item-text">
@@ -194,6 +194,6 @@
       </md-content>
     </md-sidenav>
 </div>
-<div ng-hide="participate()==1">
+<div ng-hide="userMembership()==1">
 	You don't participate in this team.
 </div>

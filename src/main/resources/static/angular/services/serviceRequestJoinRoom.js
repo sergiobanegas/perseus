@@ -47,8 +47,7 @@ function serviceRequestJoinRoom($resource, $timeout) {
 		new RequestJoinRoomResource(newRequestJoinRoom).$save(function(RequestJoinRoom) {
 			RequestJoinRooms.push(RequestJoinRoom);
 			
-		});
-			
+		});	
 	}
 
 	function updateRequestJoinRoom(updatedRequestJoinRoom) {

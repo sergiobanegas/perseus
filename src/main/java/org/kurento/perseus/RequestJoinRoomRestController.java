@@ -49,8 +49,8 @@ public class RequestJoinRoomRestController {
 		return requestJoinRoomRepository.save(request);
 	}
 	
-	@RequestMapping(value = "/{user}/{room}", method = RequestMethod.GET)
-	public List<RequestJoinRoom> getRequestJoinRoom(@PathVariable Integer user, @PathVariable Integer room) {
-		return requestJoinRoomRepository.findByUserAndRoom(user, room);
+	@RequestMapping(value = "/{room}/{user}", method = RequestMethod.GET)
+	public List<RequestJoinRoom> getRequestJoinRoom(@PathVariable Integer room, @PathVariable Integer user) {
+		return requestJoinRoomRepository.findByRoomAndUser(room, user);
 	}
 }
