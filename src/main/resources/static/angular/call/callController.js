@@ -44,11 +44,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	};
     
     $scope.memberUser = function(){
-    	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id){
-    			return serviceParticipateRoom.getParticipateRooms()[i];
-    		}
-    	}
+    	return serviceParticipateRoom.getParticipateByUser($scope.user.id);
     }
     
     $scope.members= function(){
@@ -122,14 +118,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     };
     
     $scope.inviteToRoom = function($event){ 
-    	var roomInvite;
-    	for (var i=0;i<serviceRoom.getRooms().length;i++){
-			if (serviceRoom.getRooms()[i].name==$scope.roomName){
-				roomInvite=serviceRoom.getRooms()[i].id;
-			}
-		}
-    	
-    	
+    	var roomInvite=serviceRoom.getRoom($scope.roomId);
     	var parentEl = angular.element(document.body);
 	    $mdDialog.show({
 	      parent: parentEl,
@@ -148,7 +137,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	        '<div class="md-dialog-content">'+
 	        'Invite people to the room!'+
 	        '<div>'+
-	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in teamUsers" ng-show="!roomMember(user)">'+
+	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in notMembers()">'+
 	        '<div class="md-list-item-text">'+
 	        '<p>{{findUserById(user.user).name}}</p>'+
 	        '<md-icon ng-click="inviteUser(user.user, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">add</md-icon>'+
@@ -257,14 +246,16 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
 	$scope.teamUsers=teamUsers;
-	$scope.roomMember = function(participate){
-		for (var i=0;serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user==participate.iduser && serviceParticipateRoom.getParticipateRooms()[i].room == room){
-				return true;
+	$scope.notMembers= function(){
+		var notMembers=[];
+		for (var i=0;i<teamUsers.length;i++){
+			if (!serviceParticipateRoom.isMember(teamUsers[i].user)){
+				notMembers.push(teamUsers[i]);
 			}
 		}
-		return false;
-	}		
+		return notMembers;
+	};
+	
 	$scope.inviteUser = function(userid){
 		var roominvite={};
 		roominvite.user=userid;
@@ -283,8 +274,7 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceRoom,
 			serviceRoomInvite.newRoomInvite(roominvite);
 			
 			$scope.notification("Invited");
-		}
-		
+		}		
 	}
 	
 	$scope.findUserById = function(iduser){

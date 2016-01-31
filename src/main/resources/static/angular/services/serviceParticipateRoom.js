@@ -21,7 +21,9 @@ function serviceParticipateRoom($resource, $timeout) {
 	return {
 		reload : reload,
 		getParticipateRooms : getParticipateRooms,
-		getParticipateRoom : getParticipateRoom,		
+		getParticipateRoom : getParticipateRoom,
+		getParticipateByUser : getParticipateByUser,
+		isMember : isMember,
 		newParticipateRoom : newParticipateRoom,
 		updateParticipateRoom : updateParticipateRoom,
 		deleteParticipateRoom : deleteParticipateRoom
@@ -43,11 +45,27 @@ function serviceParticipateRoom($resource, $timeout) {
 		return request;
 	}
 	
+	function getParticipateByUser(id){
+		for (var i=0;i<ParticipateRooms.length;i++){
+    		if (ParticipateRooms[i].user==id){
+    			return ParticipateRooms[i];
+    		}
+    	}
+	}
+	
+	function isMember(id){
+		for (var i=0;i<ParticipateRooms.length;i++){
+    		if (ParticipateRooms[i].user==id){
+    			return true;
+    		}
+    	}
+		return false;
+	}
+	
 	function newParticipateRoom(newParticipateRoom) {
 		new ParticipateRoomResource(newParticipateRoom).$save(function(ParticipateRoom) {
 			ParticipateRooms.push(ParticipateRoom);
-		});
-			
+		});			
 	}
 
 	function updateParticipateRoom(updatedParticipateRoom) {
