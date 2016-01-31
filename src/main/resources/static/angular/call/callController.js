@@ -24,12 +24,14 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 	    $scope.room = result.data;
 	});
     
+    $scope.teamUsers=[];
+    $http.get('/participates/'+serviceKurentoRoom.getTeam()+'/members')
+	  .then(function(result) {
+	    $scope.teamUsers = result.data;
+	});
+    
     $scope.room = function(){
-    	for (var i=0;i<serviceRoom.getRooms().length;i++){
-    		if (serviceRoom.getRooms()[i].id==$scope.roomId){
-    			return serviceRoom.getRooms()[i];
-    		}
-    	}
+    	return serviceRoom.getRoom($scope.roomId);
     }
     
     $scope.notification = function(text) {
@@ -75,14 +77,6 @@ kurento_room.controller('callController', function ($mdDialog, $mdToast, $scope,
 		serviceParticipateRoom.updateParticipateRoom(member);
 		$scope.notification("Moderation permissions removed");
 	}
-    
-    
-    $scope.teamUsers=[];
-    $http.get('/participates/'+serviceKurentoRoom.getTeam()+'/members')
-	  .then(function(result) {
-	    $scope.teamUsers = result.data;
-	});
-
     
     $scope.leavePrivateRoom = function($event){
     	var parentEl = angular.element(document.body);

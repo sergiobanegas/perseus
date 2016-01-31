@@ -4,7 +4,6 @@
 
 kurento_room.controller('adminTeamController', function ($scope, $http, $route, $filter, $routeParams, $mdDialog, $mdToast, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
 	
-	$scope.hola="hola";
 	$scope.team={};
     $http.get('/teams/'+$routeParams.id)
 	  .then(function(result) {
@@ -41,9 +40,9 @@ kurento_room.controller('adminTeamController', function ($scope, $http, $route, 
 	};	
 	
 	$scope.setModerator = function (member){
-			member.teamPrivileges=1;
-			serviceParticipate.updateParticipate(member);
-			$scope.notification($scope.findUserById(member.user).name+" is now a moderator");
+		member.teamPrivileges=1;
+		serviceParticipate.updateParticipate(member);
+		$scope.notification($scope.findUserById(member.user).name+" is now a moderator");
 	};
 	
 	$scope.removeModerator = function (member){

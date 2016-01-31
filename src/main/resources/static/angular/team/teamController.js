@@ -655,9 +655,9 @@ function roomController($scope, $http, $mdDialog, $mdToast, serviceRoom, $window
 	};
 	
 	$scope.deleteRoom = function(){	   
-			serviceRoom.deleteRoom(room);
-			$scope.notification("Room "+room.name+" deleted");
-			$mdDialog.hide();
+		serviceRoom.deleteRoom(room);
+		$scope.notification("Room "+room.name+" deleted");
+		$mdDialog.hide();
 	};
 		
 	$scope.roomRequest = function(){

@@ -39,11 +39,11 @@ function serviceRoom($resource, $timeout, serviceParticipateRoom, serviceRequest
 	}
 
 	function getRoom(id) {
-		for (var i = 0; i < rooms.length; i++) {
-			if (rooms[i].id.toString() === id.toString()) {
-				return rooms[i];
-			}
-		}
+		for (var i=0;i<rooms.length;i++){
+    		if (rooms[i].id==id){
+    			return rooms[i];
+    		}
+    	}
 	}
 	
 	function newRoom(newRoom) {

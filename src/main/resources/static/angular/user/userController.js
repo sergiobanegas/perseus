@@ -78,7 +78,6 @@ kurento_room.controller('userController', function ($mdDialog, $http, $scope, $r
 	   })
 	}
 	
-	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
