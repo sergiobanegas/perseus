@@ -62,6 +62,7 @@ public class PerseusApp {
 		if (userRepository.findAll().isEmpty()){
 			admin.setName("admin");
 			admin.setPassword("1234");
+			admin.setEmail("admin@1");
 			admin.setPrivileges(1);
 			userRepository.save(admin);
 		}
