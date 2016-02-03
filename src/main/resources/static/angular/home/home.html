@@ -1,4 +1,4 @@
-<md-content>
+<md-content layout="column" layout-align="center center" style="background-color:black">
     <md-toolbar ng-controller="homeController">
       <div class="md-toolbar-tools">
         <md-button ng-click="exit()"class="md-icon-button" aria-label="Settings">
@@ -21,7 +21,8 @@
         </md-button>
       </div>
     </md-toolbar>
-    <div ng-show="user.name" layout="row">
+    	<div layout="row" layout-align="center center" style="width:1000px;height:667px;border-style:solid;background-image: url('http://tweakyourbiz.com/growth/files/How-Collaboration-Creates-Growth-For-Your-SME.jpg');">
+			<div ng-show="user.name" style="border-style:solid;text-align:center" flex="30">
 		  <div flex>{{user.name}}</div>
 		  <div flex>
 		  	<a ng-href="#/user/{{user.id}}"> 
@@ -60,5 +61,9 @@
 			     </md-list-item>
 			</md-list>
 		  </div>
-	</div>
+	</div> 
+		
+		</div>
+		  	
+    
 </md-content>
