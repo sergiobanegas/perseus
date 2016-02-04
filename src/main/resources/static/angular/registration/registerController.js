@@ -10,7 +10,7 @@ perseus.controller('registerController', function ($mdToast, $scope, $window, $f
 			newUnconfirmedUser.privileges=0;
 			newUnconfirmedUser.confirmationCode=(Math.random() * 10000000 + 0);
 			serviceUnconfirmedUser.newUnconfirmedUser(newUnconfirmedUser);
-			serviceNotification.showNotification("Welcome to perseus", "It's a pleasure to have you with us "+newUnconfirmedUser.name);
+			serviceNotification.showNotification("Email validation needed", "Hello "+newUnconfirmedUser.name+", you have to confirm your email address in order to finish your registration, we've sent an email to you");
 			$window.location.href = '#/';
 		}
 		else{

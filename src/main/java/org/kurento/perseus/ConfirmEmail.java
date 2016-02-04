@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/confirmation")
+@RequestMapping("/emailvalidation")
 public class ConfirmEmail {
 	
 	@Autowired
@@ -17,9 +17,9 @@ public class ConfirmEmail {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@RequestMapping(value = "/{confirmation}", method = RequestMethod.GET)
-	public void confirmEmail(@PathVariable int confirmation) {
-		List<UnconfirmedUser> unconfirmedUser=unconfirmedUserRepository.findByConfirmationCode(confirmation);
+	@RequestMapping(value = "/{code}", method = RequestMethod.GET)
+	public void confirmEmail(@PathVariable int code) {
+		List<UnconfirmedUser> unconfirmedUser=unconfirmedUserRepository.findByConfirmationCode(code);
 		if (!unconfirmedUser.isEmpty()){
 			UnconfirmedUser unconfirmed=unconfirmedUser.get(0);
 			User newuser=new User();

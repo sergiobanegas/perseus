@@ -63,7 +63,7 @@ public class UnconfirmedUserRestController {
 			String text;
 			message.setSubject("Perseus -  Email confirmation");
 			text="Hello "+user.getName()+"!.<\br> To become a member of Perseus, you need to confirm your email</b>"
-					+ " click <a href='https://localhost:8443/confirmation/"+user.getConfirmationCode()+"'>here</a>";
+					+ " click <a href='https://localhost:8443/#/emailvalidation/"+user.getConfirmationCode()+"'>here</a>";
 			//Y por ultimo el texto.
 			message.setContent(text, "text/html; charset=utf-8");
 			//Esta orden envía el mensaje
