@@ -16,6 +16,7 @@ package org.kurento.perseus;
 import static org.kurento.commons.PropertiesManager.getPropertyJson;
 
 import java.util.List;
+import java.util.Scanner;
 
 import org.kurento.commons.ConfigFileManager;
 import org.kurento.commons.PropertiesManager;
@@ -60,11 +61,22 @@ public class PerseusApp {
 	public User firstUser(){
 		User admin = new User();
 		if (userRepository.findAll().isEmpty()){
-			admin.setName("admin");
-			admin.setPassword("1234");
-			admin.setEmail("admin@1");
+			String name, password, email;
+			Scanner in = new Scanner(System.in);
+			System.out.println("Welcome to Perseus, let's create an administrator.");
+			System.out.println("Name:");
+			name=in.next();
+			System.out.println("Password:");
+			password=in.next();
+			System.out.println("Email (you need a valid email in order to receive email from the users):");
+			email=in.next();
+			in.close();
+			admin.setName(name);
+			admin.setPassword(password);
+			admin.setEmail(email);
 			admin.setPrivileges(1);
 			userRepository.save(admin);
+			System.out.println("Administrator created");
 		}
 		return admin;
 	}
