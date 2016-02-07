@@ -22,6 +22,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     $http.get('/rooms/'+serviceKurentoRoom.getTeam()+'/'+serviceKurentoRoom.getRoomName())
 	  .then(function(result) {
 	    $scope.room = result.data;
+	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
     
     $scope.teamUsers=[];
@@ -234,6 +235,9 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     	  message.user=$scope.user.id;
     	  $scope.chatMessage="";
     	  serviceChatMessage.newChatMessage(message);
+    	  setTimeout(function(){
+    			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
+    	    }, 500);
     };
     
     $scope.desktopShare = function(){

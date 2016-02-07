@@ -18,6 +18,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     $http.get('/teams/'+$routeParams.id)
 	  .then(function(result) {
 	    $scope.team = result.data;
+	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
     
     $scope.participatesHttp=[];
@@ -35,7 +36,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	$scope.chatMessages = serviceChatMessage.getChatMessages();    
 	//Screens
 	$scope.screen="chat";
-	
 	$scope.showMainScreen = function(){
 		$scope.screen="chat";
 	}
@@ -78,7 +78,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	//end auxiliar search functions
 	//chat message
 	$scope.chatMessage;
-	
 	$scope.sendMessage = function () {   	
 		var message = {};
   		message.room=0;
@@ -86,8 +85,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
   		message.text=$scope.chatMessage;
   		message.user=serviceUser.getSession().id;
   		$scope.chatMessage="";
+  		var currentSize=$scope.chatMessages.length;
   		serviceChatMessage.newChatMessage(message);
+  		setTimeout(function(){
+  			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
+  	    }, 500);
 	};
+	function sleepFor( sleepDuration ){
+	    var now = new Date().getTime();
+	    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ } 
+	}
 	//end chat message
 	//private messages
 	$scope.teamUsers = function(){
@@ -154,17 +161,18 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		servicePrivateMessage.newPrivateMessage(privateMessage);
 	}
 	//end private messages
-	//notifications
-	 $scope.showNotifications = function(){
- 		return $mdSidenav('right').toggle();
+
+	//sidenavs
+	 $scope.showNotifications = function(sidenav){
+ 		return $mdSidenav(sidenav).toggle();
 	 }
 	 
-	 $scope.isNotificationsOpened = function(){
-	   return $mdSidenav('right').isOpen();
+	 $scope.isNotificationsOpened = function(sidenav){
+	   return $mdSidenav(sidenav).isOpen();
 	 };
  
-	$scope.close = function () {
-	      $mdSidenav('right').close()
+	$scope.close = function (sidenav) {
+	      $mdSidenav(sidenav).close()
 	        .then(function () {
 	          $log.debug("close RIGHT is done");
 	        });
@@ -245,7 +253,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request denied");
     }
-    //end notifications	
+    //end sidenav	
 	$scope.invitePeople = function($event){
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({

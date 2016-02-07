@@ -1,32 +1,32 @@
 <div layout="row" style="height:100%">
 	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
-	<p>{{roomName}}</p>
-	<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
-	             Invite people to the room
-	</md-button>
-	<md-button ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2" style="background-color:blue">
-	       Exit the room
-	</md-button>
-	<div>Members:</div>
-	<md list-item ng-show="room().privateRoom==0">
-	</md>
-	<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">	
-    			<p> {{findUserById(member.user).name}}</p>
-    			<span ng-show="member.user!=creator">
-    				<md-button ng-show="memberUser().roomPrivileges==1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
-	    				<i class="material-icons">cancel</i>
-	    			</md-button>
-	    			<span ng-show="user.id==creator && member.user!=user.id">
-		    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
-							<i class="material-icons">star</i>
-						</md-button>
-						<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
-							<i class="material-icons">star_border</i>
-						</md-button>	
-					</span>		
-    			</span>
- 		</md-list-item>
+		<p>{{roomName}}</p>
+		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
+		             Invite people to the room
+		</md-button>
+		<md-button ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2" style="background-color:blue">
+		       Exit the room
+		</md-button>
+		<div>Members:</div>
+		<md list-item ng-show="room().privateRoom==0">
+		</md>
+		<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">	
+	    			<p> {{findUserById(member.user).name}}</p>
+	    			<span ng-show="member.user!=creator">
+	    				<md-button ng-show="memberUser().roomPrivileges==1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
+		    				<i class="material-icons">cancel</i>
+		    			</md-button>
+		    			<span ng-show="user.id==creator && member.user!=user.id">
+			    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
+								<i class="material-icons">star</i>
+							</md-button>
+							<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
+								<i class="material-icons">star_border</i>
+							</md-button>	
+						</span>		
+	    			</span>
+	 		</md-list-item>
 	</md-content-flex>
 	<div flex>
 		<div id="top">
@@ -48,13 +48,13 @@
        			 </md-button>
 	        </div>
 		</div>
-		<div class="toggler" style="width: 100%;height: 100%; border-top-style:solid" >
+		<div class="toggler" style="border-top-style:solid" >
 			<div id="effect">
 			     head
 			 	<div>
 			 		<strong>Team chat</strong>
 			 	</div>
-			    <div style="height: 30em;  overflow: scroll;">
+			    <div id="chatscroll" style="height: 15em;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }">
 					     <md-list-item class="md-2-line">
 <!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{todos[0].who}}" /> -->
@@ -65,7 +65,8 @@
 						       </div>
 					      </md-list-item>
 					  </md-list-item>			
-			          <div class="md-block">
+			    </div>
+			     <div class="md-block">
 			          		<form ng-submit="sendMessage()">
 				                <md-input-container md-no-float>
 						        	<input ng-model="chatMessage" placeholder="New message" required>
@@ -74,8 +75,8 @@
 							  		Send
 								</md-button>
 							</form>
-			           </div>
-			        </div>
+			     </div>
+			        
     			</div>
   			</div>
 		
