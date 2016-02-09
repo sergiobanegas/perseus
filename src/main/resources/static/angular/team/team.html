@@ -11,7 +11,6 @@
 	    </md-tooltip>
         </md-button>
       </md-list-item>
-      
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
           <md-icon class="material-icons">
@@ -21,8 +20,7 @@
 	   		Notifications
 	   	</md-tooltip>
         </md-button>
-      </md-list-item>
-      
+      </md-list-item>   
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showPrivateMessages()">
           <md-icon class="material-icons">
@@ -33,7 +31,6 @@
 	   	</md-tooltip>
         </md-button>
       </md-list-item>
-      
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="">
 	        <md-icon class="material-icons">
@@ -44,18 +41,16 @@
 	    	</md-tooltip>
         </md-button>
       </md-list-item>
-      <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="invitePeople($event)" ng-show="participateUser.teamPrivileges>0">
+      <md-list-item ng-show="participateUser.teamPrivileges>0">
+        <md-button class="md-icon-button launch" ng-click="invitePeople($event)">
 	        <md-icon class="material-icons">
 		    	person_add
 		    </md-icon>
-		    <md-tooltip md-visible="tooltip.showTooltip" md-direction="{{tooltip.tipDirection}}">
+		    <md-tooltip md-direction="right">
 	        	Invite people
 	    	</md-tooltip>
         </md-button>
-      </md-list-item>
-      
-      
+      </md-list-item>      
       <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
        <a ng-href="#/team/{{team.id}}/admin">
         <md-button class="md-icon-button launch" ng-click="">
@@ -69,20 +64,18 @@
         </a>
       </md-list-item>
     </md-list>
-  	
-  	
   </md-content-flex>
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
 	   <md-content-flex layout="row">
 		   <div flex>
-				   <md-button class="md-icon-button launch" ng-click="">
-				        <md-icon class="material-icons">
-					    	search
-					    </md-icon>
-					    <md-tooltip>
-				        	Members
-				    	</md-tooltip>
-			        </md-button>
+				<md-button class="md-icon-button launch" ng-click="">
+					<md-icon class="material-icons">
+						search
+					</md-icon>
+					<md-tooltip>
+				    	Members
+				   	</md-tooltip>
+			    </md-button>
 		   </div>
 	       <div flex="1">
 	        <md-button class="md-icon-button launch" ng-click="newRoom($event)">
@@ -130,37 +123,36 @@
 		       <md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
   			</md-list-item>
-			<div class="md-block">
-			 		
-		<form ng-submit="newPrivateMessage()">
-			<md-input-container md-no-float>
-				<input ng-model="privateMessage" type="text" placeholder="New message" required>
-			</md-input-container>
-		    <md-autocomplete
-		        md-no-cache="noCache"
-		        md-selected-item="receiver"
-		        md-search-text-change="searchTextChange(searchText)"
-		        md-search-text="searchText"
-		        md-selected-item-change="selectedItemChange(user)"
-		        md-items="user in querySearch(searchText)"
-		        md-item-text="user.name"
-		        md-min-length="0"
-		        placeholder="Select receiver">
-		       	<md-item-template>
-		        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
-		        </md-item-template>
-		        <md-not-found>
-		          <span ng-show="searchText==''">
-		          		Please, select a member of your team
-		          </span>
-		          <span ng-hide="searchText==''">
-		          		There's no user with the name "{{searchText}}".
-		          </span>
-		        </md-not-found>
-		      </md-autocomplete>    
-				<md-button ng-disabled="privateMessage=='' || !receiver.id" type="submit" class="md-primary">
-						Send
-				</md-button>
+			<div class="md-block">		
+				<form ng-submit="newPrivateMessage()">
+					<md-input-container md-no-float>
+						<input ng-model="privateMessage" type="text" placeholder="New message" required>
+					</md-input-container>
+				    <md-autocomplete
+				        md-no-cache="noCache"
+				        md-selected-item="receiver"
+				        md-search-text-change="searchTextChange(searchText)"
+				        md-search-text="searchText"
+				        md-selected-item-change="selectedItemChange(user)"
+				        md-items="user in querySearch(searchText)"
+				        md-item-text="user.name"
+				        md-min-length="0"
+				        placeholder="Select receiver">
+				       	<md-item-template>
+				        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
+				        </md-item-template>
+				        <md-not-found>
+				          <span ng-show="searchText==''">
+				          		Please, select a member of your team
+				          </span>
+				          <span ng-hide="searchText==''">
+				          		There's no user with the name "{{searchText}}".
+				          </span>
+				        </md-not-found>
+				      </md-autocomplete>    
+						<md-button ng-disabled="privateMessage=='' || !receiver.id" type="submit" class="md-primary">
+								Send
+						</md-button>
 				</form>
 			</div>  			  			
   		</div>
@@ -171,7 +163,6 @@
 		     </md-button>
   			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
 					     <md-list-item class="md-2-line">
-<!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{message.user}}" /> -->
 						      <ng-letter-avatar data="{{findUserById(message.transmitter).name}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
 						         <h3>{{findUserById(message.transmitter).name}}</h3>

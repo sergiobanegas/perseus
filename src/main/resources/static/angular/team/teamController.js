@@ -279,19 +279,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     	$scope.notification("Request denied");
     }
     
-    $scope.tooltip = {
-    	showTooltip : false,
-    	tipDirection : 'right'
-    };
-    $scope.$watch('tooltip.tipDirection',function(val) {
-    	if (val && val.length ) {
-    		$scope.tooltip.showTooltip = true;
-    	}
-    });
-    
     //end sidenav	
 	$scope.invitePeople = function($event){
-		$scope.tooltip.showTooltip=false;
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({
 	      parent: parentEl,
