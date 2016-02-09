@@ -32,7 +32,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	    	}
 	    }
 	});
-	$scope.rooms = serviceRoom.getRooms();
+	$scope.rooms= function(){
+		var roomsTeam=$filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id});
+		var publicRooms=[];
+		var privateRooms=[];
+		for (var i=0;i< roomsTeam.length;i++){
+			if (roomsTeam[i].privateRoom==0){
+				publicRooms.push(roomsTeam[i]);
+			}
+			else{
+				privateRooms.push(roomsTeam[i]);
+			}
+		}
+		return publicRooms.concat(privateRooms);
+	}
+	
 	$scope.chatMessages = serviceChatMessage.getChatMessages();    
 	//Screens
 	$scope.screen="chat";

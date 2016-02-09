@@ -13,6 +13,17 @@
       </md-list-item>
       
       <md-list-item>
+        <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
+          <md-icon class="material-icons">
+	    	notifications
+	    </md-icon>
+	    <md-tooltip md-direction="right">
+	   		Notifications
+	   	</md-tooltip>
+        </md-button>
+      </md-list-item>
+      
+      <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showPrivateMessages()">
           <md-icon class="material-icons">
 	    	messages
@@ -85,8 +96,8 @@
 	        </div>
         </md-content-flex>
       <md-content-flex>
-	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms | filter: {team : team.id}">
-	    <md-icon class="material-icons">
+	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms()">
+	    <md-icon style="font-size:12px; margin-top: 24px;" class="material-icons">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
 	    	<span ng-show="room.privateRoom==1">stars</span>
 	    </md-icon>
