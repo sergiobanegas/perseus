@@ -15,11 +15,9 @@ md-card {
     margin-top: 0;
   }
 }
-md-toolbar {
-  .md-button.md-default-theme {
-    border-radius: 99%; 
-  }
-}
+md-fab-toolbar.md-right md-fab-trigger.align-with-text {
+  left: 7px; }
+
 h2 {
   font-weight: 400;
 }

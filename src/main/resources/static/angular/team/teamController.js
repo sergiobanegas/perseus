@@ -144,12 +144,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
-		var privateMessage={};
-		privateMessage.transmitter=$scope.user.id;		
-		privateMessage.receiver=$scope.receiver.id;
-		privateMessage.team=$routeParams.id;
-		privateMessage.text=$scope.privateMessage;
-		servicePrivateMessage.newPrivateMessage(privateMessage);
+		if ($scope.privateMessage=='' && !$scope.receiver.id){
+			
+		}else{
+			var privateMessage={};
+			privateMessage.transmitter=$scope.user.id;		
+			privateMessage.receiver=$scope.receiver.id;
+			privateMessage.team=$routeParams.id;
+			privateMessage.text=$scope.privateMessage;
+			servicePrivateMessage.newPrivateMessage(privateMessage);
+		}
 	}
 	
 	$scope.replyMessage = function(message){
@@ -163,6 +167,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	//end private messages
 
 	//sidenavs
+	
+	$scope.isOpen = false;
+    $scope.demo = {
+      isOpen: false,
+      count: 0
+    };
+	
 	 $scope.showNotifications = function(sidenav){
  		return $mdSidenav(sidenav).toggle();
 	 }
@@ -253,8 +264,20 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request denied");
     }
+    
+    $scope.tooltip = {
+    	showTooltip : false,
+    	tipDirection : 'right'
+    };
+    $scope.$watch('tooltip.tipDirection',function(val) {
+    	if (val && val.length ) {
+    		$scope.tooltip.showTooltip = true;
+    	}
+    });
+    
     //end sidenav	
 	$scope.invitePeople = function($event){
+		$scope.tooltip.showTooltip=false;
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({
 	      parent: parentEl,
@@ -263,7 +286,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
 	        '<md-toolbar>'+
 	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Leave team</h2></span>'+
+	          '<span flex><h2>Invite people</h2></span>'+
 	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
 	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
 	          '</md-button>'+

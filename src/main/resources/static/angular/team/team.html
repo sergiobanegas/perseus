@@ -1,12 +1,90 @@
 <div layout="row" ng-show="userMembership()==1 || user.privileges>0" style="height:100%">
-  <md-content-flex flex="20" style="position:relative; background-color:gray">
-  	  <md-button ng-click="showNotifications('left')" ng-show="!isNotificationsOpened('left')">
-	  	Left sidebar
-	  </md-button>
- 	  <md-subheader class="md-no-sticky">Rooms</md-subheader>
- 	  <md-button ng-click="newRoom($event)" style="background-color:greenyellow">
-	  	New room
-	  </md-button>
+  <md-content-flex flex="5" style="background-color:#29b6f6">
+  	 <md-list flex layout="column" layout-align="center center">
+      <md-list-item>
+        <md-button class="md-icon-button launch" ng-click="showMainScreen()">
+          <md-icon class="material-icons">
+	    	home
+	    </md-icon>
+	    <md-tooltip md-direction="right">
+	    	Main page
+	    </md-tooltip>
+        </md-button>
+      </md-list-item>
+      
+      <md-list-item>
+        <md-button class="md-icon-button launch" ng-click="showPrivateMessages()">
+          <md-icon class="material-icons">
+	    	messages
+	    </md-icon>
+	    <md-tooltip md-direction="right">
+	   		Messages
+	   	</md-tooltip>
+        </md-button>
+      </md-list-item>
+      
+      <md-list-item>
+        <md-button class="md-icon-button launch" ng-click="">
+	        <md-icon class="material-icons">
+		    	people
+		    </md-icon>
+		    <md-tooltip md-direction="right">
+	        	Members
+	    	</md-tooltip>
+        </md-button>
+      </md-list-item>
+      <md-list-item>
+        <md-button class="md-icon-button launch" ng-click="invitePeople($event)" ng-show="participateUser.teamPrivileges>0">
+	        <md-icon class="material-icons">
+		    	person_add
+		    </md-icon>
+		    <md-tooltip md-visible="tooltip.showTooltip" md-direction="{{tooltip.tipDirection}}">
+	        	Invite people
+	    	</md-tooltip>
+        </md-button>
+      </md-list-item>
+      
+      
+      <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
+       <a ng-href="#/team/{{team.id}}/admin">
+        <md-button class="md-icon-button launch" ng-click="">
+          <md-icon class="material-icons">
+	    	build
+	    </md-icon>
+	    <md-tooltip md-direction="right">
+	        	Admin team
+	    </md-tooltip>
+        </md-button>
+        </a>
+      </md-list-item>
+    </md-list>
+  	
+  	
+  </md-content-flex>
+  <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
+	   <md-content-flex layout="row">
+		   <div flex>
+				   <md-button class="md-icon-button launch" ng-click="">
+				        <md-icon class="material-icons">
+					    	search
+					    </md-icon>
+					    <md-tooltip>
+				        	Members
+				    	</md-tooltip>
+			        </md-button>
+		   </div>
+	       <div flex="1">
+	        <md-button class="md-icon-button launch" ng-click="newRoom($event)">
+		        <md-icon class="material-icons">
+			    	add
+			    </md-icon>
+			    <md-tooltip>
+		        	New room
+		    	</md-tooltip>
+	        </md-button>  
+	        </div>
+        </md-content-flex>
+      <md-content-flex>
 	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms | filter: {team : team.id}">
 	    <md-icon class="material-icons">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
@@ -21,29 +99,16 @@
 	        <div class="md-list-item-text">
 	          <p>{{ user.name }}</p>
 	        </div>
-      </md-list-item>
-      <md-button ng-click="invitePeople($event)" ng-show="participateUser.teamPrivileges>0" style="background-color:greenyellow">
-	  	Invite people
-	  </md-button>     
+      </md-list-item>   
       <md-button ng-show="participateUser.teamPrivileges<2" ng-click="leaveTeam($event)" style="background-color:greenyellow">
 	   	Leave team
 	  </md-button>
-	  <a ng-href="#/team/{{team.id}}/admin">
-		  <md-button ng-show="user.privileges>0 || participateUser.teamPrivileges==2" style="background-color:purple">
-		   	Admin panel
-		  </md-button>
-	  </a>
-	  <md-button ng-click="showPrivateMessages()">
-	   	Private messages
-	  </md-button>
+	  </md-content-flex>  
   </md-content-flex>
   
   <div flex>
   		<div ng-show="screen=='privateMessages'">
   			Private Messages
-  			<md-button ng-click="showMainScreen()" class="md-icon-button" aria-label="Close">
-		        <md-icon class="material-icons">close</md-icon>
-		     </md-button>
   			<p>Last conversations</p>
   			<md-list-item ng-repeat="user in filterMessagesContacts()" ng-click="showUserMessages(user)">
   				 <md-list-item class="md-2-line">
@@ -58,7 +123,7 @@
 			 		
 		<form ng-submit="newPrivateMessage()">
 			<md-input-container md-no-float>
-						<input ng-model="privateMessage" type="text" placeholder="New message" required>
+				<input ng-model="privateMessage" type="text" placeholder="New message" required>
 			</md-input-container>
 		    <md-autocomplete
 		        md-no-cache="noCache"
@@ -74,13 +139,15 @@
 		        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
 		        </md-item-template>
 		        <md-not-found>
-		          There's no user with the name "{{searchText}}".
+		          <span ng-show="searchText==''">
+		          		Please, select a member of your team
+		          </span>
+		          <span ng-hide="searchText==''">
+		          		There's no user with the name "{{searchText}}".
+		          </span>
 		        </md-not-found>
 		      </md-autocomplete>    
-				<md-button ng-show="privateMessage!='' && receiver.id" type="submit" class="md-primary">
-						Send
-				</md-button>
-				<md-button ng-hide="privateMessage!='' && receiver.id" ng-disables="true" type="submit" class="md-primary">
+				<md-button ng-disabled="privateMessage=='' || !receiver.id" type="submit" class="md-primary">
 						Send
 				</md-button>
 				</form>
@@ -192,57 +259,53 @@
         </md-button>
       </md-content>
     </md-sidenav>
-    
-    
+     
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-  <md-toolbar class="md-tall md-hue-2">
-    <span flex></span>
-    <div layout="column" class="md-toolbar-tools-bottom inset">
-      <user-avatar>
-			<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
-      </user-avatar>
-      <span></span>
-      <div><span ng-bind="user.name"></span> </div>
-      <div><span ng-bind="user.email"></span></div>
-    </div>
-  </md-toolbar>
-  <md-list>
-    <md-item ng-click="showPrivateMessages()">
-        <md-item-content md-ink-ripple layout="row" layout-align="start center">
-          <div class="inset">
-            <ng-md-icon class="material-icons">message</ng-md-icon>
-          </div>
-          <div class="inset">Messages
-          </div>
-        </md-item-content>
-    </md-item>
-    <md-item ng-click="showNotifications('right')">
-        <md-item-content md-ink-ripple layout="row" layout-align="start center">
-          <div class="inset">
-            <ng-md-icon class="material-icons">notifications</ng-md-icon>
-          </div>
-          <div class="inset">Notifications
-          </div>
-        </md-item-content>
-    </md-item>
-    <md-divider></md-divider>
-    <md-subheader>Management</md-subheader>
-    <md-item ng-repeat="item in admin">
-      <a>
-        <md-item-content md-ink-ripple layout="row" layout-align="start center">
-          <div class="inset">
-            <ng-md-icon class="material-icons">{{item.icon}}</ng-md-icon>
-          </div>
-          <div class="inset">{{item.title}}
-          </div>
-        </md-item-content>
-      </a>
-    </md-item>
-  </md-list>
-</md-sidenav>
-    
-    
-    
+		  <md-toolbar class="md-tall md-hue-2">
+		    <span flex></span>
+		    <div layout="column" class="md-toolbar-tools-bottom inset">
+		      <user-avatar>
+					<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
+		      </user-avatar>
+		      <span></span>
+		      <div><span ng-bind="user.name"></span> </div>
+		      <div><span ng-bind="user.email"></span></div>
+		    </div>
+		  </md-toolbar>
+		  <md-list>
+		    <md-item ng-click="showPrivateMessages()">
+		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
+		          <div class="inset">
+		            <ng-md-icon class="material-icons">message</ng-md-icon>
+		          </div>
+		          <div class="inset">Messages
+		          </div>
+		        </md-item-content>
+		    </md-item>
+		    <md-item ng-click="showNotifications('right')">
+		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
+		          <div class="inset">
+		            <ng-md-icon class="material-icons">notifications</ng-md-icon>
+		          </div>
+		          <div class="inset">Notifications
+		          </div>
+		        </md-item-content>
+		    </md-item>
+		    <md-divider></md-divider>
+		    <md-subheader>Management</md-subheader>
+		    <md-item ng-repeat="item in admin">
+		      <a>
+		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
+		          <div class="inset">
+		            <ng-md-icon class="material-icons">{{item.icon}}</ng-md-icon>
+		          </div>
+		          <div class="inset">{{item.title}}
+		          </div>
+		        </md-item-content>
+		      </a>
+		    </md-item>
+		  </md-list>
+	</md-sidenav>    
 </div>
 <div ng-hide="userMembership()==1">
 	You don't participate in this team.
