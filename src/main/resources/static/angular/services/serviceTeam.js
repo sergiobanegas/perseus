@@ -1,8 +1,8 @@
 perseus.factory("serviceTeam", serviceTeam);
 
-serviceTeam.$inject = [ "$resource", "$timeout", "$http", "$cookieStore", "serviceParticipate"];
+serviceTeam.$inject = [ "$resource", "$timeout"];
 
-function serviceTeam($resource, $timeout, $http, $cookieStore, serviceParticipate) {
+function serviceTeam($resource, $timeout) {
 
 	var TeamResource = $resource('/teams/:id', 
 			{ id : '@id'}, 
@@ -54,15 +54,9 @@ function serviceTeam($resource, $timeout, $http, $cookieStore, serviceParticipat
 		return team;
 	}
 
-	function newTeam(newTeam) {
+	function newTeam(newTeam) {			
 		new TeamResource(newTeam).$save(function(team) {
 			teams.push(team);
-			var user=$cookieStore.get("user");
-			var newParticipate={};
-			newParticipate.user=user.id;
-			newParticipate.team=team.id;
-			newParticipate.teamPrivileges=2;
-			serviceParticipate.newParticipate(newParticipate);
 		});		
 	}
 

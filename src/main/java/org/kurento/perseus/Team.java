@@ -17,6 +17,7 @@ public class Team {
 	
 	private String name;
 	private String password;
+	private Integer admin;
 		
 	public Team() {
 		// TODO Auto-generated constructor stub
@@ -34,6 +35,10 @@ public class Team {
 		return password;
 	}
 	
+	public Integer getAdmin() {
+		return admin;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -44,5 +49,9 @@ public class Team {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setAdmin(Integer admin) {
+		this.admin = admin;
 	}
 }

@@ -48,6 +48,11 @@ public class TeamRestController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Team> addTeam(@RequestBody Team team) {
 		teamRepository.save(team);
+		Participate participate=new Participate();
+		participate.setUser(team.getAdmin());
+		participate.setTeam(team.getId());
+		participate.setTeamPrivileges(2);
+		participateRepository.save(participate);
 		return new ResponseEntity<>(team,HttpStatus.CREATED);
 	}
 	

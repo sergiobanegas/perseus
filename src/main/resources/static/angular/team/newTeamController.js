@@ -11,6 +11,7 @@ perseus.controller('newTeamController', function ($mdToast, $scope, $window, ser
 	$scope.newTeam = function(Team) {
 		if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
 				if (Team.password===$scope.password){
+					Team.admin=$scope.user.id;
 					serviceTeam.newTeam(Team);
 					$window.location.href = '#/';
 					serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
