@@ -169,7 +169,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 			servicePrivateMessage.newPrivateMessage(privateMessage);
 		}
 	}
-	
+	$scope.replyText="";
 	$scope.replyMessage = function(message){
 		var privateMessage={};
 		privateMessage.transmitter=$scope.user.id;		
@@ -177,11 +177,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		privateMessage.team=$routeParams.id;
 		privateMessage.text=message;
 		servicePrivateMessage.newPrivateMessage(privateMessage);
+		$scope.replyText="";
 	}
 	//end private messages
 
-	//sidenavs
-	
+	//sidenavs	
 	$scope.isOpen = false;
     $scope.demo = {
       isOpen: false,

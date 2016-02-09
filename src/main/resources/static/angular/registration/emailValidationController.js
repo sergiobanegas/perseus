@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('emailValidationController', function ($routeParams, $scope, $window, $location, $http, serviceNotification) {
+perseus.controller('emailValidationController', function ($routeParams, $scope, $window, $http, serviceNotification) {
 
 	$scope.code="hola";
 	$http.get('/emailvalidation/'+$routeParams.code)

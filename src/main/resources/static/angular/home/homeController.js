@@ -11,9 +11,7 @@ perseus.controller('homeController', function (webNotification, serviceNotificat
 	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.teamName="";		
-	
-	$scope.fileUpload;
-	
+			
 	$scope.findTeamById = function(id){
 		return serviceTeam.getTeam(id);
 	}

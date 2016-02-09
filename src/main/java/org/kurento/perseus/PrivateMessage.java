@@ -17,8 +17,8 @@ public class PrivateMessage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String transmitter;
-	private String receiver;
+	private Integer transmitter;
+	private Integer receiver;
 	private Integer team;
 	private String text;
 	private String date;	
@@ -30,11 +30,11 @@ public class PrivateMessage {
 		return id;
 	}
 	
-	public String getReceiver() {
+	public Integer getReceiver() {
 		return receiver;
 	}
 	
-	public String getTransmitter() {
+	public Integer getTransmitter() {
 		return transmitter;
 	}
 	
@@ -54,11 +54,11 @@ public class PrivateMessage {
 		this.id = id;
 	}
 	
-	public void setReceiver(String receiver) {
+	public void setReceiver(Integer receiver) {
 		this.receiver = receiver;
 	}
 	
-	public void setTransmitter(String transmitter) {
+	public void setTransmitter(Integer transmitter) {
 		this.transmitter = transmitter;
 	}
 	

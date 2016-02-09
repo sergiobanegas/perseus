@@ -55,7 +55,7 @@ function serviceParticipate($resource, $timeout, $q, $http) {
 		error(function(data, status, headers, config){
 			deferred.reject(status);
 		});
-		return deferred.promise;;
+		return deferred.promise;
 	}
 	
 	function newParticipate(newParticipate) {

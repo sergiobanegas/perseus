@@ -1,8 +1,8 @@
 perseus.factory("serviceUnconfirmedUser", serviceUnconfirmedUser);
 
-serviceUnconfirmedUser.$inject = [ "$resource", "$timeout", "$cookieStore", "serviceParticipate", "serviceParticipateRoom", "serviceRoomInvite", "serviceRequestJoinRoom", "serviceRequestJoinTeam", "serviceChatMessage", "servicePrivateMessage"];
+serviceUnconfirmedUser.$inject = [ "$resource", "$timeout"];
 
-function serviceUnconfirmedUser($resource, $timeout, $cookieStore, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceChatMessage, servicePrivateMessage) {
+function serviceUnconfirmedUser($resource, $timeout) {
 	
 	
 	var UnconfirmedUserResource = $resource('/unconfirmedusers/:id', 
@@ -11,9 +11,7 @@ function serviceUnconfirmedUser($resource, $timeout, $cookieStore, servicePartic
 	);
 
 	var unconfirmedUsers = [];
-	
-	var session = $cookieStore.get("unconfirmedUser"); //nota: he usado $cookieStore porque $cookies no almacenaba la clase unconfirmedUser
-	
+		
 	function autoreload(){
 		reload();
 		$timeout(autoreload, 5000);

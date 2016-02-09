@@ -1,8 +1,8 @@
 perseus.factory("serviceRoom", serviceRoom);
 
-serviceRoom.$inject = [ "$resource", "$timeout", "serviceParticipateRoom", "serviceRequestJoinRoom", "serviceChatMessage"];
+serviceRoom.$inject = [ "$resource", "$timeout"];
 
-function serviceRoom($resource, $timeout, serviceParticipateRoom, serviceRequestJoinRoom, serviceChatMessage) {
+function serviceRoom($resource, $timeout) {
 
 	var RoomResource = $resource('/rooms/:id', 
 		{ id : '@id'}, 
@@ -49,14 +49,6 @@ function serviceRoom($resource, $timeout, serviceParticipateRoom, serviceRequest
 	function newRoom(newRoom) {
 		new RoomResource(newRoom).$save(function(room) {
 			rooms.push(room);
-			if (room.privateRoom==1){
-				var newParticipate={};
-				newParticipate.user=room.creator;
-				newParticipate.room=room.id;
-				newParticipate.team=room.team;
-				newParticipate.roomPrivileges=2;
-				serviceParticipateRoom.newParticipateRoom(newParticipate);
-			}
 		});
 			
 	}
@@ -66,24 +58,6 @@ function serviceRoom($resource, $timeout, serviceParticipateRoom, serviceRequest
 	}
 
 	function deleteRoom(room) {
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].team==room.team && serviceParticipateRoom.getParticipateRooms()[i].room==room.id){					
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-			}
-		}
-		
-		if (room.privateRoom==1){
-			for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-				if (serviceRequestJoinRoom.getRequestJoinRooms()[i].room==room.id){
-					serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-				}
-			}
-		}
-		for (var i=0;i<serviceChatMessage.getChatMessages().length;i++){
-			if (serviceChatMessage.getChatMessages()[i].team==room.team && serviceChatMessage.getChatMessages()[i].room==room.id){
-				serviceChatMessage.deleteChatMessage(serviceChatMessage.getChatMessages()[i]);
-			}
-		}
 		var room = $resource('/rooms/:id', { id: room.id});
 		room.delete();
 	};

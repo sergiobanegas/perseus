@@ -16,7 +16,8 @@ perseus.config(function ($routeProvider) {
                 controller: 'adminController'
             })
             .when('/registration', {
-                templateUrl: 'angular/registration/registration.html'
+                templateUrl: 'angular/registration/registration.html',
+                controller: 'registerController'
             })
             .when('/emailvalidation/:code', {
             	controller: 'emailValidationController',
