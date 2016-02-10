@@ -9,4 +9,5 @@ public interface ParticipateRepository extends JpaRepository<Participate, Intege
 	List<Participate> findByTeamPrivilegesAndTeam(Integer teamPrivileges, Integer team);
 	List<Participate> findByTeam(Integer team);
 	List<Participate> findByUser(Integer user);
+	List<Participate> findByTeamAndUser(Integer team, Integer user);
 }

@@ -10,4 +10,5 @@ public interface RequestJoinRoomRepository extends JpaRepository<RequestJoinRoom
 	List<RequestJoinRoom> findByUser(Integer user);
 	List<RequestJoinRoom> findByTeam(Integer team);
 	List<RequestJoinRoom> findByRoomAndUser(Integer room, Integer user);
+	List<RequestJoinRoom> findByTeamAndUser(Integer team, Integer user);
 }

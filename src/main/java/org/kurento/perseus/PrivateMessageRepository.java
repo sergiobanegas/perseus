@@ -9,4 +9,6 @@ public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, 
 	List<PrivateMessage> findByTransmitter(Integer user);
 	List<PrivateMessage> findByReceiver(Integer user);
 	List<PrivateMessage> findByTeam(Integer team);
+	List<PrivateMessage> findByTeamAndReceiver(Integer team, Integer receiver);
+	List<PrivateMessage> findByTeamAndTransmitter(Integer team, Integer transmitter);
 }

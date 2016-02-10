@@ -22,6 +22,14 @@ public class ParticipateRestController {
 
 	@Autowired
 	private ParticipateRepository participateRepository;
+	@Autowired
+	private ParticipateRoomRepository participateRoomRepository;
+	@Autowired
+	private RequestJoinRoomRepository requestJoinRoomRepository;
+	@Autowired
+	private RoomInviteRepository roomInviteRepository;
+	@Autowired
+	private PrivateMessageRepository privateMessageRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Participate> allParticipates(Model model) {
@@ -36,6 +44,24 @@ public class ParticipateRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		Participate participate=participateRepository.findOne(id);
+		List<ParticipateRoom> participateRooms=participateRoomRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		for (int i=0;i<participateRooms.size();i++){
+			participateRoomRepository.delete(participateRooms.get(i).getId());
+		}
+		List<RequestJoinRoom> requestJoinRooms=requestJoinRoomRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		for (int i=0;i<requestJoinRooms.size();i++){
+			requestJoinRoomRepository.delete(requestJoinRooms.get(i).getId());
+		}	
+		List<RoomInvite> roomInvites=roomInviteRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		for (int i=0;i<roomInvites.size();i++){
+			roomInviteRepository.delete(roomInvites.get(i).getId());
+		}
+		List<PrivateMessage> privateMessages=privateMessageRepository.findByTeamAndTransmitter(participate.getTeam(), participate.getUser());
+		privateMessages.addAll(privateMessageRepository.findByTeamAndReceiver(participate.getTeam(), participate.getUser()));
+		for (int i=0;i<privateMessages.size();i++){
+			privateMessageRepository.delete(privateMessages.get(i).getId());
+		}
 		participateRepository.delete(id);
 	}
 
@@ -57,6 +83,11 @@ public class ParticipateRestController {
 	@RequestMapping(value = "/{team}/members", method = RequestMethod.GET)
 	public List<Participate> getTeamMembers(@PathVariable Integer team) {
 		return participateRepository.findByTeam(team);
+	}
+	
+	@RequestMapping(value = "/{team}/{user}", method = RequestMethod.GET)
+	public List<Participate> getTeamMembers(@PathVariable Integer team, @PathVariable Integer user) {
+		return participateRepository.findByTeamAndUser(team, user);
 	}
 	
 	

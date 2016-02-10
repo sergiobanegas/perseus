@@ -1,8 +1,8 @@
-<div layout="row" ng-show="userMembership()==1 || user.privileges>0" style="height:100%">
+<div layout="row" ng-show="member || user.privileges>0" style="height:100%">
   <md-content-flex flex="5" style="background-color:#29b6f6">
   	 <md-list flex layout="column" layout-align="center center">
       <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="showMainScreen()">
+        <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
           <md-icon class="material-icons">
 	    	home
 	    </md-icon>
@@ -22,7 +22,7 @@
         </md-button>
       </md-list-item>   
       <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="showPrivateMessages()">
+        <md-button class="md-icon-button launch" ng-click="showScreen('privateMessages')">
           <md-icon class="material-icons">
 	    	messages
 	    </md-icon>
@@ -158,7 +158,7 @@
   		</div>
   		
   		<div ng-show="screen=='privateUserMessages'">
-  			<md-button ng-click="showMainScreen()" class="md-icon-button" aria-label="Close">
+  			<md-button ng-click="showScreen('chat')" class="md-icon-button" aria-label="Close">
 		        <md-icon class="material-icons">close</md-icon>
 		     </md-button>
   			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
@@ -273,7 +273,7 @@
 		    </div>
 		  </md-toolbar>
 		  <md-list>
-		    <md-item ng-click="showPrivateMessages()">
+		    <md-item ng-click="showScreen('privateMessages')">
 		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
 		          <div class="inset">
 		            <ng-md-icon class="material-icons">message</ng-md-icon>
@@ -307,6 +307,6 @@
 		  </md-list>
 	</md-sidenav>    
 </div>
-<div ng-hide="userMembership()==1">
+<div ng-hide="member">
 	You don't participate in this team.
 </div>

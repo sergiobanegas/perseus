@@ -1,7 +1,3 @@
-/*
- * @author Raquel Díaz González
- */
-
 perseus.service('serviceKurentoRoom', function () {
 
     var kurento;

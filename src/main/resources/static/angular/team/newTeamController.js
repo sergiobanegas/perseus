@@ -5,7 +5,6 @@
 perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceNotification, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
 
 	$scope.user=serviceUser.getSession();
-	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
 	$scope.newTeam = function(Team) {

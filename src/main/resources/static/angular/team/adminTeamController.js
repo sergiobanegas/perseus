@@ -31,9 +31,10 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 	
 	$scope.membersAdminList = function(){
 		var teamUsers=[];
-		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team==$scope.team.id && serviceParticipate.getParticipates()[i].user!=$scope.user.id){
-				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
+		var members=$scope.members();
+		for (var i=0; i<members.length;i++){
+			if (members[i].user!=$scope.user.id){
+				teamUsers.push($scope.findUserById(members[i].user));
 			}
 		}
 		return teamUsers;
@@ -52,41 +53,9 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 	}
 	
 	$scope.kickMember = function(member) {
-		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].user==member.user && serviceParticipate.getParticipates()[i].team==$scope.team.id){
-				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-			}
-		}
-		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].user==member.user && serviceRoomInvite.getRoomInvites()[i].team==$scope.team.id){
-				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-			}
-		}
-		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user==member.user && serviceRequestJoinRoom.getRequestJoinRooms()[i].team==$scope.team.id){
-				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user==member.user && serviceParticipateRoom.getParticipateRooms()[i].team==$scope.team.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-			}
-		}
-		serviceNotification.showNotification("User kicked", "The user"+$scope.findUserById(member.user).name+" has been kicked from the team");					
+		serviceParticipate.deleteParticipate(member);
+		serviceNotification.showNotification("User kicked", "The user "+$scope.findUserById(member.user).name+" has been kicked from the team");					
 	}	
-	
-	$scope.notification = function(text) {
-	    $mdToast.show(
-	      $mdToast.simple()
-	        .textContent(text)
-	        .position("bottom right")
-	        .hideDelay(3000)
-	    );
-	  };
-	
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	}
 	
 	$scope.openLeaveTeamScreen = function(){
 		$scope.screen="leaveTeam";
@@ -110,22 +79,6 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user == $scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].team == $scope.team.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipate.getParticipateRooms()[i]);
-			}
-		}
-		
-		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user == $scope.user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].team == $scope.team.id){
-				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].transmitter == $scope.user.id && serviceRoomInvite.getRoomInvites()[i].team == $scope.team.id){
-				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-			}
-		}	
 		$window.location.href = '#/';
 		serviceNotification.showNotification("Goodbye", "You left the team");					
 		

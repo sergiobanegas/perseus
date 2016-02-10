@@ -10,4 +10,5 @@ public interface ParticipateRoomRepository extends JpaRepository<ParticipateRoom
 	List<ParticipateRoom> findByUser(Integer user);
 	List<ParticipateRoom> findByTeam(Integer team);
 	List<ParticipateRoom> findByUserAndRoom(Integer user, Integer room);
+	List<ParticipateRoom> findByTeamAndUser(Integer team, Integer user);
 }

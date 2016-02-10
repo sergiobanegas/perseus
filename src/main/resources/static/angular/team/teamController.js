@@ -20,7 +20,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	    $scope.team = result.data;
 	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
-    
+    $scope.member=false;
+    $http.get('/participates/'+$routeParams.id+'/'+$scope.user.id)
+	  .then(function(result) {
+		  if (result.data.length>0){
+			  $scope.member = true;
+		  }	   
+	});   
     $scope.participatesHttp=[];
 	$scope.participateUser={};
 	$http.get('/participates')
@@ -47,17 +53,17 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		return publicRooms.concat(privateRooms);
 	}
 	
-	$scope.chatMessages = serviceChatMessage.getChatMessages();    
+	$scope.chatMessages = serviceChatMessage.getChatMessages();   
+	
+	$scope.logout = function(){		
+		serviceUser.logout();
+		$window.location.href = '#/';
+	}
 	//Screens
 	$scope.screen="chat";
-	$scope.showMainScreen = function(){
-		$scope.screen="chat";
+	$scope.showScreen = function (screen){
+		$scope.screen=screen;
 	}
-	
-	$scope.showPrivateMessages = function(){
-		$scope.screen="privateMessages";
-	}
-	
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){
 		$scope.userReceiver=user;
@@ -68,8 +74,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	$scope.querySearch = function (query) {
 		return $filter('filter')($scope.teamUsersWithoutUser(), { name: query});
 	}
+	
 	//end screens
 	//auxiliar search functions
+	$scope.teamUsersWithoutUser = function(){
+		return $filter('filter')($scope.teamUsers(), { id: '!'+$scope.user.id}); 
+	};
+	
 	$scope.findUserById = function(iduser){
 		return serviceUser.getUser(iduser);
 	}
@@ -77,18 +88,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	$scope.findTeamById = function(idteam){
 		return serviceTeam.getTeam(idteam);
 	}
-	
-	$scope.userMembership = function(){
-		var participates=0;
-		if ($scope.user.name){
-			for (var i=0;i<serviceParticipate.getParticipates().length; i++){
-				if ((serviceParticipate.getParticipates()[i].user==$scope.user.id)&&(serviceParticipate.getParticipates()[i].team==$routeParams.id)){
-					participates=1;
-				}
-			}
-		}
-		return participates;
-	};
 	//end auxiliar search functions
 	//chat message
 	$scope.chatMessage;
@@ -106,10 +105,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
   	    }, 500);
 	};
-	function sleepFor( sleepDuration ){
-	    var now = new Date().getTime();
-	    while(new Date().getTime() < now + sleepDuration){ /* do nothing */ } 
-	}
 	//end chat message
 	//private messages
 	$scope.teamUsers = function(){
@@ -120,10 +115,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 			}
 		}
 		return teamUsers;
-	};
-	
-	$scope.teamUsersWithoutUser = function(){
-		return $filter('filter')($scope.teamUsers(), { id: '!'+$scope.user.id}); 
 	};
 	
 	$scope.privateMessages= function(){
@@ -159,9 +150,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
-		if ($scope.privateMessage=='' && !$scope.receiver.id){
-			
-		}else{
+		if ($scope.privateMessage!='' && $scope.receiver.id){
 			var privateMessage={};
 			privateMessage.transmitter=$scope.user.id;		
 			privateMessage.transmitterName=$scope.user.name;
@@ -183,28 +172,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		$scope.replyText="";
 	}
 	//end private messages
-
 	//sidenavs	
-	$scope.isOpen = false;
-    $scope.demo = {
-      isOpen: false,
-      count: 0
-    };
-	
-	 $scope.showNotifications = function(sidenav){
- 		return $mdSidenav(sidenav).toggle();
-	 }
+	$scope.showNotifications = function(sidenav){
+		return $mdSidenav(sidenav).toggle();
+	}
 	 
-	 $scope.isNotificationsOpened = function(sidenav){
-	   return $mdSidenav(sidenav).isOpen();
-	 };
+	$scope.isNotificationsOpened = function(sidenav){
+		return $mdSidenav(sidenav).isOpen();
+	};
  
 	$scope.close = function (sidenav) {
-	      $mdSidenav(sidenav).close()
-	        .then(function () {
-	          $log.debug("close RIGHT is done");
+		$mdSidenav(sidenav).close()
+	    	.then(function () {
+	    		$log.debug("close RIGHT is done");
 	        });
-	 };
+	};
 	
     $scope.roomInvitations = function(){
     	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
@@ -281,7 +263,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request denied");
     }
-    
     //end sidenav	
 	$scope.invitePeople = function($event){
 		var parentEl = angular.element(document.body);
@@ -321,51 +302,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	};
 
 	$scope.leaveTeam = function($event){
-		var creator=false;
-		var userLeaving={};
-		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].teamPrivileges==2){
-				if (serviceParticipate.getParticipates()[i].user==$scope.user.id){
-						creator=true;
-						userLeaving=serviceParticipate.getParticipates()[i];
-						break;
-				}
-			}
-		}
-		if (creator){
-			var parentEl = angular.element(document.body);
-		    $mdDialog.show({
-		      parent: parentEl,
-		      targetEvent: $event,
-		      template:
-		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">'+
-		        '<md-toolbar>'+
-		        '<div class="md-toolbar-tools">'+
-		        '<span flex><h2>Leave team</h2></span>'+
-		        '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-		        '<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-		        '</md-button>'+
-		        '</div>'+
-		        '</md-toolbar>'+
-		        '<md-dialog-content>'+
-		        '<div class="md-dialog-content">'+
-		        'You are the creator, you need to select a new administrator in the team administration panel in order to exit this team.'+
-				'<md-button ng-show="participateUser.teamPrivileges==2" ng-click="goAdminPanel()"style="background-color:purple">'+
-				' 	Admin panel'+
-				'</md-button>'+
-		        '</div>'+
-		        '</md-dialog-content>'+
-		        '</md-dialog>',
-		      locals: {
-		    	team: $scope.team,
-		    	user: $scope.user,
-		    	participateUser: $scope.participateUser
-		      },
-		      controller: exitTeamController
-		   })
-			
-		}
-			else{
 			var parentEl = angular.element(document.body);
 		    $mdDialog.show({
 		      parent: parentEl,
@@ -400,13 +336,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		      },
 		      controller: exitTeamController
 		   })
-		}
 	};
-	
-	$scope.logout = function(){		
-		serviceUser.logout();
-		$window.location.href = '#/';
-	}
 	
 	$scope.newRoom = function($event){
 		var parentEl = angular.element(document.body);
@@ -754,26 +684,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, serviceNotificati
 	}
 	
 	$scope.leaveTeam = function(){
-		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].user == user.id && serviceParticipate.getParticipates()[i].team == team.id){
-				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
-			}
-		}
-		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-			if (serviceParticipateRoom.getParticipateRooms()[i].user == user.id && serviceParticipateRoom.getParticipateRooms()[i].team == team.id){
-				serviceParticipateRoom.deleteParticipateRoom(serviceParticipate.getParticipateRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRequestJoinRoom.getRequestJoinRooms().length;i++){
-			if (serviceRequestJoinRoom.getRequestJoinRooms()[i].user == user.id && serviceRequestJoinRoom.getRequestJoinRooms()[i].team == team.id){
-				serviceRequestJoinRoom.deleteRequestJoinRoom(serviceRequestJoinRoom.getRequestJoinRooms()[i]);
-			}
-		}
-		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].transmitter == user.id && serviceRoomInvite.getRoomInvites()[i].team == team.id){
-				serviceRoomInvite.deleteRoomInvite(serviceRoomInvite.getRoomInvites()[i]);
-			}
-		}		
+		serviceParticipate.deleteParticipate($scope.participateUser);
 		$mdDialog.hide();
 		$window.location.href = '#/';
 		serviceNotification.showNotification("Goodbye", "You left the team");

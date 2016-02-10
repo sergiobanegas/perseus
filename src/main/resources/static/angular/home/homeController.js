@@ -1,5 +1,4 @@
 /*
- * @author Micael Gallego (micael.gallego@gmail.com)
  * @author Sergio Banegas Cortijo
  */
 
@@ -8,7 +7,6 @@ perseus.controller('homeController', function (webNotification, serviceNotificat
 	Notification.requestPermission();
 	
 	$scope.user = serviceUser.getSession();
-	$scope.users = serviceUser.getUsers();
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.teamName="";		
 			
