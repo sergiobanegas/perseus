@@ -20,6 +20,7 @@ public class ChatMessage {
 	private Integer user;
 	private Integer room;
 	private Integer team;
+	private String userName;
 	private String text;
 	private String date;	
 	public ChatMessage() {
@@ -50,6 +51,11 @@ public class ChatMessage {
 		return date;
 	}
 	
+	public String getUserName() {
+		return userName;
+	}
+	
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -72,6 +78,10 @@ public class ChatMessage {
 	
 	public void setDate(String date) {
 		this.date = date;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

@@ -163,9 +163,9 @@
 		     </md-button>
   			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
 					     <md-list-item class="md-2-line">
-						      <ng-letter-avatar data="{{findUserById(message.transmitter).name}}" shape="round"></ng-letter-avatar>
+						      <ng-letter-avatar data="{{message.transmitterName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
-						         <h3>{{findUserById(message.transmitter).name}}</h3>
+						         <h3>{{message.transmitterName}}</h3>
 						         <p>{{message.text}}</p>
 						         <p>{{message.date}}</p>
 						       </div>
@@ -174,7 +174,7 @@
 			 </md-list-item>
 			 <form ng-submit="replyMessage(replyText)">
 				 <md-input-container md-no-float>
-							<input ng-model="replyText" type="text" placeholder="New message" required>
+					<input ng-model="replyText" type="text" placeholder="New message" required>
 				</md-input-container>
 				<md-button type="submit" class="md-primary">
 					Send
@@ -182,19 +182,17 @@
 			</form>
   		</div>
   		
-  		
   		<div ng-show="screen=='chat'" class="toggler">
 			<div id="effect">
 			 	<div>
 			 		<strong>Team chat</strong>
 			 	</div>
 			    <div id="chatscroll" style="height: 30em;  overflow: scroll; overflow-x: hidden;">
-			    
 			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: 0 }">
 					     <md-list-item class="md-2-line">
-						      <ng-letter-avatar data="{{findUserById(message.user).name}}" shape="round"></ng-letter-avatar>
+						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
-						         <h3>{{findUserById(message.user).name}}</h3>
+						         <h3>{{message.userName}}</h3>
 						         <p>{{message.text}}</p>
 						         <p>{{message.date}}</p>
 						       </div>

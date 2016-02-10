@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrivateMessageRestController {
 
 	@Autowired
-	private PrivateMessageRepository PrivateMessageRepository;
+	private PrivateMessageRepository privateMessageRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<PrivateMessage> allPrivateMessages(Model model) {
-		return PrivateMessageRepository.findAll();
+		return privateMessageRepository.findAll();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -35,22 +35,27 @@ public class PrivateMessageRestController {
 		Date date= new Date();
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		privateMessage.setDate(sdf.format(date));		
-		PrivateMessageRepository.save(privateMessage);		
+		privateMessageRepository.save(privateMessage);		
 		return new ResponseEntity<>(privateMessage,HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
-		PrivateMessageRepository.delete(id);
+		privateMessageRepository.delete(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public PrivateMessage getPrivateMessage(@PathVariable int id) {
-		return PrivateMessageRepository.findOne(id);
+		return privateMessageRepository.findOne(id);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public PrivateMessage updatePrivateMessage(@PathVariable int id, @RequestBody @Valid PrivateMessage privateMessage) {
-		return PrivateMessageRepository.save(privateMessage);
+		return privateMessageRepository.save(privateMessage);
+	}
+	
+	@RequestMapping(value = "/team/{team}", method = RequestMethod.GET)
+	public List<PrivateMessage> getByTeam(@PathVariable Integer team) {
+		return privateMessageRepository.findByTeam(team);
 	}
 }

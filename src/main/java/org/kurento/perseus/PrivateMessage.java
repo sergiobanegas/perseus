@@ -1,10 +1,5 @@
 package org.kurento.perseus;
 
-
-
-
-
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +15,7 @@ public class PrivateMessage {
 	private Integer transmitter;
 	private Integer receiver;
 	private Integer team;
+	private String transmitterName;
 	private String text;
 	private String date;	
 	public PrivateMessage() {
@@ -50,6 +46,10 @@ public class PrivateMessage {
 		return date;
 	}
 	
+	public String getTransmitterName() {
+		return transmitterName;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -72,6 +72,10 @@ public class PrivateMessage {
 	
 	public void setDate(String date) {
 		this.date = date;
+	}
+	
+	public void setTransmitterName(String transmitterName) {
+		this.transmitterName = transmitterName;
 	}
 
 }

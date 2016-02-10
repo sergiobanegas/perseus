@@ -97,7 +97,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
   		message.room=0;
   		message.team=$scope.team.id;
   		message.text=$scope.chatMessage;
-  		message.user=serviceUser.getSession().id;
+  		message.user=$scope.user.id;
+  		message.userName=$scope.user.name;
   		$scope.chatMessage="";
   		var currentSize=$scope.chatMessages.length;
   		serviceChatMessage.newChatMessage(message);
@@ -163,6 +164,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		}else{
 			var privateMessage={};
 			privateMessage.transmitter=$scope.user.id;		
+			privateMessage.transmitterName=$scope.user.name;
 			privateMessage.receiver=$scope.receiver.id;
 			privateMessage.team=$routeParams.id;
 			privateMessage.text=$scope.privateMessage;
@@ -172,7 +174,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	$scope.replyText="";
 	$scope.replyMessage = function(message){
 		var privateMessage={};
-		privateMessage.transmitter=$scope.user.id;		
+		privateMessage.transmitter=$scope.user.id;	
+		privateMessage.transmitterName=$scope.user.name;
 		privateMessage.receiver=$scope.userReceiver;
 		privateMessage.team=$routeParams.id;
 		privateMessage.text=message;

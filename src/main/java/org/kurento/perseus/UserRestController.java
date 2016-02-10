@@ -72,6 +72,10 @@ public class UserRestController {
 		for (int i=0;i<chatMessages.size();i++){
 			chatMessageRepository.delete(chatMessages.get(i).getId());
 		}
+		List<Participate> participates=participateRepository.findByUser(id);
+		for (int i=0;i<participates.size();i++){
+			participateRepository.delete(participates.get(i).getId());
+		}
 		List<PrivateMessage> privateMessages=privateMessageRepository.findByTransmitter(id);
 		List<PrivateMessage> privateMessagesAux=privateMessageRepository.findByReceiver(id);
 		if (!privateMessagesAux.isEmpty()){
@@ -80,11 +84,6 @@ public class UserRestController {
 		for (int i=0;i<privateMessages.size();i++){
 			privateMessageRepository.delete(privateMessages.get(i).getId());
 		}
-		List<Participate> participates=participateRepository.findByUser(id);
-		for (int i=0;i<participates.size();i++){
-			participateRepository.delete(participates.get(i).getId());
-		}
-		
 		
 	}
 
