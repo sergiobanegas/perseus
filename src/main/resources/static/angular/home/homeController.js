@@ -25,46 +25,8 @@ perseus.controller('homeController', function (webNotification, serviceNotificat
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	         ' <h2>Login</h2>'+
-	          '<span flex></span>'+
-	          '<md-button class="md-icon-button" ng-click="cancel()">'+
-	           ' <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        '<div layout="column" ng-cloak class="md-inline-form">'+
-	        '<md-input-container class="md-icon-float md-block">'+
-	        '<label>Username</label>'+
-	        '<md-icon aria-label="Name" class="material-icons" style="color: blue;">person</md-icon>'+
-	        '<input ng-model="userName">'+
-	        '</md-input-container>'+
-	        '<md-input-container>'+
-	        '<label>Password</label>'+
-	        '<md-icon aria-label="vpn_key" class="material-icons" style="color: blue;">vpn_key</md-icon>'+
-	        '<input type="password" ng-model="password">'+
-	        '</md-input-container>'+
-	        '<div>'+
-	        'Are you new?'+
-	        '<md-button style="background-color:purple" ng-click="goRegistration()">Register</md-button>'+
-	        '</div>'+
-	        '</div>'+
-	        '</div>'+
-	        '  </md-dialog-content>' +
-	        '  <md-dialog-actions>' +
-	        '  <md-button style="background-color:greenyellow" ng-click="login()" >' +
-	        '      Login' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
-	        '</md-dialog>',
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/home/dialogs/login.tmpl.html',
 	      locals: {
 	      },
 	      controller: DialogController
@@ -76,46 +38,8 @@ perseus.controller('homeController', function (webNotification, serviceNotificat
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Join a team</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Join a team</br>'+
-	        'Insert the name of the team and the password admins: {{admins}}'+
-	        '<div>'+
-	        '<md-input-container>'+
-	        '<label>Team name</label>'+
-	        '<input ng-model="team.name">'+
-	        '</md-input-container>'+
-	      	'<md-input-container>'+
-	      	'<label>Password</label>'+
-	      	'<input ng-model="team.password" type="password">'+
-	      	'</md-input-container>'+
-	        '<md-button class="md-primary" ng-click="joinTeam(team)">'+
-	        'Join'+
-	        '</md-button>'+
-	        '</div>'+
-	        "If you don't know the team password, you can send a petition to the team:"+
-	        '<div>'+
-	        '<md-input-container>'+
-	        '<label>Team name</label>'+
-	        '<input ng-model="teamRequested">'+
-	        '</md-input-container>'+
-	      	'<md-input-container>'+
-	      	'<md-button class="md-primary" ng-click="teamJoinRequest(teamRequested)">'+
-	        'Send petition'+
-	        '</md-button>'+
-	      	'</div>'+
-	        '</div>'+
-	        '</md-dialog>',
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/home/dialogs/joinTeam.tmpl.html',
 	      locals: {
 	      },
 	      controller: DialogController

@@ -269,30 +269,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Invite people</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Invite people! '+
-	        '<div>'+
-	        '<md-input-container>'+
-	        '<md-icon class="material-icons">email</md-icon>'+
-	        '<input ng-model="email" type="email" placeholder="User email">'+
-	        '</md-input-container>'+
-	        '<md-button class="md-primary" ng-click="sendInvitation(email)">'+
-	        'Enviar'+
-	        '</md-button>'+
-	        '</div>'+
-	        '</div>'+
-	        '</md-dialog>',
+	      templateUrl: 'angular/team/dialogs/inviteToTeam.tmpl.html',
+	      clickOutsideToClose:true,
+	      parent: angular.element(document.body),
 	      locals: {
 	    	team: $scope.team,
 	    	user: $scope.user
@@ -306,29 +285,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		    $mdDialog.show({
 		      parent: parentEl,
 		      targetEvent: $event,
-		      template:
-		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-		        '<md-toolbar>'+
-		        '<div class="md-toolbar-tools">'+
-		          '<span flex><h2>Leave team</h2></span>'+
-		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-		          '</md-button>'+
-		        '</div>'+
-		        '</md-toolbar>'+
-		        '<md-dialog-content>'+
-		        '<div class="md-dialog-content">'+
-		        'Are you sure you want to leave this team? '+
-		        '</div>'+
-		        '  <md-dialog-actions>' +
-		        '  <md-button style="background-color:red" ng-click="leaveTeam()" >' +
-		        '      Leave' +
-		        '    </md-button>' +
-		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-		        '      Cancel' +
-		        '    </md-button>' +
-		        '  </md-dialog-actions>' +
-		        '</md-dialog>',
+		      templateUrl: 'angular/team/dialogs/leaveTeam.tmpl.html',
+		      clickOutsideToClose:true,
 		      locals: {
 		    	team: $scope.team,
 		    	user: $scope.user,
@@ -343,36 +301,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	        '<span flex><h2>New room</h2></span>'+
-	        '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	        '<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	        '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        '<md-input-container class="md-icon-float md-block">'+
-	        '<label>Room name</label>'+
-	        '<md-icon aria-label="Name" class="material-icons" style="color: blue;">library_add</md-icon>'+
-	        '<input ng-model="roomInput.name">'+
-	        '</md-input-container>'+
-	        '<md-checkbox ng-model="roomInput.privateRoom" aria-label="Private">'+
-            'Private'+
-	        '</md-checkbox>'+
-	        '</div>'+
-	        '<md-dialog-actions>' +
-	        '<md-button class="md-primary md-raised" ng-click="newRoom(newRoom)" >' +
-	        '  Create' +
-	        '</md-button>' +
-	        '<md-button ng-click="closeDialog()" class="md-primary">' +
-	        'Cancel' +
-	        '</md-button>' +
-	        '</md-dialog-actions>' +
-	        '</md-dialog>',
+	      clickOutsideToClose:true,
+	      templateUrl: 'angular/team/dialogs/newRoom.tmpl.html',
 	      locals: {
 	        room: {},
 	        user: $scope.user,
@@ -389,29 +319,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Delete room</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Are you sure you want to delete this room? '+
-	        '</div>'+
-	        '  <md-dialog-actions>' +
-	        '  <md-button style="background-color:red" ng-click="deleteRoom(room)" >' +
-	        '      Delete' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
-	        '</md-dialog>',
+	      clickOutsideToClose:true,
+	      templateUrl: 'angular/team/dialogs/deleteRoom.tmpl.html',
 	      locals: {
 	        room: room,
 	        user: $scope.user,
@@ -441,26 +350,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 		    $mdDialog.show({
 		      parent: parentEl,
 		      targetEvent: $event,
-		      template:
-		        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-		        '<md-toolbar>'+
-		        '<div class="md-toolbar-tools">'+
-		          '<span flex><h2>Private room</h2></span>'+
-		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-		          '</md-button>'+
-		        '</div>'+
-		        '</md-toolbar>'+
-		        '<md-dialog-content>'+
-		        '<div class="md-dialog-content">{{userRequestRoom}}'+
-		        'You have no access for this private room, if you want to enter you can send a request by clicking the button below '+
-		        '<div>'+
-		        '  <md-button class="md-primary md-raised" ng-click="roomRequest()" >' +
-		        '      Send request' +
-		        '    </md-button>' +
-		        '</div>'+
-		        '</div>'+
-		        '</md-dialog>',
+		      clickOutsideToClose:true,
+		      templateUrl: 'angular/team/dialogs/privateRoom.tmpl.html',
 		      locals: {
 		        room: room,
 		        user: $scope.user,

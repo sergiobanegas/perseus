@@ -1,0 +1,43 @@
+<md-dialog aria-label="List dialog" style="height:100%;width:100%" ng-cloak>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span flex>
+				<h2>Join a team</h2>
+			</span>
+			<md-button class="md-icon-button" ng-click="closeDialog()">
+				<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content>
+		<div class="md-dialog-content">
+			Join a team<br/> Insert the name of the team and the password:
+			<div>
+				<md-input-container>
+					<label>Team name</label>
+					<input ng-model="team.name">
+				</md-input-container>
+				<md-input-container>
+					<label>Password</label>
+					<input ng-model="team.password" type="password">
+				</md-input-container>
+				<md-button class="md-primary" ng-click="joinTeam(team)">
+					Join
+				</md-button>
+			</div>
+			If you don't know the team password, you can send a petition to the
+			team:
+			<div>
+				<md-input-container>
+					<label>Team name</label>
+					<input ng-model="teamRequested">
+				</md-input-container>
+				<md-input-container>
+					<md-button class="md-primary" ng-click="teamJoinRequest(teamRequested)">
+						Send petition
+					</md-button>
+				</md-input-container>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

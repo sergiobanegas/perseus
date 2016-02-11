@@ -1,0 +1,21 @@
+<md-dialog aria-label="List dialog" ng-cloak flex="50">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span flex><h2>Private room</h2></span>
+			<md-button class="md-icon-button" ng-click="closeDialog()">
+				<md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content>
+		<div class="md-dialog-content">
+			{{userRequestRoom}} You have no access for this private room, if you
+			want to enter you can send a request by clicking the button below
+			<div>
+				<md-button class="md-primary md-raised" ng-click="roomRequest()">
+					Send request
+				</md-button>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

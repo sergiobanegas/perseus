@@ -80,29 +80,8 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	    	  '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-		        '<md-toolbar>'+
-		        '<div class="md-toolbar-tools">'+
-		          '<span flex><h2>Leave room</h2></span>'+
-		          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-		           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-		          '</md-button>'+
-		        '</div>'+
-		        '</md-toolbar>'+
-		        '<md-dialog-content>'+
-		        '<div class="md-dialog-content">'+
-		        "Are you sure you want to leave this room? You'll have to send a petition to enter again "+
-		        '</div>'+
-		        '  <md-dialog-actions>' +
-		        '  <md-button style="background-color:red" ng-click="leaveRoom()" >' +
-		        '      Leave' +
-		        '    </md-button>' +
-		        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-		        '      Cancel' +
-		        '    </md-button>' +
-		        '  </md-dialog-actions>' +
-		        '</md-dialog>',
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/call/dialogs/leaveRoom.tmpl.html',
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
 	    	room: serviceKurentoRoom.getRoomId(),
@@ -124,29 +103,8 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" style="height:100%;width:100%"ng-cloak>' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Invite people</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Invite people to the room!'+
-	        '<div>'+
-	        '<md-list-item ng-click="" class="md-2-line" ng-repeat="user in notMembers()">'+
-	        '<div class="md-list-item-text">'+
-	        '<p>{{findUserById(user.user).name}}</p>'+
-	        '<md-icon ng-click="inviteUser(user.user, $event)" aria-label="Invite user" class="material-icons md-secondary md-hue-3" style="color: blue;">add</md-icon>'+
-	        '</div>'+
-      '</md-list-item>'+
-	        '</div>'+
-	        '</div>'+
-	        '</md-dialog>',
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/call/dialogs/invite.tmpl.html',
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
 	    	room: roomInvite,
@@ -154,9 +112,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	    	user : $scope.user
 	      },
 	      controller: inviteRoomController
-	   })
-    	
-    	
+	   })	
     }
 
     window.onbeforeunload = function () {
