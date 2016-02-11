@@ -11,18 +11,18 @@
 		<div>Members:</div>
 		<md list-item ng-show="room().privateRoom==0">
 		</md>
-		<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">	
+		<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
 	    			<p> {{findUserById(member.user).name}}</p>
 	    			<span ng-show="member.user!=creator">
-	    				<md-button ng-show="memberUser().roomPrivileges==1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
-		    				<i class="material-icons">cancel</i>
+	    				<md-button ng-show="memberUser().roomPrivileges>1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
+		    				<md-icon>cancel</md-icon>
 		    			</md-button>
 		    			<span ng-show="user.id==creator && member.user!=user.id">
 			    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
-								<i class="material-icons">star</i>
+								<md-icon>star</md-icon>
 							</md-button>
 							<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
-								<i class="material-icons">star_border</i>
+								<md-icon>star_border</md-icon>
 							</md-button>	
 						</span>		
 	    			</span>
@@ -35,16 +35,16 @@
 			</div> 
 			<div class="mb" align="center" style="margin: 1em; padding-bottom: 5px" id="buttonActions"> 
 				<md-button ng-click="onOffVolume()" class="md-fab md-primary md-hue-1" aria-label="Volume_up" id="buttonVolume" title="Audio toggle">
-           			 <md-icon class="material-icons">volume_up</md-icon>
+           			 <md-icon>volume_up</md-icon>
        			 </md-button>
        			 <md-button ng-click="onOffVideocam()" class="md-fab md-primary md-hue-1" aria-label="Mute_video"  id="buttonVideocam" title="Video toggle">
-           			 <md-icon class="material-icons">videocam_off</md-icon>
+           			 <md-icon>videocam_off</md-icon>
        			 </md-button>
        			 <md-button ng-click="leaveRoom()" class="md-fab md-primary md-hue-1" aria-label="End_call" id="buttonLeaveRoom" title="Leave room">
-           			 <md-icon class="material-icons">call_end</md-icon>
+           			 <md-icon>call_end</md-icon>
        			 </md-button>
        			 <md-button ng-click="goFullscreen()" class="md-fab md-primary md-hue-1" aria-label="Mute_video" title="Fullscreen">
-           			 <md-icon class="material-icons">fullscreen</md-icon>
+           			 <md-icon>fullscreen</md-icon>
        			 </md-button>
 	        </div>
 		</div>

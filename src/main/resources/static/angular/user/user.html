@@ -4,7 +4,7 @@
 			Name: {{userProfile.name}}
 			<span ng-show="userProfile.id==user.id">
 				<a href="" ng-click="showInput('name')">
-					<md-icon class="material-icons"  style="color:lightgreen;">edit</md-icon>
+					<md-icon style="color:lightgreen;">edit</md-icon>
 				</a>
 				<input type="text" ng-model="userProfile.name" ng-show="editName==1">
 			</span>
@@ -13,13 +13,14 @@
 		    Email: {{userProfile.email}}
 		    <span ng-show="userProfile.id==user.id">
 			    <a href="" ng-click="showInput('email')">
-					<md-icon class="material-icons"  style="color:lightgreen;">edit</md-icon>
+					<md-icon style="color:lightgreen;">edit</md-icon>
 				</a>
 			    <input type="text" ng-model="userProfile.email" ng-show="editEmail==1">
 		    </span>
 		</div>
 		<p>
-			Privileges: <span ng-show="userProfile.privileges>0">Yes</span><span ng-hide="userProfile.privileges>0">No</span>
+			Privileges: <span ng-show="userProfile.privileges>0">Yes</span>
+						<span ng-hide="userProfile.privileges>0">No</span>
 		</p>	    
 		<md-button ng-click="updateUser(userProfile)" ng-show="editName==1||editEmail==1" class="md-primary">
 			Confirm changes

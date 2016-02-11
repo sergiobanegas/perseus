@@ -4,8 +4,7 @@
 
 var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification']);
 
-perseus.config(function ($routeProvider) {
-
+perseus.config(function ($routeProvider, $mdIconProvider) {
     $routeProvider
             .when('/', {
                 templateUrl: 'angular/home/home.html',
@@ -50,4 +49,5 @@ perseus.config(function ($routeProvider) {
             .otherwise({
                 templateUrl: 'angular/error.html'
             });
+    $mdIconProvider.defaultFontSet("material-icons");
 });

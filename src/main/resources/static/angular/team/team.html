@@ -3,7 +3,7 @@
   	 <md-list flex layout="column" layout-align="center center">
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
-          <md-icon class="material-icons">
+          <md-icon>
 	    	home
 	    </md-icon>
 	    <md-tooltip md-direction="right">
@@ -13,7 +13,7 @@
       </md-list-item>
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
-          <md-icon class="material-icons">
+          <md-icon>
 	    	notifications
 	    </md-icon>
 	    <md-tooltip md-direction="right">
@@ -23,7 +23,7 @@
       </md-list-item>   
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showScreen('privateMessages')">
-          <md-icon class="material-icons">
+          <md-icon>
 	    	messages
 	    </md-icon>
 	    <md-tooltip md-direction="right">
@@ -33,7 +33,7 @@
       </md-list-item>
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="">
-	        <md-icon class="material-icons">
+	        <md-icon>
 		    	people
 		    </md-icon>
 		    <md-tooltip md-direction="right">
@@ -43,7 +43,7 @@
       </md-list-item>
       <md-list-item ng-show="participateUser.teamPrivileges>0">
         <md-button class="md-icon-button launch" ng-click="invitePeople($event)">
-	        <md-icon class="material-icons">
+	        <md-icon>
 		    	person_add
 		    </md-icon>
 		    <md-tooltip md-direction="right">
@@ -54,7 +54,7 @@
       <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
        <a ng-href="#/team/{{team.id}}/admin">
         <md-button class="md-icon-button launch" ng-click="">
-          <md-icon class="material-icons">
+          <md-icon>
 	    	build
 	    </md-icon>
 	    <md-tooltip md-direction="right">
@@ -69,7 +69,7 @@
 	   <md-content-flex layout="row">
 		   <div flex>
 				<md-button class="md-icon-button launch" ng-click="">
-					<md-icon class="material-icons">
+					<md-icon>
 						search
 					</md-icon>
 					<md-tooltip>
@@ -79,7 +79,7 @@
 		   </div>
 	       <div flex="1">
 	        <md-button class="md-icon-button launch" ng-click="newRoom($event)">
-		        <md-icon class="material-icons">
+		        <md-icon>
 			    	add
 			    </md-icon>
 			    <md-tooltip>
@@ -90,12 +90,12 @@
         </md-content-flex>
       <md-content-flex>
 	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms()">
-	    <md-icon style="font-size:12px; margin-top: 24px;" class="material-icons">
+	    <md-icon style="font-size:12px; margin-top: 24px;">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
 	    	<span ng-show="room.privateRoom==1">stars</span>
 	    </md-icon>
 	    <p> {{ room.name }}</p>
-	    <md-icon ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-class="{'md-primary': person.newMessage}" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="material-icons md-secondary md-hue-3" style="color: blue;">clear</md-icon>
+	    <md-icon ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-class="{'md-primary': person.newMessage}" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;">clear</md-icon>
 	  	<md-divider ng-if="!$last"></md-divider>
 	  </md-list-item>
 	  <md-subheader class="md-no-sticky">Members</md-subheader>
@@ -159,7 +159,7 @@
   		
   		<div ng-show="screen=='privateUserMessages'">
   			<md-button ng-click="showScreen('chat')" class="md-icon-button" aria-label="Close">
-		        <md-icon class="material-icons">close</md-icon>
+		        <md-icon>close</md-icon>
 		     </md-button>
   			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
 					     <md-list-item class="md-2-line">
@@ -224,10 +224,10 @@
     			<p> {{ request.user }} </p>
     			<p>{{ request.team}}</p>
     			<md-button class="md-icon-button" ng-click="acceptRequest(request)" title="Accept request" aria-label="Accept">
-    				<i class="material-icons">check_circle</i>
+    				<md-icon>check_circle</md-icon>
     			</md-button>
     			<md-button class="md-icon-button" ng-click="denyRequest(request)" title="Deny request" aria-label="Deny">
-    				<i class="material-icons">cancel</i>
+    				<md-icon>cancel</md-icon>
     			</md-button>
  			 </md-list-item>
  			 </br>
@@ -236,10 +236,10 @@
     			<p> {{request.user}} </p>
     			<p>{{request.room}}</p>
     			<md-button class="md-icon-button" ng-click="acceptRoomRequest(request)" title="Accept request" aria-label="Accept">
-    				<i class="material-icons">check_circle</i>
+    				<md-icon>check_circle</md-icon>
     			</md-button>
     			<md-button class="md-icon-button" ng-click="denyRoomRequest(request)" title="Deny request" aria-label="Deny">
-    				<i class="material-icons">cancel</i>
+    				<md-icon>cancel</md-icon>
     			</md-button>
  			 </md-list-item>
       	</div>
@@ -248,10 +248,10 @@
     			<p> {{invitation.user}} </p>
     			<p>{{invitation.room}}</p>
     			<md-button class="md-icon-button" ng-click="acceptRoomInvitation(invitation)" title="Accept invitation" aria-label="Accept">
-    				<i class="material-icons">check_circle</i>
+    				<md-icon>check_circle</md-icon>
     			</md-button>
     			<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny invitation" aria-label="Deny">
-    				<i class="material-icons">cancel</i>
+    				<md-icon>cancel</md-icon>
     			</md-button>
  		</md-list-item>
         <md-button ng-click="close('right')" class="md-primary">
@@ -276,7 +276,7 @@
 		    <md-item ng-click="showScreen('privateMessages')">
 		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
 		          <div class="inset">
-		            <ng-md-icon class="material-icons">message</ng-md-icon>
+		            <ng-md-icon>message</ng-md-icon>
 		          </div>
 		          <div class="inset">Messages
 		          </div>
@@ -285,7 +285,7 @@
 		    <md-item ng-click="showNotifications('right')">
 		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
 		          <div class="inset">
-		            <ng-md-icon class="material-icons">notifications</ng-md-icon>
+		            <ng-md-icon>notifications</ng-md-icon>
 		          </div>
 		          <div class="inset">Notifications
 		          </div>
@@ -297,7 +297,7 @@
 		      <a>
 		        <md-item-content md-ink-ripple layout="row" layout-align="start center">
 		          <div class="inset">
-		            <ng-md-icon class="material-icons">{{item.icon}}</ng-md-icon>
+		            <ng-md-icon>{{item.icon}}</ng-md-icon>
 		          </div>
 		          <div class="inset">{{item.title}}
 		          </div>

@@ -3,12 +3,12 @@ Administration
 <md-list-item ng-repeat="user in users" ng-href="#/user/{{user.id}}">
      <ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
     <p>{{ user.name }}</p>
-	 <md-icon ng-show="user.privileges==0" ng-click="deleteUser(user, $event)" aria-label="Delete user" class="material-icons md-secondary md-hue-3" style="color: red;">clear</md-icon>
+	 <md-icon ng-show="user.privileges==0" ng-click="deleteUser(user, $event)" aria-label="Delete user" class="md-secondary md-hue-3" style="color: red;">clear</md-icon>
  	<md-divider ng-if="!$last"></md-divider>
  </md-list-item>
 <p>Teams</p>
 <md-list-item ng-repeat="team in teams" ng-href="#/team/{{team.id}}">
     <p>{{team.name}}</p>
-<md-icon ng-click="deleteTeam(team, $event)" aria-label="Delete team" class="material-icons md-secondary md-hue-3" style="color: red;">clear</md-icon>
+<md-icon ng-click="deleteTeam(team, $event)" aria-label="Delete team" class="md-secondary md-hue-3" style="color: red;">clear</md-icon>
 <md-divider ng-if="!$last"></md-divider>
   </md-list-item>

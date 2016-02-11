@@ -43,10 +43,19 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	        .hideDelay(3000)
 	    );
 	};
-    
-    $scope.memberUser = function(){
-    	return serviceParticipateRoom.getParticipateByUser($scope.user.id);
-    }
+	
+	//has to be fixed
+	$scope.memberUser= function(){
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id){
+    			return serviceParticipateRoom.getParticipateRooms()[i];
+    		}
+    	}
+	}
+	
+//    $scope.memberUser = function(){
+//    	return serviceParticipateRoom.getParticipateByUser($scope.user.id);
+//    }
     
     $scope.members= function(){
     	var members=[];

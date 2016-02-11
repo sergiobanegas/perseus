@@ -2,22 +2,22 @@
     <md-toolbar ng-controller="homeController">
       <div class="md-toolbar-tools">
         <md-button ng-click="exit()"class="md-icon-button" aria-label="Settings">
-          <md-icon aria-label="Home" class="material-icons">home</md-icon>	
+          <md-icon aria-label="Home">home</md-icon>	
         </md-button>
         <h2>
           <span>Perseus</span>
         </h2>
         <span flex></span>
         <md-button class="md-icon-button" aria-label="Favorite">
-          <md-icon aria-label="Favorite" class="material-icons" style="color: greenyellow;">favorite</md-icon>	
+          <md-icon aria-label="Favorite" style="color: greenyellow;">favorite</md-icon>	
         </md-button>
         <md-button class="md-icon-button" aria-label="More">
-          <md-icon class="material-icons">more_vert</md-icon>
+          <md-icon>more_vert</md-icon>
         </md-button> 	
         <md-button>Support</md-button>
         <md-button ng-hide="user.name" ng-click="login($event)">Login</md-button>
         <md-button ng-show="user.name" ng-click="logout()" class="md-icon-button" aria-label="Power_settings_new">
-          <md-icon class="material-icons">power_settings_new</md-icon>
+          <md-icon>power_settings_new</md-icon>
         </md-button>
       </div>
     </md-toolbar>
