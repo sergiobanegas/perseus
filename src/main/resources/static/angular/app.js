@@ -48,6 +48,6 @@ perseus.config(function ($routeProvider) {
                 controller: 'callController'
             })
             .otherwise({
-                templateUrl: 'error.html'
+                templateUrl: 'angular/error.html'
             });
 });
