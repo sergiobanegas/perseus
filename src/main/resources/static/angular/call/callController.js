@@ -47,7 +47,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
 	//has to be fixed
 	$scope.memberUser= function(){
 		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].room==serviceKurentoRoom.getRoomId()){
     			return serviceParticipateRoom.getParticipateRooms()[i];
     		}
     	}
