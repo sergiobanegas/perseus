@@ -193,21 +193,12 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     $scope.chatMessage;
 
     $scope.sendMessage = function () {   	
-    	  var message = {};
-    	  message.room=$scope.roomId;
-    	  message.team=serviceKurentoRoom.getTeam();
-    	  message.text=$scope.chatMessage;
-    	  message.user=$scope.user.id;
+    	  serviceChatMessage.newChatMessage({room:$scope.roomId, team: serviceKurentoRoom.getTeam(), text: $scope.chatMessage, user: $scope.user.id});
     	  $scope.chatMessage="";
-    	  serviceChatMessage.newChatMessage(message);
     	  setTimeout(function(){
     			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
     	    }, 500);
     };
-    
-    $scope.desktopShare = function(){
-    	
-    }
 });
 
 function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotification, serviceRoom, serviceUser, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
@@ -226,13 +217,9 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotif
 	};
 	
 	$scope.inviteUser = function(userid){
-		var roominvite={};
-		roominvite.user=userid;
-		roominvite.transmitter=user.id;
-		roominvite.room=room;
 		var exists=false;
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].room==roominvite.room && serviceRoomInvite.getRoomInvites()[i].user==userid){
+			if (serviceRoomInvite.getRoomInvites()[i].room==room && serviceRoomInvite.getRoomInvites()[i].user==userid){
 				exists=true;
 				break;
 			}
@@ -240,7 +227,7 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotif
 		if (exists){
 			$scope.notification("An invitation was already sent to this user");
 		}else{
-			serviceRoomInvite.newRoomInvite(roominvite);
+			serviceRoomInvite.newRoomInvite({user: userid, transmitter: user.id, room: room});
 			serviceNotification.showNotification("The invitation was sent", "Sent");			
 		}		
 	}

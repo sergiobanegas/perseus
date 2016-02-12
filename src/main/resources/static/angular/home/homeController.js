@@ -74,11 +74,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 			if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
 				var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
 					if ( $filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: TeamJoined.id }).length==0 ){			
-						var newParticipate={};
-						newParticipate.team=TeamJoined.id;
-						newParticipate.user=$scope.user.id;
-						newParticipate.teamPrivileges=0;
-						serviceParticipate.newParticipate(newParticipate);	
+						serviceParticipate.newParticipate({team: TeamJoined.id, user: $scope.user.id, teamPrivileges: 0});	
 						$mdDialog.hide();
 						serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
 					}
@@ -106,10 +102,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 				if (team){
 					if ($filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: team.id }).length==0 ){			
 						if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { user: $scope.user.id, team: team.id}).length==0){							
-							var newRequest={};
-							newRequest.user=$scope.user.id;
-							newRequest.team=team.id;
-							serviceRequestJoinTeam.newRequestJoinTeam(newRequest);
+							serviceRequestJoinTeam.newRequestJoinTeam({user:$scope.user.id, team: team.id});
 							for (var i=0;i<serviceParticipate.getParticipates().length;i++){
 								if (serviceParticipate.getParticipates()[i].team=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
 										var data= {
