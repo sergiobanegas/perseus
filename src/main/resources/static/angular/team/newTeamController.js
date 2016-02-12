@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceNotification, serviceUser, serviceTeam, serviceParticipate, $location, $filter) {
+perseus.controller('newTeamController', function ($mdToast, $scope, $window, serviceNotification, serviceUser, serviceTeam, $filter) {
 
 	$scope.user=serviceUser.getSession();
 	$scope.password="";

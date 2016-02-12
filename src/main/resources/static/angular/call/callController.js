@@ -201,11 +201,12 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     };
 });
 
-function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotification, serviceRoom, serviceUser, serviceParticipateRoom, $window, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $filter, $mdDialog, $mdToast, $window, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {
 
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
 	$scope.teamUsers=teamUsers;
+	
 	$scope.notMembers= function(){
 		var notMembers=[];
 		for (var i=0;i<teamUsers.length;i++){
@@ -249,7 +250,7 @@ function inviteRoomController($scope, $filter, $mdDialog, $mdToast, serviceNotif
 	    );
 	};
 }
-function leaveRoomController($scope, $filter, $mdDialog, serviceNotification, serviceRoom, $window, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, serviceRoom, serviceTeam, serviceRoomInvite, team, room, user) {
+function leaveRoomController($scope, $mdDialog, $window, serviceNotification, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, team, room, user) {
 		
 		$scope.leaveRoom = function(){	
 			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
@@ -268,5 +269,5 @@ function leaveRoomController($scope, $filter, $mdDialog, serviceNotification, se
 		$scope.closeDialog = function() {
 			$mdDialog.hide();
 		}
-
+		
 }

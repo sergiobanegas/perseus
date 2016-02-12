@@ -56,19 +56,10 @@ perseus.controller('userController', function ($mdDialog, $http, $scope, $route,
 	      controller: userActionsController
 	   })
 	}
-	
-	$scope.logout = function(){		
-		serviceUser.logout();
-		$window.location.href = '#/';
-	};
-	
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	}
 });
 
 
-function userActionsController($scope, $mdDialog, $window, serviceNotification, serviceUser, serviceParticipate, serviceParticipateRoom, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceChatMessage, servicePrivateMessage, user) {
+function userActionsController($scope, $mdDialog, $window, serviceNotification, serviceUser, user) {
 
 	$scope.deleteAccount = function(){
 		serviceUser.deleteUser(user);

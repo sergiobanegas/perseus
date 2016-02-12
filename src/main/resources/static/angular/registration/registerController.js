@@ -3,10 +3,9 @@
  */
 
 perseus.controller('registerController', function ($mdToast, $scope, $window, $filter, serviceNotification, serviceUser, serviceUnconfirmedUser) {
-	$scope.users=serviceUser.getUsers();
 	$scope.user=serviceUser.getSession();
 	$scope.register = function(newUnconfirmedUser) {
-		if ( $filter('filter')($scope.users, { name: newUnconfirmedUser.name }).length==0 ){			
+		if ( $filter('filter')(serviceUser.getUsers(), { name: newUnconfirmedUser.name }).length==0 ){			
 			newUnconfirmedUser.privileges=0;
 			newUnconfirmedUser.confirmationCode=(Math.random() * 10000000 + 0);
 			serviceUnconfirmedUser.newUnconfirmedUser(newUnconfirmedUser);

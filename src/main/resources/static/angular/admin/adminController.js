@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('adminController', function ($mdDialog, $mdMedia, $scope, $route, $routeParams, $window, serviceUser, serviceTeam) {
+perseus.controller('adminController', function ($scope, $mdDialog, $window, serviceUser, serviceTeam) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
@@ -37,10 +37,6 @@ perseus.controller('adminController', function ($mdDialog, $mdMedia, $scope, $ro
 	      controller: adminActionsController
 	   })
 	}
-		
-	$scope.exit = function(){
-		$window.location.href = '#/';
-	};
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
@@ -48,7 +44,7 @@ perseus.controller('adminController', function ($mdDialog, $mdMedia, $scope, $ro
 		LxNotificationService.success("Goodbye!");
 	};
 });
-function adminActionsController($scope, $mdDialog, $mdToast, serviceUser, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRoomInvite, serviceRequestJoinRoom, serviceRequestJoinTeam, serviceParticipateRoom, user, team) {
+function adminActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceTeam, user, team) {
 
 	$scope.userDelete=user;
 	$scope.teamDelete=team;

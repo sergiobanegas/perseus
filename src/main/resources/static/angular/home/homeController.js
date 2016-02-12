@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('homeController', function (webNotification, serviceNotification, $mdDialog, $mdToast, $mdMedia, $scope, $http, $resource, $window, serviceUser, serviceTeam, serviceParticipate, $location, $route, $filter, serviceRequestJoinRoom) {
+perseus.controller('homeController', function ($scope, $mdDialog, $http, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate) {
 
 	Notification.requestPermission();
 	

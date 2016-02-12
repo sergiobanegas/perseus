@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('adminTeamController', function ($scope, $http, $route, $filter, $routeParams, $mdDialog, $mdToast, serviceNotification, serviceUser, serviceParticipate, serviceRoomInvite, serviceRequestJoinRoom, serviceParticipateRoom, $window) {
+perseus.controller('adminTeamController', function ($scope, $http, $filter, $routeParams, $window, $mdDialog, serviceNotification, serviceUser, serviceParticipate) {
 	
 	$scope.team={};
     $http.get('/teams/'+$routeParams.id)

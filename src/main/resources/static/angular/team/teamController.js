@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $mdToast, $rootScope, $location, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $log, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
+perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
 	//Kurento client config
 	$http.get('/getClientConfig').
 	    success(function (data, status, headers, config) {
@@ -163,10 +163,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
 	};
  
 	$scope.close = function (sidenav) {
-		$mdSidenav(sidenav).close()
-	    	.then(function () {
-	    		$log.debug("close RIGHT is done");
-	        });
+		$mdSidenav(sidenav).close();
 	};
 	
     $scope.roomInvitations = function(){
@@ -453,7 +450,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdMedia, $md
     
 });
 
-function roomController($scope, $http, $mdDialog, $mdToast, serviceNotification, serviceRoom, $window, room, user, team, serviceRequestJoinRoom, participateUser, serviceParticipateRoom, serviceChatMessage) {
+function roomController($scope, $http, $mdDialog, $mdToast, $window, serviceNotification, serviceRoom, serviceRequestJoinRoom, room, user, team, participateUser) {
 	
 	$scope.userRequestRoom={};
 	$http.get('/requestjoinrooms/'+room.id+'/'+user.id)
@@ -507,7 +504,7 @@ function roomController($scope, $http, $mdDialog, $mdToast, serviceNotification,
 	}
 }
 
-function exitTeamController($scope, $http, $filter, $mdDialog, serviceNotification, serviceRoom, $window, serviceChatMessage, serviceParticipate, serviceRoom, serviceTeam, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceUser, serviceRoomInvite, team, user, participateUser) {
+function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceNotification, serviceParticipate, serviceTeam, serviceUser, team, user, participateUser) {
 
 	$scope.participatesTeam=[];
 	$http.get('/participates/'+team.id+'/members')
@@ -557,7 +554,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, serviceNotificati
 	}
 
 }
-function invitePeopleController($scope, $http, $route, $mdDialog, serviceNotification, serviceUser, $window, team, user) {
+function invitePeopleController($scope, $http, $mdDialog, serviceNotification, $window, team, user) {
 	
 	$scope.email="";
 	$scope.sendInvitation = function(){
