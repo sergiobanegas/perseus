@@ -89,29 +89,8 @@ perseus.controller('adminTeamController', function ($scope, $http, $route, $filt
 	    $mdDialog.show({
 	      parent: parentEl,
 	      targetEvent: $event,
-	      template:
-	        '<md-dialog aria-label="List dialog" ng-cloak flex="50">' +
-	        '<md-toolbar>'+
-	        '<div class="md-toolbar-tools">'+
-	          '<span flex><h2>Delete team</h2></span>'+
-	          '<md-button class="md-icon-button" ng-click="closeDialog()">'+
-	           ' <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>'+
-	          '</md-button>'+
-	        '</div>'+
-	        '</md-toolbar>'+
-	        '<md-dialog-content>'+
-	        '<div class="md-dialog-content">'+
-	        'Are you sure you want to delete this team? '+
-	        '</div>'+
-	        '  <md-dialog-actions>' +
-	        '  <md-button style="background-color:red" ng-click="deleteTeam()" >' +
-	        '      Delete' +
-	        '    </md-button>' +
-	        '    <md-button ng-click="closeDialog()" class="md-primary">' +
-	        '      Cancel' +
-	        '    </md-button>' +
-	        '  </md-dialog-actions>' +
-	        '</md-dialog>',
+	      templateUrl: 'angular/team/dialogs/deleteTeam.tmpl.html',
+	      clickOutsideToClose:true,
 	      locals: {
 	    	team: $scope.team,
 	    	user: $scope.user,
