@@ -1,14 +1,17 @@
 <div layout="row" ng-show="member || user.privileges>0" style="height:100%">
   <md-content-flex flex="5" style="background-color:#29b6f6">
   	 <md-list flex layout="column" layout-align="center center">
+  	 <a href="#/user/{{user.id}}">
+  	 	<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
+  	 </a>
       <md-list-item>
         <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
           <md-icon>
 	    	home
-	    </md-icon>
-	    <md-tooltip md-direction="right">
-	    	Main page
-	    </md-tooltip>
+		  </md-icon>
+		  <md-tooltip md-direction="right">
+		  	Main page
+		  </md-tooltip>
         </md-button>
       </md-list-item>
       <md-list-item>
@@ -66,6 +69,14 @@
     </md-list>
   </md-content-flex>
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
+	   <md-toolbar>
+	   		<div layout="row">
+	   	   <img src="https://lingohub.com/wp-content/uploads/2014/06/angularjs.jpg" style="width:100px" class="md-avatar"/>		
+	   		<div flex style="padding:10px">{{team.name}}</div>
+	   		</div>
+	   		<span flex></span>
+	   		<br/><br/>
+	   </md-toolbar>
 	   <md-content-flex layout="row">
 		   <div flex>
 				<md-button class="md-icon-button launch" ng-click="">
@@ -89,6 +100,7 @@
 	        </div>
         </md-content-flex>
       <md-content-flex>
+      <md-subheader class="md-no-sticky">Public</md-subheader>
 	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms()">
 	    <md-icon class="md-hue-3">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
@@ -196,7 +208,9 @@
 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
 						         {{message.userName}} - <span class="md-caption">{{message.date}}</span>
-						         <p>{{message.text}}</p>
+						         <p>				 
+						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>        	
+						         </p>
 						      </div>
 						      <md-divider ng-if="!$last"></md-divider>
 					     </md-list-item>

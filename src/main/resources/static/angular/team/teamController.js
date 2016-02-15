@@ -98,6 +98,25 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
   	    }, 500);
 	};
+	
+	$scope.options = {
+            'linkTarget': '_blank',
+            'basicVideo': false,
+            'code'      : {
+                'highlight'  : true,
+                'lineNumbers': true
+            },
+            'video'     : {
+                'embed'    : true,
+                'width'    : 800,
+                'ytTheme'  : 'light',
+                'details'  : true,
+                'ytAuthKey': 'AIzaSyAQONTdSSaKwqB1X8i6dHgn9r_PtusDhq0'
+            },
+            'image'     : {
+                'embed': true
+            }
+     };
 	//end chat message
 	//private messages
 	$scope.teamUsers = function(){
