@@ -106,7 +106,6 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     };
     
     $scope.inviteToRoom = function($event){ 
-    	var roomInvite=serviceRoom.getRoom($scope.roomId);
     	var parentEl = angular.element(document.body);
 	    $mdDialog.show({
 	      parent: parentEl,
@@ -115,7 +114,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	      templateUrl: 'angular/call/dialogs/invite.tmpl.html',
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
-	    	room: roomInvite,
+	    	room: serviceRoom.getRoom($scope.roomId),
 	    	teamUsers: $scope.teamUsers,
 	    	user : $scope.user
 	      },
@@ -200,11 +199,12 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     };
 });
 
-function inviteRoomController($scope, $filter, $mdDialog, $mdToast, $window, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $mdDialog, $mdToast, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {
 
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
 	$scope.teamUsers=teamUsers;
+	$scope.hola="works";
 	
 	$scope.notMembers= function(){
 		var notMembers=[];
