@@ -1,7 +1,7 @@
 <div layout="row" style="height:100%">
 	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
-		<p>{{roomName}}</p>
+		<p>{{roomName}}</p>{{memberUser.id}}
 		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
 		             Invite people to the room
 		</md-button>

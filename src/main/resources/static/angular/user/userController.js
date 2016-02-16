@@ -2,14 +2,14 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('userController', function ($mdDialog, $http, $scope, $route, $routeParams, $window, serviceUser) {
+perseus.controller('userController', function ($mdDialog, $scope, $route, $routeParams, $window, serviceUser) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};
-	$http.get('/users/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.userProfile = result.data;
+	serviceUser.getUserHttp($routeParams.id).then(function (result){
+		$scope.userProfile = result.data;
 	});
+	
 	$scope.editName=0;
 	$scope.editEmail=0;
 	

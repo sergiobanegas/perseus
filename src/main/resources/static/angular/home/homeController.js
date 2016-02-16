@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('homeController', function ($scope, $mdDialog, $http, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate) {
+perseus.controller('homeController', function ($scope, $mdDialog, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate) {
 
 	Notification.requestPermission();
 	
@@ -16,7 +16,6 @@ perseus.controller('homeController', function ($scope, $mdDialog, $http, $route,
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
-		user={};
 		$route.reload();
 	};
 	

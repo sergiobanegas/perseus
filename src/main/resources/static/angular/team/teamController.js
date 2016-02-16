@@ -15,18 +15,25 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.user=serviceUser.getSession();
 	
 	$scope.team={};
-    $http.get('/teams/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.team = result.data;
+	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
+		$scope.team = result.data;
 	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
-    $scope.member=false;
-    $http.get('/participates/'+$routeParams.id+'/'+$scope.user.id)
-	  .then(function(result) {
-		  if (result.data.length>0){
-			  $scope.member = true;
-		  }	   
-	});   
+    
+    $scope.teamUsers=[];
+    $scope.teamUsersWithoutUser=[];    
+    serviceParticipate.getTeamParticipates($routeParams.id).then(function (result){
+        $scope.teamUsers=result.data;
+        $scope.teamUsersWithoutUser = $filter('filter')(result.data, { user: '!'+$scope.user.id});
+	});
+    
+    $scope.member=false;   
+    serviceParticipate.getUserParticipate($routeParams.id, $scope.user.id).then(function (result){
+    	if (result.data.length>0){
+    		$scope.member = true;
+		}	
+    });
+    
     $scope.participatesHttp=[];
 	$scope.participateUser={};
 	$http.get('/participates')
@@ -72,15 +79,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		
     $scope.receiver;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.teamUsersWithoutUser(), { name: query});
+		return $filter('filter')($scope.teamUsersWithoutUser, { user: query});
 	}
 	
 	//end screens
 	//auxiliar search functions
-	$scope.teamUsersWithoutUser = function(){
-		return $filter('filter')($scope.teamUsers(), { id: '!'+$scope.user.id}); 
-	};
-	
 	$scope.findUserById = function(iduser){
 		return serviceUser.getUser(iduser);
 	}
@@ -119,15 +122,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
      };
 	//end chat message
 	//private messages
-	$scope.teamUsers = function(){
-		var teamUsers=[];
-		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
-				teamUsers.push($scope.findUserById(serviceParticipate.getParticipates()[i].user));
-			}
-		}
-		return teamUsers;
-	};
 	
 	$scope.privateMessages= function(){
 		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { team: $scope.team.id}); 
@@ -163,13 +157,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
 		if ($scope.privateMessage!='' && $scope.receiver.id){
-			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.id, team: $routeParams.id, text: $scope.privateMessage});
+			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage});
 		}
 	}
 	$scope.replyText="";
 	$scope.replyMessage = function(message){
 		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message});
 		$scope.replyText="";
+		setTimeout(function(){
+  			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
+  	    }, 500);
 	}
 	//end private messages
 	//sidenavs	

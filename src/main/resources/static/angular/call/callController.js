@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $http, $route, $window, serviceUser, serviceRoom, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
+perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
@@ -19,17 +19,20 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     }
     
     $scope.room={};
-    $http.get('/rooms/'+serviceKurentoRoom.getTeam()+'/'+serviceKurentoRoom.getRoomName())
-	  .then(function(result) {
+    serviceRoom.getRoomHttp(serviceKurentoRoom.getRoomId()).then(function (result){
 	    $scope.room = result.data;
 	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
     
     $scope.teamUsers=[];
-    $http.get('/participates/'+serviceKurentoRoom.getTeam()+'/members')
-	  .then(function(result) {
-	    $scope.teamUsers = result.data;
+    serviceParticipate.getTeamParticipates(serviceKurentoRoom.getTeam()).then(function (result){
+	    $scope.teamUsers=result.data;
 	});
+    
+    $scope.memberUser={};
+    serviceParticipate.getUserParticipate(serviceKurentoRoom.getTeam(), $scope.user.id).then(function (result){
+    	$scope.memberUser=result.data;
+    });
     
     $scope.room = function(){
     	return serviceRoom.getRoom($scope.roomId);
@@ -52,11 +55,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $htt
     		}
     	}
 	}
-	
-//    $scope.memberUser = function(){
-//    	return serviceParticipateRoom.getParticipateByUser($scope.user.id);
-//    }
-    
+    //has to be fixed
     $scope.members= function(){
     	var members=[];
     	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){

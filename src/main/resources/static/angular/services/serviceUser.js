@@ -1,8 +1,8 @@
 perseus.factory("serviceUser", serviceUser);
 
-serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore"];
+serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore", "$http"];
 
-function serviceUser($resource, $timeout, $cookieStore) {
+function serviceUser($resource, $timeout, $cookieStore, $http) {
 	
 	
 	var UserResource = $resource('/users/:id', 
@@ -28,6 +28,7 @@ function serviceUser($resource, $timeout, $cookieStore) {
 		logout : logout,
 		getUsers : getUsers,
 		getUser : getUser,
+		getUserHttp : getUserHttp,
 		newUser : newUser,
 		updateUser : updateUser,
 		deleteUser : deleteUser
@@ -47,7 +48,7 @@ function serviceUser($resource, $timeout, $cookieStore) {
 	function getSession(){
 		return session;
 	}
-
+	//has to be fixed
 	function getUser(id) {
 		for (var i=0; i< users.length;i++){
 			if (users[i].id==id){
@@ -56,6 +57,15 @@ function serviceUser($resource, $timeout, $cookieStore) {
 			}
 		}
 	};
+	
+	function getUserHttp(id){
+		var promise = $http.get('/users/'+id).
+	    success(function (result) {
+	        var user = result.data;
+	        return user;
+	    });
+	    return promise;
+	}
 	
 	function newUser(newUser) {
 		new UserResource(newUser).$save(function(user) {

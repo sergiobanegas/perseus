@@ -1,8 +1,8 @@
 perseus.factory("serviceTeam", serviceTeam);
 
-serviceTeam.$inject = [ "$resource", "$timeout"];
+serviceTeam.$inject = [ "$resource", "$timeout", "$http"];
 
-function serviceTeam($resource, $timeout) {
+function serviceTeam($resource, $timeout, $http) {
 
 	var TeamResource = $resource('/teams/:id', 
 			{ id : '@id'}, 
@@ -21,7 +21,8 @@ function serviceTeam($resource, $timeout) {
 	return {
 		reload : reload,
 		getTeams : getTeams,
-		getTeam : getTeam,		
+		getTeam : getTeam,
+		getTeamHttp : getTeamHttp,
 		newTeam : newTeam,
 		updateTeam : updateTeam,
 		deleteTeam : deleteTeam,
@@ -39,7 +40,7 @@ function serviceTeam($resource, $timeout) {
 	function getTeams() {
 		return teams;
 	}
-	
+	//has to be fixed
 	function getTeam(id){
 		for (var i=0; i<teams.length;i++){
 			if (teams[i].id==id){
@@ -47,6 +48,15 @@ function serviceTeam($resource, $timeout) {
 				break;
 			}
 		}
+	}
+	
+	function getTeamHttp(id){
+		var promise = $http.get('/teams/'+id).
+	    success(function (result) {
+	        var team = result.data;
+	        return team;
+	    });
+	    return promise;
 	}
 	
 	function getTeamByName(teamname){

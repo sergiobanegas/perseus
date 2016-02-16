@@ -2,18 +2,17 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('adminTeamController', function ($scope, $http, $filter, $routeParams, $window, $mdDialog, serviceNotification, serviceUser, serviceParticipate) {
+perseus.controller('adminTeamController', function ($scope, $filter, $routeParams, $window, $mdDialog, serviceNotification, serviceTeam, serviceUser, serviceParticipate) {
 	
-	$scope.team={};
-    $http.get('/teams/'+$routeParams.id)
-	  .then(function(result) {
-	    $scope.team = result.data;
+    $scope.team={};
+	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
+		$scope.team = result.data;
 	});
+    
 	$scope.screen="users";
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
-	
 	
 	$scope.findUserById = function(iduser){
 		return serviceUser.getUser(iduser);

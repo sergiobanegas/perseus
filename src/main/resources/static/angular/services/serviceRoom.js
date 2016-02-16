@@ -1,8 +1,8 @@
 perseus.factory("serviceRoom", serviceRoom);
 
-serviceRoom.$inject = [ "$resource", "$timeout"];
+serviceRoom.$inject = [ "$resource", "$timeout", "$http"];
 
-function serviceRoom($resource, $timeout) {
+function serviceRoom($resource, $timeout, $http) {
 
 	var RoomResource = $resource('/rooms/:id', 
 		{ id : '@id'}, 
@@ -22,6 +22,7 @@ function serviceRoom($resource, $timeout) {
 		reload : reload,
 		getRooms : getRooms,
 		getRoom : getRoom,		
+		getRoomHttp : getRoomHttp,
 		newRoom : newRoom,
 		updateRoom : updateRoom,
 		deleteRoom : deleteRoom
@@ -37,13 +38,22 @@ function serviceRoom($resource, $timeout) {
 	function getRooms() {
 		return rooms;
 	}
-
+	//has to be fixed
 	function getRoom(id) {
 		for (var i=0;i<rooms.length;i++){
     		if (rooms[i].id==id){
     			return rooms[i];
     		}
     	}
+	}
+	
+	function getRoomHttp(id){
+		var promise = $http.get('/rooms/'+id).
+	    success(function (result) {
+	        var room = result.data;
+	        return room;
+	    });
+	    return promise;
 	}
 	
 	function newRoom(newRoom) {
