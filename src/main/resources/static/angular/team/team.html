@@ -236,12 +236,12 @@
 			 			Team chat
 			 		</md-subheader>
 			 	</h3>
-			    <div id="chatscroll" style="height: 28em;  overflow: scroll; overflow-x: hidden;">
-			    	<md-list-item ng-repeat="message in chatMessages() | filter:{ room: 0 }">
+			    <div id="globalchatscroll" style="height: 28em;  overflow: scroll; overflow-x: hidden;">
+			    	<md-list-item ng-repeat="message in chatMessages()">
 					     <md-list-item class="md-2-line">
 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
-						         {{message.userName}} - <span class="md-caption">{{message.date}}</span>
+						        {{message.userName}} - <span class="md-caption">{{message.date}}</span>
 						         <p>				 
 						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>        	
 						         </p>

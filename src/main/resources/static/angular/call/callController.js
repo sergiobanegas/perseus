@@ -115,7 +115,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
 	    	room: serviceRoom.getRoom($scope.roomId),
-	    	teamUsers: $scope.teamUsers,
+	    	teamUsers: $scope.members(),
 	    	user : $scope.user
 	      },
 	      controller: inviteRoomController

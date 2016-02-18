@@ -29,6 +29,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.team={};
 	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
 		$scope.team = result.data;
+		$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
 	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
     
@@ -68,6 +69,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
 	}
 	
+	//tarda mucho
+	$scope.chatMessagesOrdered = function(){
+		var chatMessages=$scope.chatMessages();
+		var chatMessagesOrdered=[];
+		for (var i=0;i<chatMessages.length;i++){
+			if (i>0 && chatMessages[i].user==chatMessages[i-1].user){
+				chatMessagesOrdered[chatMessagesOrdered.length-1].text=chatMessagesOrdered[chatMessagesOrdered.length-1].text+"</br>"+chatMessages[i].text;
+			}else{
+				chatMessagesOrdered.push(chatMessages[i]);
+			}
+		}
+		return chatMessagesOrdered;
+	}
+	
+	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
@@ -101,19 +117,20 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//chat message
 	$scope.chatMessage;
 	$scope.sendMessage = function () { 
-		if ($scope.chatMessages().length>0 && $scope.chatMessages()[$scope.chatMessages().length-1].user==$scope.user.id){
-			var chatMessage=$scope.chatMessages[$scope.chatMessages().length-1];
-			chatMessage.text=chatMessage.text+"<br/>"+$scope.chatMessage;
-			serviceChatMessage.updateChatMessage(chatMessage);
-			
-		}else{
-			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name});	  		
-		}
+		serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name});	  		
 		$scope.chatMessage="";
   		setTimeout(function(){
-  			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
+  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
   	    }, 500);
 	};
+	
+	$scope.sameTransmitter = function(index, user){
+		if (index>0 && $scope.chatMessages()[index-1].user==user){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	$scope.options = {
             'linkTarget': '_blank',
