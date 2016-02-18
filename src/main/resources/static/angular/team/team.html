@@ -206,13 +206,14 @@
 		     </md-button>
 		     {{findUserById(userReceiver).name}}
   			 <div id="chatscroll" style="height: 30em;  overflow: scroll; overflow-x: hidden;">
-  			<md-list-item ng-repeat="message in privateMessages() | filter:filterMessages">
+  			<md-list-item ng-repeat="message in privateMessagesChat()">
 					     <md-list-item class="md-2-line">
 						      <ng-letter-avatar data="{{message.transmitterName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">
-						         <h3><a style="color:blue">{{message.transmitterName}}</a></h3>
-						         <p>{{message.text}}</p>
-						         <p>{{message.date}}</p>
+						         <a style="color:blue">{{message.transmitterName}}</a> - <span class="md-caption">{{message.date}}</span>
+						         <p>
+						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>
+						         </p>
 						       </div>
 						       <md-divider ng-if="!$last"></md-divider>
 					      </md-list-item>
@@ -236,7 +237,7 @@
 			 		</md-subheader>
 			 	</h3>
 			    <div id="chatscroll" style="height: 28em;  overflow: scroll; overflow-x: hidden;">
-			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: 0 }">
+			    	<md-list-item ng-repeat="message in chatMessages() | filter:{ room: 0 }">
 					     <md-list-item class="md-2-line">
 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar>
 						      <div class="md-list-item-text">

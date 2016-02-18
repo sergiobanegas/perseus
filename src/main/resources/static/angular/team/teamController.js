@@ -64,7 +64,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 1});
 	}
 	
-	$scope.chatMessages = serviceChatMessage.getChatMessages();   
+	$scope.chatMessages = function(){
+		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
+	}
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
@@ -99,8 +101,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//chat message
 	$scope.chatMessage;
 	$scope.sendMessage = function () { 
-		if ($scope.chatMessages.length>0 && $scope.chatMessages[$scope.chatMessages.length-1].user==$scope.user.id){
-			var chatMessage=$scope.chatMessages[$scope.chatMessages.length-1];
+		if ($scope.chatMessages().length>0 && $scope.chatMessages()[$scope.chatMessages().length-1].user==$scope.user.id){
+			var chatMessage=$scope.chatMessages[$scope.chatMessages().length-1];
 			chatMessage.text=chatMessage.text+"<br/>"+$scope.chatMessage;
 			serviceChatMessage.updateChatMessage(chatMessage);
 			
@@ -132,15 +134,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
             }
      };
 	//end chat message
-	//private messages
-	
+	//private messages	
 	$scope.privateMessages= function(){
 		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { team: $scope.team.id}); 
 	}
 	
-	$scope.filterMessages = function(message){
-	    return ((message.transmitter == $scope.user.id && message.receiver==$scope.userReceiver)|| (message.receiver == $scope.user.id && message.transmitter==$scope.userReceiver));
-	};
+	$scope.privateMessagesChat = function(){
+		var conversation=[];
+		var messages=$scope.privateMessages();
+		for (var i=0;i<messages.length;i++){
+			if ((messages[i].transmitter==$scope.user.id && messages[i].receiver==$scope.userReceiver) || (messages[i].receiver==$scope.user.id && messages[i].transmitter==$scope.userReceiver)){
+				conversation.push(messages[i]);
+			}
+		}
+		return conversation;
+	}
 	
 	$scope.filterMessagesContacts = function(){
 		var array=[];
@@ -173,7 +181,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	}
 	$scope.replyText="";
 	$scope.replyMessage = function(message){
-		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message});
+		var privateMessages=$scope.privateMessagesChat();
+		if (privateMessages.length>0 && privateMessages[privateMessages.length-1].transmitter==$scope.user.id){
+			var privateMessage=privateMessages[privateMessages.length-1];
+			privateMessage.text=privateMessage.text+"<br/>"+$scope.replyText;
+			servicePrivateMessage.updatePrivateMessage(privateMessage);
+		}else{
+			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message});
+		}
 		$scope.replyText="";
 		setTimeout(function(){
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);

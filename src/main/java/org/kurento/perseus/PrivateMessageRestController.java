@@ -51,6 +51,9 @@ public class PrivateMessageRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public PrivateMessage updatePrivateMessage(@PathVariable int id, @RequestBody @Valid PrivateMessage privateMessage) {
+		Date date= new Date();
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		privateMessage.setDate(sdf.format(date));
 		return privateMessageRepository.save(privateMessage);
 	}
 	
