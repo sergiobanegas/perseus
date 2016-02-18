@@ -1,7 +1,7 @@
 <div layout="row" style="height:100%">
 	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
-		<p>{{roomName}}</p>{{memberUser.id}}
+		<p>{{roomName}}</p>
 		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
 		             Invite people to the room
 		</md-button>
@@ -57,8 +57,8 @@
 			    <div id="chatscroll" style="height: 15em;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }">
 					     <md-list-item class="md-2-line">
-<!-- 						      <img ng-src="{{todos[0].face}}?20" class="md-avatar" alt="{{todos[0].who}}" /> -->
-						      <ng-letter-avatar data="{{findUserById(message.user).name}}" shape="round"></ng-letter-avatar>
+						      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Ski_trail_rating_symbol-blue_square.svg/600px-Ski_trail_rating_symbol-blue_square.svg.png" class="md-avatar" alt="{{todos[0].who}}" />
+<!-- 						      <ng-letter-avatar data="{{findUserById(message.user).name}}" shape="round"></ng-letter-avatar> -->
 						      <div class="md-list-item-text">
 						         <h3>{{findUserById(message.user).name}}</h3>
 						         <p>{{message.text}}</p>

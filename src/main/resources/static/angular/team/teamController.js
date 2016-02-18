@@ -11,6 +11,18 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    }).
 	    error(function (data, status, headers, config) {	 
     });
+		
+	$("#publicroomsbutton").click(function() {
+		  $("#publicrooms").toggle("blind");
+	});
+	
+	$("#privateroomsbutton").click(function() {
+		  $("#privaterooms").toggle("blind");
+	});
+	$("#onlinemembersbutton").click(function() {
+		  $("#onlinemembers").toggle("blind");
+	});
+	
 	//global variables
 	$scope.user=serviceUser.getSession();
 	
@@ -45,19 +57,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    	}
 	    }
 	});
-	$scope.rooms= function(){
-		var roomsTeam=$filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id});
-		var publicRooms=[];
-		var privateRooms=[];
-		for (var i=0;i< roomsTeam.length;i++){
-			if (roomsTeam[i].privateRoom==0){
-				publicRooms.push(roomsTeam[i]);
-			}
-			else{
-				privateRooms.push(roomsTeam[i]);
-			}
-		}
-		return publicRooms.concat(privateRooms);
+	$scope.publicRooms= function(){
+		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 0});
+	}
+	$scope.privateRooms= function(){
+		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 1});
 	}
 	
 	$scope.chatMessages = serviceChatMessage.getChatMessages();   
@@ -94,9 +98,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//end auxiliar search functions
 	//chat message
 	$scope.chatMessage;
-	$scope.sendMessage = function () {   	
-  		serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name});
-  		$scope.chatMessage="";
+	$scope.sendMessage = function () { 
+		if ($scope.chatMessages.length>0 && $scope.chatMessages[$scope.chatMessages.length-1].user==$scope.user.id){
+			var chatMessage=$scope.chatMessages[$scope.chatMessages.length-1];
+			chatMessage.text=chatMessage.text+"<br/>"+$scope.chatMessage;
+			serviceChatMessage.updateChatMessage(chatMessage);
+			
+		}else{
+			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name});	  		
+		}
+		$scope.chatMessage="";
   		setTimeout(function(){
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
   	    }, 500);

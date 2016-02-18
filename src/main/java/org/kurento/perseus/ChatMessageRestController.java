@@ -51,6 +51,9 @@ public class ChatMessageRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ChatMessage updateChatMessage(@PathVariable int id, @RequestBody @Valid ChatMessage chatMessage) {
+		Date date= new Date();
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		chatMessage.setDate(sdf.format(date));	
 		return ChatMessageRepository.save(chatMessage);
 	}
 }

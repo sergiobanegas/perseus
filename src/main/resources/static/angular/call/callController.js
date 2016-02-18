@@ -28,10 +28,10 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     serviceParticipate.getTeamParticipates(serviceKurentoRoom.getTeam()).then(function (result){
 	    $scope.teamUsers=result.data;
 	});
-    
+    //Has to be applied in the html, but the html show information before the REST call
     $scope.memberUser={};
     serviceParticipate.getUserParticipate(serviceKurentoRoom.getTeam(), $scope.user.id).then(function (result){
-    	$scope.memberUser=result.data;
+    	$scope.memberUser=result.data[0];
     });
     
     $scope.room = function(){

@@ -96,9 +96,9 @@
 	        </div>
         </md-content-flex>
       <md-content-flex>
-      <md-subheader class="md-no-sticky">Public</md-subheader>
-	  <div style="height: 15em;  overflow: scroll; overflow-x: hidden;">
-	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in rooms()">
+      <md-subheader class="md-no-sticky" id="publicroomsbutton">Public rooms</md-subheader>
+	  <div id="publicrooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms()">
 	    <md-icon class="md-hue-3">
 	    	<span ng-show="room.privateRoom==0">brightness_1</span>
 	    	<span ng-show="room.privateRoom==1">stars</span>
@@ -108,12 +108,26 @@
 	  	<md-divider ng-if="!$last"></md-divider>
 	  </md-list-item>
 	  </div>
-	  <md-subheader class="md-no-sticky">Online members</md-subheader>
-	  <md-list-item class="md-line" ng-repeat="participate in teamUsers">
-	        <div class="md-list-item-text">
-	          <p>{{findUserById(participate.user).name}}</p>
-	        </div>
-      </md-list-item>
+	  <md-subheader class="md-no-sticky" id="privateroomsbutton">Private rooms</md-subheader>
+	  <div id="privaterooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms()">
+	    <md-icon class="md-hue-3">
+	    	<span ng-show="room.privateRoom==0">brightness_1</span>
+	    	<span ng-show="room.privateRoom==1">stars</span>
+	    </md-icon>
+	    <p>{{ room.name }}</p>
+	    <md-icon ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;">clear</md-icon>
+	  	<md-divider ng-if="!$last"></md-divider>
+	  </md-list-item>
+	  </div>
+	  <md-subheader class="md-no-sticky" id="onlinemembersbutton">Online members ({{teamUsers.length}})</md-subheader>
+	  <div id ="onlinemembers">
+		  <md-list-item class="md-line" ng-repeat="participate in teamUsers">
+		        <div class="md-list-item-text">
+		          <p>{{findUserById(participate.user).name}}</p>
+		        </div>
+	      </md-list-item>
+      </div>
       <md-button ng-show="participateUser.teamPrivileges<2" ng-click="leaveTeam($event)" style="background-color:greenyellow">
 	   	Leave team
 	  </md-button>
@@ -122,6 +136,14 @@
   
   <div flex style="background-color:#e3f2fd;padding:20px">
   		<div style="margin-top:-20px;text-align:right;">
+  		<md-button class="md-icon-button launch" ng-click="">
+			<md-icon>
+				forum
+			</md-icon>
+			<md-tooltip>
+		    	Mentions
+		   	</md-tooltip>
+		</md-button>
   		<md-button class="md-icon-button launch" ng-click="">
 			<md-icon>
 				search
