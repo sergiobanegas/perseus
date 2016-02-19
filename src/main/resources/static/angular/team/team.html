@@ -229,7 +229,7 @@
 			</form>
   		</div>
   		
-  		<div ng-show="screen=='chat'" style="background-color:white;padding:0px" class="md-whiteframe-3dp">
+  		<div ng-show="screen=='chat'" style="background-color:white;padding:0px;height:95%" class="md-whiteframe-3dp">
 			<div id="effect">
 			 	<h3>
 			  		<md-subheader class="md-no-sticky">
@@ -238,19 +238,27 @@
 			 	</h3>
 			    <div id="globalchatscroll" style="height: 28em;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages()">
-					     <md-list-item class="md-2-line">
-						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar>
+					     <md-list-item class="md-line">
+					     						      <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+<!-- 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar> -->
 						      <div class="md-list-item-text">
-						        {{message.userName}} - <span class="md-caption">{{message.date}}</span>
-						         <p>				 
+						        {{message.userName}}
+						         <p>		
+						         	<span class="md-body-2">		 
 						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>        	
+						         	</span>
 						         </p>
 						      </div>
+						      <span style="color:gray;float:right;position:absolute;right:0px" class="md-caption">
+						      	{{message.date | timeago}}
+						      </span>
 						      <md-divider ng-if="!$last"></md-divider>
 					     </md-list-item>
 					</md-list-item>			
 				</div>
-			   		<form layout="row" autocomplete="off" ng-submit="sendMessage()" style="padding:5px;background-color:#f5f5f5">
+				</div>
+					
+			   		<form layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
 						<md-button title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							tag_faces
@@ -263,7 +271,7 @@
 						</md-icon>
 				     	</md-button>												
 					</form>
-    		</div>
+    		
   		</div>	
 </div>
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">

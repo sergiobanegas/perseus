@@ -31,10 +31,7 @@ public class ChatMessageRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<ChatMessage> addChatMessage(@RequestBody ChatMessage chatMessage) {
-		Date date= new Date();
-		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		chatMessage.setDate(sdf.format(date));		
+	public ResponseEntity<ChatMessage> addChatMessage(@RequestBody ChatMessage chatMessage) {	
 		ChatMessageRepository.save(chatMessage);		
 		return new ResponseEntity<>(chatMessage,HttpStatus.CREATED);
 	}
