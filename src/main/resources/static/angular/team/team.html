@@ -229,16 +229,16 @@
 			</form>
   		</div>
   		
-  		<div ng-show="screen=='chat'" style="background-color:white;padding:0px;height:95%" class="md-whiteframe-3dp">
+  		<div ng-show="screen=='chat'" style="background-color:white;padding:0px;" class="md-whiteframe-3dp">
 			<div id="effect">
 			 	<h3>
 			  		<md-subheader class="md-no-sticky">
 			 			Team chat
 			 		</md-subheader>
 			 	</h3>
-			    <div id="globalchatscroll" style="height: 28em;  overflow: scroll; overflow-x: hidden;">
+			    <div id="globalchatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages()">
-					     <md-list-item class="md-line">
+					     <md-list-item style="position:relative" class="md-line">
 					     						      <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
 <!-- 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar> -->
 						      <div class="md-list-item-text">
@@ -249,9 +249,9 @@
 						         	</span>
 						         </p>
 						      </div>
-						      <span style="color:gray;float:right;position:absolute;right:0px" class="md-caption">
+						      <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
 						      	{{message.date | timeago}}
-						      </span>
+						      </div>
 						      <md-divider ng-if="!$last"></md-divider>
 					     </md-list-item>
 					</md-list-item>			
