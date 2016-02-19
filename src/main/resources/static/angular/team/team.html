@@ -134,8 +134,8 @@
 	  </md-content-flex>  
   </md-content-flex>
   
-  <div flex style="background-color:#e3f2fd;padding:20px">
-  		<div style="margin-top:-20px;text-align:right;">
+  <div flex style="position:relative;background-color:#e3f2fd;">
+  <div style="text-align:right; position:absolute; right:3%;z-index:99">
   		<md-button class="md-icon-button launch" ng-click="">
 			<md-icon>
 				forum
@@ -153,7 +153,7 @@
 		   	</md-tooltip>
 		</md-button>
 		</div>
-  		
+  		<div style="padding:3%;padding-top:4%;">		
   		<div ng-show="screen=='privateMessages'" style="background-color:white">
   			Private Messages
   			<p>Last conversations</p>
@@ -229,7 +229,7 @@
 			</form>
   		</div>
   		
-  		<div ng-show="screen=='chat'" style="background-color:white;padding:0px;" class="md-whiteframe-3dp">
+  		<div ng-show="screen=='chat'" style="background-color:white;padding:0" class="md-whiteframe-3dp">
 			<div id="effect">
 			 	<h3>
 			  		<md-subheader class="md-no-sticky">
@@ -272,7 +272,7 @@
 				     	</md-button>												
 					</form>
     		
-  		</div>	
+  		</div>	</div>
 </div>
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
       <md-toolbar class="md-theme-light">
