@@ -23,6 +23,17 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		  $("#onlinemembers").toggle("blind");
 	});
 	
+	var timeoutId;
+	$scope.showRoomButtons = function(index){
+		$("#"+index).show();
+	}
+	
+	$scope.hideRoomButtons = function(index){
+//		timeoutId = setTimeout(function (){
+		$("#"+index).hide();
+//		}, 500);
+	}
+	
 	//global variables
 	$scope.user=serviceUser.getSession();
 	
@@ -193,19 +204,12 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
 		if ($scope.privateMessage!='' && $scope.receiver.id){
-			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage});
+			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage, date: new Date()});
 		}
 	}
 	$scope.replyText="";
 	$scope.replyMessage = function(message){
-		var privateMessages=$scope.privateMessagesChat();
-		if (privateMessages.length>0 && privateMessages[privateMessages.length-1].transmitter==$scope.user.id){
-			var privateMessage=privateMessages[privateMessages.length-1];
-			privateMessage.text=privateMessage.text+"<br/>"+$scope.replyText;
-			servicePrivateMessage.updatePrivateMessage(privateMessage);
-		}else{
-			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message});
-		}
+		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message, date: new Date()});
 		$scope.replyText="";
 		setTimeout(function(){
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);

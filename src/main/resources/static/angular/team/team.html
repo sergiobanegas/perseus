@@ -99,24 +99,16 @@
       <md-subheader class="md-no-sticky" id="publicroomsbutton">Public rooms</md-subheader>
 	  <div id="publicrooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms()">
-	    <md-icon class="md-hue-3">
-	    	<span ng-show="room.privateRoom==0">brightness_1</span>
-	    	<span ng-show="room.privateRoom==1">stars</span>
-	    </md-icon>
 	    <p>{{ room.name }}</p>
-	    <md-icon ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;">clear</md-icon>
+	    <md-icon id="{{room.name}}" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;visibility:hidden">clear</md-icon>
 	  	<md-divider ng-if="!$last"></md-divider>
 	  </md-list-item>
 	  </div>
 	  <md-subheader class="md-no-sticky" id="privateroomsbutton">Private rooms</md-subheader>
 	  <div id="privaterooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
-	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms()">
-	    <md-icon class="md-hue-3">
-	    	<span ng-show="room.privateRoom==0">brightness_1</span>
-	    	<span ng-show="room.privateRoom==1">stars</span>
-	    </md-icon>
+	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showRoomButtons($index)" ng-mouseleave="hideRoomButtons($index)">
 	    <p>{{ room.name }}</p>
-	    <md-icon ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;">clear</md-icon>
+   		<md-icon id="{{$index}}"ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
 	  	<md-divider ng-if="!$last"></md-divider>
 	  </md-list-item>
 	  </div>
@@ -158,10 +150,10 @@
   			Private Messages
   			<p>Last conversations</p>
   			<md-list-item ng-repeat="user in filterMessagesContacts()" ng-click="showUserMessages(user)">
-  				 <md-list-item class="md-2-line">
-  				 	<ng-letter-avatar data="{{findUserById(user).name}}" shape="round"></ng-letter-avatar>
+  				 <md-list-item>
+  				 	<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{user.id}}" />
   				 <div class="md-list-item-text">
-  				 	<h3>{{findUserById(user).name}}</h3>
+  				 	{{findUserById(user).name}}
   				 </div>
 		       <md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
@@ -207,13 +199,16 @@
 		     {{findUserById(userReceiver).name}}
   			 <div id="chatscroll" style="height: 30em;  overflow: scroll; overflow-x: hidden;">
   			<md-list-item ng-repeat="message in privateMessagesChat()">
-					     <md-list-item class="md-2-line">
-						      <ng-letter-avatar data="{{message.transmitterName}}" shape="round"></ng-letter-avatar>
+					     <md-list-item>
+					     <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
 						      <div class="md-list-item-text">
-						         <a style="color:blue">{{message.transmitterName}}</a> - <span class="md-caption">{{message.date}}</span>
+						         <a style="color:blue">{{message.transmitterName}}</a>
 						         <p>
 						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>
 						         </p>
+						         <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
+						      	{{message.date | timeago}}
+						      </div>
 						       </div>
 						       <md-divider ng-if="!$last"></md-divider>
 					      </md-list-item>
@@ -229,7 +224,7 @@
 			</form>
   		</div>
   		
-  		<div ng-show="screen=='chat'" style="background-color:white;padding:0" class="md-whiteframe-3dp">
+  		<div ng-show="screen=='chat'" id="chat" style="background-color:white;padding:0" class="md-whiteframe-3dp">
 			<div id="effect">
 			 	<h3>
 			  		<md-subheader class="md-no-sticky">
@@ -237,12 +232,12 @@
 			 		</md-subheader>
 			 	</h3>
 			    <div id="globalchatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
-			    	<md-list-item ng-repeat="message in chatMessages()">
+			    	<md-list-item ng-repeat="message in chatMessages()" style="position:relative">
 					     <md-list-item style="position:relative" class="md-line">
-					     						      <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+					     	<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
 <!-- 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar> -->
 						      <div class="md-list-item-text">
-						        {{message.userName}}
+						        <a>{{message.userName}}</a>
 						         <p>		
 						         	<span class="md-body-2">		 
 						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>        	
@@ -271,9 +266,9 @@
 						</md-icon>
 				     	</md-button>												
 					</form>
-    		
-  		</div>	</div>
+  			</div>
 </div>
+
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
       <md-toolbar class="md-theme-light">
         <h1 class="md-toolbar-tools">Notifications</h1>
@@ -366,7 +361,8 @@
 		      </a>
 		    </md-item>
 		  </md-list>
-	</md-sidenav>    
+	</md-sidenav>   
+</div>
 </div>
 <div ng-hide="member">
 	You don't participate in this team.

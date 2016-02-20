@@ -32,9 +32,6 @@ public class PrivateMessageRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<PrivateMessage> addPrivateMessage(@RequestBody PrivateMessage privateMessage) {
-		Date date= new Date();
-		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		privateMessage.setDate(sdf.format(date));		
 		privateMessageRepository.save(privateMessage);		
 		return new ResponseEntity<>(privateMessage,HttpStatus.CREATED);
 	}
