@@ -3,8 +3,6 @@
  */
 
 perseus.controller('homeController', function ($scope, $mdDialog, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate) {
-
-	Notification.requestPermission();
 	
 	$scope.user = serviceUser.getSession();
 	$scope.teams= serviceParticipate.getParticipates();

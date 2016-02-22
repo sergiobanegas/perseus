@@ -13,19 +13,29 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     });
 		
 	$("#publicroomsbutton").click(function() {
-		  $("#publicrooms").toggle("blind");
+		$("#publicrooms").toggle("blind");
 	});
 	
 	$("#privateroomsbutton").click(function() {
-		  $("#privaterooms").toggle("blind");
+		$("#privaterooms").toggle("blind");
 	});
 	$("#onlinemembersbutton").click(function() {
-		  $("#onlinemembers").toggle("blind");
+		$("#onlinemembers").toggle("blind");
 	});
 	
 	$("#search").click(function(){
 		$("#inputsearch").animate({width:'toggle'},350);
 	});
+
+	$scope.showNotificationTop = function(){
+		if (Notification.permission === "granted"){
+			return false;
+		} 
+		else return true;
+	}
+	$scope.enableNotifications = function(){
+		Notification.requestPermission();
+	}
 	
 	$scope.showRoomButtons = function(index){
 		$("#"+index).show();
@@ -77,6 +87,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    for (var i=0;i<$scope.participatesHttp.length;i++){
 	    	if ($scope.participatesHttp[i].user==$scope.user.id && $scope.participatesHttp[i].team==$scope.team.id){
 	    		$scope.participateUser=$scope.participatesHttp[i];
+	    		break;
 	    	}
 	    }
 	});
@@ -90,6 +101,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
 	}
 	
+	$scope.optionFilter;
 	$scope.chatFilter="";
 	$scope.nameFilter="";
 	$scope.dateFilter=new Date();
@@ -97,6 +109,10 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.resetFilter= function(){
 		$scope.chatFilter="";
+		$("#filterdate").hide();
+		$("#filtername").hide();
+		$("#filtercontent").hide();
+		$scope.optionFilter=null;
 	}
 	
 	$scope.showFilterName = function(){
@@ -133,7 +149,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			return message.userName==$scope.nameFilter;
 		}
 		else if ($scope.chatFilter=="content"){
-			return  (message.text).indexOf($scope.contentFilter) > -1;
+			return (message.text).indexOf($scope.contentFilter) > -1;
 		}
 		else if ($scope.chatFilter=="date"){
 			var date1=($scope.dateFilter.toLocaleDateString()).split("/");

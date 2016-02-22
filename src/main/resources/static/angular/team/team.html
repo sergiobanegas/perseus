@@ -1,3 +1,4 @@
+<div ng-show="showNotificationTop()"> <a ng-click="enableNotifications()" href="">You have the notifications turned off, if you want to see the notifications for a better experience, click here.</a></div>
 <div layout="row" ng-show="member || user.privileges>0" style="height:100%">
   <md-content-flex flex="5" style="background-color:#29b6f6">
   	 <md-list flex layout="column" layout-align="center center">
@@ -127,7 +128,7 @@
   </md-content-flex>
   
   <div flex style="position:relative;background-color:#e3f2fd;">
-  <div style="text-align:right; position:absolute; right:3%;z-index:99">
+  <div style="text-align:right; position:absolute; right:3%;z-index:1">
   		<input type="text" id="inputsearch" placeholder="Ej: name..." style="display:none">
   		<md-button class="md-icon-button launch" id="search">
 			<md-icon>
@@ -251,8 +252,8 @@
 					 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
 					 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
 					 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
-					 	<button ng-click="searchByFilter()">Buscar</button>		
-					 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset search</button>
+					 	<button ng-click="searchByFilter()">Search</button>		
+					 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</button>
 					 	<md-input-container>
 					 		<label>Filter</label>
 					 		 <md-select ng-model="optionFilter">
@@ -268,7 +269,6 @@
 			    	<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
 					     <md-list-item style="position:relative" class="md-line">
 					     	<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
-<!-- 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar> -->
 						      <div class="md-list-item-text">
 						        <a>{{message.userName}}</a>
 						         <p>		
