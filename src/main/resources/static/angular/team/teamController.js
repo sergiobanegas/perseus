@@ -23,20 +23,31 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		  $("#onlinemembers").toggle("blind");
 	});
 	
-	var timeoutId;
+	$("#search").click(function(){
+		$("#inputsearch").animate({width:'toggle'},350);
+	});
+	
 	$scope.showRoomButtons = function(index){
 		$("#"+index).show();
 	}
 	
 	$scope.hideRoomButtons = function(index){
-//		timeoutId = setTimeout(function (){
 		$("#"+index).hide();
-//		}, 500);
+	}
+	var timeoutId;
+	$scope.showMenu = function(){
+		clearInterval(timeoutId);
+		$("#menu").show();
 	}
 	
+	$scope.hideMenu = function(){
+		timeoutId = setTimeout(function (){
+		$("#menu").hide();
+		}, 500);
+	}
 	//global variables
 	$scope.user=serviceUser.getSession();
-	
+	$scope.users=serviceUser.getUsers();
 	$scope.team={};
 	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
 		$scope.team = result.data;
@@ -75,11 +86,64 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.privateRooms= function(){
 		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 1});
 	}
-	
 	$scope.chatMessages = function(){
 		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
 	}
 	
+	$scope.chatFilter="";
+	$scope.nameFilter="";
+	$scope.dateFilter=new Date();
+	$scope.contentFilter="";
+	
+	$scope.resetFilter= function(){
+		$scope.chatFilter="";
+	}
+	
+	$scope.showFilterName = function(){
+		$("#filtername").show();
+		$("#filtercontent").hide();
+		$("#filterdate").hide();
+	}
+	
+	$scope.showFilterDate = function(){
+		$("#filterdate").show();
+		$("#filtername").hide();
+		$("#filtercontent").hide();
+	}
+	
+	$scope.showFilterContent = function(){
+		$("#filtercontent").show();
+		$("#filtername").hide();
+		$("#filterdate").hide();
+	}
+	
+	$scope.searchByFilter = function(){
+		if ($('#filtername').is(":visible")){
+			$scope.chatFilter="name";
+		}
+		if ($('#filtercontent').is(":visible")){
+			$scope.chatFilter="content";
+		}
+		if ($('#filterdate').is(":visible")){
+			$scope.chatFilter="date";
+		}
+	}
+	$scope.filterMessages = function(message){
+		if ($scope.chatFilter=="name"){
+			return message.userName==$scope.nameFilter;
+		}
+		else if ($scope.chatFilter=="content"){
+			return  (message.text).indexOf($scope.contentFilter) > -1;
+		}
+		else if ($scope.chatFilter=="date"){
+			var date1=($scope.dateFilter.toLocaleDateString()).split("/");
+			var date2=message.date.slice(0,10).split("-");
+			return (date1[0]==date2[2] || date1[0]=="0"+date2[2]) && (date1[1]==date2[1] || "0"+date1[1]==date2[1]) && date1[2]==date2[0];
+		}
+		else{
+			return true;
+		}
+	}
 	//tarda mucho
 	$scope.chatMessagesOrdered = function(){
 		var chatMessages=$scope.chatMessages();
@@ -93,8 +157,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		}
 		return chatMessagesOrdered;
 	}
-	
-	
+
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
@@ -135,14 +198,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
   	    }, 500);
 	};
 	
-	$scope.sameTransmitter = function(index, user){
-		if (index>0 && $scope.chatMessages()[index-1].user==user){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
 	$scope.options = {
             'linkTarget': '_blank',
             'basicVideo': false,
@@ -180,13 +235,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.filterMessagesContacts = function(){
 		var array=[];
-		var object;
-		var object2;
-		var object3;
 		var messages=$scope.privateMessages();
 		for (var i=0;i<messages.length;i++){
-			object={};
-			object2={};
 			if (messages[i].transmitter==$scope.user.id){
 				if (array.indexOf(messages[i].receiver)==-1){
 					array.push(messages[i].receiver);
@@ -258,12 +308,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     	serviceParticipate.newParticipate({user: request.user, team: request.team, teamPrivileges: 0});
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
     	$scope.notification("Request accepted");
-    	var response=1;
-    	var data= {
-				"user" : user, 
-				"team" : team,	
-				"response" : 1
-				};
+    	var data= {"user" : user,"team" : team,	"response" : 1};
 		$http.post("/senduserjoined", data);
     }
     $scope.denyRequest = function(request){
@@ -272,11 +317,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
     	$scope.notification("Request denied");
     	var response=0;
-    	var data= {
-				"user" : user, 
-				"team" : team,
-				"response" : 0
-				};
+    	var data= {"user" : user, "team" : team, "response" : 0};
 		$http.post("/senduserjoined", data);
     }
     
@@ -579,8 +620,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceN
 	$scope.team=team;
 	$scope.newAdmin='';
 	$scope.participates= function(){
-		var participates = $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
-		return participates;
+		return $filter('filter')(serviceParticipate.getParticipates(), { team: team.id});
 	}
 	
 	$scope.goAdminPanel = function(){
@@ -624,10 +664,7 @@ function invitePeopleController($scope, $http, $mdDialog, serviceNotification, $
 		if ($scope.email==""){
 			$scope.notification("Please enter a email");
 		}else{
-			var data= {
-					"email":$scope.email, 
-					"team": team
-					};
+			var data= {"email": $scope.email, "team": team};
 			$http.post("/sendinvitation", data);
 			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
 			$scope.email="";

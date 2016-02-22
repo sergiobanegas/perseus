@@ -128,7 +128,16 @@
   
   <div flex style="position:relative;background-color:#e3f2fd;">
   <div style="text-align:right; position:absolute; right:3%;z-index:99">
-  		<md-button class="md-icon-button launch" ng-click="">
+  		<input type="text" id="inputsearch" placeholder="Ej: name..." style="display:none">
+  		<md-button class="md-icon-button launch" id="search">
+			<md-icon>
+				search
+			</md-icon>
+			<md-tooltip>
+		    	Search
+		   	</md-tooltip>
+		</md-button>
+		<md-button class="md-icon-button launch" ng-click="">
 			<md-icon>
 				forum
 			</md-icon>
@@ -136,15 +145,22 @@
 		    	Mentions
 		   	</md-tooltip>
 		</md-button>
-  		<md-button class="md-icon-button launch" ng-click="">
+		<md-button class="md-icon-button launch" ng-mouseover="showMenu()" ng-mouseleave="hideMenu()">
 			<md-icon>
-				search
+				more_vert
 			</md-icon>
 			<md-tooltip>
-		    	Members
+		    	Menu
 		   	</md-tooltip>
 		</md-button>
+		<div id="menu" ng-mouseover="showMenu()" ng-mouseleave="hideMenu()" style="text-align:left;display:none;z-index:999;right:0px;background-color:white">
+				<ul>
+				<li ng-repeat="participate in teamUsers" ng-click="">
+		          <p>{{findUserById(participate.user).name}}</p>
+		        </li>
+	     		 </ul>
 		</div>
+	</div>
   		<div style="padding:3%;padding-top:4%;">		
   		<div ng-show="screen=='privateMessages'" style="background-color:white">
   			Private Messages
@@ -224,15 +240,32 @@
 			</form>
   		</div>
   		
-  		<div ng-show="screen=='chat'" id="chat" style="background-color:white;padding:0" class="md-whiteframe-3dp">
+  		<div ng-show="screen=='chat'" id="chat" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
+			
 			<div id="effect">
-			 	<h3>
-			  		<md-subheader class="md-no-sticky">
-			 			Team chat
-			 		</md-subheader>
-			 	</h3>
+					<div layout="row">	
+			  		<div flex>
+			 			<span>Team chat</span>
+				 	</div>
+				 	<div flex style="text-align:right;float:right">
+					 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
+					 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
+					 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
+					 	<button ng-click="searchByFilter()">Buscar</button>		
+					 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset search</button>
+					 	<md-input-container>
+					 		<label>Filter</label>
+					 		 <md-select ng-model="optionFilter">
+						        <md-option value="Name" ng-click="showFilterName()">Name</md-option>
+						        <md-option value="Date" ng-click="showFilterDate()">Date</md-option>
+						        <md-option value="Content" ng-click="showFilterContent()">Content</md-option>
+						    </md-select>
+					     </md-input-container>
+					 </div>
+				</div>
+      
 			    <div id="globalchatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
-			    	<md-list-item ng-repeat="message in chatMessages()" style="position:relative">
+			    	<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
 					     <md-list-item style="position:relative" class="md-line">
 					     	<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
 <!-- 						      <ng-letter-avatar data="{{message.userName}}" shape="round"></ng-letter-avatar> -->

@@ -247,3 +247,12 @@ video {
     position: relative;
     padding: 0.4em;
 }
+
+
+#inputsearch {
+    height: 26px;
+    padding: 0 12px 0 10px;
+    border: 1px solid;
+    border-color: #a8acbc #babdcc #c0c3d2;
+    border-radius: 13px;
+  }
