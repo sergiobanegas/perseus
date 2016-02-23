@@ -1,4 +1,5 @@
-<div ng-show="showNotificationTop()"> <a ng-click="enableNotifications()" href="">You have the notifications turned off, if you want to see the notifications for a better experience, click here.</a></div>
+<div ng-show="showNotificationTop()">
+<a ng-click="enableNotifications()" href="">You have the notifications turned off, if you want to see the notifications for a better experience, click here.</a></div>
 <div layout="row" ng-show="member || user.privileges>0" style="height:100%">
   <md-content-flex flex="5" style="background-color:#29b6f6">
   	 <md-list flex layout="column" layout-align="center center">
@@ -244,26 +245,32 @@
   		<div ng-show="screen=='chat'" id="chat" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
 			
 			<div id="effect">
-					<div layout="row">	
-			  		<div flex>
-			 			<span>Team chat</span>
+			  		<div style="position:relative">
+			 			<div style="float:left">Team chat</div>
+			 			<div style="float:right">
+							 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
+							 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
+							 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
+							 	<button ng-click="searchByFilter()">Search</button>		
+							 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</button>
+		  						<md-menu>
+							        <md-button class="md-icon-button" ng-click="$mdOpenMenu()">
+							            <md-icon md-menu-origin>menu</md-icon>
+							        </md-button>
+							        <md-menu-content width="1">
+							            <md-menu-item>
+							                <md-button ng-click="showFilterName()">Name</md-button>
+							            </md-menu-item>
+							            <md-menu-item>
+							                <md-button ng-click="showFilterDate()">Date</md-button>
+							            </md-menu-item>
+							            <md-menu-item>
+							                <md-button ng-click="showFilterContent()">Content</md-button>
+							            </md-menu-item>
+							        </md-menu-content>
+							    </md-menu>
+						</div>
 				 	</div>
-				 	<div flex style="text-align:right;float:right">
-					 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
-					 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
-					 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
-					 	<button ng-click="searchByFilter()">Search</button>		
-					 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</button>
-					 	<md-input-container>
-					 		<label>Filter</label>
-					 		 <md-select ng-model="optionFilter">
-						        <md-option value="Name" ng-click="showFilterName()">Name</md-option>
-						        <md-option value="Date" ng-click="showFilterDate()">Date</md-option>
-						        <md-option value="Content" ng-click="showFilterContent()">Content</md-option>
-						    </md-select>
-					     </md-input-container>
-					 </div>
-				</div>
       
 			    <div id="globalchatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
@@ -272,8 +279,8 @@
 						      <div class="md-list-item-text">
 						        <a>{{message.userName}}</a>
 						         <p>		
-						         	<span class="md-body-2">		 
-						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>        	
+						         	<span class="md-body-2">	
+						         	<div ng-bind-html="message.text | colonToSmiley"></div>
 						         	</span>
 						         </p>
 						      </div>
@@ -285,14 +292,16 @@
 					</md-list-item>			
 				</div>
 				</div>
-					
-			   		<form layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
-						<md-button title="Send message" class="md-icon-button launch" >
+			   		<form emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
+						<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							tag_faces
 						</md-icon>
 				     	</md-button>
-						<input flex ng-model="chatMessage" type="text" placeholder="New message" required>
+				     	
+				     	<div flex>
+				     	<textarea style="background-color:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+				     	</div>
 						<md-button type="submit" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							send
@@ -301,7 +310,6 @@
 					</form>
   			</div>
 </div>
-
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
       <md-toolbar class="md-theme-light">
         <h1 class="md-toolbar-tools">Notifications</h1>

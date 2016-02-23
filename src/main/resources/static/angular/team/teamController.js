@@ -12,6 +12,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    error(function (data, status, headers, config) {	 
     });
 		
+	
 	$("#publicroomsbutton").click(function() {
 		$("#publicrooms").toggle("blind");
 	});
@@ -26,6 +27,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$("#search").click(function(){
 		$("#inputsearch").animate({width:'toggle'},350);
 	});
+	
+	$('textarea').bind('keypress', function(e) {
+		  if ((e.keyCode || e.which) == 13) {
+		    $(this).parents('form').submit();
+		    return false;
+		  }
+		});
 
 	$scope.showNotificationTop = function(){
 		if (Notification.permission === "granted"){
@@ -206,13 +214,17 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//end auxiliar search functions
 	//chat message
 	$scope.chatMessage;
+	$scope.emojiMessage;
 	$scope.sendMessage = function () { 
 		serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
 		$scope.chatMessage="";
+		$scope.emojiMessage="";
   		setTimeout(function(){
   			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
   	    }, 500);
 	};
+	
+	
 	
 	$scope.options = {
             'linkTarget': '_blank',
