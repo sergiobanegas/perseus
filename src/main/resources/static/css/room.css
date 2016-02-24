@@ -21,6 +21,7 @@ md-fab-toolbar.md-right md-fab-trigger.align-with-text {
 h2 {
   font-weight: 400;
 }
+
 .md-toolbar-tools-bottom {
   font-size: small;
   & :last-child {

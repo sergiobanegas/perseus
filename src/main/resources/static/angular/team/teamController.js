@@ -225,7 +225,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	};
 	
 	
-	
 	$scope.options = {
             'linkTarget': '_blank',
             'basicVideo': false,
