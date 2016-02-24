@@ -120,23 +120,27 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$("#filterdate").hide();
 		$("#filtername").hide();
 		$("#filtercontent").hide();
+		$("#searchFilter").hide();
 		$scope.optionFilter=null;
 	}
 	
 	$scope.showFilterName = function(){
 		$("#filtername").show();
+		$("#searchFilter").show();
 		$("#filtercontent").hide();
 		$("#filterdate").hide();
 	}
 	
 	$scope.showFilterDate = function(){
 		$("#filterdate").show();
+		$("#searchFilter").show();
 		$("#filtername").hide();
 		$("#filtercontent").hide();
 	}
 	
 	$scope.showFilterContent = function(){
 		$("#filtercontent").show();
+		$("#searchFilter").show();
 		$("#filtername").hide();
 		$("#filterdate").hide();
 	}

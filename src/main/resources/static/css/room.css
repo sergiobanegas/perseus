@@ -6,6 +6,14 @@ html, body {
 
 $gray: #eee;
 
+a:link{
+  color:blue;
+}
+a:visited {
+    color: inherit;
+}
+
+
 md-content.md-default-theme {
   background-color: $gray;
 }

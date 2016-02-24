@@ -1,9 +1,13 @@
-<div ng-show="showNotificationTop()">
-<a ng-click="enableNotifications()" href="">You have the notifications turned off, if you want to see the notifications for a better experience, click here.</a></div>
 <div layout="row" ng-show="member || user.privileges>0" style="height:100%">
+  <div ng-show="showNotificationTop()" style="position:absolute;z-index:999;width:100%;height:auto;text-align:center;">
+		<div style="border-style:solid;border-width:1px;border-top:none;display: inline-block;background-color:orange;">
+			<a style="text-decoration:none;"class="md-caption" ng-click="enableNotifications()" href="">You have the notifications turned off, if you want to see the notifications for a better experience, click here.</a>
+			<md-icon>close</md-icon>
+  		</div>
+  </div>
   <md-content-flex flex="5" style="background-color:#29b6f6">
-  	 <md-list flex layout="column" layout-align="center center">
-  	 <a href="#/user/{{user.id}}">
+  	 <md-list style="height:100%" flex layout="column" layout-align="space-between center">
+  	 <a href="#/user/{{user.id}}" style="margin-top:0px">
   	 	<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
   	 </a>
       <md-list-item>
@@ -68,6 +72,9 @@
         </md-button>
         </a>
       </md-list-item>
+      <a href="#/user/{{user.id}}">
+  	 	<ng-letter-avatar data="TRJC" shape="round"></ng-letter-avatar>
+  	 </a>
     </md-list>
   </md-content-flex>
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
@@ -218,11 +225,13 @@
   			 <div id="chatscroll" style="height: 30em;  overflow: scroll; overflow-x: hidden;">
   			<md-list-item ng-repeat="message in privateMessagesChat()">
 					     <md-list-item>
+					     <a href="#/user/{{message.transmitter}}">
 					     <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+						      </a>
 						      <div class="md-list-item-text">
 						         <a style="color:blue">{{message.transmitterName}}</a>
 						         <p>
-						         	<ng-emoticons emoticons-data="message.text" emoticons-options="options" emoticons-template-url="angular/chatMessageTemplate.html"/>
+						         	<div ng-bind-html="message.text | colonToSmiley"></div>
 						         </p>
 						         <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
 						      	{{message.date | timeago}}
@@ -251,11 +260,11 @@
 							 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
 							 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
 							 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
-							 	<button ng-click="searchByFilter()">Search</button>		
-							 	<button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</button>
+							 	<md-button ng-click="searchByFilter()" id="searchFilter" style="display:none">Search</md-button>		
+							 	<md-button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</md-button>
 		  						<md-menu>
 							        <md-button class="md-icon-button" ng-click="$mdOpenMenu()">
-							            <md-icon md-menu-origin>menu</md-icon>
+							            <md-icon md-menu-origin>search</md-icon>
 							        </md-button>
 							        <md-menu-content width="1">
 							            <md-menu-item>
@@ -275,9 +284,13 @@
 			    <div id="globalchatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
 			    	<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
 					     <md-list-item style="position:relative" class="md-line">
-					     	<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+					     	<a href="#/user/{{message.user}}">
+					     	<img ng-src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+								<!-- Has to be fixed, fallback always update in ng-repeat -->
+<!-- 						    <img ng-src="http://i.imgur.sdasdacom/HfLuszJ.jpg" onError="this.onerror=null;this.src='http://i.imgur.com/HfLuszJ.jpg';" class="md-avatar" alt="{{message.user.name}}" /> -->     
+						     </a>
 						      <div class="md-list-item-text">
-						        <a>{{message.userName}}</a>
+						        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>
 						         <p>		
 						         	<span class="md-body-2">	
 						         	<div ng-bind-html="message.text | colonToSmiley"></div>
@@ -298,10 +311,7 @@
 							tag_faces
 						</md-icon>
 				     	</md-button>
-				     	
-				     	<div flex>
-				     	<textarea  style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
-				     	</div>
+				     	<textarea id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
 						<md-button type="submit" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							send
