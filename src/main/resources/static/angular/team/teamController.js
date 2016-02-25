@@ -28,12 +28,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$("#inputsearch").animate({width:'toggle'},350);
 	});
 	
-	$('textarea').bind('keypress', function(e) {
-		  if ((e.keyCode || e.which) == 13) {
-		    $(this).parents('form').submit();
-		    return false;
-		  }
-		});
+	$scope.closeEnableNotifications = function(){
+		$("#enablenotifications").animate({height:'toggle'},350);
+	}
 
 	$scope.showNotificationTop = function(){
 		if (Notification.permission === "granted"){
