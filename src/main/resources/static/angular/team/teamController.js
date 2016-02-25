@@ -217,7 +217,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.chatMessage;
 	$scope.emojiMessage;
 	$scope.sendMessage = function () { 
-		if ($scope.chatMessage!=""){
+		if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
 			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
 			$scope.chatMessage="";
 			$scope.emojiMessage="";
@@ -687,7 +687,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceN
 	}
 
 }
-function invitePeopleController($scope, $http, $mdDialog, serviceNotification, $window, team, user) {
+function invitePeopleController($scope, $http, $mdDialog, $mdToast, $filter, serviceUser, serviceTeamInvite, serviceNotification, $window, team, user) {
 	
 	$scope.email="";
 	$scope.sendInvitation = function(){
@@ -700,6 +700,28 @@ function invitePeopleController($scope, $http, $mdDialog, serviceNotification, $
 			$scope.email="";
 		}
 	}
+		
+	$scope.sendInvitationUser = function (name){
+		var users=serviceUser.getUsers();
+		var user=$filter('filter')(users, { name: name});
+		if (user.length>0){
+			serviceTeamInvite.newTeamInvite({user: user[0].id, team: team.id});
+			var data= {"email": user[0].email, "team": team};
+			$http.post("/sendinvitation", data);
+			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+name);
+		}else{
+			$scope.notification("The user with the name "+name+" doesn't exists");
+		}
+	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
 	
 	$scope.closeDialog = function() {
 		$mdDialog.hide();

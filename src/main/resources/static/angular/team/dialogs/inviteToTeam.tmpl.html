@@ -13,11 +13,22 @@
 			<div>
 				<md-input-container>
 					<md-icon>email</md-icon>
-					<input ng-model="email" type="email" placeholder="User email">
+					<input ng-model="email" type="email" placeholder="Email">
 				</md-input-container>
 				<md-button class="md-primary" ng-click="sendInvitation(email)">
 					Enviar
 				</md-button>
+			</div>
+			<div>
+				<form ng-submit="sendInvitationUser(name)">
+					<md-input-container>
+						<md-icon>person</md-icon>
+						<input ng-model="name" type="text" placeholder="Username">
+					</md-input-container>
+					<md-button class="md-primary" type="submit">
+						Enviar
+					</md-button>
+				</form>
 			</div>
 		</div>
 	</md-dialog-content>

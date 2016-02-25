@@ -22,7 +22,7 @@
       </div>
     </md-toolbar>
     	<div layout="row" layout-align="center center" style="width:1000px;height:667px;border-style:solid;background-image: url('http://tweakyourbiz.com/growth/files/How-Collaboration-Creates-Growth-For-Your-SME.jpg');">
-			<div ng-show="user.name" style="border-style:solid;text-align:center" flex="30">
+			<div ng-show="user.name" style="background-color:white;border-style:solid;text-align:center" flex="30">
 		  <div flex>{{user.name}}</div>
 		  <div flex>
 		  	<a ng-href="#/user/{{user.id}}"> 
@@ -60,6 +60,17 @@
 			        </div>
 			     </md-list-item>
 			</md-list>
+			<md-subheader class="md-no-sticky">
+					Your invitations
+					<md-list-item ng-repeat="invite in teamInvites | filter:{ user: user.id }">
+			        <div class="md-list-item-text" layout="column">
+			          {{ invite.team }}
+			           </div>
+			          <md-icon ng-click="acceptInvitation(invite)" aria-label="Accept invitation">done</md-icon>
+			          <md-icon ng-click="denyInvitation(invite)" aria-label="Deny invitation">clear</md-icon>
+			       
+			     </md-list-item>
+			</md-subheader>
 		  </div>
 	</div> 
 		

@@ -2,14 +2,24 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('homeController', function ($scope, $mdDialog, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate) {
+perseus.controller('homeController', function ($scope, $mdDialog, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
 	
 	$scope.user = serviceUser.getSession();
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.teamName="";		
+	$scope.teamInvites=serviceTeamInvite.getTeamInvites();
 			
 	$scope.findTeamById = function(id){
 		return serviceTeam.getTeam(id);
+	}
+	
+	$scope.acceptInvitation = function(invite){
+		serviceParticipate.newParticipate({user: invite.user, team: invite.team, teamPrivileges: 0});
+		serviceTeamInvite.deleteTeamInvite(invite);
+	}
+	
+	$scope.denyInvitation = function(invite){
+		serviceTeamInvite.deleteTeamInvite(invite);
 	}
 	
 	$scope.logout = function(){		

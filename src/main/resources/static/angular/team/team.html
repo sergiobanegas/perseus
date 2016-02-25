@@ -9,89 +9,89 @@
   </div>
   <md-content-flex flex="5" style="background-color:#29b6f6">
   	 <md-list style="height:100%" flex layout="column" layout-align="space-between center">
-  	 <a href="#/user/{{user.id}}" style="margin-top:0px">
-  	 	<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
-  	 </a>
-      <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
-          <md-icon>
-	    	home
-		  </md-icon>
-		  <md-tooltip md-direction="right">
-		  	Main page
-		  </md-tooltip>
-        </md-button>
-      </md-list-item>
-      <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
-          <md-icon>
-	    	notifications
-	    </md-icon>
-	    <md-tooltip md-direction="right">
-	   		Notifications
-	   	</md-tooltip>
-        </md-button>
-      </md-list-item>   
-      <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="showScreen('privateMessages')">
-          <md-icon>
-	    	messages
-	    </md-icon>
-	    <md-tooltip md-direction="right">
-	   		Messages
-	   	</md-tooltip>
-        </md-button>
-      </md-list-item>
-      <md-list-item>
-        <md-button class="md-icon-button launch" ng-click="">
-	        <md-icon>
-		    	people
+	  	 <a href="#/user/{{user.id}}" style="margin-top:0px">
+	  	 	<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
+	  	 </a>
+	      <md-list-item>
+	        <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
+	          <md-icon>
+		    	home
+			  </md-icon>
+			  <md-tooltip md-direction="right">
+			  	Main page
+			  </md-tooltip>
+	        </md-button>
+	      </md-list-item>
+	      <md-list-item>
+	        <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
+	          <md-icon>
+		    	notifications
 		    </md-icon>
 		    <md-tooltip md-direction="right">
-	        	Members
-	    	</md-tooltip>
-        </md-button>
-      </md-list-item>
-      <md-list-item ng-show="participateUser.teamPrivileges>0">
-        <md-button class="md-icon-button launch" ng-click="invitePeople($event)">
-	        <md-icon>
-		    	person_add
+		   		Notifications
+		   	</md-tooltip>
+	        </md-button>
+	      </md-list-item>   
+	      <md-list-item>
+	        <md-button class="md-icon-button launch" ng-click="showScreen('privateMessages')">
+	          <md-icon>
+		    	messages
 		    </md-icon>
 		    <md-tooltip md-direction="right">
-	        	Invite people
-	    	</md-tooltip>
-        </md-button>
-      </md-list-item>      
-      <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
-       <a ng-href="#/team/{{team.id}}/admin">
-        <md-button class="md-icon-button launch" ng-click="">
-          <md-icon>
-	    	build
-	    </md-icon>
-	    <md-tooltip md-direction="right">
-	        	Admin team
-	    </md-tooltip>
-        </md-button>
-        </a>
-      </md-list-item>
-      <a href="#/user/{{user.id}}">
-  	 	<ng-letter-avatar data="TRJC" shape="round"></ng-letter-avatar>
-  	 </a>
-    </md-list>
+		   		Messages
+		   	</md-tooltip>
+	        </md-button>
+	      </md-list-item>
+	      <md-list-item>
+	        <md-button class="md-icon-button launch" ng-click="">
+		        <md-icon>
+			    	people
+			    </md-icon>
+			    <md-tooltip md-direction="right">
+		        	Members
+		    	</md-tooltip>
+	        </md-button>
+	      </md-list-item>
+	      <md-list-item ng-show="participateUser.teamPrivileges>0">
+	        <md-button class="md-icon-button launch" ng-click="invitePeople($event)">
+		        <md-icon>
+			    	person_add
+			    </md-icon>
+			    <md-tooltip md-direction="right">
+		        	Invite people
+		    	</md-tooltip>
+	        </md-button>
+	      </md-list-item>      
+	      <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
+	       <a ng-href="#/team/{{team.id}}/admin">
+	        <md-button class="md-icon-button launch" ng-click="">
+	          <md-icon>
+		    	build
+		    </md-icon>
+		    <md-tooltip md-direction="right">
+		        	Admin team
+		    </md-tooltip>
+	        </md-button>
+	        </a>
+	      </md-list-item>
+	      <a href="#/user/{{user.id}}">
+	  	 	<ng-letter-avatar data="TRJC" shape="round"></ng-letter-avatar>
+	  	 </a>
+	    </md-list>
   </md-content-flex>
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
-	   <div style="border-bottom-style:solid;padding-left:5%;background-color:blue;color:white">	   		
+	   <div style="border-bottom-style:solid;background-color:blue;color:white">	   		
 	   		<md-menu>
-	   			<a style="text-decoration:none;font-weight:bold;"ng-click="$mdOpenMenu()" href="">
+	   			<span style="text-decoration:none;font-weight:bold;cursor:pointer;"ng-click="$mdOpenMenu()">
 			        <span ng-bind="team.name"></span>
-			        <md-icon style="color:white">keyboard_arrow_down</md-icon>
-			    </a>
+			        <md-icon md-menu-origin style="color:white">keyboard_arrow_down</md-icon>
+			    </span>
 			    <md-menu-content width="1">
 					<md-menu-item>
 						<md-button ng-click="">Preferences</md-button>
 					</md-menu-item>
-					<md-menu-item>
-						<md-button ng-click="">Sign out of {{team.name}}</md-button>
+					<md-menu-item ng-show="participateUser.teamPrivileges<2">
+						<md-button ng-click="leaveTeam($event)">Sign out of {{team.name}}</md-button>
 					</md-menu-item>
 				</md-menu-content>
 			</md-menu>
@@ -122,11 +122,11 @@
 	  </div>
 	  <md-subheader class="md-no-sticky" id="privateroomsbutton">Private rooms ({{privateRooms().length}})</md-subheader>
 	  <div id="privaterooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
-	  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showRoomButtons($index)" ng-mouseleave="hideRoomButtons($index)">
-	    <p>{{ room.name }}</p>
-   		<md-icon id="{{$index}}"ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
-	  	<md-divider ng-if="!$last"></md-divider>
-	  </md-list-item>
+		  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showRoomButtons($index)" ng-mouseleave="hideRoomButtons($index)">
+			    <p>{{ room.name }}</p>
+		   		<md-icon id="{{$index}}"ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+			  	<md-divider ng-if="!$last"></md-divider>
+		  </md-list-item>
 	  </div>
 	  <md-subheader class="md-no-sticky" id="onlinemembersbutton">Online members ({{teamUsers.length}})</md-subheader>
 	  <div id ="onlinemembers">
@@ -136,9 +136,6 @@
 		        </div>
 	      </md-list-item>
       </div>
-      <md-button ng-show="participateUser.teamPrivileges<2" ng-click="leaveTeam($event)" style="background-color:greenyellow">
-	   	Leave team
-	  </md-button>
 	  </md-content-flex>  
   </md-content-flex>
   
