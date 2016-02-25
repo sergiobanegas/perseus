@@ -217,12 +217,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.chatMessage;
 	$scope.emojiMessage;
 	$scope.sendMessage = function () { 
-		serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
-		$scope.chatMessage="";
-		$scope.emojiMessage="";
-  		setTimeout(function(){
-  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
-  	    }, 500);
+		if ($scope.chatMessage!=""){
+			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
+			$scope.chatMessage="";
+			$scope.emojiMessage="";
+	  		setTimeout(function(){
+	  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
+	  	    }, 500);
+		}
 	};
 	
 	
