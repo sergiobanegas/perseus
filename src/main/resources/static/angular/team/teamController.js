@@ -106,6 +106,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
 	}
 	
+	 $("#chatform").keypress(function (e) {
+	        if(e.which == 13) {
+	            e.preventDefault();
+	            $scope.sendMessage();
+	        }
+	    });
+	
 	$scope.optionFilter;
 	$scope.chatFilter="";
 	$scope.nameFilter="";
