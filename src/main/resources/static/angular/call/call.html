@@ -1,5 +1,10 @@
+<li ng-repeat="obj in draggableObjects" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
+	<div ng-drag="true" ng-drag-data="obj" ng-class="obj.name">
+		{{obj.name}}
+	</div>
+</li>
+
 <div layout="row" style="height:100%">
-	<div id="main-video" style="display:none"></div>
 	<md-content-flex flex="20" style="position:relative;background-color:gray">
 		<p>{{roomName}}</p>
 		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
@@ -30,6 +35,7 @@
 	</md-content-flex>
 	<div flex>
 		<div id="top">
+		<div id="main-video"></div>
  			<div id="participants"> 
 			         	   	
 			</div> 

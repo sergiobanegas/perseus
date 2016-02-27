@@ -13,7 +13,6 @@ a:visited {
     color: inherit;
 }
 
-
 md-content.md-default-theme {
   background-color: $gray;
 }
@@ -45,6 +44,25 @@ md-sidenav {
   ng-md-icon {
     position: relative;
     top: 5px; // adjust for svg viewbox
+  }
+}
+
+.midnightHeader {
+  &.default {
+    background: none;
+    color: black;
+  }
+  &.red {
+    background: red;
+    color: black;
+  }
+  &.blue {
+    background: blue;
+    color: white;
+  }
+  &.grey {
+    background: grey;
+    color: black;
   }
 }
 
@@ -85,23 +103,14 @@ body {
 }
 
 #main-video {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    width: 23%;
+    /* whatever width you want */
+    position: relative;
+    display: table;
 }
 
 #main-video>video {
-    height: 100%;
     width: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
 }
 
 #main-video video {
@@ -153,7 +162,6 @@ video {
     position: relative;
     float: right;
     display: table;
-
 }
 
 .video:after {

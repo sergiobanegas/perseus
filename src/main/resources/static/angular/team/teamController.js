@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom) {
+perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceNotification, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceTeamInvite) {
 	//Kurento client config
 	$http.get('/getClientConfig').
 	    success(function (data, status, headers, config) {
@@ -369,22 +369,49 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     	$scope.notification("Request denied");
     }
     //end sidenav	
-	$scope.invitePeople = function($event){
-		var parentEl = angular.element(document.body);
-	    $mdDialog.show({
-	      parent: parentEl,
-	      targetEvent: $event,
-	      templateUrl: 'angular/team/dialogs/inviteToTeam.tmpl.html',
-	      clickOutsideToClose:true,
-	      parent: angular.element(document.body),
-	      locals: {
-	    	team: $scope.team,
-	    	user: $scope.user
-	      },
-	      controller: invitePeopleController
-	   })
-	};
+    //invite people
+    $("#inviteButton").animatedModal({
+    	modalTarget:'inviteModal',
+    	animatedIn: 'lightSpeedIn',
+    	animatedOut: 'bounceOutDown'
+    });
+    
+    $scope.email="";
+	$scope.sendInvitation = function(){
+		if ($scope.email==""){
+			$scope.notification("Please enter a email");
+		}else{
+			var data= {"email": $scope.email, "team": $scope.team};
+			$http.post("/sendinvitation", data);
+			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
+			$scope.email="";
+		}
+	}
+	$scope.sendInvitationUser = function (name){
+		var user=$filter('filter')(serviceUser.getUsers(), { name: name});
+		var participates=serviceParticipate.getParticipates();
+		var isMember=false;
+		if (user.length>0){
+			for (var i=0;i<participates.length;i++){
+				if (participates.user==user.id && participates.team==$scope.team.id){
+					isMember=true;
+					break;
+				}
+			}
+			if (!isMember){
+				serviceTeamInvite.newTeamInvite({user: user[0].id, team: $scope.team.id});
+				var data= {"email": user[0].email, "team": $scope.team};
+				$http.post("/sendinvitation", data);
+				serviceNotification.showNotification("Invitation sent", "The invitation has been sent");
+			}else{
+				$scope.notification(name+" is already a member of the team");
+			}
+		}else{
+			$scope.notification("The user with the name "+name+" doesn't exists");
+		}
+	}
 
+	//end invite people
 	$scope.leaveTeam = function($event){
 			var parentEl = angular.element(document.body);
 		    $mdDialog.show({
@@ -693,44 +720,4 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceN
 		$mdDialog.hide();
 	}
 
-}
-function invitePeopleController($scope, $http, $mdDialog, $mdToast, $filter, serviceUser, serviceTeamInvite, serviceNotification, $window, team, user) {
-	
-	$scope.email="";
-	$scope.sendInvitation = function(){
-		if ($scope.email==""){
-			$scope.notification("Please enter a email");
-		}else{
-			var data= {"email": $scope.email, "team": team};
-			$http.post("/sendinvitation", data);
-			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
-			$scope.email="";
-		}
-	}
-		
-	$scope.sendInvitationUser = function (name){
-		var users=serviceUser.getUsers();
-		var user=$filter('filter')(users, { name: name});
-		if (user.length>0){
-			serviceTeamInvite.newTeamInvite({user: user[0].id, team: team.id});
-			var data= {"email": user[0].email, "team": team};
-			$http.post("/sendinvitation", data);
-			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+name);
-		}else{
-			$scope.notification("The user with the name "+name+" doesn't exists");
-		}
-	}
-	
-	$scope.notification = function(text) {
-	    $mdToast.show(
-	      $mdToast.simple()
-	        .textContent(text)
-	        .position("bottom right")
-	        .hideDelay(3000)
-	    );
-	};
-	
-	$scope.closeDialog = function() {
-		$mdDialog.hide();
-	}
 }

@@ -42,8 +42,9 @@ function AppParticipant(stream) {
 
         that.videoElement = document.createElement('div');
         that.videoElement.setAttribute("id", that.thumbnailId);
+        that.videoElement.setAttribute("ng-drop", "true");
+        that.videoElement.setAttribute("ng-drop-success", "onDropComplete($index, $data,$event)");
         that.videoElement.className = "video";
-
 //        var buttonVideo = document.createElement('button');
 //        buttonVideo.className = 'action btn btn--m btn--orange btn--fab mdi md-desktop-mac';
 //        //FIXME this won't work, Angular can't get to bind the directive ng-click nor lx-ripple
@@ -54,7 +55,6 @@ function AppParticipant(stream) {
 //        buttonVideo.style.top = "60%";
 //        buttonVideo.style.zIndex = "100";
 //        that.videoElement.appendChild(buttonVideo);      
-
         document.getElementById("participants").appendChild(that.videoElement);
         
         that.stream.playThumbnail(that.thumbnailId);
@@ -92,7 +92,6 @@ function Participants() {
         var MAX_WIDTH = 30;
         var numParticipants = Object.keys(participants).length;
         var maxParticipantsWithMaxWidth = 98 / MAX_WIDTH;
-
         if (numParticipants > maxParticipantsWithMaxWidth) {
             $('.video').css({
                 "width": (98 / numParticipants) + "%"

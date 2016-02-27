@@ -4,6 +4,21 @@
 
 perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
+	
+	 $scope.draggableObjects = [
+	                            {name: 'one'},
+	                            {name: 'two'},
+	                            {name: 'three'}
+	                        ];
+	                        $scope.onDropComplete = function (index, obj, evt) {
+	                            var otherObj = $scope.draggableObjects[index];
+	                            var otherIndex = $scope.draggableObjects.indexOf(obj);
+	                            $scope.draggableObjects[index] = obj;
+	                            $scope.draggableObjects[otherIndex] = otherObj;
+	                        }
+	
+	
+	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.roomId=serviceKurentoRoom.getRoomId();

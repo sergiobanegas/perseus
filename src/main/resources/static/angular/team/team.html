@@ -53,7 +53,8 @@
 	        </md-button>
 	      </md-list-item>
 	      <md-list-item ng-show="participateUser.teamPrivileges>0">
-	        <md-button class="md-icon-button launch" ng-click="invitePeople($event)">
+	      <a id="inviteButton" href="#inviteModal">
+	        <md-button  class="md-icon-button launch">
 		        <md-icon>
 			    	person_add
 			    </md-icon>
@@ -61,6 +62,7 @@
 		        	Invite people
 		    	</md-tooltip>
 	        </md-button>
+	        </a>
 	      </md-list-item>      
 	      <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
 	       <a ng-href="#/team/{{team.id}}/admin">
@@ -80,7 +82,7 @@
 	    </md-list>
   </md-content-flex>
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
-	   <div style="border-bottom-style:solid;background-color:lightblue;color:white">	   		
+	   <div style="border-bottom-style:solid;background-color:lightblue;color:white;padding-left:2%;">	   		
 	   		<md-menu>
 	   			<span style="text-decoration:none;font-weight:bold;cursor:pointer;"ng-click="$mdOpenMenu()">
 			        <span ng-bind="team.name"></span>
@@ -421,4 +423,36 @@
 </div>
 <div ng-hide="member">
 	You don't participate in this team.
+</div>
+<!-- Modals -->
+<!--Invite people-->
+<div id="inviteModal">
+	<div style="width:100%;text-align: center;"> 
+		 <md-button style="background-color:white"class="md-fab close-inviteModal" aria-label="Close">
+            <md-icon style="color: #39BEB9;">close</md-icon>
+       	 </md-button>
+	</div>
+	<div class="modal-content">
+		Invite people!
+		<div>
+			<md-input-container>
+				<md-icon>email</md-icon>
+				<input ng-model="email" type="email" placeholder="Email">
+			</md-input-container>
+			<md-button class="md-primary" ng-click="sendInvitation(email)">
+				Enviar
+			</md-button>
+		</div>
+		<div>
+			<form ng-submit="sendInvitationUser(name)">
+				<md-input-container>
+					<md-icon>person</md-icon>
+					<input ng-model="name" type="text" placeholder="Username">
+				</md-input-container>
+				<md-button class="md-primary" type="submit">
+					Enviar
+				</md-button>
+			</form>
+		</div>
+	</div>
 </div>
