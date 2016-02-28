@@ -10,12 +10,7 @@
         <!-- css angular material -->
         <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
         <link type="text/css" rel="stylesheet" href="./css/jquery-ui.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        
-         <link rel="stylesheet" href="bower_components/angular-animate/animate.min.css">
-        <!-- Emoticons -->
-        <link rel="stylesheet" href="bower_components/ng-emoticons/dist/ng-emoticons.min.css"/>
-        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
         <!--kurento-->
         <script src="./bower_components/adapter.js/adapter.js"></script>
         <script src="./js/kurento-utils.js"></script>
@@ -47,6 +42,7 @@
 		<script type="text/javascript" src="./bower_components/angular-web-notification/angular-web-notification.js"></script>
              
         <!-- Controllers -->
+        <script src="./angular/home/indexController.js"></script>
         <script src="./angular/home/homeController.js"></script>
         <script src="./angular/user/userController.js"></script>
         <script src="./angular/call/callController.js"></script>
@@ -77,7 +73,7 @@
 		<script src="./angular/services/servicePrivateMessage.js"></script>
         
 		<!-- Message html bindings -->
-		<script src="bower_components/ng-emoticons/dist/ng-emoticons.min.js"></script>
+<!-- 		<script src="bower_components/ng-emoticons/dist/ng-emoticons.min.js"></script> -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
         <!-- Time ago -->
         <script src="./angular/filters/timeago.js"></script>
@@ -89,10 +85,19 @@
 		<script src="bower_components/ngDraggable/ngDraggable.js"></script>
 		
 		<script src="bower_components/animatedModal/animatedModal.min.js"></script>
+		
+		<link type="text/css" rel="stylesheet" href="assets/css/normalize.css"/>
+		<link type="text/css" rel="stylesheet" href="assets/css/animate.css"/>
+		<link type="text/css" rel="stylesheet" href="assets/css/styles.css"/>
+		<script src="assets/js/sscr.min.js"></script>
+		<script src="assets/js/prism.js"></script>
+		<script src="assets/js/wow.min.js"></script>
+		<script src="assets/js/viewport-units-buggyfill.js"></script>
+		<script src="assets/js/midnight.jquery.js"></script>
     </head>
 
     <body ng-app="perseus">
-        <div ng-view ng-cloak layout-fill>
+        <div ng-view>
             <!--display the view (login/call) with route system-->
         </div> 
     </body>

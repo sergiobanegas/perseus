@@ -24,7 +24,7 @@ perseus.controller('homeController', function ($scope, $mdDialog, $route, $filte
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
-		$route.reload();
+		$window.location.href = '#/';  
 	};
 	
 	$scope.login = function($event) {
@@ -52,6 +52,7 @@ perseus.controller('homeController', function ($scope, $mdDialog, $route, $filte
 	      controller: DialogController
 	   })
 	};	
+	
 });
 function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
 	   $scope.user = serviceUser.getSession();
@@ -65,8 +66,8 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 				if (array.length!=0 && array[0].password==$scope.password){
 					$mdDialog.hide();
 					serviceUser.loginUser(array[0]);
-					$scope.user=serviceUser.getSession();
-					$window.location.reload();
+					$window.location.href = '#/home';
+					
 				}
 				else{
 					$scope.notification("The username or password are incorrect");	

@@ -47,25 +47,6 @@ md-sidenav {
   }
 }
 
-.midnightHeader {
-  &.default {
-    background: none;
-    color: black;
-  }
-  &.red {
-    background: red;
-    color: black;
-  }
-  &.blue {
-    background: blue;
-    color: white;
-  }
-  &.grey {
-    background: grey;
-    color: black;
-  }
-}
-
 #centraldiv{
 	border-radius:7px;
 	border-color:black;
@@ -89,7 +70,7 @@ z-index:104;
     height: 100%;
 }
 
-* {
+.team * {
     margin: 0px;
     padding: 0px;
     overflow: hidden

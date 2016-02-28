@@ -1,4 +1,4 @@
-<div layout="row" ng-show="member || user.privileges>0" style="height:100%">
+<div class="team" layout="row" ng-show="member || user.privileges>0" class="team" style="height:100%">
   <div id="enablenotifications" ng-show="showNotificationTop()" style="cursor:pointer;position:absolute;z-index:999;width:100%;height:auto;text-align:center;">
 		<div style="border-style:solid;border-width:1px;border-top:none;display: inline-block;background-color:orange;">
 			<a class="md-caption" ng-click="enableNotifications()">
@@ -299,7 +299,7 @@
 						        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>
 						         <p>		
 						         	<span class="md-body-2">	
-						         	<div ng-bind-html="message.text | emoticons"></div>
+						         	<div ng-bind-html="message.text | colonToSmiley"></div>
 						         	</span>
 						         </p>
 						      </div>

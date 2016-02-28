@@ -2,11 +2,15 @@
  * @author Sergio Banegas Cortijo
  */
 
-var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification', 'ngEmoticons', 'ngSanitize', 'emojiApp', 'ngDraggable']);
+var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification', 'ngSanitize', 'emojiApp', 'ngDraggable']);
 
 perseus.config(function ($routeProvider, $mdIconProvider) {
     $routeProvider
             .when('/', {
+                templateUrl: 'angular/home/index.html',
+                controller: 'indexController'
+            })
+            .when('/home', {
                 templateUrl: 'angular/home/home.html',
                 controller: 'homeController'
             })
