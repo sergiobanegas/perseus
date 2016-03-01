@@ -11,7 +11,18 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    }).
 	    error(function (data, status, headers, config) {	 
     });
-		
+	
+	
+	  
+	  $scope.index = 1;
+	  
+	  $scope.searchPeople = function (term) {
+	    $scope.people = $filter('filter')(serviceUser.getUsers(), {name:term});
+	  }
+	  
+	  $scope.getPeopleText = function (item) {
+	    return '[@' + item.name + ']';
+	  }
 	
 	$("#publicroomsbutton").click(function() {
 		$("#publicrooms").toggle("blind");

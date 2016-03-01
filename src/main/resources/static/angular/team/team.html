@@ -1,3 +1,6 @@
+<!-- Bootstrap needed for ment.io -->
+<!-- <link data-require="bootstrap-css@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" /> -->
+
 <div class="team" layout="row" ng-show="member || user.privileges>0" class="team" style="height:100%">
   <div id="enablenotifications" ng-show="showNotificationTop()" style="cursor:pointer;position:absolute;z-index:999;width:100%;height:auto;text-align:center;">
 		<div style="border-style:solid;border-width:1px;border-top:none;display: inline-block;background-color:orange;">
@@ -317,7 +320,15 @@
 							tag_faces
 						</md-icon>
 				     	</md-button>
-				     	<textarea id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+				     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+						<mentio-menu ng-if="index"
+					          mentio-for="'inputchat'"
+					          mentio-template-url="mentio-menu.tpl.html"
+					          mentio-trigger-char="'@'"
+					          mentio-items="people"
+					          mentio-search="searchPeople(term)"
+					          mentio-select="getPeopleText(item)"
+					      ></mentio-menu>
 						<md-button type="submit" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							send

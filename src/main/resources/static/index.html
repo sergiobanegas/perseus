@@ -77,7 +77,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
         <!-- Time ago -->
         <script src="./angular/filters/timeago.js"></script>
-        <!-- Emojis -->
+        <!-- Emojis -->        
 		<script type="text/javascript" src="bower_components/emoji/dist/js/config.js"></script>
 		<script type="text/javascript" src="bower_components/emoji/dist/js/emoji.min.js"></script>
 		<link type="text/css" rel="stylesheet" href="bower_components/emoji/dist/css/emoji.min.css" />
@@ -94,10 +94,13 @@
 		<script src="assets/js/wow.min.js"></script>
 		<script src="assets/js/viewport-units-buggyfill.js"></script>
 		<script src="assets/js/midnight.jquery.js"></script>
+		<script type="text/javascript" src="angular/directives/mentioService.js"></script>
+		<script type="text/javascript" src="bower_components/ment.io/dist/mentio.js"></script>
+		
     </head>
 
     <body ng-app="perseus">
-        <div ng-view>
+        <div ng-view layout-fill>
             <!--display the view (login/call) with route system-->
         </div> 
     </body>
