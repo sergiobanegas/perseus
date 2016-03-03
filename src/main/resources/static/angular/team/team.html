@@ -1,6 +1,3 @@
-<!-- Bootstrap needed for ment.io -->
-<!-- <link data-require="bootstrap-css@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" /> -->
-
 <div class="team" layout="row" ng-show="member || user.privileges>0" class="team" style="height:100%">
   <div id="enablenotifications" ng-show="showNotificationTop()" style="cursor:pointer;position:absolute;z-index:999;width:100%;height:auto;text-align:center;">
 		<div style="border-style:solid;border-width:1px;border-top:none;display: inline-block;background-color:orange;">
@@ -301,7 +298,7 @@
 						      <div class="md-list-item-text">
 						        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>
 						         <p>		
-						         	<span class="md-body-2">	
+						         	<span class="md-body-2">
 						         	<div ng-bind-html="message.text | colonToSmiley"></div>
 						         	</span>
 						         </p>
@@ -378,6 +375,12 @@
     				<md-icon>cancel</md-icon>
     			</md-button>
  		</md-list-item>
+ 		<p>Mentions</p>
+ 		<md-list-item ng-repeat="mention in chatMessages() | filter:mentionsFilter">
+    			<p> {{mention.userName}} </p>
+    			<p>{{mention.text}}</p>
+ 		</md-list-item>
+ 		
         <md-button ng-click="close('right')" class="md-primary">
           Close Sidenav Right
         </md-button>

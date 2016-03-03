@@ -8,69 +8,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    success(function (data, status, headers, config) {
 	   	console.log(JSON.stringify(data));
 	   	$scope.clientConfig = data;
-	    }).
-	    error(function (data, status, headers, config) {	 
-    });
+	    });
 	
-	
-	  
-	  $scope.index = 1;
-	  
-	  $scope.searchPeople = function (term) {
-	    $scope.people = $filter('filter')(serviceUser.getUsers(), {name:term});
-	  }
-	  
-	  $scope.getPeopleText = function (item) {
-	    return '[@' + item.name + ']';
-	  }
-	
-	$("#publicroomsbutton").click(function() {
-		$("#publicrooms").toggle("blind");
-	});
-	
-	$("#privateroomsbutton").click(function() {
-		$("#privaterooms").toggle("blind");
-	});
-	$("#onlinemembersbutton").click(function() {
-		$("#onlinemembers").toggle("blind");
-	});
-	
-	$("#search").click(function(){
-		$("#inputsearch").animate({width:'toggle'},350);
-	});
-	
-	$scope.closeEnableNotifications = function(){
-		$("#enablenotifications").animate({height:'toggle'},350);
-	}
-
-	$scope.showNotificationTop = function(){
-		if (Notification.permission === "granted"){
-			return false;
-		} 
-		else return true;
-	}
-	$scope.enableNotifications = function(){
-		Notification.requestPermission();
-	}
-	
-	$scope.showRoomButtons = function(index){
-		$("#"+index).show();
-	}
-	
-	$scope.hideRoomButtons = function(index){
-		$("#"+index).hide();
-	}
-	var timeoutId;
-	$scope.showMenu = function(){
-		clearInterval(timeoutId);
-		$("#menu").show();
-	}
-	
-	$scope.hideMenu = function(){
-		timeoutId = setTimeout(function (){
-		$("#menu").hide();
-		}, 500);
-	}
 	//global variables
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
@@ -117,14 +56,17 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
 	}
 	
-	 $("#chatform").keypress(function (e) {
+	$scope.mentionsFilter = function(message){
+		return ((message.text).toString().split(" ")).indexOf("[@"+$scope.user.name+"]") > -1; 
+	}
+	
+	$("#chatform").keypress(function (e) {
 	        if(e.which == 13) {
 	            e.preventDefault();
 	            $scope.sendMessage();
 	        }
-	    });
+	});
 	
-	$scope.optionFilter;
 	$scope.chatFilter="";
 	$scope.nameFilter="";
 	$scope.dateFilter=new Date();
@@ -136,7 +78,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$("#filtername").hide();
 		$("#filtercontent").hide();
 		$("#searchFilter").hide();
-		$scope.optionFilter=null;
 	}
 	
 	$scope.showFilterName = function(){
@@ -171,34 +112,22 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			$scope.chatFilter="date";
 		}
 	}
+	
 	$scope.filterMessages = function(message){
 		if ($scope.chatFilter=="name"){
 			return message.userName==$scope.nameFilter;
 		}
 		else if ($scope.chatFilter=="content"){
-			return (message.text).indexOf($scope.contentFilter) > -1;
+			return ((message.text).toString().split(" ")).indexOf($scope.contentFilter) > -1;
 		}
 		else if ($scope.chatFilter=="date"){
 			var date1=($scope.dateFilter.toLocaleDateString()).split("/");
 			var date2=message.date.slice(0,10).split("-");
-			return (date1[0]==date2[2] || date1[0]=="0"+date2[2]) && (date1[1]==date2[1] || "0"+date1[1]==date2[1]) && date1[2]==date2[0];
+			return parseInt(date1[0])==parseInt(date2[2]) && parseInt(date1[1])==parseInt(date2[1]) && parseInt(date1[2])==parseInt(date2[0]);
 		}
 		else{
 			return true;
 		}
-	}
-	//tarda mucho
-	$scope.chatMessagesOrdered = function(){
-		var chatMessages=$scope.chatMessages();
-		var chatMessagesOrdered=[];
-		for (var i=0;i<chatMessages.length;i++){
-			if (i>0 && chatMessages[i].user==chatMessages[i-1].user){
-				chatMessagesOrdered[chatMessagesOrdered.length-1].text=chatMessagesOrdered[chatMessagesOrdered.length-1].text+"</br>"+chatMessages[i].text;
-			}else{
-				chatMessagesOrdered.push(chatMessages[i]);
-			}
-		}
-		return chatMessagesOrdered;
 	}
 
 	$scope.logout = function(){		
@@ -245,25 +174,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		}
 	};
 	
+	$scope.index = 1;
+	$scope.searchPeople = function (term) {
+		$scope.people = $filter('filter')($scope.users, {name:term});
+	}
+	$scope.getPeopleText = function (member) {
+		return '[@' + member.name + ']';
+	}
 	
-	$scope.options = {
-            'linkTarget': '_blank',
-            'basicVideo': false,
-            'code'      : {
-                'highlight'  : true,
-                'lineNumbers': true
-            },
-            'video'     : {
-                'embed'    : true,
-                'width'    : 800,
-                'ytTheme'  : 'light',
-                'details'  : true,
-                'ytAuthKey': 'AIzaSyAQONTdSSaKwqB1X8i6dHgn9r_PtusDhq0'
-            },
-            'image'     : {
-                'embed': true
-            }
-     };
 	//end chat message
 	//private messages	
 	$scope.privateMessages= function(){
@@ -399,7 +317,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		}
 	}
 	$scope.sendInvitationUser = function (name){
-		var user=$filter('filter')(serviceUser.getUsers(), { name: name});
+		var user=$filter('filter')($scope.users, { name: name});
 		var participates=serviceParticipate.getParticipates();
 		var isMember=false;
 		if (user.length>0){
@@ -626,7 +544,57 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	        .hideDelay(3000)
 	    );
 	 };
-    
+	 //jQuery function 
+	 $("#publicroomsbutton").click(function() {
+			$("#publicrooms").toggle("blind");
+	 });
+		
+	 $("#privateroomsbutton").click(function() {
+		 $("#privaterooms").toggle("blind");
+	 });
+	 $("#onlinemembersbutton").click(function() {
+		 $("#onlinemembers").toggle("blind");
+	 });
+		
+	 $("#search").click(function(){
+		 $("#inputsearch").animate({width:'toggle'},350);
+	 });
+		
+	 $scope.closeEnableNotifications = function(){
+		 $("#enablenotifications").animate({height:'toggle'},350);
+	 }
+
+	 $scope.showNotificationTop = function(){
+		 if (Notification.permission === "granted"){
+			 return false;
+		 } 
+		 else return true;
+	 }
+
+	 $scope.enableNotifications = function(){
+		 Notification.requestPermission();
+	 }
+		
+	 $scope.showRoomButtons = function(index){
+		 $("#"+index).show();
+	 }
+		
+	 $scope.hideRoomButtons = function(index){
+		 $("#"+index).hide();
+	 }
+	 
+	 var timeoutId;
+	 $scope.showMenu = function(){
+		 clearInterval(timeoutId);
+		 $("#menu").show();
+	 }
+		
+	 $scope.hideMenu = function(){
+		 timeoutId = setTimeout(function (){
+			 $("#menu").hide();
+		 }, 500);
+	 }
+	 //END jQuery functions
 });
 
 function roomController($scope, $http, $mdDialog, $mdToast, $window, serviceNotification, serviceRoom, serviceRequestJoinRoom, room, user, team, participateUser) {
