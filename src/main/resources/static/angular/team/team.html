@@ -7,80 +7,76 @@
 				<md-icon ng-click="closeEnableNotifications()">close</md-icon>
   		</div>
   </div>
-  <md-content-flex flex="5" style="background-color:#29b6f6">
-  	 <md-list style="height:100%" flex layout="column" layout-align="space-between center">
-	  	 <a href="#/user/{{user.id}}" style="margin-top:0px">
-	  	 	<ng-letter-avatar data="{{user.name}}" shape="round"></ng-letter-avatar>
-	  	 </a>
-	      <md-list-item>
-	        <md-button class="md-icon-button launch" ng-click="showScreen('chat')">
-	          <md-icon>
-		    	home
-			  </md-icon>
-			  <md-tooltip md-direction="right">
-			  	Main page
-			  </md-tooltip>
-	        </md-button>
-	      </md-list-item>
-	      <md-list-item>
-	        <md-button class="md-icon-button launch" ng-click="showNotifications('right')">
-	          <md-icon>
-		    	notifications
-		    </md-icon>
-		    <md-tooltip md-direction="right">
-		   		Notifications
-		   	</md-tooltip>
-	        </md-button>
-	      </md-list-item>   
-	      <md-list-item>
-	        <md-button class="md-icon-button launch" ng-click="showScreen('privateMessages')">
-	          <md-icon>
-		    	messages
-		    </md-icon>
-		    <md-tooltip md-direction="right">
-		   		Messages
-		   	</md-tooltip>
-	        </md-button>
-	      </md-list-item>
-	      <md-list-item>
-	        <md-button class="md-icon-button launch" ng-click="">
-		        <md-icon>
-			    	people
-			    </md-icon>
-			    <md-tooltip md-direction="right">
-		        	Members
-		    	</md-tooltip>
-	        </md-button>
-	      </md-list-item>
-	      <md-list-item ng-show="participateUser.teamPrivileges>0">
-	      <a id="inviteButton" href="#inviteModal">
-	        <md-button  class="md-icon-button launch">
-		        <md-icon>
-			    	person_add
-			    </md-icon>
-			    <md-tooltip md-direction="right">
-		        	Invite people
-		    	</md-tooltip>
-	        </md-button>
-	        </a>
-	      </md-list-item>      
-	      <md-list-item ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
-	       <a ng-href="#/team/{{team.id}}/admin">
-	        <md-button class="md-icon-button launch" ng-click="">
-	          <md-icon>
-		    	build
-		    </md-icon>
-		    <md-tooltip md-direction="right">
-		        	Admin team
-		    </md-tooltip>
-	        </md-button>
-	        </a>
-	      </md-list-item>
-	      <a href="#/user/{{user.id}}">
-	  	 	<ng-letter-avatar data="TRJC" shape="round"></ng-letter-avatar>
-	  	 </a>
-	    </md-list>
-  </md-content-flex>
+<nav class="cd-side-nav" flex="15">
+			<ul>
+				<li class="cd-label">{{team.name}}</li>
+				<li class="has-children overview">
+					<a href="" ng-click="showScreen('chat')">Home</a>
+					
+					<ul>
+						<li><a href="#0">All Data</a></li>
+						<li><a href="#0">Category 1</a></li>
+						<li><a href="#0">Category 2</a></li>
+					</ul>
+				</li>
+				<li class="has-children notifications active">
+					<a>Notifications<span ng-show="roomInvitations().length+roomRequests().length+requests().length>0" class="count">{{roomInvitations().length+roomRequests().length+requests().length}}</span></a>
+					
+					<ul style="display:none" id="notificationsMenu">
+						<li><a href="" ng-click="showNotifications('right')">Team requests</a></li>
+						<li><a href="#0">Room requests</a></li>
+						<li><a href="#0">Other</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children comments">
+					<a href="" ng-click="showScreen('privateMessages')">Private Messages</a>
+					
+					<ul>
+						<li><a href="#0">All Comments</a></li>
+						<li><a href="#0">Edit Comment</a></li>
+						<li><a href="#0">Delete Comment</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="cd-label">Secondary</li>				
+				<li class="has-children bookmarks">
+					<a ng-href="#/team/{{team.id}}/admin" ng-show="user.privileges>0 || participateUser.teamPrivileges==2">Admin</a>
+					
+					<ul>
+						<li><a href="#0">All Bookmarks</a></li>
+						<li><a href="#0">Edit Bookmark</a></li>
+						<li><a href="#0">Import Bookmark</a></li>
+					</ul>
+				</li>
+				<li class="has-children images">
+					<a href="#0">Images</a>
+					
+					<ul>
+						<li><a href="#0">All Images</a></li>
+						<li><a href="#0">Edit Image</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children users">
+					<a href="#0">Users</a>
+					
+					<ul>
+						<li><a href="#0">All Users</a></li>
+						<li><a href="#0">Edit User</a></li>
+						<li><a href="#0">Add User</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul ng-show="participateUser.teamPrivileges>0">
+				<li class="cd-label">Action</li>
+				<li class="action-btn"><a id="inviteButton" href="#inviteModal">+ Invite people</a></li>
+			</ul>
+		</nav>
+
   <md-content-flex class="md-whiteframe-9dp" flex="20" layout="column" style="position:relative; ">
 	   <div style="border-bottom-style:solid;background-color:lightblue;color:white;padding-left:2%;">	   		
 	   		<md-menu>

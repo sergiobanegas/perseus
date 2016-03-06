@@ -46,6 +46,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    	}
 	    }
 	});
+	
 	$scope.publicRooms= function(){
 		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 0});
 	}
@@ -59,13 +60,58 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.mentionsFilter = function(message){
 		return ((message.text).toString().split(" ")).indexOf("[@"+$scope.user.name+"]") > -1; 
 	}
+
+	$scope.logout = function(){		
+		serviceUser.logout();
+		$window.location.href = '#/';
+	}
+	//Screens
+	$scope.screen="chat";
+	$scope.showScreen = function (screen){
+		$scope.screen=screen;
+	}
+	$scope.userReceiver={};
+	$scope.showUserMessages = function(user){
+		$scope.userReceiver=user;
+		$scope.screen="privateUserMessages";
+	}
+		
+    $scope.receiver;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.teamUsersWithoutUser, { user: query});
+	}
 	
-	$("#chatform").keypress(function (e) {
-	        if(e.which == 13) {
-	            e.preventDefault();
-	            $scope.sendMessage();
-	        }
-	});
+	//end screens
+	//auxiliar search functions
+	$scope.findUserById = function(iduser){
+		return serviceUser.getUser(iduser);
+	}
+	
+	$scope.findTeamById = function(idteam){
+		return serviceTeam.getTeam(idteam);
+	}
+	//end auxiliar search functions
+	//chat message
+	$scope.chatMessage;
+	$scope.emojiMessage;
+	$scope.sendMessage = function () { 
+		if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
+			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
+			$scope.chatMessage="";
+			$scope.emojiMessage="";
+	  		setTimeout(function(){
+	  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
+	  	    }, 500);
+		}
+	};
+	
+	$scope.index = 1;
+	$scope.searchPeople = function (term) {
+		$scope.people = $filter('filter')($scope.users, {name:term});
+	}
+	$scope.getPeopleText = function (member) {
+		return '[@' + member.name + ']';
+	}
 	
 	$scope.chatFilter="";
 	$scope.nameFilter="";
@@ -129,58 +175,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			return true;
 		}
 	}
-
-	$scope.logout = function(){		
-		serviceUser.logout();
-		$window.location.href = '#/';
-	}
-	//Screens
-	$scope.screen="chat";
-	$scope.showScreen = function (screen){
-		$scope.screen=screen;
-	}
-	$scope.userReceiver={};
-	$scope.showUserMessages = function(user){
-		$scope.userReceiver=user;
-		$scope.screen="privateUserMessages";
-	}
-		
-    $scope.receiver;
-	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.teamUsersWithoutUser, { user: query});
-	}
-	
-	//end screens
-	//auxiliar search functions
-	$scope.findUserById = function(iduser){
-		return serviceUser.getUser(iduser);
-	}
-	
-	$scope.findTeamById = function(idteam){
-		return serviceTeam.getTeam(idteam);
-	}
-	//end auxiliar search functions
-	//chat message
-	$scope.chatMessage;
-	$scope.emojiMessage;
-	$scope.sendMessage = function () { 
-		if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
-			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
-			$scope.chatMessage="";
-			$scope.emojiMessage="";
-	  		setTimeout(function(){
-	  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
-	  	    }, 500);
-		}
-	};
-	
-	$scope.index = 1;
-	$scope.searchPeople = function (term) {
-		$scope.people = $filter('filter')($scope.users, {name:term});
-	}
-	$scope.getPeopleText = function (member) {
-		return '[@' + member.name + ']';
-	}
 	
 	//end chat message
 	//private messages	
@@ -231,7 +225,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
   	    }, 500);
 	}
-	//end private messages
+	//END private messages
 	//sidenavs	
 	$scope.showNotifications = function(sidenav){
 		return $mdSidenav(sidenav).toggle();
@@ -299,12 +293,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     }
     //end sidenav	
     //invite people
-    $("#inviteButton").animatedModal({
-    	modalTarget:'inviteModal',
-    	animatedIn: 'lightSpeedIn',
-    	animatedOut: 'bounceOutDown'
-    });
-    
+  
     $scope.email="";
 	$scope.sendInvitation = function(){
 		if ($scope.email==""){
@@ -545,6 +534,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    );
 	 };
 	 //jQuery function 
+	 
+	 $(".notifications").click(function() {
+			$("#notificationsMenu").toggle("blind");
+	 });
+	 
 	 $("#publicroomsbutton").click(function() {
 			$("#publicrooms").toggle("blind");
 	 });
@@ -594,6 +588,19 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			 $("#menu").hide();
 		 }, 500);
 	 }
+	 
+	 $("#chatform").keypress(function (e) {
+	        if(e.which == 13) {
+	            e.preventDefault();
+	            $scope.sendMessage();
+	        }
+	 });
+	 
+	 $("#inviteButton").animatedModal({
+		 modalTarget:'inviteModal',
+		 animatedIn: 'lightSpeedIn',
+		 animatedOut: 'bounceOutDown'
+	 });
 	 //END jQuery functions
 });
 
