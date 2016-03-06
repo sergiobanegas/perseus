@@ -19,9 +19,8 @@
 						<li><a href="#0">Category 2</a></li>
 					</ul>
 				</li>
-				<li class="has-children notifications active">
+				<li class="has-children notifications">
 					<a>Notifications<span ng-show="roomInvitations().length+roomRequests().length+requests().length>0" class="count">{{roomInvitations().length+roomRequests().length+requests().length}}</span></a>
-					
 					<ul style="display:none" id="notificationsMenu">
 						<li><a href="" ng-click="showNotifications('right')">Team requests</a></li>
 						<li><a href="#0">Room requests</a></li>

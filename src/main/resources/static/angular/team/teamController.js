@@ -533,10 +533,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	        .hideDelay(3000)
 	    );
 	 };
-	 //jQuery function 
-	 
+	 //jQuery functions 
 	 $(".notifications").click(function() {
-			$("#notificationsMenu").toggle("blind");
+		 $("#notificationsMenu").toggle("blind");
+		 if (!$('.notifications').hasClass("active")){
+			$(".notifications").addClass("active");
+		}else{
+			$(".notifications").removeClass("active");
+		}	
 	 });
 	 
 	 $("#publicroomsbutton").click(function() {
