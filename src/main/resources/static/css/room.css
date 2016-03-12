@@ -412,7 +412,7 @@ html {
 }
 
 body {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-family: "Open Sans", sans-serif;
   color: #3e454c;
   background-color: #ffffff;
@@ -621,9 +621,6 @@ a {
     }
   }
   @media only screen and (min-width: 1170px) {
-    .cd-side-nav {
-/*       width: 200px; */
-    }
     .cd-side-nav > ul {
       padding: 0.6em 0;
     }

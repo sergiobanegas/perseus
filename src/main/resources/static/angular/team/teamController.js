@@ -210,17 +210,24 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		}
 		return array;
 	}
-		
+	
+	$scope.emojiMessage3;
 	$scope.privateMessage='';
 	$scope.newPrivateMessage = function(){
 		if ($scope.privateMessage!='' && $scope.receiver.id){
 			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage, date: new Date()});
+			$scope.privateMessage='';
+			$scope.emojiMessage3="";
+			$scope.showUserMessages($scope.receiver.user);
+			$scope.receiver='';
 		}
 	}
+	$scope.emojiMessage2;
 	$scope.replyText="";
-	$scope.replyMessage = function(message){
-		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: message, date: new Date()});
+	$scope.replyMessage = function(){
+		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: $scope.replyText, date: new Date()});
 		$scope.replyText="";
+		$scope.emojiMessage2="";
 		setTimeout(function(){
   			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
   	    }, 500);
@@ -534,12 +541,31 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    );
 	 };
 	 //jQuery functions 
+//	 $scope.chatStyle = ".message_"+$scope.user.id+" { background-color:  #e6e6ff; }";
+	 
+	 $("#sidenavButton").click(function(){
+		 if (!$('#sidenav').is(":visible")){
+			 $("#sidenav").show('slide', {direction: 'left'}, 100);
+		 }else{
+			 $("#sidenav").hide('slide', {direction: 'left'}, 100);
+		 }
+	 })
+	 
 	 $(".notifications").click(function() {
 		 $("#notificationsMenu").toggle("blind");
 		 if (!$('.notifications').hasClass("active")){
 			$(".notifications").addClass("active");
 		}else{
 			$(".notifications").removeClass("active");
+		}	
+	 });
+	 
+	 $("#membershipButton").click(function() {
+		 $("#membershipMenu").toggle("blind");
+		 if (!$('.notifications').hasClass("active")){
+			$("#membershipButton").addClass("active");
+		}else{
+			$("#membershipButton").removeClass("active");
 		}	
 	 });
 	 
@@ -600,11 +626,26 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	        }
 	 });
 	 
+	 $("#privatechatform").keypress(function (e) {
+	        if(e.which == 13) {
+	            e.preventDefault();
+	            $scope.replyMessage();
+	        }
+	 });
+	 
+	 $("#newchatform").keypress(function (e) {
+	        if(e.which == 13) {
+	            e.preventDefault();
+	            $scope.newPrivateMessage();
+	        }
+	 });
+	 
 	 $("#inviteButton").animatedModal({
 		 modalTarget:'inviteModal',
 		 animatedIn: 'lightSpeedIn',
 		 animatedOut: 'bounceOutDown'
 	 });
+	
 	 //END jQuery functions
 });
 
