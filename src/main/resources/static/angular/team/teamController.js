@@ -73,9 +73,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){
 		$scope.userReceiver=user;
-		$scope.screen="privateUserMessages";
+		$("#privateChat").show();
+		$("#newchatform").hide();
+		$scope.messagesScreen="userMessages";
 	}
-		
+	
+	$scope.messagesScreen="newMessage";
+	
     $scope.receiver;
 	$scope.querySearch = function (query) {
 		return $filter('filter')($scope.teamUsersWithoutUser, { user: query});
@@ -557,6 +561,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 };
 	 //jQuery functions 
 //	 $scope.chatStyle = ".message_"+$scope.user.id+" { background-color:  #e6e6ff; }";
+	 
+	 $("#newPrivateMessage").click(function(){
+		$("#newchatform").show(); 
+		$("#privateChat").hide();
+	 });
 	 
 	 $("#sidenavButton").click(function(){
 		 if (!$('#sidenav').is(":visible")){
