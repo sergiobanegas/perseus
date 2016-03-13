@@ -6,7 +6,6 @@
 				<li class="cd-label">{{team.name}}</li>
 				<li class="has-children overview">
 					<a href="" ng-click="showScreen('chat')">Home</a>
-					
 					<ul>
 						<li><a href="#0">All Data</a></li>
 						<li><a href="#0">Category 1</a></li>
@@ -136,14 +135,6 @@
 		    	Search
 		   	</md-tooltip>
 		</md-button>
-		<md-button class="md-icon-button launch" ng-click="">
-			<md-icon>
-				forum
-			</md-icon>
-			<md-tooltip>
-		    	Mentions
-		   	</md-tooltip>
-		</md-button>
 		<md-button class="md-icon-button launch" ng-mouseover="showMenu()" ng-mouseleave="hideMenu()">
 			<md-icon>
 				more_vert
@@ -221,12 +212,6 @@
 				     	</md-button>
 				     	</div>   												
 			 </form>
-<!-- 					<md-input-container ng-show="receiver" md-no-float> -->
-<!-- 						<input ng-model="privateMessage" type="text" placeholder="New message" required> -->
-<!-- 					</md-input-container> -->
-<!-- 					<md-button ng-disabled="privateMessage=='' || !receiver.id" type="submit" class="md-primary"> -->
-<!-- 						Send -->
-<!-- 					</md-button> -->
 				</form>
 			</div>  			  			
   		</div>
@@ -358,7 +343,7 @@
 </div>
 
 
-<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="notifications">
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="notifications" style="background-color:#e3f2fd;width:100em">
       <div style="position:relative;padding:1em;background-color:#737373;">
         <h2 style="color:white">Notifications</h2>
          <md-button style="position:absolute;right:0.2em;top:0.2em"ng-click="close('notifications')" class="md-icon-button launch">
@@ -371,56 +356,115 @@
       <md-tab id="tab1">
         <md-tab-label>Invites</md-tab-label>
         <md-tab-body>
-           Room invites
-       <md-list-item ng-repeat="invitation in roomInvitations()">
-    			<p> {{invitation.user}} </p>
-    			<p>{{invitation.room}}</p>
-    			<md-button class="md-icon-button" ng-click="acceptRoomInvitation(invitation)" title="Accept invitation" aria-label="Accept">
-    				<md-icon>check_circle</md-icon>
-    			</md-button>
-    			<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny invitation" aria-label="Deny">
-    				<md-icon>cancel</md-icon>
-    			</md-button>
- 		</md-list-item>
+ 			<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
+ 					<div ng-show="roomInvitations().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+ 						You have no invitations
+ 					</div>
+					<md-table-container ng-hide="roomInvitations().length==0" style="background-color:white" class="md-whiteframe-z2">
+					  <table md-table>
+					    <thead md-head>
+					      <th md-column>Room</th>
+					      <th md-column>Member</th>
+					      <th md-column>Accept</th>
+					      <th md-column>Deny</th>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="invitation" md-select-id="{{invitation.name}}" md-auto-select ng-repeat="invitation in roomInvitations()">
+					        <td md-cell>{{findRoomById(invitation.room).name}}</td>
+					        <td md-cell>{{findUserById(invitation.user).name}}</td>
+					        <td md-cell>
+					        	<md-button class="md-icon-button" ng-click="acceptRoomInvitation(invitation)" title="Accept request" aria-label="Accept">
+	    							<md-icon style="color:green">check_circle</md-icon>
+	    						</md-button>
+					        </td>
+					        <td md-cell>
+					        	<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny request" aria-label="Deny">
+	     							<md-icon style="color:red">cancel</md-icon>
+	     						</md-button>
+	     					</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+				</div>	
         </md-tab-body>
       </md-tab>
-      
       <md-tab id="tab2" ng-show="user.privileges>0 || participateUser.teamPrivileges>0">
         <md-tab-label>Team</md-tab-label>
         <md-tab-body>
-          User		Team
-      		 <md-list-item ng-repeat="request in requests()">
-    			<p> {{ findUserById(request.user).name }} </p>
-    			<p>{{ request.team}}</p>
-    			<md-button class="md-icon-button" ng-click="acceptRequest(request)" title="Accept request" aria-label="Accept">
-    				<md-icon>check_circle</md-icon>
-    			</md-button>
-    			<md-button class="md-icon-button" ng-click="denyRequest(request)" title="Deny request" aria-label="Deny">
-    				<md-icon>cancel</md-icon>
-    			</md-button>
- 			 </md-list-item>
+        	<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
+	 			 <div ng-show="requests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+	 						There's no pending team requests
+	 			</div>
+	 			 <md-table-container ng-hide="requests().length==0" style="background-color:white" class="md-whiteframe-z2">
+						  <table md-table>
+						    <thead md-head>
+						      <th md-column>Room</th>
+						      <th md-column>Member</th>
+						      <th md-column>Accept</th>
+						      <th md-column>Deny</th>
+						    </thead>
+						    <tbody md-body>
+							      <tr md-row md-select="request" md-select-id="{{request.name}}" md-auto-select ng-repeat="request in requests()">
+							        <td md-cell>{{findRoomById(request.room).name}}</td>
+							        <td md-cell>{{findUserById(request.user).name}}</td>
+							        <td md-cell>
+							        	<md-button class="md-icon-button" ng-click="acceptRequest(request)" title="Accept request" aria-label="Accept">
+			    							<md-icon style="color:green">check_circle</md-icon>
+			    						</md-button>
+							        </td>
+							        <td md-cell>
+							        	<md-button class="md-icon-button" ng-click="denyRequest(request)" title="Deny request" aria-label="Deny">
+			     							<md-icon style="color:red">cancel</md-icon>
+			     						</md-button>
+			     					</td>
+							      </tr>
+						    </tbody>
+						  </table>
+						</md-table-container>
+					</div>
         </md-tab-body>
       </md-tab>
       <md-tab id="tab3">
         <md-tab-label>Rooms</md-tab-label>
-        <md-tab-body>
-           Room requests
- 			 <md-list-item ng-repeat="request in roomRequests()">
-    			<p> {{findUserById(request.user).name}} </p>
-    			<p>{{request.room}}</p>
-    			<md-button class="md-icon-button" ng-click="acceptRoomRequest(request)" title="Accept request" aria-label="Accept">
-    				<md-icon>check_circle</md-icon>
-    			</md-button>
-    			<md-button class="md-icon-button" ng-click="denyRoomRequest(request)" title="Deny request" aria-label="Deny">
-    				<md-icon>cancel</md-icon>
-    			</md-button>
- 			 </md-list-item>
+        <md-tab-body>        
+				<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
+					<div ng-show="roomRequests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+ 						You have no pending room requests
+ 					</div>
+					<md-table-container ng-hide="roomRequests().length==0" style="background-color:white" class="md-whiteframe-z2">
+					  <table md-table>
+					    <thead md-head>
+					      <th md-column>Room</th>
+					      <th md-column>Member</th>
+					      <th md-column>Accept</th>
+					      <th md-column>Deny</th>
+					    </thead>
+					    <tbody md-body>
+						      <tr md-row md-select="request" md-select-id="{{request.name}}" md-auto-select ng-repeat="request in roomRequests()">
+						        <td md-cell>{{findRoomById(request.room).name}}</td>
+						        <td md-cell>{{findUserById(request.user).name}}</td>
+						        <td md-cell>
+						        	<md-button class="md-icon-button" ng-click="acceptRoomRequest(request)" title="Accept request" aria-label="Accept">
+		    							<md-icon style="color:green">check_circle</md-icon>
+		    						</md-button>
+						        </td>
+						        <td md-cell>
+						        	<md-button class="md-icon-button" ng-click="denyRoomRequest(request)" title="Deny request" aria-label="Deny">
+		     							<md-icon style="color:red">cancel</md-icon>
+		     						</md-button>
+		     					</td>
+						      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+				</div>
         </md-tab-body>
       </md-tab>
     </md-tabs>
     </md-sidenav>
      
-     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="mentions">
+     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="mentions" style="background-color:#e3f2fd;">
       <div style="position:relative;padding:1em;background-color:#737373;">
         <h2 style="color:white">Mentions</h2>
          <md-button style="position:absolute;right:0.2em;top:0.2em"ng-click="close('mentions')" class="md-icon-button launch">
@@ -429,12 +473,19 @@
           </md-icon>
         </md-button>
       </div>
-      <md-content >
- 		<p>Mentions</p>
- 		<md-list-item ng-repeat="mention in chatMessages() | filter:mentionsFilter">
-    			<p> {{mention.userName}} </p>
-    			<p>{{mention.text}}</p>
- 		</md-list-item>
+      <md-content>
+      <div style="padding:1em;background-color:#e3f2fd;">
+	      	<div ng-show="(mention in chatMessages() | filter:mentionsFilter).length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+ 						Nobody mentioned you for now
+ 			</div>
+	      	<div style="background-color:white;max-height: 45em; overflow-y:auto; overflow-x: hidden;" class="md-whiteframe-z2">
+		 		<md-list-item ng-repeat="mention in chatMessages() | filter:mentionsFilter">
+		    			<p> {{mention.userName}} </p>
+		    			<p>{{mention.text}}</p>
+		    			 <md-divider ng-if="!$last"></md-divider>
+		 		</md-list-item>
+	 		</div>
+ 		</div>
       </md-content>
     </md-sidenav>
 

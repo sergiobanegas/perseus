@@ -217,22 +217,6 @@ video {
     margin: auto 0 auto 0;
 }
 
-/*.join p {
-    margin: 20px 0 0;
-}
-
-.join p:first-child {
-    margin-top: 0;
-}
-
-.join input[type=text], .join input[type=password] {
-    width: 278px;
-}
-
-.join p.submit {
-    text-align: center;
-}*/
-
 :-moz-placeholder {
     color: #c9c9c9 !important;
     font-size: 13px;

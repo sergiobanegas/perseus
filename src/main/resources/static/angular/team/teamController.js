@@ -90,6 +90,10 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.findTeamById = function(idteam){
 		return serviceTeam.getTeam(idteam);
 	}
+	
+	$scope.findRoomById = function(idroom){
+		return serviceRoom.getRoom(idroom);
+	}
 	//end auxiliar search functions
 	//chat message
 	$scope.chatMessage;
@@ -266,7 +270,18 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     }
     
     $scope.roomRequests = function(){
-    	return serviceRequestJoinRoom.getRequestJoinRooms();
+    	var requests=$filter('filter')(serviceRequestJoinRoom.getRequestJoinRooms(), { team: $scope.team.id});
+    	var participateRooms=serviceParticipateRoom.getParticipateRooms();
+    	var roomRequests=[];
+    	for (var i=0;i<requests.length;i++){
+    		for (var j=0;j<participateRooms.length;j++){
+    			if (participateRooms[j].user==$scope.user.id && participateRooms[j].roomPrivileges>0 && participateRooms[j].room==requests[i].room){
+    				roomRequests.push(requests[i]);
+    				break;
+    			}
+    		}
+    	}
+    	return roomRequests;
     }
     
     $scope.acceptRequest = function(request){
@@ -703,7 +718,7 @@ function roomController($scope, $http, $mdDialog, $mdToast, $window, serviceNoti
 	}
 }
 
-function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceNotification, serviceParticipate, serviceTeam, serviceUser, team, user, participateUser) {
+function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, $window, serviceNotification, serviceParticipate, serviceTeam, serviceUser, team, user, participateUser) {
 
 	$scope.participatesTeam=[];
 	$http.get('/participates/'+team.id+'/members')
@@ -733,11 +748,10 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceN
 	}
 	
 	$scope.leaveTeam = function(){
-		serviceParticipate.deleteParticipate($scope.participateUser);
+//		serviceNotification.showNotification("Goodbye", "You left the team");
+		serviceParticipate.deleteParticipate(participateUser);
 		$mdDialog.hide();
-		$window.location.href = '#/';
-		serviceNotification.showNotification("Goodbye", "You left the team");
-		$route.reload();
+		$window.location.href = '#/home';
 	};
 		
 	$scope.deleteTeam = function(){
@@ -750,5 +764,14 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $window, serviceN
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
 
 }
