@@ -1,6 +1,6 @@
 <!-- <style ng-bind-html="chatStyle"></style> Constantly refresh ng-repeat -->
 <!-- User message style -->
-<div class="team" layout="row" ng-show="member || user.privileges>0" class="team" style="position:relative;height:100%;background-color:#e3f2fd;">
+<div class="team" layout="row" ng-show="member || user.privileges>0"  style="position:relative;height:100%;background-color:#e3f2fd;">
   <nav class="cd-side-nav" id="sidenav" style="position:absolute;z-index:999;width:17em;display:none">
 			<ul>
 				<li class="cd-label">{{team.name}}</li>
@@ -154,9 +154,9 @@
   <div flex style="position:relative;padding:3%;padding-top:6%;">
   		<div ng-show="screen=='privateMessages'" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
   			<div layout="row">
-	  			<div flex="25" style="border-style:solid;max-height: 90vh; overflow-y:auto; overflow-x: hidden">
+	  			<div flex="25" style="border-right-style:solid;border-right-width:1px;border-right-color:gray;max-height: 90vh; overflow-y:auto; overflow-x: hidden">
 	  				<div layout="row">
-					   <div flex style="padding: 1 1 auto">
+					   <div flex style="padding: 1em">
 							<h2>Last conversations</h2>
 					   </div>
 				       <div flex="1">
@@ -180,53 +180,44 @@
 					</md-list-item>
 	  			</md-list-item>
 	  			</div>
-	  			<div flex style="border-style:solid;">	  				
+	  			<div flex>	  				
 						<!-- 			 <form id="privatechatform" emoji-form emoji-message="emojiMessage2" layout="row" autocomplete="off" ng-submit="replyMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5"> -->		
-						<form id="newchatform" emoji-message="emojiMessage3" autocomplete="off" ng-submit="newPrivateMessage()" style="height:85vh;margin-bottom:0px;padding:5px;background-color:#f5f5f5">
-							    <md-autocomplete
-							        md-no-cache="noCache"
-							        md-selected-item="receiver"
-							        md-search-text-change="searchTextChange(searchText)"
-							        md-search-text="searchText"
-							        md-selected-item-change="selectedItemChange(user)"
-							        md-items="user in querySearch(searchText)"
-							        md-item-text="findUserById(user.user).name"
-							        md-min-length="0"
-							        placeholder="Select receiver">
-							       	<md-item-template>
-							        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(user.user).name}}</span>
-							        </md-item-template>
-							        <md-not-found>
-							          <span ng-show="searchText==''">
-							          		Please, select a member of your team
-							          </span>
-							          <span ng-hide="searchText==''">
-							          		There's no user with the name "{{searchText}}".
-							          </span>
-							        </md-not-found>
-								</md-autocomplete>
-								<div layout="row" ng-show="receiver"> 
-									<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
-							     		<md-icon>
-										tag_faces
-									</md-icon>
-							     	</md-button>
-							     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputNewChat" flex style="background:white" ng-model="privateMessage" placeholder="New message" ></textarea>
-									<mentio-menu ng-if="index"
-								          mentio-for="'inputNewChat'"
-								          mentio-template-url="mentio-menu.tpl.html"
-								          mentio-trigger-char="'@'"
-								          mentio-items="people"
-								          mentio-search="searchPeople(term)"
-								          mentio-select="getPeopleText(item)"
-								      ></mentio-menu>
-									<md-button type="submit" title="Send message" class="md-icon-button launch" >
-							     		<md-icon>
-										send
-									</md-icon>
-							     	</md-button>
-					     	</div>   												
-					</form>	  				
+						<div style="height:85vh;" id="newchatform">						
+							<form style="margin-top: 25%;"  emoji-message="emojiMessage3" autocomplete="off" ng-submit="newPrivateMessage()">
+								    <div style="margin:auto;width:75%">
+								    	<h2>New private message</h2>
+								    </div>
+								    <div layout="row" style="margin:auto;width:75%;">
+									    <div flex style="border-style:solid;border-width:1px;border-color:gray;background-color:#f5f5f5;">
+										    <md-autocomplete
+										        md-no-cache="noCache"
+										        md-selected-item="receiver"
+										        md-search-text-change="searchTextChange(searchText)"
+										        md-search-text="searchText"
+										        md-selected-item-change="selectedItemChange(user)"
+										        md-items="user in querySearch(searchText)"
+										        md-item-text="findUserById(user.user).name"
+										        md-min-length="0"
+										        placeholder="Select receiver">
+										       	<md-item-template>
+										        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(user.user).name}}</span>
+										        </md-item-template>
+										        <md-not-found>
+										          <span ng-show="searchText==''">
+										          		Please, select a member of your team
+										          </span>
+										          <span ng-hide="searchText==''">
+										          		There's no user with the name "{{searchText}}".
+										          </span>
+										        </md-not-found>
+											</md-autocomplete>
+										</div>
+									</div>
+									<div style="margin:auto;width:75%;position:relative">
+										<md-button ng-click="showUserMessages(receiver.user)" class="md-primary" style="float:right;background-color:#f5f5f5;">GO</md-button>
+									</div>	
+						</form>	  	
+					</div>			
 	  				<div id="privateChat" style="display:none;">
 		  				<div style="max-height: 80vh;  overflow: scroll; overflow-x: hidden;">
 				  			<md-list-item ng-repeat="message in privateMessagesChat()">
@@ -274,55 +265,6 @@
 	  			</div>
   			</div>			  			
   		</div>
-  		
-  		<div ng-show="screen=='privateUserMessages'" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
-  			<md-button ng-click="showScreen('privateMessages')" class="md-icon-button" aria-label="Close">
-		        <md-icon>close</md-icon>
-		     </md-button>
-		     {{findUserById(userReceiver).name}}
-  			 <div id="chatscroll" style="height: 75vh;  overflow: scroll; overflow-x: hidden;">
-  			<md-list-item ng-repeat="message in privateMessagesChat()">
-					     <md-list-item>
-					     <a href="#/user/{{message.transmitter}}">
-					     <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
-						      </a>
-						      <div class="md-list-item-text">
-						         <a style="color:blue">{{message.transmitterName}}</a>
-						         <p>
-						         	<div ng-bind-html="message.text | colonToSmiley"></div>
-						         </p>
-						         <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
-						      	{{message.date | timeago}}
-						      </div>
-						       </div>
-						       <md-divider ng-if="!$last"></md-divider>
-					      </md-list-item>
-			 </md-list-item>
-			 </div>
-			 	<form id="privatechatform" emoji-message="emojiMessage2" layout="row" autocomplete="off" ng-submit="replyMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
-<!-- 			 <form id="privatechatform" emoji-form emoji-message="emojiMessage2" layout="row" autocomplete="off" ng-submit="replyMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5"> -->
-						<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
-				     		<md-icon>
-							tag_faces
-						</md-icon>
-				     	</md-button>
-				     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputPrivateChat" flex style="background:white" ng-model="replyText" placeholder="New message" ></textarea>
-						<mentio-menu ng-if="index"
-					          mentio-for="'inputPrivateChat'"
-					          mentio-template-url="mentio-menu.tpl.html"
-					          mentio-trigger-char="'@'"
-					          mentio-items="people"
-					          mentio-search="searchPeople(term)"
-					          mentio-select="getPeopleText(item)"
-					      ></mentio-menu>
-						<md-button type="submit" title="Send message" class="md-icon-button launch" >
-				     		<md-icon>
-							send
-						</md-icon>
-				     	</md-button>												
-			 </form>
-  		</div>
-  		
   		<div ng-show="screen=='chat'" id="chat" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
 			<div style="position:relative">
 			 			<div style="float:left">
@@ -447,35 +389,33 @@
 				</div>	
         </md-tab-body>
       </md-tab>
-      <md-tab id="tab2" ng-show="user.privileges>0 || participateUser.teamPrivileges>0">
-        <md-tab-label>Team</md-tab-label>
-        <md-tab-body>
-        	<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
-	 			 <div ng-show="requests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+	  <md-tab id="tab2" data-ng-if="user.privileges>0 || participateUser.teamPrivileges>0">
+	       <md-tab-label>Team</md-tab-label>
+	       <md-tab-body>
+	       	<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
+	 			<div ng-show="requests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
 	 						There's no pending team requests
 	 			</div>
-	 			 <md-table-container ng-hide="requests().length==0" style="background-color:white" class="md-whiteframe-z2">
-						  <table md-table>
-						    <thead md-head>
-						      <th md-column>Room</th>
+		 		<md-table-container ng-hide="requests().length==0" style="background-color:white" class="md-whiteframe-z2">
+					<table md-table>
+						<thead md-head>
 						      <th md-column>Member</th>
 						      <th md-column>Accept</th>
 						      <th md-column>Deny</th>
 						    </thead>
 						    <tbody md-body>
 							      <tr md-row md-select="request" md-select-id="{{request.name}}" md-auto-select ng-repeat="request in requests()">
-							        <td md-cell>{{findRoomById(request.room).name}}</td>
 							        <td md-cell>{{findUserById(request.user).name}}</td>
 							        <td md-cell>
 							        	<md-button class="md-icon-button" ng-click="acceptRequest(request)" title="Accept request" aria-label="Accept">
-			    							<md-icon style="color:green">check_circle</md-icon>
-			    						</md-button>
+				    						<md-icon style="color:green">check_circle</md-icon>
+				    					</md-button>
 							        </td>
 							        <td md-cell>
 							        	<md-button class="md-icon-button" ng-click="denyRequest(request)" title="Deny request" aria-label="Deny">
-			     							<md-icon style="color:red">cancel</md-icon>
-			     						</md-button>
-			     					</td>
+				     						<md-icon style="color:red">cancel</md-icon>
+				     					</md-button>
+				     				</td>
 							      </tr>
 						    </tbody>
 						  </table>
@@ -533,7 +473,7 @@
       </div>
       <md-content>
       <div style="padding:1em;background-color:#e3f2fd;">
-	      	<div ng-show="(mention in chatMessages() | filter:mentionsFilter).length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+	      	<div ng-show="(chatMessages() | filter:mentionsFilter).length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
  						Nobody mentioned you for now
  			</div>
 	      	<div style="background-color:white;max-height: 45em; overflow-y:auto; overflow-x: hidden;" class="md-whiteframe-z2">

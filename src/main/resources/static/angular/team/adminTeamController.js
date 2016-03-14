@@ -56,9 +56,13 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		serviceNotification.showNotification("User kicked", "The user "+$scope.findUserById(member.user).name+" has been kicked from the team");					
 	}	
 	
-	$scope.openLeaveTeamScreen = function(){
-		$scope.screen="leaveTeam";
-	}
+	$("#leaveTeamButton").click(function(){
+		$("#leaveTeam").show();
+	});
+	$("#closeTeamButton").click(function(){
+		$("#leaveTeam").hide();
+	})
+	
 	
 	$scope.newAdmin;
 	$scope.querySearch = function (query) {
@@ -98,4 +102,37 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	      controller: exitTeamController
 	   })
 	};
+	
+	$scope.newTeamName=$scope.team.name;
+	
+	$scope.newTeamPassword1=$scope.team.password;
+	
+	$scope.newTeamPassword2=$scope.team.password;
+	
+	$scope.updateTeam = function(){
+		if ($scope.newTeamName!="" && $scope.newTeamPassword1!="" && $scope.newTeamPassword2!=""){
+				if ($scope.newTeamPassword1==$scope.newTeamPassword2){
+					$scope.team.name=$scope.newTeamName;
+					$scope.team.password=$scope.newTeamPassword1;
+					serviceTeam.updateTeam($scope.team);
+				}else{
+					//notification password no igual
+				}
+		}
+	}
+	
+	//jQuery functions
+	 $("#sidenavButton").click(function(){
+		 if (!$('#sidenav').is(":visible")){
+			 $("#sidenav").show('slide', {direction: 'left'}, 100);
+		 }else{
+			 $("#sidenav").hide('slide', {direction: 'left'}, 100);
+		 }
+	 })
+	
+	 $("#teamSettingsButton").click(function(){
+		 $("#settings").show();
+		 $("#users").hide();
+	 });
+	
 });

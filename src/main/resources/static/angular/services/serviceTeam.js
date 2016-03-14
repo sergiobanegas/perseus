@@ -71,7 +71,7 @@ function serviceTeam($resource, $timeout, $http) {
 	}
 
 	function updateTeam(updatedTeam) {
-		updatedTeam.$update();
+		TeamResource.update({id: updatedTeam.id}, updatedTeam);
 	}
 	
 	function deleteTeam(team) {

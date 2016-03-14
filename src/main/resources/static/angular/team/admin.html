@@ -1,23 +1,101 @@
+<div style="position:relative;height:100%;background-color:#e3f2fd;">
+<nav class="cd-side-nav" id="sidenav" style="position:absolute;z-index:999;width:17em;display:none">
+			<ul>
+				<li class="cd-label">{{team.name}}</li>
+				<li class="has-children overview">
+					<a href="" ng-click="showScreen('chat')">Home</a>
+					<ul>
+						<li><a href="#0">All Data</a></li>
+						<li><a href="#0">Category 1</a></li>
+						<li><a href="#0">Category 2</a></li>
+					</ul>
+				</li>
+				<li style="cursor:pointer" class="has-children notifications">
+					<a>Notifications<span ng-show="roomInvitations().length+roomRequests().length+requests().length>0" class="count">{{roomInvitations().length+roomRequests().length+requests().length}}</span></a>
+					<ul style="display:none" id="notificationsMenu">
+						<li><a href="" ng-click="showNotifications('notifications')">Team requests</a></li>
+						<li><a href="#0">Room requests</a></li>
+						<li><a href="#0">Other</a></li>
+					</ul>
+				</li>
+
+				<li class="has-children comments">
+					<a href="" ng-click="showScreen('privateMessages')">Private Messages</a>
+					
+					<ul>
+						<li><a href="#0">All Comments</a></li>
+						<li><a href="#0">Edit Comment</a></li>
+						<li><a href="#0">Delete Comment</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul>
+				<li class="cd-label">Secondary</li>				
+				<li class="bookmarks" ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
+					<a ng-href="#/team/{{team.id}}/admin">Admin</a>
+				</li>
+				<li class="has-children images">
+					<a href="#0">Files</a>
+					
+					<ul>
+						<li><a href="#0">All Images</a></li>
+						<li><a href="#0">Edit Image</a></li>
+					</ul>
+				</li>
+				<li class="users">
+					<a href="#0">Members</a>
+				</li>
+				<li class="has-children users" id="membershipButton">
+					<a>Membership</a>
+					<ul style="display:none" id="membershipMenu">
+						<li><a href="#0">All Users</a></li>
+						<li><a href="#0">Edit User</a></li>
+						<li><a ng-click="leaveTeam($event)" href="">Leave the team</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<ul ng-show="participateUser.teamPrivileges>0">
+				<li class="cd-label">Action</li>
+				<li class="action-btn"><a id="inviteButton" href="#inviteModal">+ Invite people</a></li>
+			</ul>
+			<div style="position:absolute;bottom:0px;color:white;">Perseus</div>
+</nav>
+<md-button id="sidenavButton" class="md-icon-button launch">
+  				<md-icon>
+  					menu
+  				</md-icon>
+ </md-button>
+
+
+
 <div>{{team.name}} - Administration</div>
 Admin users
-<div>
-	<div ng-show="screen=='users'">
-		Users
-		<md-list-item ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
-			<p> {{findUserById(member.user).name}} </p>
-			<p>{{findUserById(member.user).email}}</p>
-			<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
-				<md-icon>star</md-icon>
-			</md-button>
-			<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
-				<md-icon>star_border</md-icon>
-			</md-button>
-			<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
-				<md-icon>cancel</md-icon>
-			</md-button>
-		</md-list-item>
-	</div>
-	<div ng-show="screen=='leaveTeam'">
+<button id="teamSettingsButton">Team settings</button>
+
+<div style="width:75%;margin:auto;background-color:white" class="md-whiteframe-3dp">
+	<div id="settings" style="display:none">
+		<md-list>
+			<md-list-item>
+				Set team image
+			</md-list-item>
+			<md-divider></md-divider>
+			<md-list-item>
+				Change team and password
+				<form ng-submit="updateTeam()">
+					<input type="text" ng-model="newTeamName">
+					<input type="password" ng-model="newTeamPassword1">
+					<input type="password" ng-model="newTeamPassword2">
+					<md-button type="submit">Update</md-button>
+				</form>
+			</md-list-item>
+			<md-divider></md-divider>
+			<md-list-item>
+				<md-button id="leaveTeamButton" class="md-raised md-primary">
+					   	Leave team
+				</md-button>
+				<div id="leaveTeam" style="display:none">
 		<p>If you want to leave the team, you need to give administration privileges to another user</p>
 		<md-autocomplete
 			        md-no-cache="noCache"
@@ -37,13 +115,59 @@ Admin users
 			          There's no user with the name "{{searchText}}".
 		</md-autocomplete>    
 		<md-button ng-show="newAdmin.id" ng-click="leaveTeam()" class="md-raised md-primary">
-		    Give privileges and leave team
-	</md-button>
+			    Give privileges and leave team
+		</md-button>
+		<md-button class="md-icon-button launch" id="closeTeamButton">
+		    <md-icon>
+				close
+			</md-icon>
+			<md-tooltip>
+		    	New room
+		 	</md-tooltip>
+	     </md-button>
+	</div>	
+			</md-list-item>
+			<md-divider></md-divider>
+			<md-list-item>
+				<md-button ng-click="deleteTeam($event)" style="background-color:red">
+				   	Delete team
+				  </md-button>
+			</md-list-item>
+			<md-divider></md-divider>
+		
+		</md-list>
 	</div>
-	<md-button ng-click="openLeaveTeamScreen()" class="md-raised md-primary">
-		   	Leave team
-	</md-button>
-	 <md-button ng-click="deleteTeam($event)" style="background-color:red">
-	   	Delete team
-	  </md-button>
+	<div ng-show="screen=='users'" id="users">
+		Users
+		<md-table-container ng-hide="roomInvitations().length==0">
+					  <table md-table>
+					    <thead md-head>
+					      <th md-column>Name</th>
+					      <th md-column>Email</th>
+					      <th md-column>Permissions</th>
+					      <th md-column>Kick out</th>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="member" md-select-id="{{invitation.name}}" md-auto-select ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
+					        <td md-cell>{{findUserById(member.user).name}}</td>
+					        <td md-cell>{{findUserById(member.user).email}}</td>
+					        <td md-cell>
+					        	<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
+									<md-icon>star</md-icon>
+								</md-button>
+								<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
+									<md-icon>star_border</md-icon>
+								</md-button>
+					        </td>
+					        <td md-cell>
+								<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
+									<md-icon>cancel</md-icon>
+								</md-button>
+	     					</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+	</div>
+</div>
 </div>

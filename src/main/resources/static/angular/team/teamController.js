@@ -58,7 +58,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	}
 	
 	$scope.mentionsFilter = function(message){
-		return ((message.text).toString().split(" ")).indexOf("[@"+$scope.user.name+"]") > -1; 
+		return ((message.text).toString().split(" ")).indexOf("@"+$scope.user.name) > -1; 
 	}
 
 	$scope.logout = function(){		
@@ -118,7 +118,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$scope.people = $filter('filter')($scope.users, {name:term});
 	}
 	$scope.getPeopleText = function (member) {
-		return '[@' + member.name + ']';
+		return '@' + member.name;
 	}
 	
 	$scope.chatFilter="";
@@ -147,7 +147,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$("#filtername").hide();
 		$("#filtercontent").hide();
 	}
-	
+		
 	$scope.showFilterContent = function(){
 		$("#filtercontent").show();
 		$("#searchFilter").show();
@@ -221,13 +221,15 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.emojiMessage3;
 	$scope.privateMessage='';
+	$scope.searchText;
 	$scope.newPrivateMessage = function(){
 		if ($scope.privateMessage!='' && $scope.receiver.id){
 			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage, date: new Date()});
 			$scope.privateMessage='';
 			$scope.emojiMessage3="";
 			$scope.showUserMessages($scope.receiver.user);
-			$scope.receiver='';
+			$scope.receiver={};
+			$scope.searchText="";
 		}
 	}
 	$scope.emojiMessage2;
