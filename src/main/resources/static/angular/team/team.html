@@ -2,33 +2,18 @@
 <!-- User message style -->
 <div class="team" layout="row" ng-show="member || user.privileges>0"  style="position:relative;height:100%;background-color:#e3f2fd;">
   <nav class="cd-side-nav" id="sidenav" style="position:absolute;z-index:999;width:17em;display:none">
-			<ul>
+			<ul style="position:relative">
+				<md-icon style="color:white;position:absolute;right:0.5em;cursor:pointer" class="sidenavButton">close</md-icon>
 				<li class="cd-label">{{team.name}}</li>
-				<li class="has-children overview">
-					<a href="" ng-click="showScreen('chat')">Home</a>
-					<ul>
-						<li><a href="#0">All Data</a></li>
-						<li><a href="#0">Category 1</a></li>
-						<li><a href="#0">Category 2</a></li>
-					</ul>
+				<li id="homeButton" class="active overview">
+					<a>Home</a>
 				</li>
-				<li style="cursor:pointer" class="has-children notifications">
+				<li id="notificationsMenu" ng-click="showNotifications('notifications')" class="notifications">
 					<a>Notifications<span ng-show="roomInvitations().length+roomRequests().length+requests().length>0" class="count">{{roomInvitations().length+roomRequests().length+requests().length}}</span></a>
-					<ul style="display:none" id="notificationsMenu">
-						<li><a href="" ng-click="showNotifications('notifications')">Team requests</a></li>
-						<li><a href="#0">Room requests</a></li>
-						<li><a href="#0">Other</a></li>
-					</ul>
 				</li>
 
-				<li class="has-children comments">
-					<a href="" ng-click="showScreen('privateMessages')">Private Messages</a>
-					
-					<ul>
-						<li><a href="#0">All Comments</a></li>
-						<li><a href="#0">Edit Comment</a></li>
-						<li><a href="#0">Delete Comment</a></li>
-					</ul>
+				<li id="privateMessagesButton" class="comments">
+					<a>Private Messages</a>
 				</li>
 			</ul>
 
@@ -38,7 +23,7 @@
 					<a ng-href="#/team/{{team.id}}/admin">Admin</a>
 				</li>
 				<li class="has-children images">
-					<a href="#0">Files</a>
+					<a>Files</a>
 					
 					<ul>
 						<li><a href="#0">All Images</a></li>
@@ -46,13 +31,12 @@
 					</ul>
 				</li>
 				<li class="users">
-					<a href="#0">Members</a>
+					<a>Members</a>
 				</li>
-				<li class="has-children users" id="membershipButton">
+				<li class="has-children users" id="membershipToggle">
 					<a>Membership</a>
 					<ul style="display:none" id="membershipMenu">
-						<li><a href="#0">All Users</a></li>
-						<li><a href="#0">Edit User</a></li>
+						<li id="membershipButton"><a>Your membership</a></li>
 						<li><a ng-click="leaveTeam($event)" href="">Leave the team</a></li>
 					</ul>
 				</li>
@@ -116,43 +100,33 @@
   </div>
   <div style="text-align:right; position:absolute; right:3%;z-index:1">
   		<input type="text" id="inputsearch" placeholder="Ej: name..." style="display:none">
-  			
+  			<md-button class="md-icon-button launch" id="search">
+				<md-icon>
+					search
+				</md-icon>
+				<md-tooltip>
+			    	Search
+			   	</md-tooltip>
+			</md-button>
    			<md-button class="md-icon-button launch" ng-click="showNotifications('mentions')">
   				<md-icon>
   					contact_mail
   				</md-icon>
+  				<md-tooltip>
+					Mentions
+				</md-tooltip>
   			</md-button>
-  			<md-button id="sidenavButton" class="md-icon-button launch">
+  			<md-button class="md-icon-button launch sidenavButton">
   				<md-icon>
   					menu
   				</md-icon>
+  				<md-tooltip>
+					Menu
+				</md-tooltip>
   			</md-button>
-  			<md-button class="md-icon-button launch" id="search">
-			<md-icon>
-				search
-			</md-icon>
-			<md-tooltip>
-		    	Search
-		   	</md-tooltip>
-		</md-button>
-		<md-button class="md-icon-button launch" ng-mouseover="showMenu()" ng-mouseleave="hideMenu()">
-			<md-icon>
-				more_vert
-			</md-icon>
-			<md-tooltip>
-		    	Menu
-		   	</md-tooltip>
-		</md-button>
-		<div id="menu" ng-mouseover="showMenu()" ng-mouseleave="hideMenu()" style="text-align:left;display:none;z-index:999;right:0px;background-color:white">
-				<ul>
-				<li ng-repeat="participate in teamUsers" ng-click="">
-		          <p>{{findUserById(participate.user).name}}</p>
-		        </li>
-	     		 </ul>
-		</div>
 	</div>
   <div flex style="position:relative;padding:3%;padding-top:6%;">
-  		<div ng-show="screen=='privateMessages'" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
+  		<div id="privateMessages" style="display:none;position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
   			<div layout="row">
 	  			<div flex="25" style="border-right-style:solid;border-right-width:1px;border-right-color:gray;max-height: 90vh; overflow-y:auto; overflow-x: hidden">
 	  				<div layout="row">
@@ -265,7 +239,7 @@
 	  			</div>
   			</div>			  			
   		</div>
-  		<div ng-show="screen=='chat'" id="chat" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
+  		<div id="chat" style="position:relative;background-color:white;padding:0" class="md-whiteframe-3dp">
 			<div style="position:relative">
 			 			<div style="float:left">
 			 				<h3>Team chat</h3>
@@ -339,6 +313,9 @@
 						</md-icon>
 				     	</md-button>												
 					</form>
+  			</div>
+  			<div id="membership" style="padding:1em;display:none;position:relative;background-color:white;" class="md-whiteframe-3dp">
+  				This is your membership. Enable/disable notifications.
   			</div>
 </div>
 

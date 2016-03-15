@@ -4,6 +4,7 @@
 
 perseus.controller('adminTeamController', function ($scope, $filter, $routeParams, $window, $mdDialog, serviceNotification, serviceTeam, serviceUser, serviceParticipate) {
 	
+	$scope.section="administration";
     $scope.team={};
 	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
 		$scope.team = result.data;
@@ -57,12 +58,8 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	}	
 	
 	$("#leaveTeamButton").click(function(){
-		$("#leaveTeam").show();
+		$("#leaveTeam").toggle("blind");
 	});
-	$("#closeTeamButton").click(function(){
-		$("#leaveTeam").hide();
-	})
-	
 	
 	$scope.newAdmin;
 	$scope.querySearch = function (query) {
@@ -131,8 +128,71 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	 })
 	
 	 $("#teamSettingsButton").click(function(){
+		 $("#membersButton").removeClass("active");
+		 $("#welcomePageButton").removeClass("active");
+		 $("#filesButton").removeClass("active");
+		 $("#members").hide();
+		 $("#files").hide();
+		 $("#welcomePage").hide();
 		 $("#settings").show();
-		 $("#users").hide();
+		 if (!$('#teamSettingsButton').hasClass("active")){
+			 $("#teamSettingsButton").addClass("active");
+		 }else{
+			 $("#teamSettingsButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#welcomePageButton").click(function(){
+		 $("#membersButton").removeClass("active");
+		 $("#teamSettingsButton").removeClass("active");
+		 $("#filesButton").removeClass("active");
+		 $("#members").hide();
+		 $("#files").hide();
+		 $("#settings").hide();
+		 $("#welcomePage").show();
+		 if (!$('#welcomePageButton').hasClass("active")){
+			 $("#welcomePageButton").addClass("active");
+		 }else{
+			 $("#welcomePageButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#membersButton").click(function(){
+		 $("#welcomePageButton").removeClass("active");
+		 $("#teamSettingsButton").removeClass("active");
+		 $("#filesButton").removeClass("active");
+		 $("#settings").hide();
+		 $("#files").hide();
+		 $("#welcomePage").hide();
+		 $("#members").show();
+		 if (!$('#membersButton').hasClass("active")){
+			 $("#membersButton").addClass("active");
+		 }else{
+			 $("#membersButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#filesButton").click(function(){
+		 $("#membersButton").removeClass("active");
+		 $("#welcomePageButton").removeClass("active");
+		 $("#teamSettingsButton").removeClass("active");
+		 $("#settings").hide();
+		 $("#members").hide();
+		 $("#welcomePage").hide();
+		 $("#files").show();
+		 if (!$('#filesButton').hasClass("active")){
+			 $("#filesButton").addClass("active");
+		 }else{
+			 $("#filesButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#changeImageButton").click(function(){
+		 $("#changeImage").toggle("blind");
+	 });
+	 
+	 $("#changeValuesButton").click(function(){
+		 $("#changeValues").toggle("blind");
 	 });
 	
 });

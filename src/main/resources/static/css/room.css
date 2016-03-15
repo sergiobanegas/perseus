@@ -47,6 +47,7 @@ md-sidenav {
   }
 }
 
+
 #centraldiv{
 	border-radius:7px;
 	border-color:black;
@@ -412,6 +413,9 @@ a {
   Sidebar
 
   -------------------------------- */
+  .cd-side-nav > ul > li{
+  	cursor:pointer;
+  }
   .cd-side-nav {
     width: 100%;
     padding: 0;

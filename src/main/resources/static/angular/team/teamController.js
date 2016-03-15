@@ -66,10 +66,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$window.location.href = '#/';
 	}
 	//Screens
-	$scope.screen="chat";
-	$scope.showScreen = function (screen){
-		$scope.screen=screen;
-	}
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){
 		$scope.userReceiver=user;
@@ -569,7 +565,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$("#privateChat").hide();
 	 });
 	 
-	 $("#sidenavButton").click(function(){
+	 $(".sidenavButton").click(function(){
 		 if (!$('#sidenav').is(":visible")){
 			 $("#sidenav").show('slide', {direction: 'left'}, 100);
 		 }else{
@@ -578,7 +574,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 })
 	 
 	 $(".notifications").click(function() {
-		 $("#notificationsMenu").toggle("blind");
 		 if (!$('.notifications').hasClass("active")){
 			$(".notifications").addClass("active");
 		}else{
@@ -586,17 +581,57 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		}	
 	 });
 	 
-	 $("#membershipButton").click(function() {
+	 $("#membershipToggle").click(function() {
+		 $("#privateMessagesButton").removeClass("active");
+		 $("#homeButton").removeClass("active");
+		 $(".notifications").removeClass("active");
 		 $("#membershipMenu").toggle("blind");
-		 if (!$('.notifications').hasClass("active")){
-			$("#membershipButton").addClass("active");
+		 if (!$('#membershipToggle').hasClass("active")){
+			$("#membershipToggle").addClass("active");
 		}else{
-			$("#membershipButton").removeClass("active");
+			$("#membershipToggle").removeClass("active");
 		}	
 	 });
 	 
+	 $("#homeButton").click(function(){
+		 $("#membershipToggle").removeClass("active");
+		 $("#privateMessagesButton").removeClass("active");
+		 $(".notifications").removeClass("active");
+		 $("#membership").hide();
+		 $("#privateMessages").hide();
+		 $("#privateChat").hide();
+		 $("#chat").show(); 
+		 if (!$('#homeButton').hasClass("active")){
+				$("#homeButton").addClass("active");
+		 }else{
+			 $("#homeButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#privateMessagesButton").click(function(){
+		 $("#membershipToggle").removeClass("active");
+		 $("#homeButton").removeClass("active");
+		 $(".notifications").removeClass("active");
+		 $("#chat").hide(); 
+		 $("#membership").hide();
+		 $("#privateChat").hide(); 
+		 $("#privateMessages").show(); 
+		 if (!$('#privateMessagesButton').hasClass("active")){
+				$("#privateMessagesButton").addClass("active");
+		 }else{
+			 $("#privateMessagesButton").removeClass("active");
+		 }	
+	 });
+	 
+	 $("#membershipButton").click(function(){
+		 $("#chat").hide(); 
+		 $("#newchatform").hide(); 
+		 $("#privateChat").hide();
+		 $("#membership").show();
+	 });
+	 
 	 $("#publicroomsbutton").click(function() {
-			$("#publicrooms").toggle("blind");
+		 $("#publicrooms").toggle("blind");
 	 });
 		
 	 $("#privateroomsbutton").click(function() {
