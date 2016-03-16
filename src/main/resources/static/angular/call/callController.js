@@ -62,6 +62,13 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	    );
 	};
 	
+	$("#chatform").keypress(function (e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            $scope.sendMessage();
+        }
+	});
+	
 	//has to be fixed
 	$scope.memberUser= function(){
 		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
@@ -204,10 +211,11 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     
     //chat
     $scope.chatMessage;
-
+    $scope.emojiMessage;
     $scope.sendMessage = function () {   	
-    	  serviceChatMessage.newChatMessage({room:$scope.roomId, team: serviceKurentoRoom.getTeam(), text: $scope.chatMessage, user: $scope.user.id});
+    	  serviceChatMessage.newChatMessage({room:$scope.roomId, team: serviceKurentoRoom.getTeam(), text: $scope.chatMessage, user: $scope.user.id, date: new Date()});
     	  $scope.chatMessage="";
+    	  $scope.emojiMessage="";
     	  setTimeout(function(){
     			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
     	    }, 500);

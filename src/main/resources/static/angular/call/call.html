@@ -1,11 +1,5 @@
-<li ng-repeat="obj in draggableObjects" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
-	<div ng-drag="true" ng-drag-data="obj" ng-class="obj.name">
-		{{obj.name}}
-	</div>
-</li>
-
-<div layout="row" style="height:100%">
-	<md-content-flex flex="20" style="position:relative;background-color:gray">
+<div layout="row" style="height:100%;background-color:#e3f2fd;">
+	<div flex="20" style="position:relative;background-color:gray">
 		<p>{{roomName}}</p>
 		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
 		             Invite people to the room
@@ -32,21 +26,26 @@
 						</span>		
 	    			</span>
 	 		</md-list-item>
-	</md-content-flex>
-	<div flex>
-		<div id="top">
-		<div id="main-video"></div>
- 			<div id="participants"> 
-			         	   	
-			</div> 
-			<div class="mb" align="center" style="margin: 1em; padding-bottom: 5px" id="buttonActions"> 
+	</div>
+	<div flex layout="column">
+		<div id="top" flex="45" style="position:relative">
+			<div>
+				<div flex>
+<!-- 					<div id="main-video"></div> -->
+				</div>
+				<div flex>
+					<div id="participants"></div> 
+				</div>
+	 			
+ 			</div>
+			<div align="center" style="width:100%;position:absolute;bottom:0px;padding-bottom: 1em" id="buttonActions"> 
 				<md-button ng-click="onOffVolume()" class="md-fab md-primary md-hue-1" aria-label="Volume_up" id="buttonVolume" title="Audio toggle">
            			 <md-icon>volume_up</md-icon>
        			 </md-button>
-       			 <md-button ng-click="onOffVideocam()" class="md-fab md-primary md-hue-1" aria-label="Mute_video"  id="buttonVideocam" title="Video toggle">
+       			 <md-button ng-click="onOffVideocam()" class="md-fab md-primary md-hue-1" style="background-color:purple" aria-label="Mute_video"  id="buttonVideocam" title="Video toggle">
            			 <md-icon>videocam_off</md-icon>
        			 </md-button>
-       			 <md-button ng-click="leaveRoom()" class="md-fab md-primary md-hue-1" aria-label="End_call" id="buttonLeaveRoom" title="Leave room">
+       			 <md-button ng-click="leaveRoom()" class="md-fab md-primary md-hue-1" style="background-color:red" aria-label="End_call" id="buttonLeaveRoom" title="Leave room">
            			 <md-icon>call_end</md-icon>
        			 </md-button>
        			 <md-button ng-click="goFullscreen()" class="md-fab md-primary md-hue-1" aria-label="Mute_video" title="Fullscreen">
@@ -54,38 +53,51 @@
        			 </md-button>
 	        </div>
 		</div>
-		<div class="toggler" style="border-top-style:solid" >
-			<div id="effect">
+		<div flex class="toggler"  layout="column" style="width:100%;border-top-style:solid;background-color:white" >
 			     head
 			 	<div>
 			 		<strong>Team chat</strong>
 			 	</div>
-			    <div id="chatscroll" style="height: 15em;  overflow: scroll; overflow-x: hidden;">
-			    	<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }">
-					     <md-list-item class="md-2-line">
-						      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Ski_trail_rating_symbol-blue_square.svg/600px-Ski_trail_rating_symbol-blue_square.svg.png" class="md-avatar" alt="{{todos[0].who}}" />
-<!-- 						      <ng-letter-avatar data="{{findUserById(message.user).name}}" shape="round"></ng-letter-avatar> -->
-						      <div class="md-list-item-text">
-						         <h3>{{findUserById(message.user).name}}</h3>
-						         <p>{{message.text}}</p>
-						         <p>{{message.date}}</p>
-						       </div>
-					      </md-list-item>
-					  </md-list-item>			
-			    </div>
-			     <div class="md-block">
-			          		<form ng-submit="sendMessage()">
-				                <md-input-container md-no-float>
-						        	<input ng-model="chatMessage" placeholder="New message" required>
-						        </md-input-container>
-								<md-button type="submit" class="md-primary">
-							  		Send
-								</md-button>
-							</form>
-			     </div>
-			        
-    			</div>
+			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
+			    			<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }" style="position:relative">
+						     	<a href="#/user/{{message.user}}">
+						     	<img ng-src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar"/>
+							     </a>
+							      <div class="md-list-item-text">
+							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>
+							         <p>		
+							         	<span class="md-body-2">
+							         	<div ng-bind-html="message.text | colonToSmiley"></div>
+							         	</span>
+							         </p>
+							      </div>
+							      <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
+							      	{{message.date | timeago}}
+							      </div>
+							      <md-divider ng-if="!$last"></md-divider>
+						</md-list-item>	
+				</div>
+			    <form flex="1" id="chatform" emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
+						<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
+				     		<md-icon>
+							tag_faces
+						</md-icon>
+				     	</md-button>
+				     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+						<mentio-menu ng-if="index"
+					          mentio-for="'inputchat'"
+					          mentio-template-url="mentio-menu.tpl.html"
+					          mentio-trigger-char="'@'"
+					          mentio-items="people"
+					          mentio-search="searchPeople(term)"
+					          mentio-select="getPeopleText(item)"
+					      ></mentio-menu>
+						<md-button type="submit" title="Send message" class="md-icon-button launch" >
+				     		<md-icon>
+							send
+						</md-icon>
+				     	</md-button>												
+					</form>			        
   			</div>
-		
 	</div>
 </div>

@@ -144,7 +144,10 @@
 			</md-list>
 		</div>
 		<div id="members" style="display:none">
-			<md-table-container ng-hide="roomInvitations().length==0" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
+			<div style="padding:1em">
+				You are the only member of <b>{{team.name}}</b>
+			</div>
+			<md-table-container ng-show="members().length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
 				<table md-table>
 					<thead md-head>
 						<th md-column>Name</th>

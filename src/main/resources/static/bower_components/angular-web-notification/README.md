@@ -11,7 +11,7 @@
 * [Installation](#installation)
 * [Limitations](#limitations)
 * [API Documentation](docs/api.md)
-* [Contributing](docs/CONTRIBUTING.md)
+* [Contributing](.github/CONTRIBUTING.md)
 * [Release History](#history)
 * [License](#license)
 
@@ -58,7 +58,7 @@ return {
                 onClick: function onNotificationClicked() {
                     console.log('Notification clicked.');
                 },
-                autoClose: 4000 //auto close the notification after 2 seconds (you can manually close it via hide function)
+                autoClose: 4000 //auto close the notification after 4 seconds (you can manually close it via hide function)
             }, function onShow(error, hide) {
                 if (error) {
                     window.alert('Unable to show notification: ' + error.message);
@@ -94,14 +94,16 @@ Please see http://caniuse.com/#feat=notifications for more information on the of
 See full docs at: [API Docs](docs/api.md)
 
 ## Contributing
-See [contributing guide](docs/CONTRIBUTING.md)
+See [contributing guide](.github/CONTRIBUTING.md)
 
 <a name="history"></a>
 ## Release History
 
 | Date        | Version | Description |
 | ----------- | ------- | ----------- |
-| 2016-01-29  | v0.0.59 | Maintenance |
+| 2016-03-08  | v0.0.66 | Maintenance |
+| 2016-03-08  | v0.0.65 | Added webNotification.permissionGranted attribute |
+| 2016-02-24  | v0.0.64 | Maintenance |
 | 2015-09-26  | v0.0.31 | Update bower dependencies |
 | 2015-09-26  | v0.0.30 | Added 'onClick' option to enable adding onclick event handler for the notification |
 | 2015-09-02  | v0.0.29 | Maintenance |

@@ -138,7 +138,9 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 if (!$('#teamSettingsButton').hasClass("active")){
 			 $("#teamSettingsButton").addClass("active");
 		 }else{
-			 $("#teamSettingsButton").removeClass("active");
+			 if ($("#settings").is(":hidden")){
+				 $("#teamSettingsButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 
@@ -153,7 +155,9 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 if (!$('#welcomePageButton').hasClass("active")){
 			 $("#welcomePageButton").addClass("active");
 		 }else{
-			 $("#welcomePageButton").removeClass("active");
+			 if ($("#welcomePage").is(":hidden")){
+			 	$("#welcomePageButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 
@@ -168,7 +172,9 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 if (!$('#membersButton').hasClass("active")){
 			 $("#membersButton").addClass("active");
 		 }else{
-			 $("#membersButton").removeClass("active");
+			 if ($("#members").is(":hidden")){
+			 	$("#membersButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 
@@ -183,7 +189,9 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 if (!$('#filesButton').hasClass("active")){
 			 $("#filesButton").addClass("active");
 		 }else{
-			 $("#filesButton").removeClass("active");
+			 if ($("#files").is(":hidden")){
+			 	$("#filesButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 

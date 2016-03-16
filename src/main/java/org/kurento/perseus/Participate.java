@@ -15,6 +15,7 @@ public class Participate {
 	private Integer user;
 	private Integer team;
 	private Integer teamPrivileges;
+	private boolean notifications;
 		
 	public Participate() {
 		// TODO Auto-generated constructor stub
@@ -32,9 +33,12 @@ public class Participate {
 		return user;
 	}
 	
-	
 	public Integer getTeamPrivileges() {
 		return teamPrivileges;
+	}
+	
+	public boolean getNotifications() {
+		return notifications;
 	}
 	
 	public void setTeam(Integer team) {
@@ -51,6 +55,10 @@ public class Participate {
 	
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public void setNotifications(boolean notifications) {
+		this.notifications = notifications;
 	}
 
 }

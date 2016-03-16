@@ -10,10 +10,6 @@ perseus.config(function ($routeProvider, $mdIconProvider) {
                 templateUrl: 'angular/home/index.html',
                 controller: 'indexController'
             })
-            .when('/home', {
-                templateUrl: 'angular/home/home.html',
-                controller: 'homeController'
-            })
             .when('/admin', {
                 templateUrl: 'angular/admin/admin.html',
                 controller: 'adminController'

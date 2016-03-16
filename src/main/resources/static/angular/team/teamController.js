@@ -14,9 +14,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
 	$scope.team={};
+	$scope.notificationStatus;
 	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
 		$scope.team = result.data;
+		if (Notification.permission==="granted"){
+			$scope.notificationStatus=true;
+		}else{
+			$scope.notificationStatus=false;
+		}
 		$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
+		$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
 	    $("#chatscroll").delay(300).scrollTop($("#chatscroll")[0].scrollHeight);
 	});
     
@@ -226,6 +233,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			$scope.showUserMessages($scope.receiver.user);
 			$scope.receiver={};
 			$scope.searchText="";
+			setTimeout(function(){
+	  			$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
+	  	    }, 1000);
 		}
 	}
 	$scope.emojiMessage2;
@@ -235,7 +245,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		$scope.replyText="";
 		$scope.emojiMessage2="";
 		setTimeout(function(){
-  			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
+  			$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
   	    }, 500);
 	}
 	//END private messages
@@ -566,7 +576,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 });
 	 
 	 $(".sidenavButton").click(function(){
-		 if (!$('#sidenav').is(":visible")){
+		 if ($('#sidenav').is(":hidden")){
 			 $("#sidenav").show('slide', {direction: 'left'}, 100);
 		 }else{
 			 $("#sidenav").hide('slide', {direction: 'left'}, 100);
@@ -589,7 +599,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		 if (!$('#membershipToggle').hasClass("active")){
 			$("#membershipToggle").addClass("active");
 		}else{
-			$("#membershipToggle").removeClass("active");
+			$("#membershipToggle").removeClass("active"); 
 		}	
 	 });
 	 
@@ -604,7 +614,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		 if (!$('#homeButton').hasClass("active")){
 				$("#homeButton").addClass("active");
 		 }else{
-			 $("#homeButton").removeClass("active");
+			 if ($("#chat").is(":hidden")){
+				 $("#homeButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 
@@ -619,7 +631,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		 if (!$('#privateMessagesButton').hasClass("active")){
 				$("#privateMessagesButton").addClass("active");
 		 }else{
-			 $("#privateMessagesButton").removeClass("active");
+			 if ($("#privateMessages").is(":hidden")){
+				 $("#privateMessagesButton").removeClass("active");
+			 }
 		 }	
 	 });
 	 
@@ -644,7 +658,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 $("#search").click(function(){
 		 $("#inputsearch").animate({width:'toggle'},350);
 	 });
-		
+	
 	 $scope.closeEnableNotifications = function(){
 		 $("#enablenotifications").animate({height:'toggle'},350);
 	 }
