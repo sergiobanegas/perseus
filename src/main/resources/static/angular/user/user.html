@@ -18,11 +18,26 @@
 			    <input type="text" ng-model="userProfile.email" ng-show="editEmail==1">
 		    </span>
 		</div>
+		<md-input-container class="md-icon-float md-block">
+				<label>Current password</label>
+				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+				<input type="password" ng-model="currentPassword">
+		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+				<label>New password</label>
+				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+				<input type="password" ng-model="password1">
+		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+				<label>New password confirmation</label>
+				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+				<input type="password" ng-model="password2">
+		</md-input-container>
 		<p>
 			Privileges: <span ng-show="userProfile.privileges>0">Yes</span>
 						<span ng-hide="userProfile.privileges>0">No</span>
 		</p>	    
-		<md-button ng-click="updateUser(userProfile)" ng-show="editName==1||editEmail==1" class="md-primary">
+		<md-button ng-click="updateUser(userProfile)" class="md-primary">
 			Confirm changes
 		</md-button>
 		<md-button ng-click="deleteAccount($event)" class="md-primary" style="color:red">

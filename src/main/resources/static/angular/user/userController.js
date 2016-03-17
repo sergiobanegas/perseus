@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('userController', function ($mdDialog, $scope, $route, $routeParams, $window, serviceUser) {
+perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $route, $routeParams, $window, serviceUser) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};
@@ -13,13 +13,28 @@ perseus.controller('userController', function ($mdDialog, $scope, $route, $route
 	$scope.editName=0;
 	$scope.editEmail=0;
 	
+	$scope.actualpassword;
+	$scope.password1;
+	$scope.password2;
 	$scope.updateUser = function(){
+		if ($scope.userProfile.password==$scope.currentPassword && $scope.password1==$scope.password2){
+			$scope.userProfile.password=$scope.password1;
+		}
 		serviceUser.updateUser($scope.userProfile);
 		serviceUser.logout();
 		serviceUser.loginUser($scope.userProfile);
 		$scope.editName=0;
 		$scope.editEmail=0;
 		$route.reload();
+	};
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
 	};
 	
 	$scope.showInput = function(option){
