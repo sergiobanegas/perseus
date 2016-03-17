@@ -133,6 +133,21 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 			}
 		};
 		
+		$scope.forgotPassword = function(){
+			$("#loginForm").hide();
+			$("#loginButton").hide();
+			$("#forgotPassword").show();
+			$("#forgotPasswordSendButton").show();
+		}
+		
+		$scope.emailForget;
+		$scope.sendForgetPassword = function(){
+			var data= {
+					"email": $scope.emailForget
+					};
+			$http.post("/sendnewpassword", data);
+		}
+		
 		$scope.joinTeam = function(Team) {
 			if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
 				var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];

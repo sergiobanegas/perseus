@@ -10,17 +10,26 @@
 	</md-toolbar>
 	<md-dialog-content>
 		<div class="md-dialog-content">
-			<div layout="column" ng-cloak class="md-inline-form">
+			<div id="forgotPassword" style="display:none" layout="column" ng-cloak class="md-inline-form">
+				Please, write your email in order to change your password.
 				<md-input-container class="md-icon-float md-block">
-					<label>Username</label>
-					<md-icon aria-label="Name" style="color: blue;">person</md-icon>
-					<input ng-model="userName">
+						<label>Email</label>
+						<md-icon aria-label="Email" style="color: blue;">person</md-icon>
+						<input ng-model="emailForget">
 				</md-input-container>
-				<md-input-container>
-					<label>Password</label>
-					<md-icon aria-label="vpn_key" style="color: blue;">vpn_key</md-icon>
-					<input type="password" ng-model="password">
-				</md-input-container>
+			</div>
+			<div id="loginForm" layout="column" ng-cloak class="md-inline-form">
+					<md-input-container class="md-icon-float md-block">
+						<label>Username</label>
+						<md-icon aria-label="Name" style="color: blue;">person</md-icon>
+						<input ng-model="userName">
+					</md-input-container>
+					<md-input-container>
+						<label>Password</label>
+						<md-icon aria-label="vpn_key" style="color: blue;">vpn_key</md-icon>
+						<input type="password" ng-model="password">
+					</md-input-container>
+				<div>Did you forget your password?, click <a href="" ng-click="forgotPassword()" style="text-decoration:underline;color:blue">here</a>.</div>
 				<div>
 					Are you new?
 					<md-button style="background-color:purple" ng-click="goRegistration()">Register</md-button>
@@ -29,8 +38,11 @@
 		</div>
 	</md-dialog-content>
 	<md-dialog-actions>
-		<md-button style="background-color:greenyellow" ng-click="login()">
+		<md-button id="loginButton" style="background-color:greenyellow" ng-click="login()">
 			Login
+		</md-button>
+		<md-button id="forgotPasswordSendButton" style="display:none;background-color:greenyellow" ng-click="sendForgetPassword()">
+			Send
 		</md-button>
 		<md-button ng-click="closeDialog()" class="md-primary">
 			Cancel
