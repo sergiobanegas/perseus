@@ -74,21 +74,24 @@
 	      </div>
         </div>
 	      <md-subheader class="md-no-sticky" id="publicroomsbutton">Public rooms ({{publicRooms().length}})</md-subheader>
-		  <div id="publicrooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
-		  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms()">
-		    <p>{{ room.name }}</p>
-		    <md-icon id="{{room.name}}" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;visibility:hidden">clear</md-icon>
-		  	<md-divider ng-if="!$last"></md-divider>
-		  </md-list-item>
-		  </div>
-		  <md-subheader class="md-no-sticky" id="privateroomsbutton">Private rooms ({{privateRooms().length}})</md-subheader>
-		  <div id="privaterooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
-			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showRoomButtons($index)" ng-mouseleave="hideRoomButtons($index)">
+		   <div id="publicrooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms() track by $index" ng-mouseover="showPublicRoomButtons($index)" ng-mouseleave="hidePublicRoomButtons($index)">
 				    <p>{{ room.name }}</p>
-			   		<md-icon id="{{$index}}"ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+			   		<md-icon id="{{$index}}_public" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
 				  	<md-divider ng-if="!$last"></md-divider>
 			  </md-list-item>
 		  </div>
+		  
+		  
+		  <md-subheader class="md-no-sticky" id="privateroomsbutton">Private rooms ({{privateRooms().length}})</md-subheader>
+		  <div id="privaterooms" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showPrivateRoomButtons($index)" ng-mouseleave="hidePrivateRoomButtons($index)">
+				    <p>{{ room.name }}</p>
+			   		<md-icon id="{{$index}}_private" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: blue;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+				  	<md-divider ng-if="!$last"></md-divider>
+			  </md-list-item>
+		  </div>
+		  
 	  	<md-subheader class="md-no-sticky" id="onlinemembersbutton">Online members ({{teamUsers.length}})</md-subheader>
 		  <div id ="onlinemembers" style="max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <md-list-item class="md-line" ng-repeat="participate in teamUsers">

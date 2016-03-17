@@ -673,13 +673,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 $scope.enableNotifications = function(){
 		 Notification.requestPermission();
 	 }
-		
-	 $scope.showRoomButtons = function(index){
-		 $("#"+index).show();
+	 
+	 $scope.showPublicRoomButtons = function(index){
+		 $("#"+index+"_public").show();
+	 }
+	 
+	 $scope.hidePublicRoomButtons = function(index){
+		 $("#"+index+"_public").hide();
 	 }
 		
-	 $scope.hideRoomButtons = function(index){
-		 $("#"+index).hide();
+	 $scope.showPrivateRoomButtons = function(index){
+		 $("#"+index+"_private").show();
+	 }
+		
+	 $scope.hidePrivateRoomButtons = function(index){
+		 $("#"+index+"_private").hide();
 	 }
 	 
 	 var timeoutId;

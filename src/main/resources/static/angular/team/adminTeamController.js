@@ -125,7 +125,7 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 }else{
 			 $("#sidenav").hide('slide', {direction: 'left'}, 100);
 		 }
-	 })
+	 });
 	
 	 $("#teamSettingsButton").click(function(){
 		 $("#membersButton").removeClass("active");
