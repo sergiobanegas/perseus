@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('indexController', function ($scope, $mdDialog, $route, $filter, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
+perseus.controller('indexController', function ($scope, $mdDialog, $route, $filter, $window, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
 	
 	
 	$scope.user = serviceUser.getSession();
@@ -32,6 +32,10 @@ perseus.controller('indexController', function ($scope, $mdDialog, $route, $filt
 		
 	}
 	
+	$scope.redirectTeam = function(team){
+		$window.location.href="#/team/"+team;
+	}
+	
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$route.reload();
@@ -57,6 +61,19 @@ perseus.controller('indexController', function ($scope, $mdDialog, $route, $filt
 	      targetEvent: $event,
 	      clickOutsideToClose: true,
 	      templateUrl: 'angular/home/dialogs/joinTeam.tmpl.html',
+	      locals: {
+	      },
+	      controller: DialogController
+	   })
+	};	
+	
+	$scope.newTeam = function($event){
+		var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/home/dialogs/newTeam.tmpl.html',
 	      locals: {
 	      },
 	      controller: DialogController
@@ -107,6 +124,9 @@ perseus.controller('indexController', function ($scope, $mdDialog, $route, $filt
 	      $(window).trigger('resize');
 	});
 	
+	//to hide the fixed nav when clicked outside dialog
+
+	
 });
 
 function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, $route, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
@@ -114,6 +134,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 	   $scope.users = serviceUser.getUsers();
 	   $scope.userName = "";
 	   $scope.password = "";	
+	   $scope.passwordNewTeam="";
 		
 		$scope.login = function() {
 			if ($scope.userName && $scope.password){
@@ -164,6 +185,25 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 				$scope.notification("The name of the team or the password of the team are incorrect!");
 			}
 		};
+		
+		$scope.newTeam = function(Team) {
+			if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
+					if (Team.password===$scope.password){
+						Team.admin=$scope.user.id;
+						serviceTeam.newTeam(Team);
+						$window.location.href = '#/';
+						serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
+					}
+					else{
+						$scope.notification("The password doesn't match!");
+					}				
+			}
+			else{
+				$scope.notification("A team with that name already exists!");
+			}
+			
+		};
+		
 		
 		$scope.findUserById = function(iduser){
 			return serviceUser.getUser(iduser);
@@ -220,6 +260,6 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		};
 	   
   $scope.closeDialog = function() {
-    $mdDialog.hide();
+	  $mdDialog.hide();
   }
 }

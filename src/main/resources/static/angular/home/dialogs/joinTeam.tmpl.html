@@ -11,7 +11,7 @@
 	</md-toolbar>
 	<md-dialog-content>
 		<div class="md-dialog-content">
-			Join a team<br/> Insert the name of the team and the password:
+			In order to join a team, you have to insert the team name and password:
 			<div>
 				<md-input-container>
 					<label>Team name</label>
@@ -21,7 +21,7 @@
 					<label>Password</label>
 					<input ng-model="team.password" type="password">
 				</md-input-container>
-				<md-button class="md-primary" ng-click="joinTeam(team)">
+				<md-button class="md-primary md-raised" ng-click="joinTeam(team)">
 					Join
 				</md-button>
 			</div>
@@ -33,7 +33,7 @@
 					<input ng-model="teamRequested">
 				</md-input-container>
 				<md-input-container>
-					<md-button class="md-primary" ng-click="teamJoinRequest(teamRequested)">
+					<md-button class="md-primary md-raised" ng-click="teamJoinRequest(teamRequested)">
 						Send petition
 					</md-button>
 				</md-input-container>

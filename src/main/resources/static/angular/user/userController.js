@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $route, $routeParams, $window, serviceUser) {
+perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $route, $http, $routeParams, $window, serviceUser) {
   
 	$scope.user=serviceUser.getSession();
 	$scope.userProfile={};
@@ -57,6 +57,7 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 				break;
 		}
 	};
+	$scope.userImage;
 	
 	$scope.deleteAccount = function($event){
 		var parentEl = angular.element(document.body);
@@ -71,6 +72,10 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	      controller: userActionsController
 	   })
 	}
+	
+	$("#editProfileLaunchButton").click(function(){
+		$("#editProfile").toggle("blind");
+	});
 });
 
 

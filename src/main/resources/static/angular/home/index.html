@@ -20,67 +20,94 @@
         </md-button>
       </div>
 </md-toolbar>
-<div data-ng-init="init()">
-<div id="mainPage" ng-show="user.name">
-	<div layout="row" layout-align="center center" style="width:1000px;height:667px;border-style:solid;background-image: url('http://tweakyourbiz.com/growth/files/How-Collaboration-Creates-Growth-For-Your-SME.jpg');">
-			<div ng-show="user.name" style="background-color:white;border-style:solid;text-align:center" flex="30">
-		  <div flex>{{user.name}}</div>
-		  <div flex>
-		  	<a ng-href="#/user/{{user.id}}"> 
-		  		<md-button style="background-color:greenyellow">
-	              My profile
-	           </md-button>
- 			</a>
- 			<div>
-				<md-button ng-click="joinTeam($event)" style="background-color:greenyellow">
-           		  Join a team
-				</md-button>
+<div data-ng-init="init()" style="position:relative">
+<div ng-show="user.name" style="padding:2em;height:100%;background-color:#e3f2fd">
+	<div id="mainPage" layout="row" style="padding:1em;background-color:white" class="md-whiteframe-z2">
+		<div flex="15" style="margin-right:10em;padding:0;">
+			<div style="border-style:solid">
+				<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+				<div><b>{{user.name}}</b></div>
+				<div style="border-bottom-style:solid;border-bottom-width:1px;border-top-style:solid">
+					<a ng-href="#/user/{{user.id}}"> 
+						<md-button style="margin:0;background-color:greenyellow;width:100%">
+				        	My profile
+				        </md-button>
+			 		</a>
+		 		</div>
+		 		<div style="border-bottom-style:solid;border-bottom-width:1px">
+					<md-button ng-click="joinTeam($event)" style="background-color:greenyellow;margin:0;width:100%">
+		           		Join a team
+					</md-button>
+				</div>
+				<div style="border-bottom-style:solid;border-bottom-width:1px">
+					<md-button ng-click="newTeam($event)" style="background-color:greenyellow;margin:0;width:100%">
+		           		 New team
+		        	</md-button>
+				</div>
+				<div ng-show="user.privileges>0">
+					<a ng-href="#/admin">
+						<md-button style="background-color:greenyellow;margin:0;width:100%">
+			       	    	Administration
+			       		</md-button>
+					</a>
+				</div>
 			</div>
-			<div>
-				<a ng-href="#/newteam">
-					<md-button style="background-color:greenyellow">
-	            		 New team
-	           		</md-button>
-				</a>
-			</div>
-			<div ng-show="user.privileges>0">
-				<a ng-href="#/admin">
-					<md-button style="background-color:greenyellow">
-	              Administration
-	           </md-button>
-				</a>
-			</div>
-			<md-list>
+		</div>
+		<div flex layout="row">
+				<div flex="40" style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-style:solid;text-align:center">
+						<md-subheader class="md-no-sticky">
+							Your teams
+						</md-subheader>
+						<p ng-show="(teams | filter:{ user: user.id }).length==0">You are not member of any team</p>
+						<md-list-item ng-repeat="team in teams | filter:{ user: user.id }" ng-click="redirectTeam(team.team)">
+					        <div class="md-list-item-text" layout="column">
+					          <h3><a ng-bind="findTeamById(team.team).name" style="text-decoration:none">{{ team.teamName }}</a></h3>
+					        </div>
+					        <md-divider ng-if="!$last"></md-divider>
+					     </md-list-item>
+				</div>
+			  <div flex="40" style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;margin-left:20em;border-style:solid;text-align:center">
 				<md-subheader class="md-no-sticky">
-					Your teams
+						Your invitations
 				</md-subheader>
-				<md-list-item class="md-2-line" ng-repeat="team in teams | filter:{ user: user.id }">
-			        <div class="md-list-item-text" layout="column">
-			          <h3><a href="#/team/{{team.team}}" ng-bind="findTeamById(team.team).name" style="text-decoration:none">{{ team.teamName }}</a></h3>
-			          <p>Description</p>
-			        </div>
-			     </md-list-item>
-			</md-list>
-			<md-subheader class="md-no-sticky">
-					Your invitations
-					<md-list-item ng-repeat="invite in teamInvites | filter:{ user: user.id }">
-			        <div class="md-list-item-text" layout="column">
-			          {{ invite.team }}
-			           </div>
-			          <md-icon ng-click="acceptInvitation(invite)" aria-label="Accept invitation">done</md-icon>
-			          <md-icon ng-click="denyInvitation(invite)" aria-label="Deny invitation">clear</md-icon>
-			       
-			     </md-list-item>
-			</md-subheader>
-		  </div>
-	</div> 
-		
+				<p ng-show="(teamInvites | filter:{ user: user.id }).length==0">You have no team invitations</p>
+				<md-table-container ng-hide="(teamInvites | filter:{ user: user.id }).length==0">
+					  <table md-table>
+					    <thead md-head>
+					      <th md-column>Team</th>
+					      <th md-column>Accept</th>
+					      <th md-column>Deny</th>
+					    </thead>
+					    <tbody md-body>
+						      <tr md-row md-select="request" md-select-id="{{invite.team}}" md-auto-select ng-repeat="invite in teamInvites | filter:{ user: user.id }">
+						        <td md-cell>{{findTeamById(invite.team).name}}</td>
+						        <td md-cell>
+						        	<md-button class="md-icon-button" ng-click="acceptInvitation(invite)" title="Accept invitation" aria-label="Accept">
+		    							<md-icon style="color:green">check_circle</md-icon>
+		    						</md-button>
+						        </td>
+						        <td md-cell>
+						        	<md-button class="md-icon-button" ng-click="denyInvitation(invite)" title="Deny invitation" aria-label="Deny">
+		     							<md-icon style="color:red">cancel</md-icon>
+		     						</md-button>
+		     					</td>
+						      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+				
+				
+				
+				
+				
+			  </div>
+			
+			</div>
 		</div>
 	</div>
-	
 	<div class="sections">
 	<!-- Our super awesome changing header! -->
-	  <nav class="fixed">
+	  <nav class="fixed" style="z-index:50">
 	    <div class="midnightHeader default">
 	      <div class="logo-holder">
 	        <a class="logo"><span class="screenreader"></span></a>

@@ -1,47 +1,92 @@
+<md-toolbar>
+      <div class="md-toolbar-tools">
+          <a href="#/">
+          	<md-icon aria-label="Home">home</md-icon>	
+          </a>
+        <h2>
+          <span>Perseus</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon aria-label="Favorite" style="color: greenyellow;">favorite</md-icon>	
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+          <md-icon>more_vert</md-icon>
+        </md-button> 	
+        <md-button>Support</md-button>
+        <md-button ng-hide="user.name" ng-click="login($event)">Login</md-button>
+        <md-button ng-show="user.name" ng-click="logout()" class="md-icon-button" aria-label="Power_settings_new">
+          <md-icon>power_settings_new</md-icon>
+        </md-button>
+      </div>
+</md-toolbar>
+<div style="background-color:#e3f2fd;height:100%;padding:2em">
 <h1 ng-bind="userProfile.name"></h1>
-<div>
-		<div>
-			Name: {{userProfile.name}}
-			<span ng-show="userProfile.id==user.id">
-				<a href="" ng-click="showInput('name')">
-					<md-icon style="color:lightgreen;">edit</md-icon>
-				</a>
-				<input type="text" ng-model="userProfile.name" ng-show="editName==1">
-			</span>
+	<div layout="row" class="md-whiteframe-z2" style="padding:1em;background-color:white;">		
+		<div flex="15" style="border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
+			 <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" style="max-width:100%;max-height:100%;" alt="{{user.name}}" /> 
+				<p style="padding-left:0.5em"ng-show="userProfile.privileges>0">
+						Administrator <md-icon style="color:yellow">star</md-icon>
+				</p>
 		</div>
-		<div>
-		    Email: {{userProfile.email}}
-		    <span ng-show="userProfile.id==user.id">
-			    <a href="" ng-click="showInput('email')">
-					<md-icon style="color:lightgreen;">edit</md-icon>
-				</a>
-			    <input type="text" ng-model="userProfile.email" ng-show="editEmail==1">
-		    </span>
+		<div flex style="border-style:solid;border-width:1px;border-color:lightgray;position:relative;padding:1em;">
+				<md-button style="position:absolute;right:0px"class="md-raised md-primary" id="editProfileLaunchButton" ng-show="userProfile.id==user.id || user.privileges>0">Edit profile</md-button>
+				<div layout="column" style="padding-bottom:2em">
+				<div flex>
+					Name: {{userProfile.name}}
+				</div>
+				<div flex>
+				    Email: {{userProfile.email}}
+				</div>
+				</div>
+				<div id="editProfile" style="display:none">
+					<md-divider></md-divider>
+					
+					<div layout="row">
+						<div flex>
+							<md-input-container class="md-icon-float md-block">
+									<label>Name</label>
+									<md-icon aria-label="Name" style="color: blue;">person</md-icon>
+									<input type="text" ng-model="userProfile.name">
+							</md-input-container>
+							<md-input-container class="md-icon-float md-block">
+									<label>Email</label>
+									<md-icon aria-label="Email" style="color: blue;">email</md-icon>
+									<input type="text" ng-model="userProfile.email">
+							</md-input-container>
+							<p>Change profile image</p>
+							<input type="file" ng-model="userImage">
+							<button ng-click="changeImage()">Change image</button>
+						</div>
+					
+						<div flex>				
+							<md-input-container class="md-icon-float md-block">
+									<label>Current password</label>
+									<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+									<input type="password" ng-model="currentPassword">
+							</md-input-container>
+							<md-input-container class="md-icon-float md-block">
+									<label>New password</label>
+									<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+									<input type="password" ng-model="password1">
+							</md-input-container>
+							<md-input-container class="md-icon-float md-block">
+									<label>New password confirmation</label>
+									<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
+									<input type="password" ng-model="password2">
+							</md-input-container>
+						</div>	    
+					</div>
+					<div flex>
+							<md-button ng-click="updateUser(userProfile)" class="md-primary md-raised">
+								Confirm changes
+							</md-button>
+							<md-button ng-click="deleteAccount($event)" class="md-primary md-raised" style="float:right;background-color:red">
+								Delete account
+							</md-button>
+						</div>
+				</div>
+		   
 		</div>
-		<md-input-container class="md-icon-float md-block">
-				<label>Current password</label>
-				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
-				<input type="password" ng-model="currentPassword">
-		</md-input-container>
-		<md-input-container class="md-icon-float md-block">
-				<label>New password</label>
-				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
-				<input type="password" ng-model="password1">
-		</md-input-container>
-		<md-input-container class="md-icon-float md-block">
-				<label>New password confirmation</label>
-				<md-icon aria-label="New password" style="color: blue;">vpn_key</md-icon>
-				<input type="password" ng-model="password2">
-		</md-input-container>
-		<p>
-			Privileges: <span ng-show="userProfile.privileges>0">Yes</span>
-						<span ng-hide="userProfile.privileges>0">No</span>
-		</p>	    
-		<md-button ng-click="updateUser(userProfile)" class="md-primary">
-			Confirm changes
-		</md-button>
-		<md-button ng-click="deleteAccount($event)" class="md-primary" style="color:red">
-			Delete account
-		</md-button>
-   
+	</div>
 </div>

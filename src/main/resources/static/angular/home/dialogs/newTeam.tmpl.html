@@ -1,4 +1,17 @@
-<form role="form" ng-submit="newTeam(Team)" accept-charset="UTF-8" class="md-inline-form">
+<md-dialog aria-label="List dialog" style="height:100%;width:100%" ng-cloak>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span flex>
+				<h2>New team</h2>
+			</span>
+			<md-button class="md-icon-button" ng-click="closeDialog()">
+				<md-icon aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content>
+		<div class="md-dialog-content">
+			<form role="form" ng-submit="newTeam(Team)" accept-charset="UTF-8" class="md-inline-form">
 	<md-input-container class="md-icon-float md-block">
 	    <label>Name</label>
 	    <md-icon aria-label="Name" style="color: blue;">person</md-icon>
@@ -10,9 +23,13 @@
 	    <input type="password" ng-model="Team.password">
 	</md-input-container>
 	<md-input-container class="md-icon-float md-block">
-	    <label>Password</label>
-	    <md-icon aria-label="Password" style="color: blue;">vpn_key</md-icon>
+	    <label>Confirm password</label>
+	    <md-icon aria-label="Confirm password" style="color: blue;">vpn_key</md-icon>
 	    <input type="password" ng-model="password">
 	</md-input-container>
 	<md-button class="md-raised md-primary" type="submit">Create</md-button>
 </form>
+
+		</div>
+	</md-dialog-content>
+</md-dialog>
