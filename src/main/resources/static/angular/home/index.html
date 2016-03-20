@@ -25,7 +25,7 @@
 	<div id="mainPage" layout="row" style="padding:1em;background-color:white" class="md-whiteframe-z2">
 		<div flex="15" style="margin-right:10em;padding:0;">
 			<div style="border-style:solid">
-				<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+				<img data-ng-src="{{getImage(user.image)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 				<div><b>{{user.name}}</b></div>
 				<div style="border-bottom-style:solid;border-bottom-width:1px;border-top-style:solid">
 					<a ng-href="#/user/{{user.id}}"> 
@@ -131,7 +131,7 @@
 	
 	    <div class="container">
 	
-	      <h1 class="wow fadeInUp">Midnight.js lets you switch fixed headers on the fly</h1>
+	      <h1 class="wow fadeInUp">Perseus let you communicate with your teammates in an easy way</h1>
 	      <p class="wow fadeInUp">Scroll to try it out!</p>
 	
 	      <div class="scroll-prompt wow fadeInUp"></div>

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class User {
@@ -18,7 +19,9 @@ public class User {
 	private String name;
 	private String password;
 	private String email;
-	
+	@Lob
+	private String image;
+	private String imageType;
 	private int privileges;
 	
 	public User() {
@@ -45,6 +48,14 @@ public class User {
 		return privileges;
 	}	
 	
+	public String getImage() {
+		return image;
+	}
+	
+	public String getImageType() {
+		return imageType;
+	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -63,6 +74,14 @@ public class User {
 	
 	public void setPrivileges(int privileges) {
 		this.privileges = privileges;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 
 }

@@ -33,6 +33,10 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     	return serviceUser.getUser(id);
     }
     
+    $scope.getImage = function(data, imagetype){
+		return 'data:'+imagetype+';base64, '+data;
+	}
+    
     $scope.room={};
     serviceRoom.getRoomHttp(serviceKurentoRoom.getRoomId()).then(function (result){
 	    $scope.room = result.data;

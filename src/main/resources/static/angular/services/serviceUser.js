@@ -1,8 +1,8 @@
 perseus.factory("serviceUser", serviceUser);
 
-serviceUser.$inject = [ "$resource", "$timeout", "$cookieStore", "$http"];
+serviceUser.$inject = [ "$resource", "$timeout", "$http", "localStorageService"];
 
-function serviceUser($resource, $timeout, $cookieStore, $http) {
+function serviceUser($resource, $timeout, $http, localStorageService) {
 	
 	
 	var UserResource = $resource('/users/:id', 
@@ -12,7 +12,7 @@ function serviceUser($resource, $timeout, $cookieStore, $http) {
 
 	var users = [];
 	
-	var session = $cookieStore.get("user");
+	var session = localStorageService.get("user");
 	
 	function autoreload(){
 		reload();
@@ -74,12 +74,12 @@ function serviceUser($resource, $timeout, $cookieStore, $http) {
 	}
 	
 	function loginUser(user) {
-		$cookieStore.put("user", user);
+		localStorageService.set("user", user);
 		session=user;
 	}
 	
 	function logout() {
-		$cookieStore.remove("user");
+		localStorageService.remove("user");
 		session={};
 	}
 

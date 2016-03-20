@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'ngCookies', 'ngLetterAvatar', 'angular-web-notification', 'ngSanitize', 'emojiApp', 'ngDraggable', 'mentio', 'md.data.table']);
+var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'LocalStorageModule', 'ngLetterAvatar', 'angular-web-notification', 'ngSanitize', 'emojiApp', 'ngDraggable', 'mentio', 'md.data.table', 'naif.base64']);
 
 perseus.config(function ($routeProvider, $mdIconProvider) {
     $routeProvider

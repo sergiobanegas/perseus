@@ -58,6 +58,15 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 		}
 	};
 	$scope.userImage;
+	$scope.changeImage = function(imageConverted, imagetype){
+		$scope.userProfile.image=imageConverted;
+		$scope.userProfile.imageType=imagetype;
+		serviceUser.updateUser($scope.userProfile);
+	}
+
+	$scope.getImage = function(data){
+		return 'data:'+$scope.userProfile.imageType+';base64, '+data;
+	}
 	
 	$scope.deleteAccount = function($event){
 		var parentEl = angular.element(document.body);

@@ -103,6 +103,10 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	}
 	//end auxiliar search functions
 	//chat message
+	$scope.getImage = function(data, imagetype){
+		return 'data:'+imagetype+';base64, '+data;
+	}
+	
 	$scope.chatMessage;
 	$scope.emojiMessage;
 	$scope.sendMessage = function () { 

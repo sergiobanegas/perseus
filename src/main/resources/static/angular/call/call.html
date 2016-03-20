@@ -61,7 +61,7 @@
 			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
 			    			<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }" style="position:relative">
 						     	<a href="#/user/{{message.user}}">
-						     	<img ng-src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar"/>
+						     	<img data-ng-src="{{getImage(findUserById(message.user).image, findUserById(message.user).imageType)}}" class="md-avatar"/>
 							     </a>
 							      <div class="md-list-item-text">
 							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>

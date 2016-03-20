@@ -9,6 +9,10 @@ perseus.controller('adminController', function ($scope, $mdDialog, $window, serv
 	$scope.users=serviceUser.getUsers();
 	$scope.teams=serviceTeam.getTeams();	
 
+	$scope.getImage = function(data, imagetype){
+		return 'data:'+imagetype+';base64, '+data;
+	}
+	
 	$scope.deleteUser = function(user, $event){
 		var parentEl = angular.element(document.body);
 	    $mdDialog.show({

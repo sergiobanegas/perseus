@@ -212,7 +212,7 @@
 				  			<md-list-item ng-repeat="message in privateMessagesChat()">
 									     <md-list-item>
 									     <a href="#/user/{{message.transmitter}}">
-									     <img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{message.user.name}}" />
+									     <img data-ng-src="{{getImage(findUserById(message.transmitter).image, findUserById(message.transmitter).imageType)}}" alt="{{message.user.name}}" />
 										      </a>
 										      <div class="md-list-item-text">
 										         <a style="color:blue">{{message.transmitterName}}</a>
@@ -287,7 +287,7 @@
 			    			<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
 <!-- 				    	<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative" class="message_{{message.user}}"> -->
 						     	<a href="#/user/{{message.user}}">
-						     	<img ng-src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar"/>
+						     	<img data-ng-src="{{getImage(findUserById(message.user).image, findUserById(message.user).imageType)}}" class="md-avatar"/>
 									<!-- Has to be fixed, fallback is always updated in ng-repeat -->
 <!-- 							    <img ng-src="http://i.imgur.sdasdacom/HfLuszJ.jpg" onError="this.onerror=null;this.src='http://i.imgur.com/HfLuszJ.jpg';" class="md-avatar" alt="{{message.user.name}}" />      -->
 							     </a>

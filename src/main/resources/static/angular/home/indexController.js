@@ -14,6 +14,10 @@ perseus.controller('indexController', function ($scope, $mdDialog, $route, $filt
 		return serviceTeam.getTeam(id);
 	}
 	
+	$scope.getImage = function(data){
+		return 'data:'+$scope.user.imageType+';base64, '+data;
+	}
+	
 	$scope.acceptInvitation = function(invite){
 		serviceParticipate.newParticipate({user: invite.user, team: invite.team, teamPrivileges: 0});
 		serviceTeamInvite.deleteTeamInvite(invite);
@@ -192,6 +196,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 						Team.admin=$scope.user.id;
 						serviceTeam.newTeam(Team);
 						$window.location.href = '#/';
+						$mdDialog.hide();
 						serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
 					}
 					else{
