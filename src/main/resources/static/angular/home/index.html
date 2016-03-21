@@ -21,11 +21,11 @@
       </div>
 </md-toolbar>
 <div data-ng-init="init()" style="position:relative">
-<div ng-show="user.name" style="padding:2em;height:100%;background-color:#e3f2fd">
+<div ng-show="user.name" style="padding:2em;">
 	<div id="mainPage" layout="row" style="padding:1em;background-color:white" class="md-whiteframe-z2">
 		<div flex="15" style="margin-right:10em;padding:0;">
 			<div style="border-style:solid">
-				<img data-ng-src="{{getImage(user.image)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+				<img data-ng-src="{{getImage(user.image, user.imageType)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 				<div><b>{{user.name}}</b></div>
 				<div style="border-bottom-style:solid;border-bottom-width:1px;border-top-style:solid">
 					<a ng-href="#/user/{{user.id}}"> 
@@ -60,10 +60,9 @@
 						</md-subheader>
 						<p ng-show="(teams | filter:{ user: user.id }).length==0">You are not member of any team</p>
 						<md-list-item ng-repeat="team in teams | filter:{ user: user.id }" ng-click="redirectTeam(team.team)">
-					        <div class="md-list-item-text" layout="column">
-					          <h3><a ng-bind="findTeamById(team.team).name" style="text-decoration:none">{{ team.teamName }}</a></h3>
-					        </div>
-					        <md-divider ng-if="!$last"></md-divider>
+						        <img data-ng-src="{{getImage(findTeamById(team.team).image, findTeamById(team.team).imageType)}}" class="md-avatar" style="border-radius:0px"/> 
+						        <a ng-bind="findTeamById(team.team).name" style="text-decoration:none">{{ team.teamName }}</a>
+						        <md-divider ng-if="!$last"></md-divider>
 					     </md-list-item>
 				</div>
 			  <div flex="40" style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;margin-left:20em;border-style:solid;text-align:center">

@@ -14,8 +14,8 @@ perseus.controller('indexController', function ($scope, $mdDialog, $route, $filt
 		return serviceTeam.getTeam(id);
 	}
 	
-	$scope.getImage = function(data){
-		return 'data:'+$scope.user.imageType+';base64, '+data;
+	$scope.getImage = function(data, imageType){
+		return 'data:'+imageType+';base64, '+data;
 	}
 	
 	$scope.acceptInvitation = function(invite){

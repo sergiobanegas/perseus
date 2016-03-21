@@ -20,7 +20,7 @@
         </md-button>
       </div>
 </md-toolbar>
-<div style="background-color:#e3f2fd;height:100%;padding:2em">
+<div style="padding:2em">
 <h1 ng-bind="userProfile.name"></h1>
 	<div layout="row" class="md-whiteframe-z2" style="padding:1em;background-color:white;">		
 		<div flex="15" style="border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
@@ -56,7 +56,7 @@
 							</md-input-container>
 							<p>Change profile image</p>
 							
-        <input type="file" ng-model="userImage" name="file" base-sixty-four-input required onload="onLoad" maxsize="500" accept="image/*"><!-- 							<input type="file" ng-model="userImage"/> -->
+        <input type="file" ng-model="userImage" name="file" base-sixty-four-input required onload="onLoad" maxsize="500" accept="image/*">
 							<button ng-click="changeImage(userImage.base64, userImage.filetype)">Change image</button>
 						</div>
 					

@@ -1,37 +1,58 @@
-<div layout="row" style="height:100%;background-color:#e3f2fd;">
-	<div flex="20" style="position:relative;background-color:gray">
-		<p>{{roomName}}</p>
-		<md-button ng-click="inviteToRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges>0" style="background-color:greenyellow">
-		             Invite people to the room
-		</md-button>
-		<md-button ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2" style="background-color:blue">
+<div layout="row" style="height:100%">
+	<div flex="15" style="position:relative;background-color:#e6f2ff" class="md-whiteframe-z2">
+		<div style="text-align:center;padding:1em;">
+	  	 <img data-ng-src="{{getImage(findTeamById(team).image, findTeamById(team).imageType)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+	   		<h1 class="md-title"><b>{{room.name}}</b></h1>
+	   </div>
+	   <div ng-show="room().privateRoom==1">
+		   <div layout="row" style="background-color:gray">
+			   <div flex style="color:white;padding-left:2em;padding-top:1em">
+					<h3 style="font-style:normal"><b>Members</b></h3>
+			   </div>
+		       <div flex="1" >
+		        <md-button ng-click="inviteToRoom($event)" ng-show="memberUser().roomPrivileges>0" class="md-icon-button launch">
+			        <md-icon style="color:white">
+				    	add
+				    </md-icon>
+				    <md-tooltip>
+			        	Invite people
+			    	</md-tooltip>
+		        </md-button>  
+		      </div>
+	        </div>
+	        <div style="max-height: 25em; overflow-y:auto; overflow-x: hidden;background-color:white;border-bottom-style:solid;border-bottom-width:1px;padding-left:1em">
+		        <md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
+		    			<p> {{findUserById(member.user).name}}</p>
+		    			<span ng-show="member.user!=creator && member.user!=user.id">
+		    				<span ng-show="user.id==creator">
+				    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
+									<md-icon style="color:yellow">star</md-icon>
+								</md-button>
+								<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
+									<md-icon style="color:yellow">star_border</md-icon>
+								</md-button>	
+							</span>	
+							<span ng-show="memberUser().roomPrivileges>0">
+			    				<md-button class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
+				    				<md-icon style="color:red">cancel</md-icon>
+				    			</md-button>	
+			    			</span>
+		    			</span>
+		 		</md-list-item>
+	 		</div>
+        </div>
+        <div>
+		<md-button class="md-raised md-primary" ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2">
 		       Exit the room
 		</md-button>
-		<div>Members:</div>
-		<md list-item ng-show="room().privateRoom==0">
-		</md>
-		<md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
-	    			<p> {{findUserById(member.user).name}}</p>
-	    			<span ng-show="member.user!=creator">
-	    				<md-button ng-show="memberUser().roomPrivileges>1 && member.user!=user.id" class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
-		    				<md-icon>cancel</md-icon>
-		    			</md-button>
-		    			<span ng-show="user.id==creator && member.user!=user.id">
-			    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
-								<md-icon>star</md-icon>
-							</md-button>
-							<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
-								<md-icon>star_border</md-icon>
-							</md-button>	
-						</span>		
-	    			</span>
-	 		</md-list-item>
+		</div>
 	</div>
 	<div flex layout="column">
 		<div id="top" flex="45" style="position:relative">
 			<div>
 				<div flex>
-<!-- 					<div id="main-video"></div> -->
+					<!-- Warning, if main-video isn't shown, participants doesn't work -->
+					<div id="main-video" style="display:none"></div>
 				</div>
 				<div flex>
 					<div id="participants"></div> 
@@ -61,15 +82,13 @@
 			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
 			    			<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }" style="position:relative">
 						     	<a href="#/user/{{message.user}}">
-						     	<img data-ng-src="{{getImage(findUserById(message.user).image, findUserById(message.user).imageType)}}" class="md-avatar"/>
+						     		<img data-ng-src="{{getImage(findUserById(message.user).image, findUserById(message.user).imageType)}}" class="md-avatar"/>
 							     </a>
 							      <div class="md-list-item-text">
-							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.userName}}</a>
-							         <p>		
+							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{findUserById(message.user).name}}</a>
 							         	<span class="md-body-2">
-							         	<div ng-bind-html="message.text | colonToSmiley"></div>
+							         		<div ng-bind-html="message.text | colonToSmiley"></div>
 							         	</span>
-							         </p>
 							      </div>
 							      <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
 							      	{{message.date | timeago}}

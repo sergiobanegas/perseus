@@ -1,4 +1,4 @@
-<div style="position:relative;height:100%;background-color:#e3f2fd;" layout="row">
+<div layout="row">
 	<div style="position:absolute;right:1em;top:1em;z-index:999">
 		<a href="#/">
 			<md-button class="md-raised md-primary">
@@ -53,12 +53,19 @@
 				<md-table-container ng-show="users.length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
 					<table md-table>
 						<thead md-head>
+							<th md-column>Image</th>
 							<th md-column>Name</th>
 							<th md-column>Email</th>
 							<th md-column>Delete</th>
 					    </thead>
 					    <tbody md-body>
-					    	<tr md-row md-select="member" md-select-id="{{invitation.name}}" md-auto-select ng-repeat="user in users">
+					    	<tr md-row md-select="member" md-auto-select ng-repeat="user in users" ng-hide="user.privileges>0">
+							    <td md-cell>
+							    	<md-list-item>
+							    		<img data-ng-src="{{getImage(user.image, user.imageType)}}" class="md-avatar"/> 
+							    	</md-list-item>
+							    	
+							    </td>
 							    <td md-cell>{{user.name}}</td>
 							    <td md-cell>{{user.email}}</td>
 						        <td md-cell>
@@ -78,11 +85,17 @@
 				<md-table-container ng-show="teams.length>0" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
 					<table md-table>
 						<thead md-head>
+							<th md-column>Image</th>
 							<th md-column>Name</th>
 							<th md-column>Delete</th>
 					    </thead>
 					    <tbody md-body>
 					    	<tr md-row md-select="member" md-select-id="{{team.name}}" md-auto-select ng-repeat="team in teams">
+							    <td md-cell>
+							    	<md-list-item>
+							    		<img data-ng-src="{{getImage(team.image, team.imageType)}}" class="md-avatar" style="border-radius:0"/>
+							    	</md-list-item>
+							    </td>
 							    <td md-cell>{{team.name}}</td>
 						        <td md-cell>
 									<md-button class="md-icon-button" ng-click="deleteTeam(team, $event)" title="Delete team" aria-label="Deny">

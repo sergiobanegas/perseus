@@ -11,6 +11,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    });
 	
 	//global variables
+	$scope.borrar=serviceRoomInvite.getRoomInvites();
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
 	$scope.team={};
@@ -650,13 +651,31 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 
 	 $("#publicroomsbutton").click(function() {
 		 $("#publicrooms").toggle("blind");
+		 if ($("#privaterooms").is(":visible")){
+			 $("#privaterooms").toggle("blind");
+		 }
+		 if ($("#onlinemembers").is(":visible")){
+			 $("#onlinemembers").toggle("blind");
+		 }
 	 });
 		
 	 $("#privateroomsbutton").click(function() {
 		 $("#privaterooms").toggle("blind");
+		 if ($("#publicrooms").is(":visible")){
+			 $("#publicrooms").hide();
+		 }
+		 if ($("#onlinemembers").is(":visible")){
+			 $("#onlinemembers").hide();
+		 }
 	 });
 	 $("#onlinemembersbutton").click(function() {
 		 $("#onlinemembers").toggle("blind");
+		 if ($("#publicrooms").is(":visible")){
+			 $("#publicrooms").toggle("blind");
+		 }
+		 if ($("#privaterooms").is(":visible")){
+			 $("#privaterooms").toggle("blind");
+		 }
 	 });
 		
 	 $("#search").click(function(){

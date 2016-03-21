@@ -15,6 +15,17 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
+	$scope.teamImage;
+	$scope.changeImage = function(imageConverted, imagetype){
+		$scope.team.image=imageConverted;
+		$scope.team.imageType=imagetype;
+		serviceTeam.updateTeam($scope.team);
+	}
+	
+	$scope.getImage = function(data, imageType){
+		return 'data:'+imageType+';base64, '+data;
+	}
+	
 	$scope.findUserById = function(iduser){
 		return serviceUser.getUser(iduser);
 	}

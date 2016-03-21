@@ -54,7 +54,8 @@
 		<div id="settings" style="display:none">
 			<md-list>
 				<md-list-item style="position:relative;padding:1em;padding-bottom:none">
-					<img src="http://i.imgur.com/HfLuszJ.jpg" class="md-avatar" alt="{{team.name}}"/><h2>Set team image</h2>
+					<img data-ng-src="{{getImage(team.image, team.imageType)}}" class="md-avatar" style="border-radius:0px" alt="{{team.name}}"/>
+					<h2>Set team image</h2>
 					<md-button id="changeImageButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
 						<md-icon>
 							arrow_drop_down_circle
@@ -62,8 +63,8 @@
 					</md-button>
 				</md-list-item>
 				<div id="changeImage" style="display:none;padding:1em;padding-top:0px">
-					<input type="file">
-					<md-button class="md-raised md-primary">Upload</md-button>
+					<input type="file" ng-model="teamImage" name="file" base-sixty-four-input required onload="onLoad" maxsize="500" accept="image/*">
+					<md-button class="md-raised md-primary" ng-click="changeImage(teamImage.base64, teamImage.filetype)">Upload</md-button>
 				</div>
 				<md-divider></md-divider>
 				<md-list-item style="position:relative;padding:1em;padding-bottom:none">
@@ -150,6 +151,7 @@
 			<md-table-container ng-show="members().length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
 				<table md-table>
 					<thead md-head>
+						<th md-column>Image</th>
 						<th md-column>Name</th>
 						<th md-column>Email</th>
 						<th md-column>Permissions</th>
@@ -157,6 +159,11 @@
 				    </thead>
 				    <tbody md-body>
 				    	<tr md-row md-select="member" md-select-id="{{invitation.name}}" md-auto-select ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
+						    <td md-cell>
+						    	<md-list-item>
+						    	<img data-ng-src="{{getImage(findUserById(member.user).image, findUserById(member.user).imageType)}}" class="md-avatar"/>
+						    	</md-list-item>
+						    </td>
 						    <td md-cell>{{findUserById(member.user).name}}</td>
 						    <td md-cell>{{findUserById(member.user).email}}</td>
 					        <td md-cell>

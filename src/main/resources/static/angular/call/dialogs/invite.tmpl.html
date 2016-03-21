@@ -1,4 +1,4 @@
-<md-dialog aria-label="List dialog" style="height:100%;width:100%" ng-cloak>
+<md-dialog aria-label="List dialog" style="height:50%;width:50%" ng-cloak>
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<span flex>
@@ -11,15 +11,32 @@
 	</md-toolbar>
 	<md-dialog-content>
 		<div class="md-dialog-content">
-			Hello, invite people to the room!
-			<div>
-				<md-list-item ng-click="" class="md-2-line" ng-repeat="user in notMembers()">
-					<div class="md-list-item-text">
-						<p>{{findUserById(user.user).name}}</p>
-						<md-icon ng-click="inviteUser(user.user, $event)" aria-label="Invite user" class="md-secondary md-hue-3" style="color: blue;">add</md-icon>
-					</div>
-				</md-list-item>
-			</div>
+			Select the member of your team you want to invite to the room.
+			<div flex style="border-style:solid;border-width:1px;border-color:gray;background-color:#f5f5f5;">
+				<md-autocomplete
+				    md-no-cache="noCache"
+				    md-selected-item="userInvited"
+					md-search-text-change="searchTextChange(searchText)"
+					md-search-text="searchText"
+					md-selected-item-change="selectedItemChange(member.user)"
+					md-items="member in querySearch(searchText)"
+					md-item-text="findUserById(member.user).name"
+					md-min-length="0"
+					placeholder="Select a member of your team">
+					<md-item-template>
+						<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(member.user).name}}</span>
+					</md-item-template>
+					<md-not-found>
+						<span ng-show="searchText==''">
+							Please, select a member of your team
+						</span>
+						<span ng-hide="searchText==''">
+							There's no user with the name "{{searchText}}".
+						</span>
+					</md-not-found>
+				</md-autocomplete>
+			</div>								
+			<md-button class="md-raised md-primary" ng-click="inviteUser()">Invite</md-button>
 		</div>
 	</md-dialog-content>
 </md-dialog>

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Team {
@@ -18,6 +19,9 @@ public class Team {
 	private String name;
 	private String password;
 	private Integer admin;
+	@Lob
+	private String image;
+	private String imageType;
 		
 	public Team() {
 		// TODO Auto-generated constructor stub
@@ -39,6 +43,14 @@ public class Team {
 		return admin;
 	}
 	
+	public String getImage() {
+		return image;
+	}
+	
+	public String getImageType() {
+		return imageType;
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -53,5 +65,13 @@ public class Team {
 	
 	public void setAdmin(Integer admin) {
 		this.admin = admin;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 }

@@ -5,24 +5,11 @@
 perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
 	
-	 $scope.draggableObjects = [
-	                            {name: 'one'},
-	                            {name: 'two'},
-	                            {name: 'three'}
-	                        ];
-	                        $scope.onDropComplete = function (index, obj, evt) {
-	                            var otherObj = $scope.draggableObjects[index];
-	                            var otherIndex = $scope.draggableObjects.indexOf(obj);
-	                            $scope.draggableObjects[index] = obj;
-	                            $scope.draggableObjects[otherIndex] = otherObj;
-	                        }
-	
-	
-	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.roomId=serviceKurentoRoom.getRoomId();
-    $scope.creator=serviceKurentoRoom.getCreator();    
+    $scope.creator=serviceKurentoRoom.getCreator();  
+    $scope.team=serviceKurentoRoom.getTeam();
     
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
@@ -31,6 +18,10 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     
     $scope.findUserById = function(id){
     	return serviceUser.getUser(id);
+    }
+    
+    $scope.findTeamById = function(id){
+    	return serviceTeam.getTeam(id);
     }
     
     $scope.getImage = function(data, imagetype){
@@ -141,7 +132,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	      locals: {
 	    	team: serviceKurentoRoom.getTeam(),
 	    	room: serviceRoom.getRoom($scope.roomId),
-	    	teamUsers: $scope.members(),
+	    	teamUsers: $scope.teamUsers,
 	    	user : $scope.user
 	      },
 	      controller: inviteRoomController
@@ -226,12 +217,18 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     };
 });
 
-function inviteRoomController($scope, $mdDialog, $mdToast, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {
+function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {
 
 	$scope.selectedUser='';
 	$scope.sessionUser=user;
 	$scope.teamUsers=teamUsers;
-	$scope.hola="works";
+	$scope.searchText="";
+	$scope.room=room;
+	
+	$scope.userInvited;
+	$scope.querySearch = function (query) {
+		return $filter('filter')($scope.notMembers(), { user: query});
+	}
 	
 	$scope.notMembers= function(){
 		var notMembers=[];
@@ -243,10 +240,10 @@ function inviteRoomController($scope, $mdDialog, $mdToast, serviceNotification, 
 		return notMembers;
 	};
 	
-	$scope.inviteUser = function(userid){
+	$scope.inviteUser = function(){
 		var exists=false;
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].room==room && serviceRoomInvite.getRoomInvites()[i].user==userid){
+			if (serviceRoomInvite.getRoomInvites()[i].room==room && serviceRoomInvite.getRoomInvites()[i].user==$scope.userInvited.user){
 				exists=true;
 				break;
 			}
@@ -254,8 +251,9 @@ function inviteRoomController($scope, $mdDialog, $mdToast, serviceNotification, 
 		if (exists){
 			$scope.notification("An invitation was already sent to this user");
 		}else{
-			serviceRoomInvite.newRoomInvite({user: userid, transmitter: user.id, room: room});
-			serviceNotification.showNotification("The invitation was sent", "Sent");			
+			serviceRoomInvite.newRoomInvite({user: $scope.userInvited.user, transmitter: user.id, team: $scope.userInvited.team, room: room.id});
+			serviceNotification.showNotification("The invitation was sent to the user", "Sent");
+			$mdDialog.hide();
 		}		
 	}
 	
