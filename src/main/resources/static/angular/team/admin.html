@@ -1,4 +1,4 @@
-<div style="position:relative;height:100%;background-color:#e3f2fd;" layout="row">
+<div style="position:relative;height:100%;" layout="row">
 <div style="position:absolute;right:1em;top:1em;z-index:999">
 	<a href="#/team/{{team.id}}">
 		<md-button class="md-raised md-primary">
@@ -40,7 +40,7 @@
 	<div layout="row" style="width:75%;margin:auto;">
 		<h1>{{team.name}} - {{section}}</h1>
 </div>
-	<div style="width:75%;margin:auto;background-color:white" class="md-whiteframe-3dp">
+	<div style="width:75%;margin:auto;background-color:white;max-height:85vh" class="md-whiteframe-3dp">
 		<div id="welcomePage" style="padding:1em">
 			<h2>Welcome to the admin panel</h2>
 			<p>Release v2.0 functionality:</p>
@@ -62,9 +62,21 @@
 						</md-icon>
 					</md-button>
 				</md-list-item>
-				<div id="changeImage" style="display:none;padding:1em;padding-top:0px">
-					<input type="file" ng-model="teamImage" name="file" base-sixty-four-input required onload="onLoad" maxsize="500" accept="image/*">
-					<md-button class="md-raised md-primary" ng-click="changeImage(teamImage.base64, teamImage.filetype)">Upload</md-button>
+				<div id="changeImage" style="display:none;padding:1em;padding-top:0px" layout="row">
+					<div flex style="margin-right:4em;padding:1em">
+						Select a image from your computer
+	      				<input type="file" id="fileInput" ng-model="teamImage" name="file" accept="image/*">
+						<div class="cropArea" style="background: #E4E4E4;overflow: hidden;width:100%;height:20em">
+							<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+						</div>			
+					</div>
+					<div flex style="padding:1em">
+						<span ng-show="myImage">
+						Cropped Image
+  							<div><img ng-src="{{myCroppedImage}}" /></div>
+  							<md-button ng-click="changeTeamImage(myCroppedImage)" class="md-primary md-raised">Change image</md-button>
+						</span>
+					</div>
 				</div>
 				<md-divider></md-divider>
 				<md-list-item style="position:relative;padding:1em;padding-bottom:none">

@@ -22,39 +22,38 @@
 </md-toolbar>
 <div data-ng-init="init()" style="position:relative">
 <div ng-show="user.name" style="padding:2em;">
-	<div id="mainPage" layout="row" style="padding:1em;background-color:white" class="md-whiteframe-z2">
-		<div flex="15" style="margin-right:10em;padding:0;">
-			<div style="border-style:solid">
+	<div id="mainPage" layout="row" style="padding:1em;padding-left:10em;padding-right:10em">
+		<div flex="15" style="margin-right:10em;padding:0;height:auto">
+			<div style="border-style:solid;background-color:white;" class="md-whiteframe-z2">
 				<img data-ng-src="{{getImage(user.image, user.imageType)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 				<div><b>{{user.name}}</b></div>
 				<div style="border-bottom-style:solid;border-bottom-width:1px;border-top-style:solid">
 					<a ng-href="#/user/{{user.id}}"> 
-						<md-button style="margin:0;background-color:greenyellow;width:100%">
+						<md-button style="margin:0;width:100%" class="md-raised md-primary">
 				        	My profile
 				        </md-button>
 			 		</a>
 		 		</div>
-		 		<div style="border-bottom-style:solid;border-bottom-width:1px">
-					<md-button ng-click="joinTeam($event)" style="background-color:greenyellow;margin:0;width:100%">
+		 		<div style="border-bottom-style:solid;border-bottom-width:1px" >
+					<md-button ng-click="joinTeam($event)" class="md-raised md-primary" style="margin:0;width:100%">
 		           		Join a team
 					</md-button>
 				</div>
 				<div style="border-bottom-style:solid;border-bottom-width:1px">
-					<md-button ng-click="newTeam($event)" style="background-color:greenyellow;margin:0;width:100%">
+					<md-button ng-click="newTeam($event)" class="md-raised md-primary" style="margin:0;width:100%">
 		           		 New team
 		        	</md-button>
 				</div>
 				<div ng-show="user.privileges>0">
 					<a ng-href="#/admin">
-						<md-button style="background-color:greenyellow;margin:0;width:100%">
+						<md-button class="md-raised md-primary" style="margin:0;width:100%">
 			       	    	Administration
 			       		</md-button>
 					</a>
 				</div>
 			</div>
 		</div>
-		<div flex layout="row">
-				<div flex="40" style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-style:solid;text-align:center">
+		<div flex style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-style:solid;text-align:center;padding:0;background-color:white" class="md-whiteframe-z2">
 						<md-subheader class="md-no-sticky">
 							Your teams
 						</md-subheader>
@@ -64,8 +63,9 @@
 						        <a ng-bind="findTeamById(team.team).name" style="text-decoration:none">{{ team.teamName }}</a>
 						        <md-divider ng-if="!$last"></md-divider>
 					     </md-list-item>
-				</div>
-			  <div flex="40" style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;margin-left:20em;border-style:solid;text-align:center">
+			  
+		</div>
+		<div flex style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-style:solid;text-align:center;background-color:white"  class="md-whiteframe-z2">
 				<md-subheader class="md-no-sticky">
 						Your invitations
 				</md-subheader>
@@ -100,8 +100,6 @@
 				
 				
 			  </div>
-			
-			</div>
 		</div>
 	</div>
 	<div class="sections">

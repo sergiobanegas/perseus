@@ -15,9 +15,35 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	$scope.users=serviceUser.getUsers();
 	$scope.password="";
 	
-	$scope.teamImage;
-	$scope.changeImage = function(imageConverted, imagetype){
-		$scope.team.image=imageConverted;
+	$scope.teamImage;	
+	$scope.myImage='';
+	$scope.myCroppedImage='';
+
+	var handleFileSelect=function(evt) {
+		var file=evt.currentTarget.files[0];
+		var reader = new FileReader();
+		reader.onload = function (evt) {
+			$scope.$apply(function($scope){
+				$scope.myImage=evt.target.result;
+			});
+		};
+		reader.readAsDataURL(file);
+	};
+	    
+	angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+	    
+	$scope.changeTeamImage = function(cropped){
+		var croppedFormated=cropped.slice(5, cropped.length-1);
+		var imagetype;
+		var imageBase64;
+		for (var i=0;i<croppedFormated.length;i++){
+			if (croppedFormated.charAt(i)==';'){
+				imagetype=croppedFormated.slice(0,i);
+				imageBase64=croppedFormated.slice(i+8,croppedFormated.length-1);
+				break;
+			}
+		}
+		$scope.team.image=imageBase64;
 		$scope.team.imageType=imagetype;
 		serviceTeam.updateTeam($scope.team);
 	}
@@ -67,10 +93,6 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		serviceParticipate.deleteParticipate(member);
 		serviceNotification.showNotification("User kicked", "The user "+$scope.findUserById(member.user).name+" has been kicked from the team");					
 	}	
-	
-	$("#leaveTeamButton").click(function(){
-		$("#leaveTeam").toggle("blind");
-	});
 	
 	$scope.newAdmin;
 	$scope.querySearch = function (query) {
@@ -208,10 +230,32 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	 
 	 $("#changeImageButton").click(function(){
 		 $("#changeImage").toggle("blind");
+		 if ($("#changeValues").is(":visible")){
+			 $("#changeValues").toggle("blind");
+		 }
+		 if ($("#leaveTeam").is(":visible")){
+			 $("#leaveTeam").toggle("blind");
+		 }
 	 });
 	 
 	 $("#changeValuesButton").click(function(){
 		 $("#changeValues").toggle("blind");
+		 if ($("#changeImage").is(":visible")){
+			 $("#changeImage").toggle("blind");
+		 }
+		 if ($("#leaveTeam").is(":visible")){
+			 $("#leaveTeam").toggle("blind");
+		 }
 	 });
+	 
+	 $("#leaveTeamButton").click(function(){
+			$("#leaveTeam").toggle("blind");
+			if ($("#changeImage").is(":visible")){
+				 $("#changeImage").toggle("blind");
+			 }
+			if ($("#changeValues").is(":visible")){
+				 $("#changeValues").toggle("blind");
+			 }
+		});
 	
 });

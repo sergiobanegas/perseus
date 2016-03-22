@@ -57,9 +57,33 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 				break;
 		}
 	};
-	$scope.userImage;
-	$scope.changeImage = function(imageConverted, imagetype){
-		$scope.userProfile.image=imageConverted;
+	 $scope.myImage='';
+	 $scope.myCroppedImage='';
+
+	    var handleFileSelect=function(evt) {
+	      var file=evt.currentTarget.files[0];
+	      var reader = new FileReader();
+	      reader.onload = function (evt) {
+	        $scope.$apply(function($scope){
+	          $scope.myImage=evt.target.result;
+	        });
+	      };
+	      reader.readAsDataURL(file);
+	    };
+	    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+	    
+	$scope.changeProfileImage = function(cropped){
+		var croppedFormated=cropped.slice(5, cropped.length-1);
+		var imagetype;
+		var imageBase64;
+		for (var i=0;i<croppedFormated.length;i++){
+			if (croppedFormated.charAt(i)==';'){
+				imagetype=croppedFormated.slice(0,i);
+				imageBase64=croppedFormated.slice(i+8,croppedFormated.length-1);
+				break;
+			}
+		}
+		$scope.userProfile.image=imageBase64;
 		$scope.userProfile.imageType=imagetype;
 		serviceUser.updateUser($scope.userProfile);
 	}
@@ -84,7 +108,17 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	
 	$("#editProfileLaunchButton").click(function(){
 		$("#editProfile").toggle("blind");
+		if ($("#editProfilePhotoLaunchButton").is(":hidden")){
+			$("#editProfilePhotoLaunchButton").show();
+		}else{
+			$("#editProfilePhotoLaunchButton").hide();
+		}
+		
 	});
+	$("#editProfilePhotoLaunchButton").click(function(){
+		$("#userCredentials").toggle("blind");
+		$("#editProfilePhoto").toggle("blind");
+	})
 });
 
 
