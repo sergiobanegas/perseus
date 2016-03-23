@@ -30,13 +30,9 @@
 						<li><a href="#0">Edit Image</a></li>
 					</ul>
 				</li>
-				<li class="users">
-					<a>Members</a>
-				</li>
 				<li class="has-children users" id="membershipToggle">
 					<a>Membership</a>
 					<ul style="display:none" id="membershipMenu">
-						<li id="membershipButton"><a>Your membership</a></li>
 						<li><a ng-click="leaveTeam($event)" href="">Leave the team</a></li>
 					</ul>
 				</li>
@@ -44,7 +40,7 @@
 
 			<ul ng-show="participateUser.teamPrivileges>0">
 				<li class="cd-label">Action</li>
-				<li class="action-btn"><a id="inviteButton" href="#inviteModal">+ Invite people</a></li>
+				<li class="action-btn"><a id="inviteButton" ng-click="invitePeople($event)">+ Invite people</a></li>
 			</ul>
 			<div style="position:absolute;bottom:0px;color:white;">Perseus</div>
 		</nav>
@@ -96,7 +92,7 @@
 			  </md-list-item>
 		  </div>
 		  
-	  	<div class="md-no-sticky" id="onlinemembersbutton" style="cursor:pointer;padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;background-color:lightblue;">Online members ({{teamUsers.length}})</div>
+	  	<div class="md-no-sticky" id="onlinemembersbutton" style="cursor:pointer;padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;background-color:lightblue;">Members ({{teamUsers.length}})</div>
 		  <div id ="onlinemembers" style="background-color:white;padding:1em;display:none;border-bottom-style:solid;border-bottom-width:1px;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <ul>
 				  <li class="md-body-2" ng-repeat="participate in teamUsers">
@@ -330,12 +326,6 @@
 						</md-icon>
 				     	</md-button>												
 					</form>
-  			</div>
-  			<div id="membership" style="padding:1em;display:none;position:relative;background-color:white;" class="md-whiteframe-3dp">
-  				Enable/disable notifications.<br/>
-  				<md-button ng-click="notificationStatusChange()">
-		        Notifications: {{ notificationStatus }}
-		        </md-button>
   			</div>
 </div>
 

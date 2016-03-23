@@ -28,6 +28,7 @@
   font-style: normal;
   color: #f72378;
 }
+
 .screenreader {
   position: absolute;
   top: -9999px;
@@ -87,15 +88,8 @@
 
 .sections pre {
   margin: 0;
-  padding: 20px 30px;
-  font-size: 14px;
-  line-height: 140%;
-  color: #ffffff;
-  background: #3D3F52;
-  border-radius: 6px;
-  float: right;
   width: 50%;
-  box-sizing: border-box;
+
 }
 
 
@@ -331,12 +325,10 @@ pre[class*="language-"] {
 
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
 code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
-  background: #b3d4fc;
 }
 
 pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
 code[class*="language-"]::selection, code[class*="language-"] ::selection {
-  background: #b3d4fc;
 }
 
 /* Code blocks */
@@ -348,7 +340,6 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: #f5f2f0;
 }
 
 /* Inline code */
@@ -424,19 +415,6 @@ pre[class*="language-"] {
   cursor: help;
 }
 
-
-pre.line-numbers {
-  position: relative;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 3.8em;
-  background: #3D3F52;
-  counter-reset: linenumber;
-}
-
-pre.line-numbers > code {
-  position: relative;
-}
 
 .line-numbers .line-numbers-rows {
   position: absolute;

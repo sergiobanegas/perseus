@@ -1,0 +1,38 @@
+<md-dialog aria-label="List dialog" ng-cloak flex="50">
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span flex><h2>Invite people</h2></span>
+			<md-button class="md-icon-button" ng-click="closeDialog()">
+				<md-icon aria-label="Close dialog">close</md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-dialog-content>
+		<div class="md-dialog-content">
+			You can invite people in two ways: 
+			<div layout="row">
+				<div flex>
+					<md-input-container>
+						<md-icon>email</md-icon>
+						<input ng-model="email" type="email" placeholder="Email">
+					</md-input-container>
+					<md-button class="md-primary" ng-click="sendInvitation(email)">
+						Enviar
+					</md-button>
+				</div>
+				<div flex>
+					<form ng-submit="sendInvitationUser(name)">
+						<md-input-container>
+							<md-icon>person</md-icon>
+							<input ng-model="name" type="text" placeholder="Username">
+						</md-input-container>
+						<md-button class="md-primary" type="submit">
+							Enviar
+						</md-button>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

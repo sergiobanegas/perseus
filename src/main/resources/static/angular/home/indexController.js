@@ -147,7 +147,6 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 					$mdDialog.hide();
 					serviceUser.loginUser(array[0]);
 					$route.reload();
-					
 				}
 				else{
 					$scope.notification("The username or password are incorrect");	

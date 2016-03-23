@@ -2,8 +2,11 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('registerController', function ($mdToast, $scope, $window, $filter, serviceNotification, serviceUser, serviceUnconfirmedUser) {
+perseus.controller('registerController', function ($mdToast, $scope, $window, $filter, $mdDialog, serviceNotification, serviceUser, serviceUnconfirmedUser) {
 	$scope.user=serviceUser.getSession();
+	if ($scope.user.id){
+		$window.location.href = '#/';
+	}
 	$scope.register = function(newUnconfirmedUser) {
 		if ( $filter('filter')(serviceUser.getUsers(), { name: newUnconfirmedUser.name }).length==0 ){			
 			newUnconfirmedUser.privileges=0;
@@ -16,6 +19,19 @@ perseus.controller('registerController', function ($mdToast, $scope, $window, $f
 			$scope.notification("An user with that name already exist");
 		}
 	};
+	
+	$scope.login = function($event) {
+	    var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/home/dialogs/login.tmpl.html',
+	      locals: {
+	      },
+	      controller: DialogController
+	   })
+	};
 
 	$scope.notification = function(text) {
 	    $mdToast.show(
@@ -25,4 +41,8 @@ perseus.controller('registerController', function ($mdToast, $scope, $window, $f
 	        .hideDelay(3000)
 	    );
 	  };
+	  
+	  $("#homeButton").click(function(){
+		  $window.location.href = '#/';
+	  })
 });

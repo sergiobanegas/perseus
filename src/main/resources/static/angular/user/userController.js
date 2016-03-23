@@ -118,7 +118,30 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	$("#editProfilePhotoLaunchButton").click(function(){
 		$("#userCredentials").toggle("blind");
 		$("#editProfilePhoto").toggle("blind");
-	})
+	});
+	
+	$("#homeButton").click(function(){
+		  $window.location.href = '#/';
+	});
+	
+	$scope.logout = function(){		
+		serviceUser.logout();
+		$route.reload();
+	};
+	
+	$scope.login = function($event) {
+	    var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      clickOutsideToClose: true,
+	      templateUrl: 'angular/home/dialogs/login.tmpl.html',
+	      locals: {
+	      },
+	      controller: DialogController
+	   })
+	};
+	  
 });
 
 

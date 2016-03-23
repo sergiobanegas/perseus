@@ -11,7 +11,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    });
 	
 	//global variables
-	$scope.borrar=serviceRoomInvite.getRoomInvites();
 	$scope.user=serviceUser.getSession();
 	$scope.users=serviceUser.getUsers();
 	$scope.team={};
@@ -333,40 +332,19 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     //end sidenav	
     //invite people
   
-    $scope.email="";
-	$scope.sendInvitation = function(){
-		if ($scope.email==""){
-			$scope.notification("Please enter a email");
-		}else{
-			var data= {"email": $scope.email, "team": $scope.team};
-			$http.post("/sendinvitation", data);
-			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
-			$scope.email="";
-		}
-	}
-	$scope.sendInvitationUser = function (name){
-		var user=$filter('filter')($scope.users, { name: name});
-		var participates=serviceParticipate.getParticipates();
-		var isMember=false;
-		if (user.length>0){
-			for (var i=0;i<participates.length;i++){
-				if (participates.user==user.id && participates.team==$scope.team.id){
-					isMember=true;
-					break;
-				}
-			}
-			if (!isMember){
-				serviceTeamInvite.newTeamInvite({user: user[0].id, team: $scope.team.id});
-				var data= {"email": user[0].email, "team": $scope.team};
-				$http.post("/sendinvitation", data);
-				serviceNotification.showNotification("Invitation sent", "The invitation has been sent");
-			}else{
-				$scope.notification(name+" is already a member of the team");
-			}
-		}else{
-			$scope.notification("The user with the name "+name+" doesn't exists");
-		}
-	}
+    $scope.invitePeople = function($event){
+		var parentEl = angular.element(document.body);
+	    $mdDialog.show({
+	      parent: parentEl,
+	      targetEvent: $event,
+	      templateUrl: 'angular/team/dialogs/invitePeople.tmpl.html',
+	      clickOutsideToClose:true,
+	      locals: {
+	    	team: $scope.team
+	      },
+	      controller: invitePeopleTeamController
+	   })
+    };    
 
 	//end invite people
 	$scope.leaveTeam = function($event){
@@ -864,5 +842,73 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, $window
 	        .hideDelay(3000)
 	    );
 	};
+
+}
+
+
+function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast, serviceUser, serviceNotification, serviceTeamInvite, serviceParticipate, team) {
+	
+	$scope.team=team;
+	$scope.user=serviceUser.getSession();
+	$scope.email="";
+	$scope.sendInvitation = function(){
+		if ($scope.email==""){
+			$scope.notification("Please enter a email");
+		}else{//handle user email already registered
+			var data= {"email": $scope.email, "team": $scope.team};
+			$http.post("/sendinvitation", data);
+			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
+			$scope.email="";
+		}
+	}
+	$scope.sendInvitationUser = function (name){
+		var teamInvites=serviceTeamInvite.getTeamInvites();
+		var alreadySent=false;
+		var user=$filter('filter')(serviceUser.getUsers(), { name: name});
+		if (user.length>0){
+			var participates=serviceParticipate.getParticipates();
+			var isMember=false;
+			for (var i=0;i<teamInvites.length;i++){
+				if (teamInvites[i].user==user[0].id && teamInvites[i].team==team.id){
+					alreadySent=true;
+					break;
+				}
+			}
+			if (alreadySent){
+				$scope.notification("The user with the name "+name+" has been already invited to your team");
+				return;
+			}
+			
+			for (var i=0;i<participates.length;i++){
+				if (participates[i].user==user[0].id && participates[i].team==team.id){
+					isMember=true;
+					break;
+				}
+			}
+			if (!isMember){
+				serviceTeamInvite.newTeamInvite({user: user[0].id, team: $scope.team.id});
+				var data= {"email": user[0].email, "team": $scope.team};
+				$http.post("/sendinvitation", data);
+				serviceNotification.showNotification("Invitation sent", "The invitation has been sent");
+			}else{
+				$scope.notification(name+" is already a member of the team");
+			}
+		}else{
+			$scope.notification("The user with the name "+name+" doesn't exists");
+		}
+	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
 
 }
