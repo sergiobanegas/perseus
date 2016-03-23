@@ -1,20 +1,12 @@
-<md-toolbar>
+<md-toolbar style="background-color:#737373">
       <div class="md-toolbar-tools">
-      <a href="#/">
         <md-button class="md-icon-button" aria-label="Settings">
           <md-icon aria-label="Home">home</md-icon>	
         </md-button>
-        </a>
         <h2>
           <span>Perseus</span>
         </h2>
         <span flex></span>
-        <md-button class="md-icon-button" aria-label="Favorite">
-          <md-icon aria-label="Favorite" style="color: greenyellow;">favorite</md-icon>	
-        </md-button>
-        <md-button class="md-icon-button" aria-label="More">
-          <md-icon>more_vert</md-icon>
-        </md-button> 	
         <md-button>Support</md-button>
         <md-button ng-hide="user.name" ng-click="login($event)">Login</md-button>
         <md-button ng-show="user.name" ng-click="logout()" class="md-icon-button" aria-label="Power_settings_new">
@@ -23,9 +15,12 @@
       </div>
 </md-toolbar>
 <div ng-hide="user.id" style="padding:30em;padding-top:2em">
-<div class="md-whiteframe-z2" style="background-color:white;padding:2em;padding-top:0">
+<div class="md-whiteframe-z2 window" style="background-color:white;padding:2em;padding-top:0">
 	<div style="text-align:center"><h1>Registration</h1></div>
 	<form role="form" ng-submit="register(newUser)" accept-charset="UTF-8">
+		<div style="text-align:center">
+			<p>Insert your user credentials in the forms below.<br/> Important: you need to use a valid email to confirm your account.</p>
+		</div>
 		<md-input-container class="md-icon-float md-block">
 		    <label>Name</label>
 		    <md-icon aria-label="Name" style="color: blue;">person</md-icon>

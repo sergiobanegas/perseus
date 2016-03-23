@@ -4,6 +4,12 @@ html, body {
     padding: 0;
 }
 
+.window{
+	border-style:solid;
+	border-width:2px;
+	border-color:#0052cc;
+}
+
 $gray: #eee;
 
 a:link{

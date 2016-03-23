@@ -142,7 +142,7 @@
 				</md-menu-content>
 			</md-menu>
 	</div>
-  <div flex style="position:relative;margin:3%;margin-top:4em;height:85vh;background-color:white;border-style:solid;border-width:1px;border-color:#0052cc" class="md-whiteframe-3dp">
+  <div flex style="position:relative;margin:3%;margin-top:4em;height:85vh;background-color:white" class="window md-whiteframe-3dp">
   		<div id="privateMessages" style="height:100%;display:none;position:relative;padding:0">
   			<div layout="row" style="height:100%;">
 	  			<div flex="25" style="border-right-style:solid;border-right-width:1px;border-right-color:gray;max-height: 90vh; overflow-y:auto; overflow-x: hidden">
@@ -267,8 +267,8 @@
 							 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
 							 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
 							 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
-							 	<md-button ng-click="searchByFilter()" id="searchFilter" style="display:none">Search</md-button>		
-							 	<md-button ng-click="resetFilter()" ng-show="chatFilter!=''">Reset</md-button>
+							 	<md-button ng-click="searchByFilter()" id="searchFilter" class="md-primary md-raised" style="display:none">Search</md-button>		
+							 	<md-button ng-click="resetFilter()" ng-show="chatFilter!=''" class="md-raised">Reset</md-button>
 		  						<md-menu>
 							        <md-button class="md-icon-button" ng-click="$mdOpenMenu()">
 							            <md-icon md-menu-origin>search</md-icon>

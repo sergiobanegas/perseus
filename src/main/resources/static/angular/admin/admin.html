@@ -9,7 +9,7 @@
 	<nav class="cd-side-nav" id="sidenav" flex="15">
 				<ul>
 					<li class="cd-label">{{team.name}}</li>
-					<li id="welcomePageButton" class="overview active">
+					<li id="welcomePageButton" class="overview active" ng-click="section='administration'">
 						<a>Home</a>
 					</li>
 				</ul>
@@ -34,10 +34,10 @@
 				Menu
 			</md-tooltip>
 		</md-button>
-		<div layout="row" style="width:75%;margin:auto;">
+		<div layout="row" style="width:75%;margin:auto;color:#666666">
 			<h1>Perseus - {{section}}</h1>
 	</div>
-		<div style="width:75%;margin:auto;background-color:white;" class="md-whiteframe-3dp">
+		<div style="width:75%;margin:auto;background-color:white;" class="window md-whiteframe-3dp">
 			<div id="welcomePage" style="padding:1em">
 				<h2>Welcome to the Perseus admin panel</h2>
 				<p>Release v2.0 functionality:</p>

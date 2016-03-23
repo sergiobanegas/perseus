@@ -9,7 +9,7 @@
 <nav class="cd-side-nav" id="sidenav" flex="15">
 			<ul>
 				<li class="cd-label">{{team.name}}</li>
-				<li id="welcomePageButton" class="overview active">
+				<li id="welcomePageButton" class="overview active" ng-click="section='administration'">
 					<a>Home</a>
 				</li>
 			</ul>
@@ -18,7 +18,7 @@
 				<li id="teamSettingsButton" class="bookmarks" ng-click="section='team settings'">
 					<a>Team settings</a>
 				</li>
-				<li id="filesButton" class="has-children images">
+				<li id="filesButton" class="has-children images" ng-click="section='files'">
 					<a>Files</a>
 				</li>
 				<li class="users" id="membersButton" ng-click="section='members'">
@@ -37,10 +37,10 @@
 			Menu
 		</md-tooltip>
 	</md-button>
-	<div layout="row" style="width:75%;margin:auto;">
+	<div layout="row" style="width:75%;margin:auto;color:#666666">
 		<h1>{{team.name}} - {{section}}</h1>
 </div>
-	<div style="width:75%;margin:auto;background-color:white;max-height:85vh" class="md-whiteframe-3dp">
+	<div style="width:75%;margin:auto;background-color:white;max-height:85vh" class="window md-whiteframe-3dp">
 		<div id="welcomePage" style="padding:1em">
 			<h2>Welcome to the admin panel</h2>
 			<p>Release v2.0 functionality:</p>
@@ -149,7 +149,7 @@
 				</div>
 				<div flex style="margin-left:2em">
 					<p>Delete the team definitely</p>
-					<md-button ng-click="deleteTeam($event)" style="background-color:red">
+					<md-button ng-click="deleteTeam($event)" style="color:white;background-color:red">
 					   	Delete team
 					 </md-button> 
 				</div>
@@ -157,7 +157,7 @@
 			</md-list>
 		</div>
 		<div id="members" style="display:none">
-			<div style="padding:1em">
+			<div style="padding:1em" ng-show="members().length==1">
 				You are the only member of <b>{{team.name}}</b>
 			</div>
 			<md-table-container ng-show="members().length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
