@@ -256,7 +256,7 @@ header, section, footer {
 
 .sections footer {
   position: relative;
-  min-height: 100vh;
+  min-height: 90vh;
   background: rgb(73,118,151); /* Old browsers */
   background: -moz-linear-gradient(top,  rgba(73,118,151,1) 0%, rgba(206,208,204,1) 80%, rgba(206,208,204,1) 80%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(73,118,151,1)), color-stop(80%,rgba(206,208,204,1)), color-stop(80%,rgba(206,208,204,1))); /* Chrome,Safari4+ */
@@ -266,9 +266,9 @@ header, section, footer {
   background: linear-gradient(to bottom,  rgba(73,118,151,1) 0%,rgba(206,208,204,1) 80%,rgba(206,208,204,1) 80%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#497697', endColorstr='#ced0cc',GradientType=0 ); /* IE6-9 */
 }
-  footer .illustration-city {
+  footer .illustration-footer {
     padding-top: 50vh;
-    background: url(images/city.png) no-repeat 50% 100%;
+    background: url(images/footer.png) no-repeat 50% 100%;
     min-height: 50vh;
   }
   footer .buttons {
@@ -287,11 +287,11 @@ header, section, footer {
   }
     .signature-aerolab {
       display: inline-block;
-      width: 117px;
-      height: 43px;
+      width: 260px;
+      height: 45px;
       overflow: hidden;
-      background: url(images/aerolab-logo.png) no-repeat 50% 50%;
-      background-size: 117px 43px;
+      background: url(images/sergio-banegas.png) no-repeat 50% 50%;
+      background-size: 260px 45px;
     }
 
 
@@ -574,8 +574,8 @@ pre.line-numbers > code {
   .step-five {
     background-image: url(images/background-5-mobile.jpg);
   }
-  footer .illustration-city {
-    background-image: url(images/city-mobile.png);
+  footer .illustration-footer {
+    background-image: url(images/footer-mobile.png);
   }
 }
 
