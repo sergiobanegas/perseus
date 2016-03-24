@@ -12,7 +12,7 @@ function serviceNotification(webNotification) {
 	function showNotification(title, text){
 		webNotification.showNotification(title, {
             body: text,
-            icon: '../bower_components/HTML5-Desktop-Notifications/alert.ico',
+            icon: './././img/favicon.ico',
             onClick: function onNotificationClicked() {
                 window.alert('Notification clicked.');
             },

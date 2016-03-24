@@ -20,8 +20,8 @@
 		        </md-button>  
 		      </div>
 	        </div>
-	        <div style="max-height: 25em; overflow-y:auto; overflow-x: hidden;background-color:white;border-bottom-style:solid;border-bottom-width:1px;padding-left:1em">
-		        <md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
+	        <div style="height: 40vh; overflow-y:auto; overflow-x: hidden;background-color:white;border-bottom-style:solid;border-bottom-width:1px;padding-left:1em">
+		        <md-list-item ng-s	how="room().privateRoom==1" ng-repeat="member in members()">
 		    			<p> {{findUserById(member.user).name}}</p>
 		    			<span ng-show="member.user!=creator && member.user!=user.id">
 		    				<span ng-show="user.id==creator">
@@ -41,11 +41,12 @@
 		 		</md-list-item>
 	 		</div>
         </div>
-        <div>
-		<md-button class="md-raised md-primary" ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2">
-		       Exit the room
-		</md-button>
+        <div style="text-align:center">
+			<md-button class="md-raised md-primary" ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2">
+			       Exit the room
+			</md-button>
 		</div>
+        <img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
 	</div>
 	<div flex layout="column">
 		<div id="top" flex="45" style="position:relative">

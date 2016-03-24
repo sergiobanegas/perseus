@@ -75,10 +75,15 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//Screens
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){
-		$scope.userReceiver=user;
-		$("#privateChat").show();
-		$("#newchatform").hide();
-		$scope.messagesScreen="userMessages";
+		if (user){
+			$scope.userReceiver=user;
+			$("#privateChat").show();
+			$("#newchatform").hide();
+			$scope.messagesScreen="userMessages";
+		}else{
+			$scope.notification("Please select a member of your team");
+		}
+		
 	}
 	
 	$scope.messagesScreen="newMessage";
