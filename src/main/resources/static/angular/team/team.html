@@ -188,7 +188,7 @@
 										        md-items="user in querySearch(searchText)"
 										        md-item-text="findUserById(user.user).name"
 										        md-min-length="0"
-										        placeholder="Select receiver">
+										        placeholder="Select a member of your team">
 										       	<md-item-template>
 										        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(user.user).name}}</span>
 										        </md-item-template>
@@ -204,7 +204,7 @@
 										</div>
 									</div>
 									<div style="margin:auto;width:75%;position:relative">
-										<md-button ng-click="showUserMessages(receiver.user)" class="md-primary" style="float:right;background-color:#f5f5f5;">GO</md-button>
+										<md-button ng-click="showUserMessages(receiver.user)" class="md-primary md-raised" style="float:right">GO</md-button>
 									</div>	
 						</form>	  	
 					</div>			
