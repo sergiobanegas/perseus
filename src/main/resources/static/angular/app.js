@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'LocalStorageModule', 'ngLetterAvatar', 'angular-web-notification', 'ngSanitize', 'emojiApp', 'ngDraggable', 'mentio', 'md.data.table', 'ngImgCrop']);
+var perseus = angular.module('perseus', ['ngMaterial', 'ngResource', 'ngRoute', 'FBAngular', 'LocalStorageModule', 'angular-web-notification', 'ngSanitize', 'emojiApp', 'ngDraggable', 'mentio', 'md.data.table', 'ngImgCrop']);
 
 perseus.config(function ($routeProvider, $mdIconProvider) {
     $routeProvider
@@ -25,14 +25,6 @@ perseus.config(function ($routeProvider, $mdIconProvider) {
             .when('/user/:id', {
                 templateUrl: 'angular/user/user.html',
                 controller: 'userController'
-            })
-            .when('/newteam', {
-                templateUrl: 'angular/team/newteam.html',
-                controller: 'newTeamController'
-            })
-            .when('/jointeam', {
-                templateUrl: 'angular/team/jointeam.html',
-                controller: 'joinTeamController'
             })
             .when('/team/:id', {
                 templateUrl: 'angular/team/team.html',

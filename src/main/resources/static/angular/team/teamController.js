@@ -733,12 +733,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	            $scope.newPrivateMessage();
 	        }
 	 });
-	 
-	 $("#inviteButton").animatedModal({
-		 modalTarget:'inviteModal',
-		 animatedIn: 'lightSpeedIn',
-		 animatedOut: 'bounceOutDown'
-	 });
 	
 	 //END jQuery functions
 });
