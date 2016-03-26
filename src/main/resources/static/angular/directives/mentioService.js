@@ -1,7 +1,7 @@
 /*
  * @author Sergio Banegas Cortijo
  */
-perseus.run(["$templateCache", function($templateCache) {$templateCache.put("mentio-menu.tpl.html","<ul class=\"dropdown-menu\" style=\"display:block;\">\n    <li mentio-menu-item=\"item\" ng-repeat=\"item in items track by $index\">\n        <a class=\"text-primary\" ng-bind-html=\"item.name | mentioHighlight:triggerText:\'menu-highlighted\' | unsafe\"></a>\n    </li>\n</ul>");}]);
+perseus.run(["$templateCache", function($templateCache) {$templateCache.put("mentio-menu.tpl.html","<div class='dropup'><ul class=\"dropdown-menu\" style=\"display:block;\">\n    <li mentio-menu-item=\"item\" ng-repeat=\"item in items track by $index\">\n        <a class=\"text-primary\" ng-bind-html=\"item.name | mentioHighlight:triggerText:\'menu-highlighted\' | unsafe\"></a>\n    </li>\n</ul></div>");}]);
 perseus.directive('contenteditable', ['$sce', function($sce) {
   return {
     restrict: 'A', // only activate on element attribute

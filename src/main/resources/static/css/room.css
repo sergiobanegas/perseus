@@ -361,6 +361,8 @@ border-bottom:4px solid
 	bottom:100%;
 	margin-bottom:1px
 }
+
+.up { bottom:100% !important; top:auto !important; }
 @media (min-width:768px){
 	.navbar-right .dropdown-menu{
 		right:0;

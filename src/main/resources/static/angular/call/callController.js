@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
+perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, $filter, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
@@ -219,6 +219,14 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
     	  }, 500);
     };
+    
+    $scope.index = 1;
+	$scope.searchPeople = function (term) {
+		$scope.people = $filter('filter')(serviceUser.getUsers(), {name:term});
+	}
+	$scope.getPeopleText = function (member) {
+		return '@' + member.name;
+	}
 });
 
 function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotification, serviceUser, serviceParticipateRoom, serviceRoomInvite, team, room, teamUsers, user) {

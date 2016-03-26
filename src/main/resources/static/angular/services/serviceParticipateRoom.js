@@ -1,8 +1,8 @@
 perseus.factory("serviceParticipateRoom", serviceParticipateRoom);
 
-serviceParticipateRoom.$inject = [ "$resource", "$timeout"];
+serviceParticipateRoom.$inject = [ "$resource", "$timeout", "$http"];
 
-function serviceParticipateRoom($resource, $timeout) {
+function serviceParticipateRoom($resource, $timeout, $http) {
 
 	var ParticipateRoomResource = $resource('/participaterooms/:id', 
 		{ id : '@id'}, 
@@ -23,6 +23,7 @@ function serviceParticipateRoom($resource, $timeout) {
 		getParticipateRooms : getParticipateRooms,
 		getParticipateRoom : getParticipateRoom,
 		getParticipateByUser : getParticipateByUser,
+		getRoomParticipates : getRoomParticipates,
 		isMember : isMember,
 		newParticipateRoom : newParticipateRoom,
 		updateParticipateRoom : updateParticipateRoom,
@@ -51,6 +52,15 @@ function serviceParticipateRoom($resource, $timeout) {
     			return ParticipateRooms[i];
     		}
     	}
+	}
+	
+	function getRoomParticipates(room){
+		var promise = $http.get('/participaterooms/room/'+room).
+	    success(function (result) {
+	        var participates = result.data;
+	        return participates;
+	    });
+	    return promise;
 	}
 	
 	function isMember(id){
