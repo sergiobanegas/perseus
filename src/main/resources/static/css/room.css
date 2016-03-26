@@ -127,10 +127,8 @@ video {
 /*     position: absolute; */
 /*     bottom: 0px; */
 /*     right: 0px; */
-    box-sizing: border-box; */
+    box-sizing: border-box;
      width: 100%; */
-/*     float: right; */
-*     margin: 1em; */
 }
 
 .name {
@@ -152,8 +150,8 @@ video {
     width: 23%;
     /* whatever width you want */
     position: relative;
-    float: right;
     display: table;
+    float:right;
 }
 
 .video:after {

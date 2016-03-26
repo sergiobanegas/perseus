@@ -4,7 +4,6 @@
 
 perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $route, $window, serviceUser, serviceRoom, serviceParticipate, serviceTeam, ServiceParticipant, serviceKurentoRoom, serviceChatMessage, serviceParticipateRoom, Fullscreen) {
 	
-	
 	$scope.user=serviceUser.getSession();
     $scope.roomName = serviceKurentoRoom.getRoomName();
     $scope.roomId=serviceKurentoRoom.getRoomId();
@@ -57,7 +56,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	    );
 	};
 	
-	$("#chatform").keypress(function (e) {
+	$("#roomForm").keypress(function (e) {
         if(e.which == 13) {
             e.preventDefault();
             $scope.sendMessage();
@@ -119,6 +118,9 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     $scope.leaveRoom = function () {
         serviceKurentoRoom.getKurento().close();
         ServiceParticipant.removeParticipants();
+        $("#roomForm").remove();
+        $("#emojibtn").remove();
+        $("#inputchat").remove();
         $window.location.href = '#/team/'+serviceKurentoRoom.getTeam();
     };
     
@@ -139,12 +141,14 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	   })	
     }
 
-    window.onbeforeunload = function () {
-    	//not necessary if not connected
-    	if (ServiceParticipant.isConnected()) {
-    		serviceKurentoRoom.getKurento().close();
-    	}
-    };
+    $scope.$on('$routeChangeStart', function(event, next, current) {
+    	$("#roomForm").remove();
+		$("#emojibtn").remove();
+		$("#inputchat").remove();
+		if (ServiceParticipant.isConnected()) {
+			serviceKurentoRoom.getKurento().close();
+		}
+    });
     
     $scope.goFullscreen = function () {
 
@@ -213,7 +217,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     	  $scope.emojiMessage="";
     	  setTimeout(function(){
     			$("#chatscroll").scrollTop($("#chatscroll")[0].scrollHeight);
-    	    }, 500);
+    	  }, 500);
     };
 });
 

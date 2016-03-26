@@ -55,7 +55,7 @@
 					<!-- Warning, if main-video isn't shown, participants doesn't work -->
 					<div id="main-video" style="display:none"></div>
 				</div>
-				<div flex>
+				<div flex style="text-align:center">
 					<div id="participants"></div> 
 				</div>
 	 			
@@ -76,8 +76,7 @@
 	        </div>
 		</div>
 		<div flex class="toggler"  layout="column" style="width:100%;border-top-style:solid;background-color:white" >
-			     head
-			 	<div>
+			 	<div style="padding-left:1em">
 			 		<strong>Team chat</strong>
 			 	</div>
 			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
@@ -97,7 +96,7 @@
 							      <md-divider ng-if="!$last"></md-divider>
 						</md-list-item>	
 				</div>
-			    <form flex="1" id="chatform" emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
+			    <form flex="1" id="roomForm" emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
 						<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							tag_faces

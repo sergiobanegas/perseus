@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceNotification, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceTeamInvite) {
+perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $window, $scope, $http, $route, $routeParams, ServiceParticipant, $window, $timeout, $mdSidenav, $compile, serviceUser, servicePrivateMessage, serviceRoom, serviceTeam, serviceRoomInvite, serviceParticipate, serviceKurentoRoom, serviceChatMessage, serviceNotification, serviceRequestJoinTeam, serviceRequestJoinRoom, serviceParticipateRoom, serviceTeamInvite) {
 	//Kurento client config
 	$http.get('/getClientConfig').
 	    success(function (data, status, headers, config) {
@@ -76,6 +76,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){
 		if (user){
+			$scope.chatMessage="";
+			$scope.emojiMessage="";
+			$("#chatform").show();
 			$scope.userReceiver=user;
 			$("#privateChat").show();
 			$("#newchatform").hide();
@@ -115,12 +118,21 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.chatMessage;
 	$scope.emojiMessage;
 	$scope.sendMessage = function () { 
-		if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
-			serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
+		if ($("#chat").is(":visible")){
+			if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
+				serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
+				$scope.chatMessage="";
+				$scope.emojiMessage="";
+				setTimeout(function(){
+		  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
+		  	    }, 500);
+			}
+		}else if ($("#privateChat").is(":visible")){
+			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: $scope.chatMessage, date: new Date()});
 			$scope.chatMessage="";
 			$scope.emojiMessage="";
-	  		setTimeout(function(){
-	  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
+			setTimeout(function(){
+	  			$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
 	  	    }, 500);
 		}
 	};
@@ -231,14 +243,9 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		return array;
 	}
 	
-	$scope.emojiMessage3;
-	$scope.privateMessage='';
 	$scope.searchText;
 	$scope.newPrivateMessage = function(){
-		if ($scope.privateMessage!='' && $scope.receiver.id){
-			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.receiver.user, team: $routeParams.id, text: $scope.privateMessage, date: new Date()});
-			$scope.privateMessage='';
-			$scope.emojiMessage3="";
+		if ($scope.receiver.id){
 			$scope.showUserMessages($scope.receiver.user);
 			$scope.receiver={};
 			$scope.searchText="";
@@ -246,16 +253,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	  			$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
 	  	    }, 1000);
 		}
-	}
-	$scope.emojiMessage2;
-	$scope.replyText="";
-	$scope.replyMessage = function(){
-		servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: $scope.replyText, date: new Date()});
-		$scope.replyText="";
-		$scope.emojiMessage2="";
-		setTimeout(function(){
-  			$("#privateChatScroll").scrollTop($("#privateChatScroll")[0].scrollHeight);
-  	    }, 500);
 	}
 	//END private messages
 	//sidenavs	
@@ -543,6 +540,10 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		serviceKurentoRoom.setCreator($scope.roomCreator);
 		serviceKurentoRoom.setUserName($scope.user.name);
 		serviceKurentoRoom.setTeam($scope.team.id);
+		$("#emojibtn").remove();
+		$("#emojibtn").remove();
+		$("#inputchat").remove();
+		$("#chatform").remove();
 		$window.location.href = '#/call';
 		}
 	};	   
@@ -561,7 +562,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 $("#newPrivateMessage").click(function(){
 		$("#newchatform").show(); 
 		$("#privateChat").hide();
+		$("#chatform").hide();
 	 });
+	 
+	 $("#toggleConversations").click(function(){
+		 if ($('#lastconversations').is(":hidden")){
+			 $("#lastconversations").show('slide', {direction: 'left'}, 100);
+		 }else{
+			 $("#lastconversations").hide('slide', {direction: 'left'}, 100);
+		 }
+	 })
 	 
 	 $(".sidenavButton").click(function(){
 		 if ($('#sidenav').is(":hidden")){
@@ -598,6 +608,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		 $("#membership").hide();
 		 $("#privateMessages").hide();
 		 $("#privateChat").hide();
+		 $("#chatform").show();
 		 $("#chat").show(); 
 		 if (!$('#homeButton').hasClass("active")){
 				$("#homeButton").addClass("active");
@@ -609,6 +620,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	 });
 	 
 	 $("#privateMessagesButton").click(function(){
+		 $("#chatform").hide();
 		 $("#membershipToggle").removeClass("active");
 		 $("#homeButton").removeClass("active");
 		 $(".notifications").removeClass("active");
@@ -712,13 +724,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	        if(e.which == 13) {
 	            e.preventDefault();
 	            $scope.sendMessage();
-	        }
-	 });
-	 
-	 $("#privatechatform").keypress(function (e) {
-	        if(e.which == 13) {
-	            e.preventDefault();
-	            $scope.replyMessage();
 	        }
 	 });
 	 
