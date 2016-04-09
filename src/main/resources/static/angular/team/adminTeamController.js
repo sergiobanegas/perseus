@@ -52,10 +52,6 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		return 'data:'+imageType+';base64, '+data;
 	}
 	
-	$scope.findUserById = function(iduser){
-		return serviceUser.getUser(iduser);
-	}
-	
 	$scope.members = function(){
 		var teamUsers=[];
 		for (var i=0; i<serviceParticipate.getParticipates().length;i++){

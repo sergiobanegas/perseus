@@ -168,11 +168,11 @@
 				      </div>
 			        </div>
 			        <div style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;">
-	  				<md-list-item ng-repeat="user in filterMessagesContacts()" ng-click="showUserMessages(user)">
+	  				<md-list-item ng-repeat="user in filterMessagesContacts()" ng-click="showUserMessages(user.id)">
 		  				 <md-list-item>
-			  				 <img data-ng-src="{{getImage(findUserById(user).image, findUserById(user).imageType)}}" class="md-avatar" alt="{{user.id}}" />
+			  				 <img data-ng-src="{{getImage(user.image, user.imageType)}}" class="md-avatar" alt="{{user.id}}" />
 			  				 <div class="md-list-item-text">
-			  				 	{{findUserById(user).name}}
+			  				 	{{user.name}}
 			  				 </div>
 					      	<md-divider ng-if="!$last"></md-divider>
 						</md-list-item>
@@ -180,8 +180,7 @@
 	  				</div>
 	  			</div>
 	  			<div flex style="height:100%;">	  				
-						<!-- 			 <form id="privatechatform" emoji-form emoji-message="emojiMessage2" layout="row" autocomplete="off" ng-submit="replyMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5"> -->		
-						<div  id="newchatform">						
+						<div id="newchatform">						
 							<form style="margin-top: 25%;" autocomplete="off" ng-submit="newPrivateMessage()">
 								    <div style="margin:auto;width:75%">
 								    	<h2>New private message</h2>
@@ -194,12 +193,12 @@
 										        md-search-text-change="searchTextChange(searchText)"
 										        md-search-text="searchText"
 										        md-selected-item-change="selectedItemChange(user)"
-										        md-items="user in querySearch(searchText)"
-										        md-item-text="findUserById(user.user).name"
+										        md-items="participate in querySearch(searchText)"
+										        md-item-text="participate.user.name"
 										        md-min-length="0"
 										        placeholder="Select a member of your team">
 										       	<md-item-template>
-										        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(user.user).name}}</span>
+										        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{participate.user.name}}</span>
 										        </md-item-template>
 										        <md-not-found>
 										          <span ng-show="searchText==''">
@@ -213,19 +212,22 @@
 										</div>
 									</div>
 									<div style="margin:auto;width:75%;position:relative">
-										<md-button ng-click="showUserMessages(receiver.user)" class="md-primary md-raised" style="float:right">GO</md-button>
+										<md-button ng-click="showUserMessages(receiver.user.id)" class="md-primary md-raised" style="float:right">GO</md-button>
 									</div>	
 						</form>	  	
 					</div>			
 	  				<div id="privateChat" style="display:none;height:100%" layout="column">
 		  				<div id="privateChatScroll" flex style="overflow: scroll; overflow-x: hidden;">
+				  			<div style="padding:1em">
+			 				<h3 style="font-style:normal"><b>{{receiver.user.name}}</b></h3>
+			 				</div>
 				  			<md-list-item ng-repeat="message in privateMessagesChat()">
 									     <md-list-item>
 									     <a href="#/user/{{message.transmitter}}">
-									     <img data-ng-src="{{getImage(findUserById(message.transmitter).image, findUserById(message.transmitter).imageType)}}"  class="md-avatar" alt="{{message.user.name}}" />
+									     <img data-ng-src="{{getImage(message.transmitter.image, message.transmitter.imageType)}}"  class="md-avatar" alt="{{message.user.name}}" />
 										      </a>
 										      <div class="md-list-item-text">
-										         <a style="color:blue">{{message.transmitterName}}</a>
+										         <a style="color:blue">{{message.transmitter.name}}</a>
 										         <p>
 										         	<div ng-bind-html="message.text | colonToSmiley"></div>
 										         </p>

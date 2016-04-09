@@ -2,29 +2,36 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('indexController', function ($scope, $mdDialog, $route, $filter, $window, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
+perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $route, $filter, $window, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
 	
 	
 	$scope.user = serviceUser.getSession();
 	$scope.teams= serviceParticipate.getParticipates();
 	$scope.teamName="";		
 	$scope.teamInvites=serviceTeamInvite.getTeamInvites();
-			
-	$scope.findTeamById = function(id){
-		return serviceTeam.getTeam(id);
-	}
 	
 	$scope.getImage = function(data, imageType){
 		return 'data:'+imageType+';base64, '+data;
 	}
 	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
+	
 	$scope.acceptInvitation = function(invite){
-		serviceParticipate.newParticipate({user: invite.user, team: invite.team, teamPrivileges: 0});
+		serviceParticipate.newParticipate({userid: invite.user.id, teamid: invite.team.id, teamPrivileges: 0});
 		serviceTeamInvite.deleteTeamInvite(invite);
+		$scope.notification("Invitation accepted");
 	}
 	
 	$scope.denyInvitation = function(invite){
 		serviceTeamInvite.deleteTeamInvite(invite);
+		$scope.notification("Invitation denied");
 	}
 	
 	$scope.init = function(){
@@ -208,11 +215,6 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 			
 		};
 		
-		
-		$scope.findUserById = function(iduser){
-			return serviceUser.getUser(iduser);
-		}
-		
 		$scope.teamJoinRequest = function(name){		
 				var team={};
 				for (var i=0;i<serviceTeam.getTeams().length;i++){
@@ -230,7 +232,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 										var data= {
 												"user": $scope.user, 
 												"team": team,
-												"admin": $scope.findUserById(serviceParticipate.getParticipates()[i].userid)
+												"admin": serviceParticipate.getParticipates()[i].user
 												};
 										$http.post("/sendrequestjointeam", data);
 								}

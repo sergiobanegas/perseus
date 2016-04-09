@@ -31,7 +31,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     $scope.teamUsersWithoutUser=[];    
     serviceParticipate.getTeamParticipates($routeParams.id).then(function (result){
         $scope.teamUsers=result.data;
-        $scope.teamUsersWithoutUser = $filter('filter')(result.data, { user: '!'+$scope.user.id});
+        $scope.teamUsersWithoutUser = $filter('filter')(result.data, { userid: '!'+$scope.user.id});
 	});
     
     $scope.member=false;   
@@ -93,7 +93,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
     $scope.receiver;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.teamUsersWithoutUser, { user: query});
+		return $filter('filter')($scope.teamUsersWithoutUser, { user: {name: query}});
 	}
 	
 	//end screens
@@ -127,8 +127,8 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		  			$("#globalchatscroll").scrollTop($("#globalchatscroll")[0].scrollHeight);
 		  	    }, 500);
 			}
-		}else if ($("#privateChat").is(":visible")){
-			servicePrivateMessage.newPrivateMessage({transmitter: $scope.user.id, transmitterName: $scope.user.name, receiver: $scope.userReceiver, team: $routeParams.id, text: $scope.chatMessage, date: new Date()});
+		}else if ($("#privateChat").is(":visible")){			
+			servicePrivateMessage.newPrivateMessage({transmitterid: $scope.user.id, receiverid: $scope.userReceiver, teamid: $routeParams.id, text: $scope.chatMessage, date: new Date()});
 			$scope.chatMessage="";
 			$scope.emojiMessage="";
 			setTimeout(function(){
@@ -227,17 +227,31 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.filterMessagesContacts = function(){
 		var array=[];
+		var found=false;
 		var messages=$scope.privateMessages();
 		for (var i=0;i<messages.length;i++){
-			if (messages[i].transmitter==$scope.user.id){
-				if (array.indexOf(messages[i].receiver)==-1){
+			found=false;
+			if (messages[i].transmitterid==$scope.user.id){
+				for (var j=0;j<array.length;j++){
+					if (array[j].id==messages[i].receiverid){
+						found=true;
+						break;
+					}
+				}
+				if (!found){
 					array.push(messages[i].receiver);
-				}	
+				}
 			}
-			if(messages[i].receiver==$scope.user.id){
-				if (array.indexOf(messages[i].transmitter)==-1){
-					array.push(messages[i].transmitter);
-				}	
+			if(messages[i].receiverid==$scope.user.id){
+				for (var j=0;j<array.length;j++){
+					if (array[j].id==messages[i].transmitterid){
+						found=true;
+						break;
+					}
+				}
+				if (!found){
+					array.push(messages[i].receiver);
+				}
 			}
 		}
 		return array;
@@ -882,7 +896,7 @@ function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast,
 			var participates=serviceParticipate.getParticipates();
 			var isMember=false;
 			for (var i=0;i<teamInvites.length;i++){
-				if (teamInvites[i].user==user[0].id && teamInvites[i].team==team.id){
+				if (teamInvites[i].userid==user[0].id && teamInvites[i].teamid==team.id){
 					alreadySent=true;
 					break;
 				}
@@ -893,13 +907,13 @@ function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast,
 			}
 			
 			for (var i=0;i<participates.length;i++){
-				if (participates[i].user==user[0].id && participates[i].team==team.id){
+				if (participates[i].userid==user[0].id && participates[i].teamid==team.id){
 					isMember=true;
 					break;
 				}
 			}
 			if (!isMember){
-				serviceTeamInvite.newTeamInvite({user: user[0].id, team: $scope.team.id});
+				serviceTeamInvite.newTeamInvite({userid: user[0].id, teamid: $scope.team.id});
 				var data= {"email": user[0].email, "team": $scope.team};
 				$http.post("/sendinvitation", data);
 				serviceNotification.showNotification("Invitation sent", "The invitation has been sent");

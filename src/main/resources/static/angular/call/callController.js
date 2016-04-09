@@ -15,13 +15,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     $scope.kurento = serviceKurentoRoom.getKurento();
     $scope.chatMessages = serviceChatMessage.getChatMessages();
     
-    $scope.findUserById = function(id){
-    	return serviceUser.getUser(id);
-    }
-    
-    $scope.findTeamById = function(id){
-    	return serviceTeam.getTeam(id);
-    }
+    $scope.teamObject=serviceTeam.getTeam($scope.team);
     
     $scope.getImage = function(data, imagetype){
 		return 'data:'+imagetype+';base64, '+data;
@@ -267,10 +261,6 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 			serviceNotification.showNotification("The invitation was sent to the user", "Sent");
 			$mdDialog.hide();
 		}		
-	}
-	
-	$scope.findUserById = function(iduser){
-		return serviceUser.getUser(iduser);
 	}
 	
 	$scope.closeDialog = function() {

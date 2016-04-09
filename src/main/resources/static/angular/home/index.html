@@ -63,7 +63,7 @@
 				<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
 						Your invitations
 				</md-subheader>
-				<div ng-show="(teamInvites | filter:{ user: user.id }).length==0" style="padding:2vh;background-color:white">You have no team invitations</div>
+				<div ng-show="(teamInvites | filter:{ userid: user.id }).length==0" style="padding:2vh;background-color:white">You have no team invitations</div>
 				<md-table-container style="background-color:white" ng-hide="(teamInvites | filter:{ userid: user.id }).length==0">
 					  <table md-table>
 					    <thead md-head>
@@ -72,8 +72,8 @@
 					      <th md-column>Deny</th>
 					    </thead>
 					    <tbody md-body>
-						      <tr md-row md-select="request" md-select-id="{{invite.team}}" md-auto-select ng-repeat="invite in teamInvites | filter:{ user: user.id }">
-						        <td md-cell>{{findTeamById(invite.team).name}}</td>
+						      <tr md-row md-select="request" md-select-id="{{invite.team}}" md-auto-select ng-repeat="invite in teamInvites | filter:{ userid: user.id }">
+						        <td md-cell>{{invite.team.name}}</td>
 						        <td md-cell>
 						        	<md-button class="md-icon-button" ng-click="acceptInvitation(invite)" title="Accept invitation" aria-label="Accept">
 		    							<md-icon style="color:green">check_circle</md-icon>

@@ -22,7 +22,11 @@ public class TeamInviteRestController {
 
 	@Autowired
 	private TeamInviteRepository teamInviteRepository;
-
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<TeamInvite> allTeamInvites(Model model) {
 		return teamInviteRepository.findAll();
@@ -30,6 +34,8 @@ public class TeamInviteRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<TeamInvite> addTeamInvite(@RequestBody TeamInvite teamInvite) {
+		teamInvite.setTeam(teamRepository.findOne(teamInvite.getTeamid()));
+		teamInvite.setUser(userRepository.findOne(teamInvite.getUserid()));
 		teamInviteRepository.save(teamInvite);
 		return new ResponseEntity<TeamInvite>(teamInvite,HttpStatus.CREATED);
 	}
