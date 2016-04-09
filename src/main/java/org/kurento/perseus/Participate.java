@@ -1,9 +1,11 @@
 package org.kurento.perseus;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Participate {
@@ -12,8 +14,12 @@ public class Participate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private Integer user;
-	private Integer team;
+	private Integer userid;
+	@ManyToOne
+	private User user;
+	private Integer teamid;
+	@ManyToOne
+	private Team team;
 	private Integer teamPrivileges;
 	private boolean notifications;
 		
@@ -25,11 +31,11 @@ public class Participate {
 		return id;
 	}
 	
-	public Integer getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 	
-	public Integer getUser() {
+	public User getUser() {
 		return user;
 	}
 	
@@ -41,11 +47,19 @@ public class Participate {
 		return notifications;
 	}
 	
-	public void setTeam(Integer team) {
+	public Integer getTeamid() {
+		return teamid;
+	}
+	
+	public void setTeam(Team team) {
 		this.team = team;
 	}
 	
-	public void setUser(Integer user) {
+	public Integer getUserid() {
+		return userid;
+	}
+	
+	public void setUser(User user) {
 		this.user = user;
 	}
 	
@@ -59,6 +73,14 @@ public class Participate {
 	
 	public void setNotifications(boolean notifications) {
 		this.notifications = notifications;
+	}
+	
+	public void setUserid(Integer userId) {
+		this.userid = userId;
+	}
+	
+	public void setTeamid(Integer teamid) {
+		this.teamid = teamid;
 	}
 
 }

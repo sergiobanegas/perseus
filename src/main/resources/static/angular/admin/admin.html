@@ -66,7 +66,7 @@
 							    	</md-list-item>
 							    	
 							    </td>
-							    <td md-cell>{{user.name}}</td>
+							    <td md-cell><a href="#/user/{{user.id}}">{{user.name}}</a></td>
 							    <td md-cell>{{user.email}}</td>
 						        <td md-cell>
 									<md-button class="md-icon-button" ng-click="deleteUser(user, $event)" title="Delete user" aria-label="Deny">
@@ -96,7 +96,7 @@
 							    		<img data-ng-src="{{getImage(team.image, team.imageType)}}" class="md-avatar" style="border-radius:0"/>
 							    	</md-list-item>
 							    </td>
-							    <td md-cell>{{team.name}}</td>
+							    <td md-cell><a href="#/team/{{team.id}}">{{team.name}}</a></td>
 						        <td md-cell>
 									<md-button class="md-icon-button" ng-click="deleteTeam(team, $event)" title="Delete team" aria-label="Deny">
 										<md-icon style="color:red">cancel</md-icon>

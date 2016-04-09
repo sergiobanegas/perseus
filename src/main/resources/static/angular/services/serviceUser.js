@@ -67,6 +67,10 @@ function serviceUser($resource, $timeout, $http, localStorageService) {
 	    return promise;
 	}
 	
+	function getUser2(id){
+		return $http.get('/users/'+id);
+	}
+	
 	function newUser(newUser) {
 		new UserResource(newUser).$save(function(user) {
 			users.push(user);

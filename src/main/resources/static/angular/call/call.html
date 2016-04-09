@@ -21,10 +21,11 @@
 		      </div>
 	        </div>
 	        <div style="height: 40vh; overflow-y:auto; overflow-x: hidden;background-color:white;border-bottom-style:solid;border-bottom-width:1px;padding-left:1em">
-		        <md-list-item ng-s	how="room().privateRoom==1" ng-repeat="member in members()">
-		    			<p> {{findUserById(member.user).name}}</p>
-		    			<span ng-show="member.user!=creator && member.user!=user.id">
-		    				<span ng-show="user.id==creator">
+		        <md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
+		    			<p> {{member.user.name}}</p>
+		    			<!-- Need to be fixed, remove autorefresh -->
+		    			<span ng-show="member.user.id!=creator.id && memberUser().roomPrivileges>0" >
+		    				<span ng-show="user.id==creator.id">
 				    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
 									<md-icon style="color:yellow">star</md-icon>
 								</md-button>
@@ -32,7 +33,7 @@
 									<md-icon style="color:yellow">star_border</md-icon>
 								</md-button>	
 							</span>	
-							<span ng-show="memberUser().roomPrivileges>0">
+							<span ng-show="member.user.id!=user.id">
 			    				<md-button class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
 				    				<md-icon style="color:red">cancel</md-icon>
 				    			</md-button>	
@@ -80,12 +81,12 @@
 			 		<strong>Team chat</strong>
 			 	</div>
 			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
-			    			<md-list-item ng-repeat="message in chatMessages | filter:{ team: team.id, room: roomId }" style="position:relative">
+			    			<md-list-item ng-repeat="message in chatMessages | filter:{ teamid: team.id, roomid: roomId }" style="position:relative">
 						     	<a href="#/user/{{message.user}}">
-						     		<img data-ng-src="{{getImage(findUserById(message.user).image, findUserById(message.user).imageType)}}" class="md-avatar"/>
+						     		<img data-ng-src="{{getImage(message.user.image, message.user.imageType)}}" class="md-avatar"/>
 							     </a>
 							      <div class="md-list-item-text">
-							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{findUserById(message.user).name}}</a>
+							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.user.name}}</a>
 							         	<span class="md-body-2">
 							         		<div ng-bind-html="message.text | colonToSmiley"></div>
 							         	</span>

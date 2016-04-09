@@ -24,7 +24,11 @@ public class PrivateMessageRestController {
 
 	@Autowired
 	private PrivateMessageRepository privateMessageRepository;
-
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<PrivateMessage> allPrivateMessages(Model model) {
 		return privateMessageRepository.findAll();
@@ -32,6 +36,9 @@ public class PrivateMessageRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<PrivateMessage> addPrivateMessage(@RequestBody PrivateMessage privateMessage) {
+		privateMessage.setTransmitter(userRepository.findOne(privateMessage.getTransmitterid()));
+		privateMessage.setReceiver(userRepository.findOne(privateMessage.getReceiverid()));
+		privateMessage.setTeam(teamRepository.findOne(privateMessage.getTeamid()));
 		privateMessageRepository.save(privateMessage);		
 		return new ResponseEntity<>(privateMessage,HttpStatus.CREATED);
 	}
@@ -56,6 +63,6 @@ public class PrivateMessageRestController {
 	
 	@RequestMapping(value = "/team/{team}", method = RequestMethod.GET)
 	public List<PrivateMessage> getByTeam(@PathVariable Integer team) {
-		return privateMessageRepository.findByTeam(team);
+		return privateMessageRepository.findByTeamid(team);
 	}
 }

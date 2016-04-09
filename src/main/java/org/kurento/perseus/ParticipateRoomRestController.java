@@ -22,7 +22,13 @@ public class ParticipateRoomRestController {
 
 	@Autowired
 	private ParticipateRoomRepository participateRoomRepository;
-
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private RoomRepository roomRepository;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<ParticipateRoom> allParticipates(Model model) {
 		return participateRoomRepository.findAll();
@@ -30,6 +36,9 @@ public class ParticipateRoomRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ParticipateRoom> addParticipate(@RequestBody ParticipateRoom participate) {
+		participate.setRoom(roomRepository.findOne(participate.getRoomid()));
+		participate.setTeam(teamRepository.findOne(participate.getTeamid()));
+		participate.setUser(userRepository.findOne(participate.getUserid()));
 		participateRoomRepository.save(participate);		
 		return new ResponseEntity<>(participate,HttpStatus.CREATED);
 	}
@@ -51,11 +60,11 @@ public class ParticipateRoomRestController {
 	
 	@RequestMapping(value = "/room/{id}", method = RequestMethod.PUT)
 	public List<ParticipateRoom> findParticipateRoomByRoom(@PathVariable Integer room) {
-		return participateRoomRepository.findByRoom(room);
+		return participateRoomRepository.findByRoomid(room);
 	}
 	
 	@RequestMapping(value = "/{user}/{room}", method = RequestMethod.GET)
 	public List<ParticipateRoom> getParticipateRoom(@PathVariable Integer user, @PathVariable Integer room) {
-		return participateRoomRepository.findByUserAndRoom(user, room);
+		return participateRoomRepository.findByUseridAndRoomid(user, room);
 	}
 }

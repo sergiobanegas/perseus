@@ -4,7 +4,7 @@
 
 perseus.controller('registerController', function ($mdToast, $scope, $window, $filter, $mdDialog, serviceNotification, serviceUser, serviceUnconfirmedUser) {
 	$scope.user=serviceUser.getSession();
-	if ($scope.user.id){
+	if ($scope.user){
 		$window.location.href = '#/';
 	}
 	$scope.register = function(newUnconfirmedUser) {

@@ -66,7 +66,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
 	//has to be fixed
 	$scope.memberUser= function(){
 		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-    		if (serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].room==serviceKurentoRoom.getRoomId()){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].userid==$scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].roomid==serviceKurentoRoom.getRoomId()){
     			return serviceParticipateRoom.getParticipateRooms()[i];
     		}
     	}
@@ -75,7 +75,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     $scope.members= function(){
     	var members=[];
     	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-    		if (serviceParticipateRoom.getParticipateRooms()[i].room==$scope.roomId){
+    		if (serviceParticipateRoom.getParticipateRooms()[i].roomid==$scope.roomId){
     			members.push(serviceParticipateRoom.getParticipateRooms()[i]);
     		}
     	}
@@ -212,7 +212,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     $scope.chatMessage;
     $scope.emojiMessage;
     $scope.sendMessage = function () {   	
-    	  serviceChatMessage.newChatMessage({room:$scope.roomId, team: serviceKurentoRoom.getTeam(), text: $scope.chatMessage, user: $scope.user.id, date: new Date()});
+    	  serviceChatMessage.newChatMessage({roomid:$scope.roomId, teamid: serviceKurentoRoom.getTeam(), text: $scope.chatMessage, userid: $scope.user.id, date: new Date()});
     	  $scope.chatMessage="";
     	  $scope.emojiMessage="";
     	  setTimeout(function(){
@@ -239,13 +239,13 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 	
 	$scope.userInvited;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.notMembers(), { user: query});
+		return $filter('filter')($scope.notMembers(), { userid: query});
 	}
 	
 	$scope.notMembers= function(){
 		var notMembers=[];
 		for (var i=0;i<teamUsers.length;i++){
-			if (!serviceParticipateRoom.isMember(teamUsers[i].user)){
+			if (!serviceParticipateRoom.isMember(teamUsers[i].userid)){
 				notMembers.push(teamUsers[i]);
 			}
 		}
@@ -255,7 +255,7 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 	$scope.inviteUser = function(){
 		var exists=false;
 		for (var i=0;i<serviceRoomInvite.getRoomInvites().length;i++){
-			if (serviceRoomInvite.getRoomInvites()[i].room==room && serviceRoomInvite.getRoomInvites()[i].user==$scope.userInvited.user){
+			if (serviceRoomInvite.getRoomInvites()[i].roomid==room.id && serviceRoomInvite.getRoomInvites()[i].userid==$scope.userInvited.userid){
 				exists=true;
 				break;
 			}
@@ -263,7 +263,7 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 		if (exists){
 			$scope.notification("An invitation was already sent to this user");
 		}else{
-			serviceRoomInvite.newRoomInvite({user: $scope.userInvited.user, transmitter: user.id, team: $scope.userInvited.team, room: room.id});
+			serviceRoomInvite.newRoomInvite({userid: $scope.userInvited.userid, transmitterid: user.id, teamid: $scope.userInvited.teamid, roomid: room.id});
 			serviceNotification.showNotification("The invitation was sent to the user", "Sent");
 			$mdDialog.hide();
 		}		

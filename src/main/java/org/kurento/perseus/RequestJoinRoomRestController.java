@@ -22,6 +22,12 @@ public class RequestJoinRoomRestController {
 
 	@Autowired
 	private RequestJoinRoomRepository requestJoinRoomRepository;
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoomRepository roomRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<RequestJoinRoom> allRequestJoinRooms(Model model) {
@@ -30,6 +36,9 @@ public class RequestJoinRoomRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<RequestJoinRoom> addRequest(@RequestBody RequestJoinRoom request) {
+		request.setRoom(roomRepository.findOne(request.getRoomid()));
+		request.setTeam(teamRepository.findOne(request.getTeamid()));
+		request.setUser(userRepository.findOne(request.getUserid()));
 		requestJoinRoomRepository.save(request);		
 		return new ResponseEntity<RequestJoinRoom>(request,HttpStatus.CREATED);
 	}
@@ -51,6 +60,6 @@ public class RequestJoinRoomRestController {
 	
 	@RequestMapping(value = "/{room}/{user}", method = RequestMethod.GET)
 	public List<RequestJoinRoom> getRequestJoinRoom(@PathVariable Integer room, @PathVariable Integer user) {
-		return requestJoinRoomRepository.findByRoomAndUser(room, user);
+		return requestJoinRoomRepository.findByRoomidAndUserid(room, user);
 	}
 }

@@ -22,7 +22,14 @@ public class RoomInviteRestController {
 
 	@Autowired
 	private RoomInviteRepository roomInviteRepository;
-
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoomRepository roomRepository;
+	
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<RoomInvite> allRoomInvites(Model model) {
 		return roomInviteRepository.findAll();
@@ -30,6 +37,10 @@ public class RoomInviteRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<RoomInvite> addUser(@RequestBody RoomInvite request) {
+		request.setRoom(roomRepository.findOne(request.getRoomid()));
+		request.setTeam(teamRepository.findOne(request.getTeamid()));
+		request.setUser(userRepository.findOne(request.getUserid()));
+		request.setTransmitter(userRepository.findOne(request.getTransmitterid()));
 		roomInviteRepository.save(request);		
 		return new ResponseEntity<>(request,HttpStatus.CREATED);
 	}

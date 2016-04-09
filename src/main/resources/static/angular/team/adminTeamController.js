@@ -58,8 +58,8 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	
 	$scope.members = function(){
 		var teamUsers=[];
-		for (var i=0; i< serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].team==$scope.team.id){
+		for (var i=0; i<serviceParticipate.getParticipates().length;i++){
+			if (serviceParticipate.getParticipates()[i].teamid==$scope.team.id){
 				teamUsers.push(serviceParticipate.getParticipates()[i]);
 			}
 		}
@@ -70,8 +70,8 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		var teamUsers=[];
 		var members=$scope.members();
 		for (var i=0; i<members.length;i++){
-			if (members[i].user!=$scope.user.id){
-				teamUsers.push($scope.findUserById(members[i].user));
+			if (members[i].userid!=$scope.user.id){
+				teamUsers.push(members[i]);
 			}
 		}
 		return teamUsers;
@@ -80,35 +80,31 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	$scope.setModerator = function (member){
 		member.teamPrivileges=1;
 		serviceParticipate.updateParticipate(member);
-		serviceNotification.showNotification("Moderator", $scope.findUserById(member.user).name+" is now a moderator");			
+		serviceNotification.showNotification("Moderator", member.user.name+" is now a moderator");			
 	};
 	
 	$scope.removeModerator = function (member){
 			member.teamPrivileges=0;
 			serviceParticipate.updateParticipate(member);
-			serviceNotification.showNotification("Normal user", $scope.findUserById(member.user).name+" is now a normal member");			
+			serviceNotification.showNotification("Normal user", member.user.name+" is now a normal member");			
 	}
 	
 	$scope.kickMember = function(member) {
 		serviceParticipate.deleteParticipate(member);
-		serviceNotification.showNotification("User kicked", "The user "+$scope.findUserById(member.user).name+" has been kicked from the team");					
+		serviceNotification.showNotification("User kicked", "The user "+member.user.name+" has been kicked from the team");					
 	}	
 	
 	$scope.newAdmin;
+	$scope.searchText="";
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.membersAdminList(), { name: query});
+		return $filter('filter')($scope.membersAdminList(), {user: {name: query}}); 
 	}	
 	
 	$scope.leaveTeam = function(){
-		for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].user==$scope.newAdmin.id){
-				var updateParticipate=serviceParticipate.getParticipates()[i];				
-				updateParticipate.teamPrivileges=2;
-				serviceParticipate.updateParticipate(updateParticipate);				
-			}
-		}
+		$scope.newAdmin.teamPrivileges=2;
+		serviceParticipate.updateParticipate($scope.newAdmin);
 		for (var i = 0; i<serviceParticipate.getParticipates().length;i++){
-			if (serviceParticipate.getParticipates()[i].user == $scope.user.id && serviceParticipate.getParticipates()[i].team == $scope.team.id){
+			if (serviceParticipate.getParticipates()[i].userid == $scope.user.id && serviceParticipate.getParticipates()[i].teamid == $scope.team.id){
 				serviceParticipate.deleteParticipate(serviceParticipate.getParticipates()[i]);
 			}
 		}

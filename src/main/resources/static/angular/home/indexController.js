@@ -175,8 +175,8 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		$scope.joinTeam = function(Team) {
 			if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
 				var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
-					if ( $filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: TeamJoined.id }).length==0 ){			
-						serviceParticipate.newParticipate({team: TeamJoined.id, user: $scope.user.id, teamPrivileges: 0, notifications: false });	
+					if ( $filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: TeamJoined.id }).length==0 ){			
+						serviceParticipate.newParticipate({teamid: TeamJoined.id, userid: $scope.user.id, teamPrivileges: 0, notifications: false });	
 						$mdDialog.hide();
 						serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
 					}
@@ -222,15 +222,15 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 					}
 				}
 				if (team){
-					if ($filter('filter')(serviceParticipate.getParticipates(), { user: $scope.user.id, team: team.id }).length==0 ){			
-						if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { user: $scope.user.id, team: team.id}).length==0){							
-							serviceRequestJoinTeam.newRequestJoinTeam({user:$scope.user.id, team: team.id});
+					if ($filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: team.id }).length==0 ){			
+						if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { userid: $scope.user.id, teamid: team.id}).length==0){							
+							serviceRequestJoinTeam.newRequestJoinTeam({userid:$scope.user.id, teamid: team.id});
 							for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-								if (serviceParticipate.getParticipates()[i].team=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
+								if (serviceParticipate.getParticipates()[i].teamid=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
 										var data= {
 												"user": $scope.user, 
 												"team": team,
-												"admin": $scope.findUserById(serviceParticipate.getParticipates()[i].user)
+												"admin": $scope.findUserById(serviceParticipate.getParticipates()[i].userid)
 												};
 										$http.post("/sendrequestjointeam", data);
 								}

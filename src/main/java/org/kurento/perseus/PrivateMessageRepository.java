@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, Integer> {
-	List<PrivateMessage> findByTransmitter(Integer user);
-	List<PrivateMessage> findByReceiver(Integer user);
-	List<PrivateMessage> findByTeam(Integer team);
-	List<PrivateMessage> findByTeamAndReceiver(Integer team, Integer receiver);
-	List<PrivateMessage> findByTeamAndTransmitter(Integer team, Integer transmitter);
+	List<PrivateMessage> findByTransmitterid(Integer user);
+	List<PrivateMessage> findByReceiverid(Integer user);
+	List<PrivateMessage> findByTeamid(Integer team);
+	List<PrivateMessage> findByTeamidAndReceiverid(Integer team, Integer receiver);
+	List<PrivateMessage> findByTeamidAndTransmitterid(Integer team, Integer transmitter);
 }

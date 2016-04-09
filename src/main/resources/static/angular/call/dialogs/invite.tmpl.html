@@ -20,11 +20,11 @@
 					md-search-text="searchText"
 					md-selected-item-change="selectedItemChange(member.user)"
 					md-items="member in querySearch(searchText)"
-					md-item-text="findUserById(member.user).name"
+					md-item-text="member.user.name"
 					md-min-length="0"
 					placeholder="Select a member of your team">
 					<md-item-template>
-						<span md-highlight-text="searchText" md-highlight-flags="^i">{{findUserById(member.user).name}}</span>
+						<span md-highlight-text="searchText" md-highlight-flags="^i">{{member.user.name}}</span>
 					</md-item-template>
 					<md-not-found>
 						<span ng-show="searchText==''">

@@ -22,7 +22,11 @@ public class RequestJoinTeamRestController {
 
 	@Autowired
 	private RequestJoinTeamRepository requestJoinTeamRepository;
-
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private TeamRepository teamRepository;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<RequestJoinTeam> allRequestJoinTeams(Model model) {
 		return requestJoinTeamRepository.findAll();
@@ -30,6 +34,8 @@ public class RequestJoinTeamRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<RequestJoinTeam> addUser(@RequestBody RequestJoinTeam request) {
+		request.setTeam(teamRepository.findOne(request.getTeamid()));
+		request.setUser(userRepository.findOne(request.getUserid()));
 		requestJoinTeamRepository.save(request);		
 		return new ResponseEntity<>(request,HttpStatus.CREATED);
 	}

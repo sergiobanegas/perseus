@@ -3,11 +3,14 @@ package org.kurento.perseus;
 
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Team {
@@ -18,7 +21,12 @@ public class Team {
 	
 	private String name;
 	private String password;
+	
 	private Integer admin;
+	
+	@ManyToOne
+	private User adminUser;
+	
 	@Lob
 	private String image;
 	private String imageType;
@@ -41,6 +49,10 @@ public class Team {
 	
 	public Integer getAdmin() {
 		return admin;
+	}
+	
+	public User getAdminUser() {
+		return adminUser;
 	}
 	
 	public String getImage() {
@@ -73,5 +85,9 @@ public class Team {
 	
 	public void setImageType(String imageType) {
 		this.imageType = imageType;
+	}
+	
+	public void setAdminUser(User adminUser) {
+		this.adminUser = adminUser;
 	}
 }

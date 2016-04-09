@@ -47,7 +47,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	  .then(function(result) {
 	    $scope.participatesHttp = result.data;
 	    for (var i=0;i<$scope.participatesHttp.length;i++){
-	    	if ($scope.participatesHttp[i].user==$scope.user.id && $scope.participatesHttp[i].team==$scope.team.id){
+	    	if ($scope.participatesHttp[i].userid==$scope.user.id && $scope.participatesHttp[i].teamid==$scope.team.id){
 	    		$scope.participateUser=$scope.participatesHttp[i];
 	    		break;
 	    	}
@@ -55,13 +55,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	});
 	
 	$scope.publicRooms= function(){
-		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 0});
+		return $filter('filter')(serviceRoom.getRooms(), { teamid: $scope.team.id, privateRoom: 0});
 	}
 	$scope.privateRooms= function(){
-		return $filter('filter')(serviceRoom.getRooms(), { team: $scope.team.id, privateRoom: 1});
+		return $filter('filter')(serviceRoom.getRooms(), { teamid: $scope.team.id, privateRoom: 1});
 	}
 	$scope.chatMessages = function(){
-		return $filter('filter')(serviceChatMessage.getChatMessages(), { team: $scope.team.id, room : 0});
+		return $filter('filter')(serviceChatMessage.getChatMessages(), { teamid: $scope.team.id, roomid : 0});
 	}
 	
 	$scope.mentionsFilter = function(message){
@@ -120,7 +120,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.sendMessage = function () { 
 		if ($("#chat").is(":visible")){
 			if ($scope.chatMessage!="" && $scope.emojiMessage!=""){
-				serviceChatMessage.newChatMessage({room: 0, team: $scope.team.id, text: $scope.chatMessage, user: $scope.user.id, userName: $scope.user.name, date: new Date()});	  		
+				serviceChatMessage.newChatMessage({roomid: 0, teamid: $scope.team.id, text: $scope.chatMessage, userid: $scope.user.id, date: new Date()});	  		
 				$scope.chatMessage="";
 				$scope.emojiMessage="";
 				setTimeout(function(){
@@ -193,7 +193,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.filterMessages = function(message){
 		if ($scope.chatFilter=="name"){
-			return message.userName==$scope.nameFilter;
+			return message.user.name==$scope.nameFilter;
 		}
 		else if ($scope.chatFilter=="content"){
 			return ((message.text).toString().split(" ")).indexOf($scope.contentFilter) > -1;
@@ -211,14 +211,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	//end chat message
 	//private messages	
 	$scope.privateMessages= function(){
-		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { team: $scope.team.id}); 
+		return $filter('filter')(servicePrivateMessage.getPrivateMessages(), { teamid: $scope.team.id}); 
 	}
 	
 	$scope.privateMessagesChat = function(){
 		var conversation=[];
 		var messages=$scope.privateMessages();
 		for (var i=0;i<messages.length;i++){
-			if ((messages[i].transmitter==$scope.user.id && messages[i].receiver==$scope.userReceiver) || (messages[i].receiver==$scope.user.id && messages[i].transmitter==$scope.userReceiver)){
+			if ((messages[i].transmitterid==$scope.user.id && messages[i].receiverid==$scope.userReceiver) || (messages[i].receiverid==$scope.user.id && messages[i].transmitterid==$scope.userReceiver)){
 				conversation.push(messages[i]);
 			}
 		}
@@ -269,11 +269,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	};
 	
     $scope.roomInvitations = function(){
-    	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { user: $scope.user.id});
+    	return $filter('filter')(serviceRoomInvite.getRoomInvites(), { userid: $scope.user.id});
     }
     
     $scope.acceptRoomInvitation = function(invitation){
-    	serviceParticipateRoom.newParticipateRoom({room: invitation.room, user: invitation.user, team: $scope.team.id, roomPrivileges: 0});
+    	serviceParticipateRoom.newParticipateRoom({roomid: invitation.room.id, userid: invitation.user.id, teamid: $scope.team.id, roomPrivileges: 0});
     	serviceRoomInvite.deleteRoomInvite(invitation);
     	$scope.notification("Room invitation accepted");
     }
@@ -284,16 +284,16 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     }
 	
     $scope.requests = function(){ 	
-    	return $filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { team: $scope.team.id});
+    	return $filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { teamid: $scope.team.id});
     }
     
     $scope.roomRequests = function(){
-    	var requests=$filter('filter')(serviceRequestJoinRoom.getRequestJoinRooms(), { team: $scope.team.id});
+    	var requests=$filter('filter')(serviceRequestJoinRoom.getRequestJoinRooms(), { teamid: $scope.team.id});
     	var participateRooms=serviceParticipateRoom.getParticipateRooms();
     	var roomRequests=[];
     	for (var i=0;i<requests.length;i++){
     		for (var j=0;j<participateRooms.length;j++){
-    			if (participateRooms[j].user==$scope.user.id && participateRooms[j].roomPrivileges>0 && participateRooms[j].room==requests[i].room){
+    			if (participateRooms[j].userid==$scope.user.id && participateRooms[j].roomPrivileges>0 && participateRooms[j].roomid==requests[i].roomid){
     				roomRequests.push(requests[i]);
     				break;
     			}
@@ -305,24 +305,32 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     $scope.acceptRequest = function(request){
     	var user=$scope.findUserById(request.user);
     	var team=$scope.findTeamById(request.team);  	    	
-    	serviceParticipate.newParticipate({user: request.user, team: request.team, teamPrivileges: 0});
+    	serviceParticipate.newParticipate({userid: request.userid, teamid: request.teamid, teamPrivileges: 0});
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
     	$scope.notification("Request accepted");
-    	var data= {"user" : user,"team" : team,	"response" : 1};
+    	var data= {"user" : request.user,"team" : request.team,	"response" : 1};
 		$http.post("/senduserjoined", data);
+//		$scope.findUserById(request.user).success(
+//	    		function(user){
+//	    			var team=$scope.findTeamById(request.team);  	    	
+//	    	    	serviceParticipate.newParticipate({user: request.user, team: request.team, teamPrivileges: 0});
+//	    	    	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
+//	    	    	$scope.notification("Request accepted");
+//	    	    	var data= {"user" : user,"team" : team,	"response" : 1};
+//	    			$http.post("/senduserjoined", data);			
+//	    		}    	
+//	    	);
     }
     $scope.denyRequest = function(request){
-    	var user=$scope.findUserById(request.user);
-    	var team=$scope.findTeamById(request.team);
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
     	$scope.notification("Request denied");
     	var response=0;
-    	var data= {"user" : user, "team" : team, "response" : 0};
+    	var data= {"user" : request.user, "team" : request.team, "response" : 0};
 		$http.post("/senduserjoined", data);
     }
     
     $scope.acceptRoomRequest = function(request){
-    	serviceParticipateRoom.newParticipateRoom({user: request.user, room: request.room, team: $scope.team.id, roomPrivileges: 0});
+    	serviceParticipateRoom.newParticipateRoom({userid: request.userid, roomid: request.roomid, teamid: $scope.team.id, roomPrivileges: 0});
     	serviceRequestJoinRoom.deleteRequestJoinRoom(request);
     	$scope.notification("Request accepted");
     }
@@ -399,13 +407,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	      controller: roomController
 	   })
 	};
+	$scope.par=serviceParticipateRoom.getParticipateRooms();
 	$scope.roomId='';
 	$scope.register = function (room, $event) {
 		var participate=1;
 		if (room.privateRoom==1){
 			participate=0;
 			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-				if (serviceParticipateRoom.getParticipateRooms()[i].room==room.id && serviceParticipateRoom.getParticipateRooms()[i].user==$scope.user.id){
+				if (serviceParticipateRoom.getParticipateRooms()[i].roomid==room.id && serviceParticipateRoom.getParticipateRooms()[i].userid==$scope.user.id){
 					participate=1;
 					break;
 				}
@@ -748,8 +757,8 @@ function roomController($scope, $http, $mdDialog, $mdToast, $window, serviceNoti
 	$scope.participateUser=participateUser;
 	$scope.roomInput;
 	$scope.newRoom = function(){
-		$scope.roomInput.team=team.id;
-		$scope.roomInput.creator=user.id;
+		$scope.roomInput.teamid=team.id;
+		$scope.roomInput.creatorid=user.id;
 		if ($scope.roomInput.privateRoom){
 			$scope.roomInput.privateRoom=1;
 		}
@@ -771,7 +780,7 @@ function roomController($scope, $http, $mdDialog, $mdToast, $window, serviceNoti
 		if ($scope.userRequestRoom){				
 			$scope.notification("You already sent a request to the room "+room.name);
 		}else{
-			serviceRequestJoinRoom.newRequestJoinRoom({user: user.id, room: room.id, team: team.id});
+			serviceRequestJoinRoom.newRequestJoinRoom({userid: user.id, roomid: room.id, teamid: team.id});
 			$mdDialog.hide();
 			serviceNotification.showNotification("Request sent", "The request to join the room "+room.name+" has been sent");				
 		}
@@ -821,10 +830,10 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, $window
 	}
 	
 	$scope.leaveTeam = function(){
-//		serviceNotification.showNotification("Goodbye", "You left the team");
+		serviceNotification.showNotification("Goodbye"+participateUser.user.name, "You left the team "+team.name);
 		serviceParticipate.deleteParticipate(participateUser);
 		$mdDialog.hide();
-		$window.location.href = '#/home';
+		$window.location.href = '#/';
 	};
 		
 	$scope.deleteTeam = function(){

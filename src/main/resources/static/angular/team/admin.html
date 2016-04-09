@@ -131,13 +131,13 @@
 					        md-selected-item="newAdmin"
 					        md-search-text-change="searchTextChange(searchText)"
 					        md-search-text="searchText"
-					        md-selected-item-change="selectedItemChange(user)"
-					        md-items="user in querySearch(searchText)"
-					        md-item-text="user.name"
+					        md-selected-item-change="selectedItemChange(participate)"
+					        md-items="participate in querySearch(searchText)"
+					        md-item-text="participate.user.name"
 					        md-min-length="0"
 					        placeholder="Select new admin">
 					    	<md-item-template>
-					        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{user.name}}</span>
+					        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{participate.user.name}}</span>
 					        </md-item-template>
 					        <md-not-found>
 					         There's no user with the name "{{searchText}}".
@@ -170,24 +170,24 @@
 						<th md-column>Kick out</th>
 				    </thead>
 				    <tbody md-body>
-				    	<tr md-row md-select="member" md-select-id="{{invitation.name}}" md-auto-select ng-repeat="member in members()" ng-hide="member.id==user.id || member.teamPrivileges==2">
+				    	<tr md-row md-select="participate" md-auto-select ng-repeat="participate in members()" ng-hide="participate.userid==user.id || participate.teamPrivileges==2">
 						    <td md-cell>
 						    	<md-list-item>
-						    	<img data-ng-src="{{getImage(findUserById(member.user).image, findUserById(member.user).imageType)}}" class="md-avatar"/>
+						    	<img data-ng-src="{{getImage(participate.user.image, participate.user.imageType)}}" class="md-avatar"/>
 						    	</md-list-item>
 						    </td>
-						    <td md-cell>{{findUserById(member.user).name}}</td>
-						    <td md-cell>{{findUserById(member.user).email}}</td>
+						    <td md-cell>{{participate.user.name}}</td>
+						    <td md-cell>{{participate.user.email}}</td>
 					        <td md-cell>
-					        	<md-button ng-show="member.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Set moderator" aria-label="Add">
+					        	<md-button ng-show="participate.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(participate)" title="Set moderator" aria-label="Add">
 									<md-icon style="color:yellow">star_border</md-icon>
 								</md-button>
-								<md-button ng-show="member.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Remove moderator" aria-label="Remove">
+								<md-button ng-show="participate.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(participate)" title="Remove moderator" aria-label="Remove">
 									<md-icon style="color:yellow">star</md-icon>
 								</md-button>
 					        </td>
 					        <td md-cell>
-								<md-button class="md-icon-button" ng-click="kickMember(member)" title="Deny invitation" aria-label="Deny">
+								<md-button class="md-icon-button" ng-click="kickMember(participate)" title="Deny invitation" aria-label="Deny">
 									<md-icon style="color:red">cancel</md-icon>
 								</md-button>
 		     				</td>

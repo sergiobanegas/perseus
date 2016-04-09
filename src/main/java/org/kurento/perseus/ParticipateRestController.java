@@ -30,6 +30,10 @@ public class ParticipateRestController {
 	private RoomInviteRepository roomInviteRepository;
 	@Autowired
 	private PrivateMessageRepository privateMessageRepository;
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Participate> allParticipates(Model model) {
@@ -38,6 +42,8 @@ public class ParticipateRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Participate> addParticipate(@RequestBody Participate participate) {
+		participate.setTeam(teamRepository.findOne(participate.getTeamid()));
+		participate.setUser(userRepository.findOne(participate.getUserid()));
 		participateRepository.save(participate);		
 		return new ResponseEntity<>(participate,HttpStatus.CREATED);
 	}
@@ -45,20 +51,20 @@ public class ParticipateRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
 		Participate participate=participateRepository.findOne(id);
-		List<ParticipateRoom> participateRooms=participateRoomRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		List<ParticipateRoom> participateRooms=participateRoomRepository.findByTeamidAndUserid(participate.getTeamid(), participate.getUserid());
 		for (int i=0;i<participateRooms.size();i++){
 			participateRoomRepository.delete(participateRooms.get(i).getId());
 		}
-		List<RequestJoinRoom> requestJoinRooms=requestJoinRoomRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		List<RequestJoinRoom> requestJoinRooms=requestJoinRoomRepository.findByTeamidAndUserid(participate.getTeamid(), participate.getUserid());
 		for (int i=0;i<requestJoinRooms.size();i++){
 			requestJoinRoomRepository.delete(requestJoinRooms.get(i).getId());
 		}	
-		List<RoomInvite> roomInvites=roomInviteRepository.findByTeamAndUser(participate.getTeam(), participate.getUser());
+		List<RoomInvite> roomInvites=roomInviteRepository.findByTeamidAndUserid(participate.getTeamid(), participate.getUserid());
 		for (int i=0;i<roomInvites.size();i++){
 			roomInviteRepository.delete(roomInvites.get(i).getId());
 		}
-		List<PrivateMessage> privateMessages=privateMessageRepository.findByTeamAndTransmitter(participate.getTeam(), participate.getUser());
-		privateMessages.addAll(privateMessageRepository.findByTeamAndReceiver(participate.getTeam(), participate.getUser()));
+		List<PrivateMessage> privateMessages=privateMessageRepository.findByTeamidAndTransmitterid(participate.getTeamid(), participate.getUserid());
+		privateMessages.addAll(privateMessageRepository.findByTeamidAndReceiverid(participate.getTeamid(), participate.getUserid()));
 		for (int i=0;i<privateMessages.size();i++){
 			privateMessageRepository.delete(privateMessages.get(i).getId());
 		}
@@ -77,17 +83,17 @@ public class ParticipateRestController {
 	
 	@RequestMapping(value = "/{team}/privileges", method = RequestMethod.GET)
 	public List<Participate> getParticipateRoom(@PathVariable Integer team) {
-		return participateRepository.findByTeamPrivilegesAndTeam(1, team);
+		return participateRepository.findByTeamPrivilegesAndTeamid(1, team);
 	}
 	
 	@RequestMapping(value = "/{team}/members", method = RequestMethod.GET)
 	public List<Participate> getTeamMembers(@PathVariable Integer team) {
-		return participateRepository.findByTeam(team);
+		return participateRepository.findByTeamid(team);
 	}
 	
 	@RequestMapping(value = "/{team}/{user}", method = RequestMethod.GET)
 	public List<Participate> getTeamMembers(@PathVariable Integer team, @PathVariable Integer user) {
-		return participateRepository.findByTeamAndUser(team, user);
+		return participateRepository.findByTeamidAndUserid(team, user);
 	}
 	
 	

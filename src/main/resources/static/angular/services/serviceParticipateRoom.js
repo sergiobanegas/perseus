@@ -65,7 +65,7 @@ function serviceParticipateRoom($resource, $timeout, $http) {
 	
 	function isMember(id){
 		for (var i=0;i<ParticipateRooms.length;i++){
-    		if (ParticipateRooms[i].user==id){
+    		if (ParticipateRooms[i].userid==id){
     			return true;
     		}
     	}

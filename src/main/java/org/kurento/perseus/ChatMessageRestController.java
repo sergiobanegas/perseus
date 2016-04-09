@@ -24,7 +24,13 @@ public class ChatMessageRestController {
 
 	@Autowired
 	private ChatMessageRepository ChatMessageRepository;
-
+	@Autowired
+	private RoomRepository roomRepository;
+	@Autowired
+	private TeamRepository teamRepository;
+	@Autowired
+	private UserRepository userRepository;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<ChatMessage> allChatMessages(Model model) {
 		return ChatMessageRepository.findAll();
@@ -32,6 +38,11 @@ public class ChatMessageRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ChatMessage> addChatMessage(@RequestBody ChatMessage chatMessage) {	
+		if (chatMessage.getRoomid()!=0){
+			chatMessage.setRoom(roomRepository.findOne(chatMessage.getRoomid()));
+		}
+		chatMessage.setUser(userRepository.findOne(chatMessage.getUserid()));
+		chatMessage.setTeam(teamRepository.findOne(chatMessage.getTeamid()));
 		ChatMessageRepository.save(chatMessage);		
 		return new ResponseEntity<>(chatMessage,HttpStatus.CREATED);
 	}

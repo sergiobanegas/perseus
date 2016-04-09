@@ -1,10 +1,12 @@
 package org.kurento.perseus;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ChatMessage {
@@ -13,32 +15,22 @@ public class ChatMessage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private Integer user;
-	private Integer room;
-	private Integer team;
-	private String userName;
+	private Integer userid;
+	@ManyToOne
+	private User user;
+	private Integer teamid;
+	@ManyToOne
+	private Team team;
+	private Integer roomid;
+	@ManyToOne
+	private Room room;
 	private String text;
 	private String date;	
 	public ChatMessage() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Integer getId() {
-		return id;
-	}
-	
-	public Integer getRoom() {
-		return room;
-	}
-	
-	public Integer getTeam() {
-		return team;
-	}
-	
-	public Integer getUser() {
-		return user;
-	}
-	
+
 	public String getText() {
 		return text;
 	}
@@ -46,28 +38,35 @@ public class ChatMessage {
 	public String getDate() {
 		return date;
 	}
-	
-	public String getUserName() {
-		return userName;
+
+	public Integer getRoomid() {
+		return roomid;
 	}
 	
-	
-	public void setId(Integer id) {
-		this.id = id;
+	public Integer getTeamid() {
+		return teamid;
 	}
 	
-	public void setRoom(Integer room) {
-		this.room = room;
+	public Integer getUserid() {
+		return userid;
 	}
 	
-	public void setTeam(Integer team) {
-		this.team = team;
+	public Integer getId() {
+		return id;
 	}
 	
-	public void setUser(Integer user) {
-		this.user = user;
+	public Room getRoom() {
+		return room;
 	}
 	
+	public Team getTeam() {
+		return team;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
 	public void setText(String text) {
 		this.text = text;
 	}
@@ -76,8 +75,32 @@ public class ChatMessage {
 		this.date = date;
 	}
 	
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRoomid(Integer roomid) {
+		this.roomid = roomid;
+	}
+	
+	public void setTeamid(Integer teamid) {
+		this.teamid = teamid;
+	}
+	
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 }

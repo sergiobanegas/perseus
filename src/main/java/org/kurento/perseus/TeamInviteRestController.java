@@ -51,7 +51,7 @@ public class TeamInviteRestController {
 	
 	@RequestMapping(value = "/name/{user}", method = RequestMethod.GET)
 	public List<TeamInvite> getTeamInviteByUser(@PathVariable Integer user) {
-		return teamInviteRepository.findByUser(user);
+		return teamInviteRepository.findByUserid(user);
 	}
 	
 }

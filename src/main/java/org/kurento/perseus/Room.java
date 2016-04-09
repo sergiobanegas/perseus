@@ -3,10 +3,12 @@ package org.kurento.perseus;
 
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Room {
@@ -16,8 +18,12 @@ public class Room {
 	private Integer id;
 	
 	private String name;
-	private int team;
-	private Integer creator;
+	@ManyToOne
+	private Team team;
+	private Integer teamid;
+	@ManyToOne
+	private User creator;
+	private Integer creatorid;
 	private int privateRoom;
 	
 	public Room() {
@@ -32,16 +38,24 @@ public class Room {
 		return name;
 	}
 	
-	public int getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 	
-	public Integer getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 	
 	public int getPrivateRoom() {
 		return privateRoom;
+	}
+	
+	public Integer getCreatorid() {
+		return creatorid;
+	}
+	
+	public Integer getTeamid() {
+		return teamid;
 	}
 	
 	public void setId(Integer id) {
@@ -52,11 +66,11 @@ public class Room {
 		this.name = name;
 	}
 	
-	public void setTeam(int team) {
+	public void setTeam(Team team) {
 		this.team = team;
 	}
 	
-	public void setCreator(Integer creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 	
@@ -64,4 +78,11 @@ public class Room {
 		this.privateRoom = privateRoom;
 	}
 
+	public void setCreatorid(Integer creatorid) {
+		this.creatorid = creatorid;
+	}
+	
+	public void setTeamid(Integer teamid) {
+		this.teamid = teamid;
+	}
 }
