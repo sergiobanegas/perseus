@@ -15,8 +15,8 @@
       </div>
 </md-toolbar>
 	<div layout-margin layout="row" class="md-whiteframe-z2 window" style="padding:1em;background-color:#e6f2ff">		
-		<div hide-xs md-card style="background-color:white;border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
-			 <img data-ng-src="{{getImage(userProfile.image)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+		<div hide-xs flex="20" style="text-align:center;padding:1em;height:auto;background-color:white;border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
+			 <img data-ng-src="{{getImage(userProfile.image)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 				<div style="text-align:center;">
 					<h1 class="md-title" style="margin:0"><b>{{userProfile.name}}</b></h1>
 				</div>
@@ -91,19 +91,18 @@
 						<div flex style="margin-right:2em;position:relative">
 							Select a image from your computer
 	      					<input type="file" id="fileInput" ng-model="userImage" name="file" accept="image/*">
-							<div class="cropArea" style="background: #E4E4E4;overflow: hidden;width:100%;height:25em">
+							<div class="cropArea" style="background: #E4E4E4;overflow: hidden;width:100%;height:50vh">
 								<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
 							</div>
 						</div>
   						<div flex style="padding:2em">
-  							<span ng-show="myImage">
+  							<div ng-show="myImage">
 	  							Cropped Image
-	  							<div><img ng-src="{{myCroppedImage}}" /></div>
+	  							<div style=""><img style="width:50vh;height:50vh" ng-src="{{myCroppedImage}}" /></div>
 	  							<md-button ng-click="changeProfileImage(myCroppedImage)" class="md-primary md-raised">Change image</md-button>
-  							</span>
+  							</div>
   						</div>
 					</div>
-					</div>
-		   
+				</div>
 		</div>
 </div>

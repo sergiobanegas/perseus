@@ -94,11 +94,15 @@ function Participants() {
         var maxParticipantsWithMaxWidth = 98 / MAX_WIDTH;
         if (numParticipants > maxParticipantsWithMaxWidth) {
             $('.video').css({
-                "width": (98 / numParticipants) + "%"
+                "width": (98 / numParticipants) + "%",
+                "margin-left": "1em",
+                "border-radius": "15px"
             });
         } else {
             $('.video').css({
-                "width": MAX_WIDTH + "%"
+                "width": MAX_WIDTH + "%",
+                "margin-left": "1em",
+                "border-radius": "15px"
             });
         }
     };

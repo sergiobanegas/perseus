@@ -162,6 +162,12 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 }	
 	 });
 	 
+	 $("#teamSettingsButton2").click(function(){
+		 $("#members").hide();
+		 $("#welcomePage").hide();
+		 $("#settings").show();
+	 });
+	 
 	 $("#welcomePageButton").click(function(){
 		 $("#membersButton").removeClass("active");
 		 $("#teamSettingsButton").removeClass("active");
@@ -190,6 +196,12 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 			 	$("#membersButton").removeClass("active");
 			 }
 		 }	
+	 });
+	 
+	 $("#membersButton2").click(function(){
+		 $("#settings").hide();
+		 $("#welcomePage").hide();
+		 $("#members").show();
 	 });
 	 
 	 $("#changeImageButton").click(function(){

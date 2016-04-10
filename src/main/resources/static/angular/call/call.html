@@ -1,3 +1,5 @@
+<!-- Warning, if main-video isn't shown, participants doesn't work -->
+<div style="display:none" id="main-video"></div>
 <div layout="row" style="height:100%">
 	<div flex="15" style="position:relative;background-color:#e6f2ff" class="md-whiteframe-z2">
 		<div style="text-align:center;padding:1em;">
@@ -50,18 +52,9 @@
         <img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
 	</div>
 	<div flex layout="column">
-		<div id="top" flex="45" style="position:relative">
-			<div>
-				<div flex>
-					<!-- Warning, if main-video isn't shown, participants doesn't work -->
-					<div id="main-video" style="display:none"></div>
-				</div>
-				<div flex style="text-align:center">
-					<div id="participants"></div> 
-				</div>
-	 			
- 			</div>
-			<div align="center" style="width:100%;position:absolute;bottom:0px;padding-bottom: 1em" id="buttonActions"> 
+		<div id="top" flex="50" layout="column" style="position:relative">
+			<div id="participants" style="margin:0;padding:0"></div> 
+			<div align="center" style="position:absolute;width:100%;padding:0;margin-bottom:1em;bottom:0px;" id="buttonActions"> 
 				<md-button ng-click="onOffVolume()" class="md-fab md-primary md-hue-1" aria-label="Volume_up" id="buttonVolume" title="Audio toggle">
            			 <md-icon>volume_up</md-icon>
        			 </md-button>
@@ -76,11 +69,11 @@
        			 </md-button>
 	        </div>
 		</div>
-		<div flex class="toggler"  layout="column" style="width:100%;border-top-style:solid;background-color:white" >
+		<div flex="50" class="toggler" layout="column" style="width:100%;border-top-style:solid;background-color:white" >
 			 	<div style="padding-left:1em">
 			 		<strong>Team chat</strong>
 			 	</div>
-			    <div flex id="chatscroll" style="height: 45vh;  overflow: scroll; overflow-x: hidden;">
+			    <div flex id="chatscroll" style="height: 10vh;  overflow: scroll; overflow-x: hidden;">
 			    			<md-list-item ng-repeat="message in chatMessages | filter:{ teamid: team.id, roomid: roomId }" style="position:relative">
 						     	<a href="#/user/{{message.user}}">
 						     		<img data-ng-src="{{getImage(message.user.image, message.user.imageType)}}" class="md-avatar"/>
