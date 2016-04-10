@@ -15,9 +15,37 @@
       </div>
 </md-toolbar>
 <div data-ng-init="init()" style="position:relative">
-<div ng-show="user.name" style="padding:2em;">
-	<div id="mainPage" layout="row" style="margin:1vh;margin-left:10vh;margin-right:10vh" class="window">
-		<div layout="column" flex="15" style="padding:0;height:auto;background-color:#e6f2ff" class="md-whiteframe-z2">
+	      <md-fab-speed-dial style="position:absolute" ng-cloak md-open="false" md-direction="down"
+	                     class="md-scale" hide-gt-xs>
+	        <md-fab-trigger>
+	          <md-button aria-label="menu" class="md-fab md-primary">
+	            <md-icon>menu</md-icon>
+	          </md-button>
+	        </md-fab-trigger>
+	        <md-fab-actions>
+	      	  <a ng-href="#/user/{{user.id}}">
+		          <md-button aria-label="Profile" class="md-fab md-raised md-mini">
+		            <md-icon>person</md-icon>
+		          </md-button>
+		      </a>
+	          <md-button ng-click="joinTeam($event)" aria-label="Join a team" class="md-fab md-raised md-mini">
+	            <md-icon>group</md-icon>
+	          </md-button>
+	          <md-button ng-click="newTeam($event)" aria-label="New team" class="md-fab md-raised md-mini">
+	            <md-icon>group_add</md-icon>
+	          </md-button>
+	          <div ng-show="user.privileges>0">
+			  		<a ng-href="#/admin">
+			        	<md-button aria-label="Administration" class="md-fab md-raised md-mini">
+			            <md-icon>star</md-icon>
+			          </md-button>
+			        </a>
+	          </div>
+	        </md-fab-actions>
+	      </md-fab-speed-dial>
+<div ng-show="user.name" layout-align="center center" layout-margin>
+	<div id="mainPage" layout="row" class="window">
+		<div flex="2" hide-xs style="padding:0;height:auto;background-color:#e6f2ff" class="md-whiteframe-z2">
 				<div style="text-align:center;padding:2vh;">
 					<img data-ng-src="{{getImage(user.image, user.imageType)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 					<h1 class="md-title" style="margin:0"><b>{{user.name}}</b></h1>
@@ -47,7 +75,7 @@
 					</a>
 				</div>
 		</div>
-		<div flex style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-right-width:1px;border-right-style:solid;text-align:center;padding:0;background-color:#e6f2ff" class="md-whiteframe-z2">
+		<div flex style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-right-width:1px;border-right-style:solid;text-align:center;background-color:#e6f2ff" class="md-whiteframe-z2">
 						<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
 							Your teams
 						</md-subheader>
