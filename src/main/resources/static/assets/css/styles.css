@@ -84,6 +84,9 @@
   float: left;
   width: 45%;
   box-sizing: border-box;
+  padding:1em;
+  color:black;
+  border-radius: 6px;
 }
 
 .sections pre {

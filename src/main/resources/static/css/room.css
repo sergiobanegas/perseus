@@ -4,6 +4,134 @@ body, html {
     background-image:url('./img/background.jpg')
 }
 
+.greybackground{
+	background-color:#737373;
+}
+
+.whitebackground{
+	background-color:white;
+}
+
+#registrationpanel{
+	padding:2em;
+	padding-top:0;	
+}
+
+.perseuslogo{
+	max-height:100%;
+	max-width:100%;
+	position:absolute;
+	bottom:0;
+}
+
+.adminsection{
+	width:75%;
+	margin:auto;
+}
+
+.smallpadding{
+	padding:1em;
+}
+
+.admintable{
+	 max-height: 85vh;
+	 overflow-y:auto;
+	 overflow-x: hidden;
+}
+
+.sectiontitle{
+	 width:75%;
+	 margin:auto;
+	 color:#666666;
+}
+
+.squareavatar{
+	 border-radius:0;
+}
+
+.hidden{
+	display:none;
+}
+
+.returnbutton{
+	position:absolute;
+	right:1em;
+	top:1em;
+	z-index:999;
+}
+.header{
+	color:white;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+
+.relative{
+	position:relative;
+}
+
+.absolute{
+	position:absolute;
+}
+.bluebackground{
+	background-color:#e6f2ff;	
+}
+
+.redbackground{
+	background-color:red;
+}
+
+.imagecontainer{
+	padding:2vh;
+}
+.nomargin{
+	margin:0;
+}
+
+#joinTeamInputForm{
+	margin-right:2em;
+}
+.indexmenubutton{
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+.indexmenubutton button{
+	margin:0;
+	width:100%;
+}
+
+#firstindexmenubutton{
+	border-top-style:solid;
+	border-top-width:1px;
+}
+
+.mainimage{
+	border-radius:15px;
+	max-width:100%;
+	max-height:100%;
+}
+
+.indexlist{
+	overflow-y: auto;
+	overflow-x: hidden;
+	text-align:center;
+	max-height: 80vh;
+}
+
+#indexteamlist{
+	border-right-width:1px;
+	border-right-style:solid;
+}
+#indexteamlist a{
+	margin-left:5vh;
+	text-decoration:none;
+}
+#indexteamlist img{
+	margin-left:2vh;
+}
+.emptylist{
+	padding:2vh;
+}
+
 .window{
 	border-style:solid;
 	border-width:2px;
@@ -17,6 +145,50 @@ a:link{
 }
 a:visited {
     color: inherit;
+}
+
+.line-numbers{
+	width: 50%;
+	margin:0;
+	float:right;
+}
+
+.line-numbers img{
+	max-width:100%;
+}
+
+.sections .fixed{
+	z-index:50;
+}
+
+.green{
+	color:green;
+}
+
+.red{
+	color:red;
+}
+
+.blue{
+	color:blue;
+}
+
+#linkunderline{
+	text-decoration:underline;
+	color:blue;
+}
+
+#registerbutton{
+	background-color:purple;
+	color:white;
+}
+
+.backgroundmidnight1{
+	background: rgba(223, 220, 122, 0.5);
+}
+
+.backgroundmidnight2{
+	background: rgba(223, 220, 122, 0.9);
 }
 
 md-content.md-default-theme {
@@ -53,6 +225,14 @@ md-sidenav {
   }
 }
 
+#errorsigned{
+	background-color:white;
+	margin:auto;
+	margin-top:10vh;
+	padding:2em;
+	text-align:center;
+	width:25%;
+}
 
 #centraldiv{
 	border-radius:7px;

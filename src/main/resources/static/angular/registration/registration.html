@@ -1,5 +1,5 @@
-<md-toolbar style="background-color:#737373">
-      <div class="md-toolbar-tools">
+<md-toolbar>
+      <div class="md-toolbar-tools greybackground">
         <md-button id="homeButton" class="md-icon-button" aria-label="Settings">
           <md-icon aria-label="Home">home</md-icon>	
         </md-button>
@@ -15,31 +15,31 @@
       </div>
 </md-toolbar>
 <div ng-hide="user.id" layout="row" layout-align="center center" layout-margin>
-<div class="md-whiteframe-z2 window" style="background-color:white;padding:2em;padding-top:0">
-	<div style="text-align:center"><h1>Registration</h1></div>
+<div class="md-whiteframe-z2 window whitebackground" id="registrationpanel">
+	<div align="center"><h1>Registration</h1></div>
 	<form role="form" ng-submit="register(newUser)" accept-charset="UTF-8">
-		<div style="text-align:center">
+		<div align="center">
 			<p>Insert your user credentials in the forms below.<br/> Important: you need to use a valid email to confirm your account.</p>
 		</div>
 		<md-input-container class="md-icon-float md-block">
 		    <label>Name</label>
-		    <md-icon aria-label="Name" style="color: blue;">person</md-icon>
+		    <md-icon aria-label="Name" class="blue">person</md-icon>
 		    <input ng-model="newUser.name">
 		</md-input-container>
 		<md-input-container class="md-icon-float md-block">
 		    <label>Password</label>
-		    <md-icon aria-label="Password" style="color: blue;">vpn_key</md-icon>
+		    <md-icon aria-label="Password" class="blue">vpn_key</md-icon>
 		    <input type="password" ng-model="newUser.password">
 		</md-input-container>
 		<md-input-container class="md-icon-float md-block">
 		    <label>Email</label>
-		    <md-icon aria-label="Email" style="color: blue;">email</md-icon>
+		    <md-icon aria-label="Email" class="blue">email</md-icon>
 		    <input type="email" ng-model="newUser.email">
 		</md-input-container>
 		<md-button class="md-raised md-primary" type="submit">Register</md-button>
 	</form>
 	</div>
 </div>
-<div ng-show="user.id" class="md-whiteframe-z2 window" style="background-color:white;margin:auto;margin-top:10vh;padding:2em;text-align:center;width:25%">
+<div ng-show="user.id" class="md-whiteframe-z2 window whitebackground" id="errorsigned">
 	You've already signed in
 </div>

@@ -13,14 +13,14 @@
 		<div class="md-dialog-content">
 		<p>In order to join a team, you can do it in to ways:</p>
 			<div layout="row">
-				<div flex style="margin-right:2em">
+				<div flex id="joinTeamInputForm">
 					<p>If you know the team password, you can join directly by filling this form:</p>
 					<div layout="row">
-						<md-input-container flex style="margin:0">
+						<md-input-container flex class="nomargin">
 							<label>Team name</label>
 							<input ng-model="team.name">
 						</md-input-container>
-						<md-input-container flex style="margin:0">
+						<md-input-container flex class="nomargin">
 							<label>Password</label>
 							<input ng-model="team.password" type="password">
 						</md-input-container>
@@ -34,12 +34,12 @@
 				<div flex="40">
 					<p>If you don't know the team password, you can send a petition to the
 					team:</p>
-					<md-input-container style="width:100%;margin:0">
+					<md-input-container class="nomargin">
 						<label>Team name</label>
 						<input ng-model="teamRequested">
 					</md-input-container>
 					<div>
-							<md-button class="md-primary md-raised" style="margin:0" ng-click="teamJoinRequest(teamRequested)">
+							<md-button class="md-primary md-raised nomargin" ng-click="teamJoinRequest(teamRequested)">
 								Send petition
 							</md-button>
 					</div>	
