@@ -106,7 +106,6 @@ perseus.controller('adminController', function ($scope, $mdDialog, $window, serv
 			 }
 		 }	
 	 });
-	 
 	
 });
 function adminActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceTeam, user, team) {

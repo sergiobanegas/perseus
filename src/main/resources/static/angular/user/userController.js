@@ -12,7 +12,6 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	
 	$scope.editName=0;
 	$scope.editEmail=0;
-	
 	$scope.actualpassword;
 	$scope.password1;
 	$scope.password2;
@@ -59,18 +58,17 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	};
 	 $scope.myImage='';
 	 $scope.myCroppedImage='';
-
-	    var handleFileSelect=function(evt) {
-	      var file=evt.currentTarget.files[0];
-	      var reader = new FileReader();
-	      reader.onload = function (evt) {
-	        $scope.$apply(function($scope){
-	          $scope.myImage=evt.target.result;
-	        });
-	      };
-	      reader.readAsDataURL(file);
-	    };
-	    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+	 var handleFileSelect=function(evt) {
+		 var file=evt.currentTarget.files[0];
+		 var reader = new FileReader();
+		 reader.onload = function (evt) {
+			 $scope.$apply(function($scope){
+				 $scope.myImage=evt.target.result;
+			 });
+		 };
+		 reader.readAsDataURL(file);
+	 };
+	 angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
 	    
 	$scope.changeProfileImage = function(cropped){
 		var croppedFormated=cropped.slice(5, cropped.length-1);
@@ -115,6 +113,7 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 		}
 		
 	});
+	
 	$("#editProfilePhotoLaunchButton").click(function(){
 		$("#userCredentials").toggle("blind");
 		$("#editProfilePhoto").toggle("blind");
@@ -144,7 +143,6 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	  
 });
 
-
 function userActionsController($scope, $mdDialog, $window, serviceNotification, serviceUser, user) {
 
 	$scope.deleteAccount = function(){
@@ -158,5 +156,4 @@ function userActionsController($scope, $mdDialog, $window, serviceNotification, 
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
-	
 }

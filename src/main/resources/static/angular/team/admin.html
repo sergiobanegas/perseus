@@ -1,204 +1,197 @@
 <div style="position:relative;height:100%;" layout="row">
-<div style="position:absolute;right:1em;top:1em;z-index:999">
-	<a href="#/team/{{team.id}}">
-		<md-button class="md-raised md-primary">
-			Return
-		</md-button>
-	</a>
-</div>
-<nav class="cd-side-nav" id="sidenav" flex="15">
-			<ul>
-				<li class="cd-label">{{team.name}}</li>
-				<li id="welcomePageButton" class="overview active" ng-click="section='administration'">
-					<a>Home</a>
-				</li>
-			</ul>
-			<ul>
-				<li class="cd-label">Administration</li>				
-				<li id="teamSettingsButton" class="bookmarks" ng-click="section='team settings'">
-					<a>Team settings</a>
-				</li>
-				<li id="filesButton" class="has-children images" ng-click="section='files'">
-					<a>Files</a>
-				</li>
-				<li class="users" id="membersButton" ng-click="section='members'">
-					<a>Members</a>
-				</li>
-			</ul>
-			<img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
-</nav>
-
-<div flex style="position:relative">
-	<md-button style="position:absolute" id="sidenavButton" class="md-icon-button launch">
-		<md-icon>
-			menu
-		</md-icon>
-		<md-tooltip>
-			Menu
-		</md-tooltip>
-	</md-button>
-	<div layout="row" style="width:75%;margin:auto;color:#666666">
-		<h1>{{team.name}} - {{section}}</h1>
-</div>
-	<div style="width:75%;margin:auto;background-color:white;max-height:85vh" class="window md-whiteframe-3dp">
-		<div id="welcomePage" style="padding:1em">
-			<h2>Welcome to the admin panel</h2>
-			<p>Release v2.0 functionality:</p>
-			<ul>
-				<li>Remove users</li>
-				<li>Give permissions to users</li>
-				<li>Leave team</li>
-				<li>Delete team</li>
-			</ul>
-		</div>
-		<div id="settings" style="display:none">
-			<md-list>
-				<md-list-item style="position:relative;padding:1em;padding-bottom:none">
-					<img data-ng-src="{{getImage(team.image, team.imageType)}}" class="md-avatar" style="border-radius:0px" alt="{{team.name}}"/>
-					<h2>Set team image</h2>
-					<md-button id="changeImageButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
-						<md-icon>
-							arrow_drop_down_circle
-						</md-icon>
-					</md-button>
-				</md-list-item>
-				<div id="changeImage" style="display:none;padding:1em;padding-top:0px" layout="row">
-					<div flex style="margin-right:4em;padding:1em">
-						Select a image from your computer
-	      				<input type="file" id="fileInput" ng-model="teamImage" name="file" accept="image/*">
-						<div class="cropArea" style="background: #E4E4E4;overflow: hidden;width:100%;height:20em">
-							<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
-						</div>			
-					</div>
-					<div flex style="padding:1em">
-						<span ng-show="myImage">
-						Cropped Image
-  							<div><img ng-src="{{myCroppedImage}}" /></div>
-  							<md-button ng-click="changeTeamImage(myCroppedImage)" class="md-primary md-raised">Change image</md-button>
-						</span>
-					</div>
-				</div>
-				<md-divider></md-divider>
-				<md-list-item style="position:relative;padding:1em;padding-bottom:none">
-					<h2>Change team and password</h2>
-					<md-button id="changeValuesButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
-						<md-icon>
-							arrow_drop_down_circle
-						</md-icon>
-					</md-button>
-				</md-list-item>
-				<div id="changeValues" style="display:none">
-					<form ng-submit="updateTeam()" layout="row" style="padding:1em;padding-top:0px">
-						<div flex>
-							The team name is <b>{{team.name}}</b>.
-							<md-input-container class="md-icon-float md-block">
-						      <label>Team name</label>
-						      <md-icon>group</md-icon>
-						      <input ng-model="newTeamName" type="text">
-						    </md-input-container>
-						</div>
-						<div flex>
-							<md-input-container class="md-icon-float md-block">
-						      <label>Password</label>
-						      <md-icon>vpn_key</md-icon>
-						      <input ng-model="newTeamPassword1" type="password">
-						    </md-input-container>
-							<md-input-container class="md-icon-float md-block">
-						      <label>Confirm password</label>
-						      <md-icon>vpn_key</md-icon>
-						      <input ng-model="newTeamPassword2" type="password">
-						    </md-input-container>
-						</div>
-						<div flex>
-							<md-button type="submit" class="md-raised md-primary">Update</md-button>
-						</div>
-					</form>
-				</div>
-				<md-divider></md-divider>
-				<md-list-item style="position:relative;padding:1em;padding-bottom:none">
-					<h2>Delete/leave team</h2>
-					<md-button id="leaveTeamButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
-						<md-icon>
-							arrow_drop_down_circle
-						</md-icon>
-					</md-button>
-				</md-list-item>
-				<div layout="row" id="leaveTeam" style="display:none;padding:1em;padding-top:0px">
-					<div flex>
-						<p>If you want to leave the team, you need to give administration privileges to another user</p>
-						<md-autocomplete
-					        md-no-cache="noCache"
-					        md-selected-item="newAdmin"
-					        md-search-text-change="searchTextChange(searchText)"
-					        md-search-text="searchText"
-					        md-selected-item-change="selectedItemChange(participate)"
-					        md-items="participate in querySearch(searchText)"
-					        md-item-text="participate.user.name"
-					        md-min-length="0"
-					        placeholder="Select new admin">
-					    	<md-item-template>
-					        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{participate.user.name}}</span>
-					        </md-item-template>
-					        <md-not-found>
-					         There's no user with the name "{{searchText}}".
-						</md-not-found>
-					</md-autocomplete> 
-					<md-button ng-show="newAdmin.id" ng-click="leaveTeam()" class="md-raised md-primary">
-					    Give privileges and leave team
-					</md-button>  
-				</div>
-				<div flex style="margin-left:2em">
-					<p>Delete the team definitely</p>
-					<md-button ng-click="deleteTeam($event)" style="color:white;background-color:red">
-					   	Delete team
-					 </md-button> 
-				</div>
-			</div>	
-			</md-list>
-		</div>
-		<div id="members" style="display:none">
-			<div style="padding:1em" ng-show="members().length==1">
-				You are the only member of <b>{{team.name}}</b>
-			</div>
-			<md-table-container ng-show="members().length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
-				<table md-table>
-					<thead md-head>
-						<th md-column>Image</th>
-						<th md-column>Name</th>
-						<th md-column>Email</th>
-						<th md-column>Permissions</th>
-						<th md-column>Kick out</th>
-				    </thead>
-				    <tbody md-body>
-				    	<tr md-row md-select="participate" md-auto-select ng-repeat="participate in members()" ng-hide="participate.userid==user.id || participate.teamPrivileges==2">
-						    <td md-cell>
-						    	<md-list-item>
-						    	<img data-ng-src="{{getImage(participate.user.image, participate.user.imageType)}}" class="md-avatar"/>
-						    	</md-list-item>
-						    </td>
-						    <td md-cell>{{participate.user.name}}</td>
-						    <td md-cell>{{participate.user.email}}</td>
-					        <td md-cell>
-					        	<md-button ng-show="participate.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(participate)" title="Set moderator" aria-label="Add">
-									<md-icon style="color:yellow">star_border</md-icon>
-								</md-button>
-								<md-button ng-show="participate.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(participate)" title="Remove moderator" aria-label="Remove">
-									<md-icon style="color:yellow">star</md-icon>
-								</md-button>
-					        </td>
-					        <td md-cell>
-								<md-button class="md-icon-button" ng-click="kickMember(participate)" title="Deny invitation" aria-label="Deny">
-									<md-icon style="color:red">cancel</md-icon>
-								</md-button>
-		     				</td>
-					    </tr>
-					</tbody>
-				</table>
-			</md-table-container>
-		</div>
-		<div id="files" style="display:none;padding:1em">
-			This functionality will be added soon.
-		</div>
+	<div style="position:absolute;right:1em;top:1em;z-index:999">
+		<a href="#/team/{{team.id}}">
+			<md-button class="md-raised md-primary">
+				Return
+			</md-button>
+		</a>
 	</div>
+	<nav class="cd-side-nav" id="sidenav" flex="15">
+		<ul>
+			<li class="cd-label">{{team.name}}</li>
+			<li id="welcomePageButton" class="overview active" ng-click="section='administration'">
+				<a>Home</a>
+			</li>
+		</ul>
+		<ul>
+			<li class="cd-label">Administration</li>				
+			<li id="teamSettingsButton" class="bookmarks" ng-click="section='team settings'">
+				<a>Team settings</a>
+			</li>
+			<li class="users" id="membersButton" ng-click="section='members'">
+				<a>Members</a>
+			</li>
+		</ul>
+		<img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
+	</nav>
+	<div flex style="position:relative">
+		<md-button style="position:absolute" id="sidenavButton" class="md-icon-button launch">
+			<md-icon>
+				menu
+			</md-icon>
+			<md-tooltip>
+				Menu
+			</md-tooltip>
+		</md-button>
+		<div layout="row" style="width:75%;margin:auto;color:#666666">
+			<h1>{{team.name}} - {{section}}</h1>
+		</div>
+		<div style="width:75%;margin:auto;background-color:white;max-height:85vh" class="window md-whiteframe-3dp">
+			<div id="welcomePage" style="padding:1em">
+				<h2>Welcome to the admin panel</h2>
+				<p>Release v2.0 functionality:</p>
+				<ul>
+					<li>Remove users</li>
+					<li>Give permissions to users</li>
+					<li>Leave team</li>
+					<li>Delete team</li>
+				</ul>
+			</div>
+			<div id="settings" style="display:none">
+				<md-list>
+					<md-list-item style="position:relative;padding:1em;padding-bottom:none">
+						<img data-ng-src="{{getImage(team.image, team.imageType)}}" class="md-avatar" style="border-radius:0px" alt="{{team.name}}"/>
+						<h2>Set team image</h2>
+						<md-button id="changeImageButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
+							<md-icon>
+								arrow_drop_down_circle
+							</md-icon>
+						</md-button>
+					</md-list-item>
+					<div id="changeImage" style="display:none;padding:1em;padding-top:0px" layout="row">
+						<div flex style="margin-right:4em;padding:1em">
+							Select a image from your computer
+		      				<input type="file" id="fileInput" ng-model="teamImage" name="file" accept="image/*">
+							<div class="cropArea" style="background: #E4E4E4;overflow: hidden;width:100%;height:20em">
+								<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+							</div>			
+						</div>
+						<div flex style="padding:1em">
+							<span ng-show="myImage">
+							Cropped Image
+	  							<div><img ng-src="{{myCroppedImage}}" /></div>
+	  							<md-button ng-click="changeTeamImage(myCroppedImage)" class="md-primary md-raised">Change image</md-button>
+							</span>
+						</div>
+					</div>
+					<md-divider></md-divider>
+					<md-list-item style="position:relative;padding:1em;padding-bottom:none">
+						<h2>Change team and password</h2>
+						<md-button id="changeValuesButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
+							<md-icon>
+								arrow_drop_down_circle
+							</md-icon>
+						</md-button>
+					</md-list-item>
+					<div id="changeValues" style="display:none">
+						<form ng-submit="updateTeam()" layout="row" style="padding:1em;padding-top:0px">
+							<div flex>
+								The team name is <b>{{team.name}}</b>.
+								<md-input-container class="md-icon-float md-block">
+							      <label>Team name</label>
+							      <md-icon>group</md-icon>
+							      <input ng-model="newTeamName" type="text">
+							    </md-input-container>
+							</div>
+							<div flex>
+								<md-input-container class="md-icon-float md-block">
+							      <label>Password</label>
+							      <md-icon>vpn_key</md-icon>
+							      <input ng-model="newTeamPassword1" type="password">
+							    </md-input-container>
+								<md-input-container class="md-icon-float md-block">
+							      <label>Confirm password</label>
+							      <md-icon>vpn_key</md-icon>
+							      <input ng-model="newTeamPassword2" type="password">
+							    </md-input-container>
+							</div>
+							<div flex>
+								<md-button type="submit" class="md-raised md-primary">Update</md-button>
+							</div>
+						</form>
+					</div>
+					<md-divider></md-divider>
+					<md-list-item style="position:relative;padding:1em;padding-bottom:none">
+						<h2>Delete/leave team</h2>
+						<md-button id="leaveTeamButton" class="md-icon-button launch" style="position:absolute;right:2em;top:0.5em">
+							<md-icon>
+								arrow_drop_down_circle
+							</md-icon>
+						</md-button>
+					</md-list-item>
+					<div layout="row" id="leaveTeam" style="display:none;padding:1em;padding-top:0px">
+						<div flex>
+							<p>If you want to leave the team, you need to give administration privileges to another user</p>
+							<md-autocomplete
+						        md-no-cache="noCache"
+						        md-selected-item="newAdmin"
+						        md-search-text-change="searchTextChange(searchText)"
+						        md-search-text="searchText"
+						        md-selected-item-change="selectedItemChange(participate)"
+						        md-items="participate in querySearch(searchText)"
+						        md-item-text="participate.user.name"
+						        md-min-length="0"
+						        placeholder="Select new admin">
+						    	<md-item-template>
+						        	<span md-highlight-text="searchText" md-highlight-flags="^i">{{participate.user.name}}</span>
+						        </md-item-template>
+						        <md-not-found>
+						         There's no user with the name "{{searchText}}".
+							</md-not-found>
+						</md-autocomplete> 
+						<md-button ng-show="newAdmin.id" ng-click="leaveTeam()" class="md-raised md-primary">
+						    Give privileges and leave team
+						</md-button>  
+					</div>
+					<div flex style="margin-left:2em">
+						<p>Delete the team definitely</p>
+						<md-button ng-click="deleteTeam($event)" style="color:white;background-color:red">
+						   	Delete team
+						 </md-button> 
+					</div>
+				</div>	
+				</md-list>
+			</div>
+			<div id="members" style="display:none">
+				<div style="padding:1em" ng-show="members().length==1">
+					You are the only member of <b>{{team.name}}</b>
+				</div>
+				<md-table-container ng-show="members().length>1" style="max-height: 45em; overflow-y:auto; overflow-x: hidden;">
+					<table md-table>
+						<thead md-head>
+							<th md-column>Image</th>
+							<th md-column>Name</th>
+							<th md-column>Email</th>
+							<th md-column>Permissions</th>
+							<th md-column>Kick out</th>
+					    </thead>
+					    <tbody md-body>
+					    	<tr md-row md-select="participate" md-auto-select ng-repeat="participate in members()" ng-hide="participate.userid==user.id || participate.teamPrivileges==2">
+							    <td md-cell>
+							    	<md-list-item>
+							    	<img data-ng-src="{{getImage(participate.user.image, participate.user.imageType)}}" class="md-avatar"/>
+							    	</md-list-item>
+							    </td>
+							    <td md-cell>{{participate.user.name}}</td>
+							    <td md-cell>{{participate.user.email}}</td>
+						        <td md-cell>
+						        	<md-button ng-show="participate.teamPrivileges==0" class="md-icon-button" ng-click="setModerator(participate)" title="Set moderator" aria-label="Add">
+										<md-icon style="color:yellow">star_border</md-icon>
+									</md-button>
+									<md-button ng-show="participate.teamPrivileges==1" class="md-icon-button" ng-click="removeModerator(participate)" title="Remove moderator" aria-label="Remove">
+										<md-icon style="color:yellow">star</md-icon>
+									</md-button>
+						        </td>
+						        <td md-cell>
+									<md-button class="md-icon-button" ng-click="kickMember(participate)" title="Deny invitation" aria-label="Deny">
+										<md-icon style="color:red">cancel</md-icon>
+									</md-button>
+			     				</td>
+						    </tr>
+						</tbody>
+					</table>
+				</md-table-container>
+			</div>
+		</div>
 	</div>
 </div>

@@ -105,8 +105,7 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 			}
 		}
 		$window.location.href = '#/';
-		serviceNotification.showNotification("Goodbye", "You left the team");					
-		
+		serviceNotification.showNotification("Goodbye "+$scope.user.name, "You left the team");					
 	}
 	
 	$scope.deleteTeam = function($event){
@@ -126,11 +125,8 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	};
 	
 	$scope.newTeamName=$scope.team.name;
-	
 	$scope.newTeamPassword1=$scope.team.password;
-	
 	$scope.newTeamPassword2=$scope.team.password;
-	
 	$scope.updateTeam = function(){
 		if ($scope.newTeamName!="" && $scope.newTeamPassword1!="" && $scope.newTeamPassword2!=""){
 				if ($scope.newTeamPassword1==$scope.newTeamPassword2){
@@ -142,7 +138,6 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 				}
 		}
 	}
-	
 	//jQuery functions
 	 $("#sidenavButton").click(function(){
 		 if (!$('#sidenav').is(":visible")){
@@ -155,9 +150,7 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	 $("#teamSettingsButton").click(function(){
 		 $("#membersButton").removeClass("active");
 		 $("#welcomePageButton").removeClass("active");
-		 $("#filesButton").removeClass("active");
 		 $("#members").hide();
-		 $("#files").hide();
 		 $("#welcomePage").hide();
 		 $("#settings").show();
 		 if (!$('#teamSettingsButton').hasClass("active")){
@@ -172,9 +165,7 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	 $("#welcomePageButton").click(function(){
 		 $("#membersButton").removeClass("active");
 		 $("#teamSettingsButton").removeClass("active");
-		 $("#filesButton").removeClass("active");
 		 $("#members").hide();
-		 $("#files").hide();
 		 $("#settings").hide();
 		 $("#welcomePage").show();
 		 if (!$('#welcomePageButton').hasClass("active")){
@@ -189,9 +180,7 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 	 $("#membersButton").click(function(){
 		 $("#welcomePageButton").removeClass("active");
 		 $("#teamSettingsButton").removeClass("active");
-		 $("#filesButton").removeClass("active");
 		 $("#settings").hide();
-		 $("#files").hide();
 		 $("#welcomePage").hide();
 		 $("#members").show();
 		 if (!$('#membersButton').hasClass("active")){
@@ -199,23 +188,6 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 		 }else{
 			 if ($("#members").is(":hidden")){
 			 	$("#membersButton").removeClass("active");
-			 }
-		 }	
-	 });
-	 
-	 $("#filesButton").click(function(){
-		 $("#membersButton").removeClass("active");
-		 $("#welcomePageButton").removeClass("active");
-		 $("#teamSettingsButton").removeClass("active");
-		 $("#settings").hide();
-		 $("#members").hide();
-		 $("#welcomePage").hide();
-		 $("#files").show();
-		 if (!$('#filesButton').hasClass("active")){
-			 $("#filesButton").addClass("active");
-		 }else{
-			 if ($("#files").is(":hidden")){
-			 	$("#filesButton").removeClass("active");
 			 }
 		 }	
 	 });
@@ -249,5 +221,4 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 				 $("#changeValues").toggle("blind");
 			 }
 		});
-	
 });

@@ -9,12 +9,10 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     $scope.roomId=serviceKurentoRoom.getRoomId();
     $scope.creator=serviceKurentoRoom.getCreator();  
     $scope.team=serviceKurentoRoom.getTeam();
-    
     $scope.userName = serviceKurentoRoom.getUserName();
     $scope.participants = ServiceParticipant.getParticipants();
     $scope.kurento = serviceKurentoRoom.getKurento();
     $scope.chatMessages = serviceChatMessage.getChatMessages();
-    
     $scope.teamObject=serviceTeam.getTeam($scope.team);
     
     $scope.getImage = function(data, imagetype){
@@ -145,18 +143,15 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     });
     
     $scope.goFullscreen = function () {
-
         if (Fullscreen.isEnabled())
             Fullscreen.cancel();
         else
             Fullscreen.all();
-
     };
 
     $scope.onOffVolume = function () {
         var localStream = serviceKurentoRoom.getLocalStream();
         var element = document.getElementById("buttonVolume");
-
         if (element.classList.contains("mdi-volume-off")) { //on
             element.classList.remove("mdi-volume-off");
             element.classList.add("mdi-volume-high");
@@ -165,7 +160,6 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
             element.classList.remove("mdi-volume-high");
             element.classList.add("mdi-volume-off");
             localStream.audioEnabled = false;
-
         }
     };
 
@@ -230,7 +224,6 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 	$scope.teamUsers=teamUsers;
 	$scope.searchText="";
 	$scope.room=room;
-	
 	$scope.userInvited;
 	$scope.querySearch = function (query) {
 		return $filter('filter')($scope.notMembers(), { userid: query});
@@ -278,22 +271,21 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 }
 function leaveRoomController($scope, $mdDialog, $window, serviceNotification, serviceKurentoRoom, ServiceParticipant, serviceParticipateRoom, team, room, user) {
 		
-		$scope.leaveRoom = function(){	
-			for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
-				if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id && serviceParticipateRoom.getParticipateRooms()[i].room==room){
-					serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
-					break;
-				}				
-			}
-			serviceKurentoRoom.getKurento().close();
-	        ServiceParticipant.removeParticipants();
-			$mdDialog.hide();
-			$window.location.href = '#/team/'+team;
-			serviceNotification.showNotification("You left the room", "Goodbye!");			
+	$scope.leaveRoom = function(){	
+		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
+			if (serviceParticipateRoom.getParticipateRooms()[i].user==user.id && serviceParticipateRoom.getParticipateRooms()[i].room==room){
+				serviceParticipateRoom.deleteParticipateRoom(serviceParticipateRoom.getParticipateRooms()[i]);
+				break;
+			}				
 		}
-		
-		$scope.closeDialog = function() {
-			$mdDialog.hide();
-		}
-		
+		serviceKurentoRoom.getKurento().close();
+	       ServiceParticipant.removeParticipants();
+		$mdDialog.hide();
+		$window.location.href = '#/team/'+team;
+		serviceNotification.showNotification("You left the room", "Goodbye!");			
+	}
+	
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
 }

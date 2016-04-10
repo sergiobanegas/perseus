@@ -4,10 +4,8 @@
 
 perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $route, $filter, $window, webNotification, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceTeamInvite) {
 	
-	
 	$scope.user = serviceUser.getSession();
 	$scope.teams= serviceParticipate.getParticipates();
-	$scope.teamName="";		
 	$scope.teamInvites=serviceTeamInvite.getTeamInvites();
 	
 	$scope.getImage = function(data, imageType){
@@ -39,8 +37,7 @@ perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $ro
 			$(".sections").hide();
 		}else{
 			$("#mainPage").show();
-		}
-		
+		}	
 	}
 	
 	$scope.redirectTeam = function(team){
@@ -91,14 +88,10 @@ perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $ro
 	   })
 	};	
 	
-	//Midnight.js
+	//Midnight
 	$(document).ready(function(){
-	      // vh fix for iOS7 (Not that it works well on that anyway)
-	      // Start Midnight!
 	      $('nav.fixed').midnight();
-	      // Start wow.js
 	      new WOW().init();
-	      // The island disappears when the logo moves on top of it
 	      var $island = $('#space-island');
 	      var islandTop = $island.offset().top;
 	      var windowHeight = $(window).height();
@@ -110,7 +103,6 @@ perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $ro
 	        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 	        var minScrollTop = islandTop - windowHeight * 0.4;
 	        var maxScrollTop = islandTop;
-	        // Opacity goes from 1.0 at the bottom 2/3 of the screen to 0.4 at the top
 	        if( scrollTop <= islandTop*2 ) {
 	          var targetOpacity = 1.0;
 	          var minOpacity = 0.4;
@@ -134,138 +126,134 @@ perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $ro
 	      });
 	      $(window).trigger('resize');
 	});
-	
-	//to hide the fixed nav when clicked outside dialog
 
-	
 });
 
 function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, $route, serviceNotification, serviceUser, serviceTeam, serviceParticipate, serviceRequestJoinTeam) {
-	   $scope.user = serviceUser.getSession();
-	   $scope.users = serviceUser.getUsers();
-	   $scope.userName = "";
-	   $scope.password = "";	
-	   $scope.passwordNewTeam="";
-		
-		$scope.login = function() {
-			if ($scope.userName && $scope.password){
-				var array= $filter('filter')($scope.users, { name: $scope.userName});
-				if (array.length!=0 && array[0].password==$scope.password){
+   $scope.user = serviceUser.getSession();
+   $scope.users = serviceUser.getUsers();
+   $scope.userName = "";
+   $scope.password = "";	
+   $scope.passwordNewTeam="";
+	
+	$scope.login = function() {
+		if ($scope.userName && $scope.password){
+			var array= $filter('filter')($scope.users, { name: $scope.userName});
+			if (array.length!=0 && array[0].password==$scope.password){
+				$mdDialog.hide();
+				serviceUser.loginUser(array[0]);
+				$route.reload();
+			}
+			else{
+				$scope.notification("The username or password are incorrect");	
+			}
+		}
+		else{
+			$scope.notification("Please fill both fields");	
+		}
+	};
+	
+	$scope.forgotPassword = function(){
+		$("#loginForm").hide();
+		$("#loginButton").hide();
+		$("#forgotPassword").show();
+		$("#forgotPasswordSendButton").show();
+	}
+	
+	$scope.emailForget;
+	$scope.sendForgetPassword = function(){
+		var data= {
+				"email": $scope.emailForget
+				};
+		$http.post("/sendnewpassword", data);
+	}
+	
+	$scope.joinTeam = function(Team) {
+		if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
+			var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
+				if ( $filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: TeamJoined.id }).length==0 ){			
+					serviceParticipate.newParticipate({teamid: TeamJoined.id, userid: $scope.user.id, teamPrivileges: 0, notifications: false });	
 					$mdDialog.hide();
-					serviceUser.loginUser(array[0]);
-					$route.reload();
+					serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
 				}
 				else{
-					$scope.notification("The username or password are incorrect");	
+					$scope.notification("You've already registered in the team "+Team.name);
 				}
-			}
-			else{
-					$scope.notification("Please fill both fields");	
-			}
-		};
-		
-		$scope.forgotPassword = function(){
-			$("#loginForm").hide();
-			$("#loginButton").hide();
-			$("#forgotPassword").show();
-			$("#forgotPasswordSendButton").show();
 		}
-		
-		$scope.emailForget;
-		$scope.sendForgetPassword = function(){
-			var data= {
-					"email": $scope.emailForget
-					};
-			$http.post("/sendnewpassword", data);
+		else{
+			$scope.notification("The name of the team or the password of the team are incorrect!");
 		}
-		
-		$scope.joinTeam = function(Team) {
-			if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
-				var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
-					if ( $filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: TeamJoined.id }).length==0 ){			
-						serviceParticipate.newParticipate({teamid: TeamJoined.id, userid: $scope.user.id, teamPrivileges: 0, notifications: false });	
-						$mdDialog.hide();
-						serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
-					}
-					else{
-						$scope.notification("You've already registered in the team "+Team.name);
-					}
-			}
-			else{
-				$scope.notification("The name of the team or the password of the team are incorrect!");
-			}
-		};
-		
-		$scope.newTeam = function(Team) {
-			if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
-					if (Team.password===$scope.password){
-						Team.admin=$scope.user.id;
-						serviceTeam.newTeam(Team);
-						$window.location.href = '#/';
-						$mdDialog.hide();
-						serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
-					}
-					else{
-						$scope.notification("The password doesn't match!");
-					}				
-			}
-			else{
-				$scope.notification("A team with that name already exists!");
-			}
-			
-		};
-		
-		$scope.teamJoinRequest = function(name){		
-				var team={};
-				for (var i=0;i<serviceTeam.getTeams().length;i++){
-					if (serviceTeam.getTeams()[i].name==name){
-						team=serviceTeam.getTeams()[i];
-						break;
-					}
+	};
+	
+	$scope.newTeam = function(Team) {
+		if ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}).length==0){			
+				if (Team.password===$scope.password){
+					Team.admin=$scope.user.id;
+					serviceTeam.newTeam(Team);
+					$window.location.href = '#/';
+					$mdDialog.hide();
+					serviceNotification.showNotification("Team created", "You succesfully created "+Team.name+"!");					
 				}
-				if (team){
-					if ($filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: team.id }).length==0 ){			
-						if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { userid: $scope.user.id, teamid: team.id}).length==0){							
-							serviceRequestJoinTeam.newRequestJoinTeam({userid:$scope.user.id, teamid: team.id});
-							for (var i=0;i<serviceParticipate.getParticipates().length;i++){
-								if (serviceParticipate.getParticipates()[i].teamid=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
-										var data= {
-												"user": $scope.user, 
-												"team": team,
-												"admin": serviceParticipate.getParticipates()[i].user
-												};
-										$http.post("/sendrequestjointeam", data);
-								}
-								$mdDialog.hide();
-								serviceNotification.showNotification("Petition sent", "A petition was sent to the team "+team.name);
-								return 0;
-							}		
-						}else{
-							$scope.notification("You've already sent a request to enter "+team);
-						}	
-					}else{
-						$scope.notification("You already are a member of the team "+teamObject.name);
-					}	
+				else{
+					$scope.notification("The password doesn't match!");
+				}				
+		}
+		else{
+			$scope.notification("A team with that name already exists!");
+		}
+	};
+	
+	$scope.teamJoinRequest = function(name){		
+		var team={};
+		for (var i=0;i<serviceTeam.getTeams().length;i++){
+			if (serviceTeam.getTeams()[i].name==name){
+				team=serviceTeam.getTeams()[i];
+				break;
+			}
+		}
+		if (team){
+			if ($filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: team.id }).length==0 ){			
+				if  ($filter('filter')(serviceRequestJoinTeam.getRequestJoinTeams(), { userid: $scope.user.id, teamid: team.id}).length==0){							
+					serviceRequestJoinTeam.newRequestJoinTeam({userid:$scope.user.id, teamid: team.id});
+					for (var i=0;i<serviceParticipate.getParticipates().length;i++){
+						if (serviceParticipate.getParticipates()[i].teamid=team.id && serviceParticipate.getParticipates()[i].teamPrivileges>0){
+								var data= {
+										"user": $scope.user, 
+										"team": team,
+										"admin": serviceParticipate.getParticipates()[i].user
+										};
+								$http.post("/sendrequestjointeam", data);
+						}
+						$mdDialog.hide();
+						serviceNotification.showNotification("Petition sent", "A petition was sent to the team "+team.name);
+						return 0;
+					}		
+				}else{
+					$scope.notification("You've already sent a request to enter "+team);
+				}	
 			}else{
-				$scope.notification("That team doesn't exists");
-			}
+				$scope.notification("You already are a member of the team "+teamObject.name);
+			}	
+		}else{
+			$scope.notification("The team doesn't exists");
 		}
+	}
 	   
-	   $scope.goRegistration = function (){
-		   $mdDialog.hide();
-		   $window.location.href = '#/registration';  
-	   };
+   $scope.goRegistration = function (){
+	   $mdDialog.hide();
+	   $window.location.href = '#/registration';  
+   };
+   
+   $scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	};
 	   
-	   $scope.notification = function(text) {
-		    $mdToast.show(
-		      $mdToast.simple()
-		        .textContent(text)
-		        .position("bottom right")
-		        .hideDelay(3000)
-		    );
-		};
-	   
-  $scope.closeDialog = function() {
-	  $mdDialog.hide();
-  }
+	$scope.closeDialog = function() {
+		$mdDialog.hide();
+	}
 }

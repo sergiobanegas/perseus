@@ -12,7 +12,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	//global variables
 	$scope.user=serviceUser.getSession();
-	$scope.users=serviceUser.getUsers();
 	$scope.team={};
 	$scope.notificationStatus;
 	serviceTeam.getTeamHttp($routeParams.id).then(function (result){
@@ -34,14 +33,13 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
         $scope.teamUsersWithoutUser = $filter('filter')(result.data, { userid: '!'+$scope.user.id});
 	});
     
-    $scope.member=false;   
+    $scope.member=false;//DOESN'T WORK   
     serviceParticipate.getUserParticipate($routeParams.id, $scope.user.id).then(function (result){
     	if (result.data.length>0){
     		$scope.member = true;
 		}	
     });
     
-    $scope.participatesHttp=[];
 	$scope.participateUser={};
 	$http.get('/participates')
 	  .then(function(result) {
@@ -82,14 +80,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			$scope.userReceiver=user;
 			$("#privateChat").show();
 			$("#newchatform").hide();
-			$scope.messagesScreen="userMessages";
 		}else{
 			$scope.notification("Please select a member of your team");
 		}
 		
 	}
-	
-	$scope.messagesScreen="newMessage";
 	
     $scope.receiver;
 	$scope.querySearch = function (query) {
@@ -104,10 +99,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.findTeamById = function(idteam){
 		return serviceTeam.getTeam(idteam);
-	}
-	
-	$scope.findRoomById = function(idroom){
-		return serviceRoom.getRoom(idroom);
 	}
 	//end auxiliar search functions
 	//chat message
@@ -139,7 +130,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	
 	$scope.index = 1;
 	$scope.searchPeople = function (term) {
-		$scope.people = $filter('filter')($scope.users, {name:term});
+		$scope.people = $filter('filter')(serviceUser.getUsers(), {name:term});
 	}
 	$scope.getPeopleText = function (member) {
 		return '@' + member.name;
@@ -207,7 +198,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 			return true;
 		}
 	}
-	
 	//end chat message
 	//private messages	
 	$scope.privateMessages= function(){
@@ -317,8 +307,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
     }
     
     $scope.acceptRequest = function(request){
-    	var user=$scope.findUserById(request.user);
-    	var team=$scope.findTeamById(request.team);  	    	
     	serviceParticipate.newParticipate({userid: request.userid, teamid: request.teamid, teamPrivileges: 0});
     	serviceRequestJoinTeam.deleteRequestJoinTeam(request);
     	$scope.notification("Request accepted");
@@ -421,7 +409,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	      controller: roomController
 	   })
 	};
-	$scope.par=serviceParticipateRoom.getParticipateRooms();
 	$scope.roomId='';
 	$scope.register = function (room, $event) {
 		var participate=1;
@@ -580,8 +567,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    );
 	 };
 	 //jQuery functions 
-//	 $scope.chatStyle = ".message_"+$scope.user.id+" { background-color:  #e6e6ff; }";
-	 
+//	 $scope.chatStyle = ".message_"+$scope.user.id+" { background-color:  #e6e6ff; }";	 
 	 $("#newPrivateMessage").click(function(){
 		$("#newchatform").show(); 
 		$("#privateChat").hide();
@@ -869,9 +855,7 @@ function exitTeamController($scope, $http, $filter, $mdDialog, $mdToast, $window
 	        .hideDelay(3000)
 	    );
 	};
-
 }
-
 
 function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast, serviceUser, serviceNotification, serviceTeamInvite, serviceParticipate, team) {
 	
@@ -881,13 +865,18 @@ function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast,
 	$scope.sendInvitation = function(){
 		if ($scope.email==""){
 			$scope.notification("Please enter a email");
-		}else{//handle user email already registered
+		}else{
+			var user=$filter('filter')(serviceUser.getUsers(), { email: $scope.email});
+			if (user.length>0){
+				$scope.sendInvitationUser(user.name);
+			}
 			var data= {"email": $scope.email, "team": $scope.team};
 			$http.post("/sendinvitation", data);
 			serviceNotification.showNotification("Invitation sent", "The invitation has been sent to "+$scope.email);
 			$scope.email="";
 		}
 	}
+	
 	$scope.sendInvitationUser = function (name){
 		var teamInvites=serviceTeamInvite.getTeamInvites();
 		var alreadySent=false;
@@ -904,8 +893,7 @@ function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast,
 			if (alreadySent){
 				$scope.notification("The user with the name "+name+" has been already invited to your team");
 				return;
-			}
-			
+			}		
 			for (var i=0;i<participates.length;i++){
 				if (participates[i].userid==user[0].id && participates[i].teamid==team.id){
 					isMember=true;
@@ -937,5 +925,4 @@ function invitePeopleTeamController($scope, $http, $mdDialog, $filter, $mdToast,
 	$scope.closeDialog = function() {
 		$mdDialog.hide();
 	}
-
 }
