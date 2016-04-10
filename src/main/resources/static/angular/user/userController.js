@@ -110,11 +110,24 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 			$("#editProfilePhotoLaunchButton").show();
 		}else{
 			$("#editProfilePhotoLaunchButton").hide();
+		}		
+	});
+	
+	$("#editProfileLaunchButton2").click(function(){
+		$("#editProfile").toggle("blind");
+		if ($("#editProfilePhotoLaunchButton2").is(":hidden")){
+			$("#editProfilePhotoLaunchButton2").show();
+		}else{
+			$("#editProfilePhotoLaunchButton2").hide();
 		}
-		
 	});
 	
 	$("#editProfilePhotoLaunchButton").click(function(){
+		$("#userCredentials").toggle("blind");
+		$("#editProfilePhoto").toggle("blind");
+	});
+	
+	$("#editProfilePhotoLaunchButton2").click(function(){
 		$("#userCredentials").toggle("blind");
 		$("#editProfilePhoto").toggle("blind");
 	});

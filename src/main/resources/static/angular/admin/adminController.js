@@ -106,6 +106,28 @@ perseus.controller('adminController', function ($scope, $mdDialog, $window, serv
 			 }
 		 }	
 	 });
+	 
+	 $("#welcomePageButton2").click(function(){
+		 $("#settings").hide();
+		 $("#users").hide();
+		 $("#hide").show();
+		 $("#teams").hide();
+		 $("#welcomePage").show();
+	 });
+	 
+	 $("#usersButton2").click(function(){
+		 $("#settings").hide();
+		 $("#welcomePage").hide();
+		 $("#teams").hide();
+		 $("#users").show();
+	 });
+	 
+	 $("#teamsButton2").click(function(){
+		 $("#settings").hide();
+		 $("#welcomePage").hide();
+		 $("#users").hide();
+		 $("#teams").show();
+	 });
 	
 });
 function adminActionsController($scope, $mdDialog, $mdToast, $window, serviceUser, serviceTeam, user, team) {

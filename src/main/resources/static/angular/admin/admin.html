@@ -6,7 +6,7 @@
 			</md-button>
 		</a>
 	</div>
-	<nav class="cd-side-nav" id="sidenav" flex="15">
+	<nav hide-xs class="cd-side-nav" id="sidenav" flex="15">
 				<ul>
 					<li class="cd-label">{{team.name}}</li>
 					<li id="welcomePageButton" class="overview active" ng-click="section='administration'">
@@ -26,7 +26,7 @@
 	</nav>
 	
 	<div flex style="position:relative">
-		<md-button style="position:absolute" id="sidenavButton" class="md-icon-button launch">
+		<md-button hide-xs style="position:absolute" id="sidenavButton" class="md-icon-button launch">
 			<md-icon>
 				menu
 			</md-icon>
@@ -34,6 +34,22 @@
 				Menu
 			</md-tooltip>
 		</md-button>
+		<md-fab-speed-dial hide-gt-xs style="position:absolute" ng-cloak md-open="false" md-direction="down"
+	                     class="md-scale" hide-gt-xs>
+	        <md-fab-trigger>
+	          <md-button aria-label="menu" class="md-fab md-primary">
+	            <md-icon>menu</md-icon>
+	          </md-button>
+	        </md-fab-trigger>
+	        <md-fab-actions>
+		      <md-button id="usersButton2" ng-click="section='users'" aria-label="Users" class="md-fab md-raised md-mini">
+		      	<md-icon>person</md-icon>
+		      </md-button>
+	          <md-button id="teamsButton2" ng-click="section='teams'" aria-label="Teams" class="md-fab md-raised md-mini">
+	            <md-icon>group</md-icon>
+	          </md-button>
+	        </md-fab-actions>
+	      </md-fab-speed-dial>
 		<div layout="row" style="width:75%;margin:auto;color:#666666">
 			<h1>Perseus - {{section}}</h1>
 	</div>

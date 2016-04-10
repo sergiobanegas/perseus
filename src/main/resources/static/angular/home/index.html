@@ -44,8 +44,8 @@
 	        </md-fab-actions>
 	      </md-fab-speed-dial>
 <div ng-show="user.name" layout-align="center center" layout-margin>
-	<div id="mainPage" layout="row" class="window">
-		<div flex="2" hide-xs style="padding:0;height:auto;background-color:#e6f2ff" class="md-whiteframe-z2">
+	<div id="mainPage" layout="row" class="window" style="background-color:#e6f2ff" class="md-whiteframe-z2">
+		<div flex="20" hide-xs style="padding:0;height:auto;" class="md-whiteframe-z2">
 				<div style="text-align:center;padding:2vh;">
 					<img data-ng-src="{{getImage(user.image, user.imageType)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 					<h1 class="md-title" style="margin:0"><b>{{user.name}}</b></h1>
@@ -75,48 +75,48 @@
 					</a>
 				</div>
 		</div>
-		<div flex style="max-height: 80vh;  overflow-y: auto; overflow-x: hidden;border-right-width:1px;border-right-style:solid;text-align:center;background-color:#e6f2ff" class="md-whiteframe-z2">
-						<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
-							Your teams
-						</md-subheader>
-						<div ng-show="(teams | filter:{ userid: user.id }).length==0" style="padding:2vh;background-color:white">You are not member of any team</div>
-						<md-list-item style="background-color:white" ng-repeat="participate in teams | filter:{ userid: user.id }" ng-click="redirectTeam(participate.teamid)">
-						        <img data-ng-src="{{getImage(participate.team.image, participate.team.imageType)}}" class="md-avatar" style="border-radius:0;margin-left:2vh"/> 
-						        <a ng-bind="participate.team.name" style="margin-left:5vh;text-decoration:none"></a>
-						        <md-divider ng-if="!$last"></md-divider>
-					     </md-list-item>
-			  
-		</div>
-		<div flex style="max-height: 80vh;overflow-y: auto; overflow-x: hidden;text-align:center;background-color:#e6f2ff"  class="md-whiteframe-z2">
-				<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
-						Your invitations
-				</md-subheader>
-				<div ng-show="(teamInvites | filter:{ userid: user.id }).length==0" style="padding:2vh;background-color:white">You have no team invitations</div>
-				<md-table-container style="background-color:white" ng-hide="(teamInvites | filter:{ userid: user.id }).length==0">
-					  <table md-table>
-					    <thead md-head>
-					      <th md-column>Team</th>
-					      <th md-column>Accept</th>
-					      <th md-column>Deny</th>
-					    </thead>
-					    <tbody md-body>
-						      <tr md-row md-select="request" md-select-id="{{invite.team}}" md-auto-select ng-repeat="invite in teamInvites | filter:{ userid: user.id }">
-						        <td md-cell>{{invite.team.name}}</td>
-						        <td md-cell>
-						        	<md-button class="md-icon-button" ng-click="acceptInvitation(invite)" title="Accept invitation" aria-label="Accept">
-		    							<md-icon style="color:green">check_circle</md-icon>
-		    						</md-button>
-						        </td>
-						        <td md-cell>
-						        	<md-button class="md-icon-button" ng-click="denyInvitation(invite)" title="Deny invitation" aria-label="Deny">
-		     							<md-icon style="color:red">cancel</md-icon>
-		     						</md-button>
-		     					</td>
-						      </tr>
-					    </tbody>
-					  </table>
-					</md-table-container>
-			  </div>
+		<div flex style=" overflow-y: auto; overflow-x: hidden;border-right-width:1px;border-right-style:solid;text-align:center;">
+							<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
+								Your teams
+							</md-subheader>
+							<div  ng-show="(teams | filter:{ userid: user.id }).length==0" style="max-height: 80vh;padding:2vh;background-color:white">You are not member of any team</div>
+							<md-list-item style="background-color:white" ng-repeat="participate in teams | filter:{ userid: user.id }" ng-click="redirectTeam(participate.teamid)">
+							        <img data-ng-src="{{getImage(participate.team.image, participate.team.imageType)}}" class="md-avatar" style="border-radius:0;margin-left:2vh"/> 
+							        <a ng-bind="participate.team.name" style="margin-left:5vh;text-decoration:none"></a>
+							        <md-divider ng-if="!$last"></md-divider>
+						     </md-list-item>
+				  
+			</div>
+			<div flex style="overflow-y: auto; overflow-x: hidden;text-align:center;background-color:#e6f2ff;">
+					<md-subheader class="md-no-sticky" style="background-color:#737373;color:white;border-bottom-style:solid;border-bottom-width:1px">
+							Your invitations
+					</md-subheader>
+					<div ng-show="(teamInvites | filter:{ userid: user.id }).length==0" style="max-height: 80vh;padding:2vh;background-color:white">You have no team invitations</div>
+					<md-table-container style="background-color:white" ng-hide="(teamInvites | filter:{ userid: user.id }).length==0">
+						  <table md-table>
+						    <thead md-head>
+						      <th md-column>Team</th>
+						      <th md-column>Accept</th>
+						      <th md-column>Deny</th>
+						    </thead>
+						    <tbody md-body>
+							      <tr md-row md-select="request" md-select-id="{{invite.team}}" md-auto-select ng-repeat="invite in teamInvites | filter:{ userid: user.id }">
+							        <td md-cell>{{invite.team.name}}</td>
+							        <td md-cell>
+							        	<md-button class="md-icon-button" ng-click="acceptInvitation(invite)" title="Accept invitation" aria-label="Accept">
+			    							<md-icon style="color:green">check_circle</md-icon>
+			    						</md-button>
+							        </td>
+							        <td md-cell>
+							        	<md-button class="md-icon-button" ng-click="denyInvitation(invite)" title="Deny invitation" aria-label="Deny">
+			     							<md-icon style="color:red">cancel</md-icon>
+			     						</md-button>
+			     					</td>
+							      </tr>
+						    </tbody>
+						  </table>
+						</md-table-container>
+				  </div>
 		</div>
 	</div>
 	<div class="sections">
