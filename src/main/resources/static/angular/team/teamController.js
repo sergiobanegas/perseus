@@ -51,6 +51,14 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	    	}
 	    }
 	});
+	$scope.participateUser = function(){
+		 for (var i=0;i<$scope.participatesHttp.length;i++){
+		    	if ($scope.participatesHttp[i].userid==$scope.user.id && $scope.participatesHttp[i].teamid==$scope.team.id){
+		    		$scope.participateUser=$scope.participatesHttp[i];
+		    		break;
+		    	}
+		    }
+	}
 	
 	$scope.publicRooms= function(){
 		return $filter('filter')(serviceRoom.getRooms(), { teamid: $scope.team.id, privateRoom: 0});
@@ -680,10 +688,6 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		 if ($("#privaterooms").is(":visible")){
 			 $("#privaterooms").toggle("blind");
 		 }
-	 });
-		
-	 $("#search").click(function(){
-		 $("#inputsearch").animate({width:'toggle'},350);
 	 });
 	
 	 $scope.closeEnableNotifications = function(){

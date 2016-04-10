@@ -1,5 +1,5 @@
-<!-- <style ng-bind-html="chatStyle"></style> Constantly refresh ng-repeat -->
 <!-- User message style -->
+<!-- <style ng-bind-html="chatStyle"></style> Constantly refresh ng-repeat -->
 <div class="team" layout="row" ng-show="member || user.privileges>0"  style="position:relative;padding:0px">
 	<nav class="cd-side-nav" id="sidenav" style="position:absolute;z-index:999;width:31vh;display:none">
 		<ul style="position:relative">
@@ -20,13 +20,6 @@
 			<li class="bookmarks" ng-show="user.privileges>0 || participateUser.teamPrivileges==2">
 				<a ng-href="#/team/{{team.id}}/admin">Admin</a>
 			</li>
-			<li class="has-children images">
-				<a>Files</a>	
-				<ul>
-					<li><a href="#0">All Images</a></li>
-					<li><a href="#0">Edit Image</a></li>
-				</ul>
-			</li>
 			<li class="has-children users" id="membershipToggle">
 				<a>Membership</a>
 				<ul style="display:none" id="membershipMenu">
@@ -34,7 +27,7 @@
 				</ul>
 			</li>
 		</ul>
-		<ul ng-show="participateUser.teamPrivileges>0">
+		<ul ng-show="participateUser().teamPrivileges>0">
 			<li class="cd-label">Action</li>
 			<li class="action-btn"><a id="inviteButton" ng-click="invitePeople($event)">+ Invite people</a></li>
 		</ul>
@@ -96,15 +89,6 @@
 	      <img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
   </div>
   <div style="text-align:right; position:absolute; right:3%;z-index:1">
-  		<input type="text" id="inputsearch" placeholder="Ej: name..." style="display:none">
-  			<md-button class="md-icon-button launch" id="search">
-				<md-icon>
-					search
-				</md-icon>
-				<md-tooltip>
-			    	Search
-			   	</md-tooltip>
-			</md-button>
    			<md-button class="md-icon-button launch" ng-click="showNotifications('mentions')">
   				<md-icon>
   					contact_mail

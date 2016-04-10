@@ -226,7 +226,7 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 	$scope.room=room;
 	$scope.userInvited;
 	$scope.querySearch = function (query) {
-		return $filter('filter')($scope.notMembers(), { userid: query});
+		return $filter('filter')($scope.notMembers(), { user: {name:query}});
 	}
 	
 	$scope.notMembers= function(){
