@@ -14,9 +14,8 @@
         </md-button>
       </div>
 </md-toolbar>
-<div style="padding:2em;">
-	<div layout="row" class="md-whiteframe-z2 window" style="padding:1em;background-color:#e6f2ff;height:70%">		
-		<div flex="15" style="background-color:white;border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
+	<div layout-margin layout="row" class="md-whiteframe-z2 window" style="padding:1em;background-color:#e6f2ff">		
+		<div flex="2" md-card style="background-color:white;border-style:solid;margin-right:1em;border-width:1px;border-color:lightgray">
 			 <img data-ng-src="{{getImage(userProfile.image)}}" style="max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
 				<div style="text-align:center;">
 					<h1 class="md-title" style="margin:0"><b>{{userProfile.name}}</b></h1>
@@ -26,15 +25,15 @@
 				</p>
 		</div>
 		<div flex style="background-color:white;border-style:solid;border-width:1px;border-color:lightgray;position:relative;padding:1em;">
-				<md-button style="float:right"class="md-raised md-primary" id="editProfileLaunchButton" ng-show="userProfile.id==user.id || user.privileges>0">Edit profile</md-button>
+				<div layout="row" style="padding-bottom:2em">
+					<div flex>
+						<p>Name: {{userProfile.name}}</p>
+						<p>Email: {{userProfile.email}}</p>
+					</div>
+					<div flex>
+					    <md-button style="float:right"class="md-raised md-primary" id="editProfileLaunchButton" ng-show="userProfile.id==user.id || user.privileges>0">Edit profile</md-button>
 				<md-button style="float:right;display:none"class="md-raised md-primary" id="editProfilePhotoLaunchButton">Edit profile photo</md-button>
-				<div layout="column" style="padding-bottom:2em">
-				<div flex>
-					Name: {{userProfile.name}}
-				</div>
-				<div flex>
-				    Email: {{userProfile.email}}
-				</div>
+					</div>
 				</div>
 				<div id="editProfile" style="display:none">
 					<md-divider></md-divider>
@@ -99,5 +98,4 @@
 					</div>
 		   
 		</div>
-	</div>
 </div>
