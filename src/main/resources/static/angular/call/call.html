@@ -1,19 +1,19 @@
 <!-- Warning, if main-video isn't shown, participants doesn't work -->
 <div style="display:none" id="main-video"></div>
-<div layout="row" style="height:100%">
-	<div flex="15" style="position:relative;background-color:#e6f2ff" class="md-whiteframe-z2">
-		<div style="text-align:center;padding:1em;">
-	  	 <img data-ng-src="{{getImage(teamObject.image, teamObject.imageType)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{user.name}}"/> 
+<div layout="row" class="fullheight">
+	<div flex="15" class="sidemenu" class="md-whiteframe-z2">
+		<div align="center" class="smallpadding">
+	  	 <img data-ng-src="{{getImage(teamObject.image, teamObject.imageType)}}" class="mainimage" alt="{{teamObject.name}}"/> 
 	   		<h1 class="md-title"><b>{{room.name}}</b></h1>
 	   </div>
 	   <div ng-show="room().privateRoom==1">
-		   <div layout="row" style="background-color:gray">
-			   <div flex style="color:white;padding-left:2em;padding-top:1em">
-					<h3 style="font-style:normal"><b>Members</b></h3>
+		   <div layout="row" class="greybackground">
+			   <div flex  class="white teamheader">
+					<h3 class="normalfont"><b>Members</b></h3>
 			   </div>
 		       <div flex="1" >
 		        <md-button ng-click="inviteToRoom($event)" ng-show="memberUser().roomPrivileges>0" class="md-icon-button launch">
-			        <md-icon style="color:white">
+			        <md-icon class="white">
 				    	add
 				    </md-icon>
 				    <md-tooltip>
@@ -22,81 +22,81 @@
 		        </md-button>  
 		      </div>
 	        </div>
-	        <div style="height: 40vh; overflow-y:auto; overflow-x: hidden;background-color:white;border-bottom-style:solid;border-bottom-width:1px;padding-left:1em">
+	        <div id="roommembers">
 		        <md-list-item ng-show="room().privateRoom==1" ng-repeat="member in members()">
 		    			<p> {{member.user.name}}</p>
 		    			<!-- Need to be fixed, remove autorefresh -->
 		    			<span ng-show="member.user.id!=creator.id && memberUser().roomPrivileges>0" >
 		    				<span ng-show="user.id==creator.id">
 				    			<md-button ng-show="member.roomPrivileges==1" class="md-icon-button" ng-click="removeModerator(member)" title="Set moderator" aria-label="Add">
-									<md-icon style="color:yellow">star</md-icon>
+									<md-icon class="yellow">star</md-icon>
 								</md-button>
 								<md-button ng-show="member.roomPrivileges==0" class="md-icon-button" ng-click="setModerator(member)" title="Remove moderator" aria-label="Remove">
-									<md-icon style="color:yellow">star_border</md-icon>
+									<md-icon class="yellow">star_border</md-icon>
 								</md-button>	
 							</span>	
 							<span ng-show="member.user.id!=user.id">
 			    				<md-button class="md-icon-button" ng-click="kickUser(member)" title="Kick user" aria-label="Kick">
-				    				<md-icon style="color:red">cancel</md-icon>
+				    				<md-icon class="red">cancel</md-icon>
 				    			</md-button>	
 			    			</span>
 		    			</span>
 		 		</md-list-item>
 	 		</div>
         </div>
-        <div style="text-align:center">
+        <div align="center">
 			<md-button class="md-raised md-primary" ng-click="leavePrivateRoom($event)" ng-show="room().privateRoom==1 && memberUser().roomPrivileges<2">
 			       Exit the room
 			</md-button>
 		</div>
-        <img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
+        <img src="/././img/perseuslogo-team.png" class="perseuslogo">
 	</div>
 	<div flex layout="column">
-		<div id="top" flex="50" layout="column" style="position:relative">
-			<div id="participants" style="margin:0;padding:0"></div> 
-			<div align="center" style="position:absolute;width:100%;padding:0;margin-bottom:1em;bottom:0px;" id="buttonActions"> 
+		<div id="top" flex="50" layout="column" class="relative">
+			<div id="participants" class="nomargin"></div> 
+			<div align="center" class="absolute" id="buttonActions"> 
 				<md-button ng-click="onOffVolume()" class="md-fab md-primary md-hue-1" aria-label="Volume_up" id="buttonVolume" title="Audio toggle">
            			 <md-icon>volume_up</md-icon>
        			 </md-button>
-       			 <md-button ng-click="onOffVideocam()" class="md-fab md-primary md-hue-1" style="background-color:purple" aria-label="Mute_video"  id="buttonVideocam" title="Video toggle">
+       			 <md-button ng-click="onOffVideocam()" class="md-fab" style="background-color:purple" aria-label="Mute_video"  id="buttonVideocam" title="Video toggle">
            			 <md-icon>videocam_off</md-icon>
        			 </md-button>
-       			 <md-button ng-click="leaveRoom()" class="md-fab md-primary md-hue-1" style="background-color:red" aria-label="End_call" id="buttonLeaveRoom" title="Leave room">
+       			 <md-button ng-click="leaveRoom()" class="md-fab" style="background-color:red" aria-label="End_call" id="buttonLeaveRoom" title="Leave room">
            			 <md-icon>call_end</md-icon>
        			 </md-button>
-       			 <md-button ng-click="goFullscreen()" class="md-fab md-primary md-hue-1" aria-label="Mute_video" title="Fullscreen">
+       			 <md-button ng-click="goFullscreen()" class="md-fab" style="background-color:green" aria-label="Mute_video" title="Fullscreen">
            			 <md-icon>fullscreen</md-icon>
        			 </md-button>
 	        </div>
 		</div>
-		<div flex="50" class="toggler" layout="column" style="width:100%;border-top-style:solid;background-color:white" >
-			 	<div style="padding-left:1em">
+		<div flex="50" class="toggler whitebackground" layout="column" id="chatroomcontainer">
+			 	<div class="smallleftpadding">
 			 		<strong>Team chat</strong>
 			 	</div>
-			    <div flex id="chatscroll" style="height: 10vh;  overflow: scroll; overflow-x: hidden;">
-			    			<md-list-item ng-repeat="message in chatMessages | filter:{ teamid: team.id, roomid: roomId }" style="position:relative">
+			    <div flex id="chatscroll">
+			    			<md-list-item ng-repeat="message in chatMessages | filter:{ teamid: team.id, roomid: roomId }" class="relative">
 						     	<a href="#/user/{{message.user}}">
 						     		<img data-ng-src="{{getImage(message.user.image, message.user.imageType)}}" class="md-avatar"/>
 							     </a>
-							      <div class="md-list-item-text">
-							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.user.name}}</a>
+							      <div class="md-list-item-text nodecoration">
+							        <a href="#/user/{{message.user}}">{{message.user.name}}</a>
 							         	<span class="md-body-2">
 							         		<div ng-bind-html="message.text | colonToSmiley"></div>
 							         	</span>
 							      </div>
-							      <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
+							      <div class="md-caption timeago">
 							      	{{message.date | timeago}}
 							      </div>
 							      <md-divider ng-if="!$last"></md-divider>
 						</md-list-item>	
 				</div>
-			    <form flex="1" id="roomForm" emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" style="margin-bottom:0px;padding:5px;background-color:#f5f5f5">
+			    <form flex="1" id="roomForm" emoji-form emoji-message="emojiMessage" layout="row" autocomplete="off" ng-submit="sendMessage()" class="chatforminput">
 						<md-button id="emojibtn" title="Send message" class="md-icon-button launch" >
 				     		<md-icon>
 							tag_faces
 						</md-icon>
 				     	</md-button>
-				     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+				     	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex class="whitebackground" ng-model="chatMessage" placeholder="New message" ></textarea>
 						<mentio-menu ng-if="index"
 					          mentio-for="'inputchat'"
 					          mentio-template-url="mentio-menu.tpl.html"

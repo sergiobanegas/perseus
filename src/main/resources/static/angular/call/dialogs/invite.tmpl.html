@@ -1,4 +1,4 @@
-<md-dialog aria-label="List dialog" style="height:50%;width:50%" ng-cloak>
+<md-dialog aria-label="List dialog" ng-cloak>
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<span flex>
@@ -12,7 +12,7 @@
 	<md-dialog-content>
 		<div class="md-dialog-content">
 			Select the member of your team you want to invite to the room.
-			<div flex style="border-style:solid;border-width:1px;border-color:gray;background-color:#f5f5f5;">
+			<div class="autocomplete" flex>
 				<md-autocomplete
 				    md-no-cache="noCache"
 				    md-selected-item="userInvited"

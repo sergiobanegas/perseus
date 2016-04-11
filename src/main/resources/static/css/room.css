@@ -4,6 +4,10 @@ body, html {
     background-image:url('./img/background.jpg')
 }
 
+.nodecoration{
+	text-decoration:none;
+}
+
 .greybackground{
 	background-color:#737373;
 }
@@ -12,9 +16,19 @@ body, html {
 	background-color:white;
 }
 
+.purplebackground{
+	background-color:purple;
+}
+
 #registrationpanel{
 	padding:2em;
 	padding-top:0;	
+}
+
+.sidemenu{
+	position:relative;
+	height:100vh;
+	background-color:#e6f2ff;
 }
 
 .perseuslogo{
@@ -65,6 +79,15 @@ body, html {
 	border-bottom-width:1px;
 }
 
+.teamheader{
+	padding-left:2em;
+	padding-top:1em;
+}
+
+#roomsheader{
+	padding-left:2em;
+	padding-top:1em;
+}
 .relative{
 	position:relative;
 }
@@ -78,6 +101,49 @@ body, html {
 
 .redbackground{
 	background-color:red;
+}
+
+.lightbluebackground{
+	background-color:lightblue;
+}
+
+.pointer{
+	cursor:pointer;
+}
+
+#topicons{
+	text-align:right;
+	position:absolute;
+	right:3%;
+	z-index:1;
+}
+
+.autocomplete{
+	border-style:solid;
+	border-width:1px;
+	border-color:gray;
+	background-color:#f5f5f5;
+}
+
+#roommembers{
+	height: 40vh;
+	overflow-y:auto;
+	overflow-x: hidden;
+	background-color:white;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	padding-left:1em;
+}
+
+#chatroomcontainer{
+	width:100%;
+	border-top-style:solid;
+}
+
+#privatemessagebutton{
+	margin:auto;
+	width:75%;
+	position:relative;
 }
 
 .imagecontainer{
@@ -161,6 +227,27 @@ a:visited {
 	z-index:50;
 }
 
+.normalfont{
+	font-style:normal;
+}
+
+.floatleft{
+	float:left;
+}
+
+.floatright{
+	float:right;
+}
+
+.normalscroll{
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.white{
+	color:white;
+}
+
 .green{
 	color:green;
 }
@@ -171,6 +258,80 @@ a:visited {
 
 .blue{
 	color:blue;
+}
+
+.yellow{
+	color:yellow;
+}
+
+.chatforminput{
+	margin-bottom:0px;
+	padding:5px;
+	background-color:#f5f5f5;
+}
+
+.smallleftpadding{
+	padding-left:1em;
+}
+
+.sidebackground{
+	 background-color:#e3f2fd;
+}
+
+#closerightnav1, #closerightnav2{
+	position:absolute;
+	right:0.2em;
+	top:0.2em;
+}
+
+#mentionlist{
+	max-height: 45em;
+	overflow-y:auto;
+	overflow-x: hidden;
+}
+
+#errorparticipate{
+	padding-top:2em;
+}
+
+#errorparticipate div{
+	 padding:2em;
+	 width:50%;
+	 margin: 0 auto;
+}
+
+
+#notifications1, #notifications2, #notifications3{
+	 padding:1em;
+	 max-height: 40em;
+	 overflow-y:auto;
+	 overflow-x:hidden;
+}
+
+#buttonActions{
+	 width:100%;
+	 padding:0;
+	 margin-bottom:1em;
+	 bottom:0px;
+}
+
+#chatscroll{
+	 height: 10vh;
+	 overflow: scroll;
+	 overflow-x: hidden;
+}
+
+.fullheight{
+	height:100%;
+}
+
+.timeago{
+	color:gray;
+	position:absolute;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
 }
 
 #linkunderline{
@@ -223,6 +384,20 @@ md-sidenav {
     position: relative;
     top: 5px; // adjust for svg viewbox
   }
+}
+
+.nopadding{
+	padding:0;
+}
+
+#sidenav{
+	z-index:999;
+	width:31vh;
+}
+
+.closesidenavicon{
+	right:0.5em;
+	cursor:pointer;
 }
 
 #errorsigned{

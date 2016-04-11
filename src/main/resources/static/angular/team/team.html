@@ -1,9 +1,9 @@
 <!-- User message style -->
 <!-- <style ng-bind-html="chatStyle"></style> Constantly refresh ng-repeat -->
-<div class="team" layout="row" ng-show="member || user.privileges>0"  style="position:relative;padding:0px">
-	<nav class="cd-side-nav" id="sidenav" style="position:absolute;z-index:999;width:31vh;display:none">
-		<ul style="position:relative">
-			<md-icon style="color:white;position:absolute;right:0.5em;cursor:pointer" class="sidenavButton">
+<div class="team relative nopadding" layout="row" ng-show="member || user.privileges>0">
+	<nav class="cd-side-nav" id="sidenav" style="display:none;position:absolute">
+		<ul class="relative">
+			<md-icon class="sidenavButton white absolute closesidenavicon">
 				close
 			</md-icon>
 			<li class="cd-label">{{team.name}}</li>
@@ -33,9 +33,9 @@
 			<li class="cd-label">Action</li>
 			<li class="action-btn"><a id="inviteButton" ng-click="invitePeople($event)">+ Invite people</a></li>
 		</ul>
-		<img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
+		<img src="/././img/perseuslogo-team.png" class="perseuslogo">
 	</nav>
-  	<div id="enablenotifications" ng-show="showNotificationTop()" style="cursor:pointer;position:absolute;z-index:999;width:100%;height:auto;text-align:center;">
+  	<div id="enablenotifications" ng-show="showNotificationTop()" align="center" class="absolute pointer" style="z-index:999;width:100%;height:auto;">
 		<div style="border-style:solid;border-width:1px;border-top:none;display: inline-block;background-color:orange;">
 			<a class="md-caption" ng-click="enableNotifications()">
 				You have the notifications turned off, if you want to see the notifications for a better experience, click here.
@@ -43,18 +43,18 @@
 				<md-icon ng-click="closeEnableNotifications()">close</md-icon>
   		</div>
   	</div>
-  	<div flex="15" hide-xs layout="column" style="position:relative;height:100vh;background-color:#e6f2ff" class="md-whiteframe-z2">
-	   <div style="text-align:center;padding:1em;">
-	  	 <img data-ng-src="{{getImage(team.image, team.imageType)}}" style="border-radius:15px;max-width:100%;max-height:100%;" alt="{{team}}"/> 
+  	<div flex="15" hide-xs layout="column" class="md-whiteframe-z2 relative sidemenu">
+	   <div align="center" class="smallpadding">
+	  	 <img data-ng-src="{{getImage(team.image, team.imageType)}}" class="mainimage" alt="{{team.name}}"/> 
 	   		<h1 class="md-title"><b>{{team.name}}</b></h1>
 	   </div>
-	   <div layout="row" style="background-color:gray">
-		   <div flex style="color:white;padding-left:2em;padding-top:1em">
-				<h3 style="font-style:normal"><b>Rooms</b></h3>
+	   <div layout="row" class="greybackground">
+		   <div flex class="white" id="roomsheader">
+				<h3 class="normalfont"><b>Rooms</b></h3>
 		   </div>
 	       <div flex="1">
 	        <md-button class="md-icon-button launch" ng-click="newRoom($event)">
-		        <md-icon style="color:white">
+		        <md-icon class="white">
 			    	add
 			    </md-icon>
 			    <md-tooltip>
@@ -63,34 +63,34 @@
 	        </md-button>  
 	      </div>
         </div>
-	      <div class="md-no-sticky" id="publicroomsbutton" style="cursor:pointer;padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;background-color:lightblue;">Public rooms ({{publicRooms().length}})</div>
-		   <div id="publicrooms" style="background-color:white;display:none;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+	      <div class="md-no-sticky lightbluebackground pointer" id="publicroomsbutton" style="padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px">Public rooms ({{publicRooms().length}})</div>
+		   <div id="publicrooms" class="whitebackground" style="display:none;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms() track by $index" ng-mouseover="showPublicRoomButtons($index)" ng-mouseleave="hidePublicRoomButtons($index)">
 				    <p>{{ room.name }}</p>
-			   		<md-icon id="{{$index}}_public" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: red;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+			   		<md-icon id="{{$index}}_public" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3 red" style="display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
 				  	<md-divider ng-if="!$last"></md-divider>
 			  </md-list-item>
 		  </div>
-		  <div class="md-no-sticky" id="privateroomsbutton" style="cursor:pointer;padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;background-color:lightblue;">Private rooms ({{privateRooms().length}})</div>
-		  <div id="privaterooms" style="background-color:white;display:none;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+		  <div class="md-no-sticky lightbluebackground pointer" id="privateroomsbutton" style="padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px">Private rooms ({{privateRooms().length}})</div>
+		  <div id="privaterooms" class="whitebackground" style="display:none;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in privateRooms() track by $index" ng-mouseover="showPrivateRoomButtons($index)" ng-mouseleave="hidePrivateRoomButtons($index)">
 				    <p>{{ room.name }}</p>
-			   		<md-icon id="{{$index}}_private" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3" style="color: red;display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+			   		<md-icon id="{{$index}}_private" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3 red" style="display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
 				  	<md-divider ng-if="!$last"></md-divider>
 			  </md-list-item>
 		  </div>
 		  
-	  	<div class="md-no-sticky" id="onlinemembersbutton" style="cursor:pointer;padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;background-color:lightblue;">Members ({{teamUsers.length}})</div>
-		  <div id ="onlinemembers" style="background-color:white;padding:1em;display:none;border-bottom-style:solid;border-bottom-width:1px;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
+	  	<div class="md-no-sticky lightbluebackground pointer" id="onlinemembersbutton" style="padding:1em;padding-left:2em;border-bottom-style:solid;border-bottom-width:1px;">Members ({{teamUsers.length}})</div>
+		  <div id="onlinemembers" class="whitebackground" style="padding:1em;display:none;border-bottom-style:solid;border-bottom-width:1px;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <ul>
 				  <li class="md-body-2" ng-repeat="participate in teamUsers">
 				         {{participate.user.name}}
 			      </li>
 		      </ul>
 	      </div>
-	      <img src="/././img/perseuslogo-team.png" style="max-height:100%;max-width:100%;position:absolute;bottom:0">
+	      <img src="/././img/perseuslogo-team.png" class="perseuslogo">
   </div>
-  <div style="text-align:right; position:absolute; right:3%;z-index:1">
+  <div class="absolute" id="topicons">
    			<md-button class="md-icon-button launch" ng-click="showNotifications('mentions')">
   				<md-icon>
   					contact_mail
@@ -123,9 +123,9 @@
 				</md-menu-content>
 			</md-menu>
 	</div>
-  <div flex layout="column" style="position:relative;margin:3%;margin-top:4em;height:85vh;background-color:white" class="window md-whiteframe-3dp">
-  		<div id="privateMessages" flex style="height:100%;display:none;position:relative;padding:0">
-  		<div flex="1" style="position:absolute">
+  <div flex layout="column" class="window md-whiteframe-3dp relative whitebackground" style="margin:3%;margin-top:4em;height:85vh">
+  		<div id="privateMessages" class="relative nopadding fullheight" flex style="display:none">
+  		<div flex="1" class="absolute">
 			<md-button class="md-icon-button launch" id="toggleConversations">
 				<md-icon>
 					menu
@@ -135,14 +135,14 @@
 				</md-tooltip>
 			</md-button>
 		</div>
-  			<div layout="row" style="height:100%;">
+  			<div layout="row" class="fullheight">
 	  			<div flex="25" id="lastconversations" style="border-right-style:solid;border-right-width:1px;border-right-color:gray;max-height: 90vh; overflow-y:auto; overflow-x: hidden">
 	  				<div layout="row">
 					   <div hide-xs hide-sm flex style="padding:1em;padding-left:5em">
 					   	<h3>Last conversations</h3>
 					   </div>
-				       <div flex style="text-align:right">
-				        <md-button class="md-icon-button launch" id="newPrivateMessage" style="float:right;padding:0;margin:0">
+				       <div flex align="right">
+				        <md-button class="md-icon-button launch floatright nopadding nomargin" id="newPrivateMessage">
 					        <md-icon>
 						    	add
 						    </md-icon>
@@ -164,14 +164,14 @@
 	  				</md-list-item>
 	  				</div>
 	  			</div>
-	  			<div flex style="height:100%;">	  				
+	  			<div flex class="fullheight">	  				
 						<div id="newchatform">						
 							<form style="margin-top: 25%;" autocomplete="off" ng-submit="newPrivateMessage()">
 								    <div style="margin:auto;width:75%">
 								    	<h2>New private message</h2>
 								    </div>
 								    <div layout="row" style="margin:auto;width:75%;">
-									    <div flex style="border-style:solid;border-width:1px;border-color:gray;background-color:#f5f5f5;">
+									    <div flex class="autocomplete">
 										    <md-autocomplete
 										        md-no-cache="noCache"
 										        md-selected-item="receiver"
@@ -196,15 +196,15 @@
 											</md-autocomplete>
 										</div>
 									</div>
-									<div style="margin:auto;width:75%;position:relative">
-										<md-button ng-click="showUserMessages(receiver.user.id)" class="md-primary md-raised" style="float:right">GO</md-button>
+									<div class="relative" id="privatemessagebutton">
+										<md-button ng-click="showUserMessages(receiver.user.id)" class="md-primary md-raised floatright">GO</md-button>
 									</div>	
 						</form>	  	
 					</div>			
-	  				<div id="privateChat" style="display:none;height:100%" layout="column">
-		  				<div id="privateChatScroll" flex style="overflow: scroll; overflow-x: hidden;">
-				  			<div style="padding:1em">
-			 				<h3 style="font-style:normal"><b>{{receiver.user.name}}</b></h3>
+	  				<div id="privateChat" style="display:none" class="fullheight" layout="column">
+		  				<div id="privateChatScroll" flex style="max-height: 75vh; overflow: scroll; overflow-x: hidden;">
+				  			<div class="smallpadding">
+			 					<h3 class="normalfont"><b>{{receiver.user.name}}</b></h3>
 			 				</div>
 				  			<md-list-item ng-repeat="message in privateMessagesChat()">
 									     <md-list-item>
@@ -212,11 +212,11 @@
 									     <img data-ng-src="{{getImage(message.transmitter.image, message.transmitter.imageType)}}"  class="md-avatar" alt="{{message.user.name}}" />
 										      </a>
 										      <div class="md-list-item-text">
-										         <a style="color:blue">{{message.transmitter.name}}</a>
+										         <a class="blue">{{message.transmitter.name}}</a>
 										         <p>
 										         	<div ng-bind-html="message.text | colonToSmiley"></div>
 										         </p>
-										         <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
+										         <div class="md-caption timeago">
 										      	{{message.date | timeago}}
 										      </div>
 										       </div>
@@ -228,12 +228,12 @@
 	  			</div>
   			</div>			  			
   		</div>
-  		<div id="chat" flex layout="column" style="position:relative;padding:0;">
-			<div flex="1" style="position:relative">
-			 			<div style="float:left;padding:1em">
-			 				<h3 style="font-style:normal">Team chat</h3>
+  		<div id="chat" flex layout="column" class="relative nopadding">
+			<div flex="1" class="relative">
+			 			<div class="floatleft" style="padding:1em">
+			 				<h3 class="normalfont">Team chat</h3>
 			 			</div>
-			 			<div style="float:right">
+			 			<div class="floatright">
 							 	<input style="display:none" id="filtername" type="text" ng-model="nameFilter">
 							 	<input style="display:none" id="filtercontent" type="text" ng-model="contentFilter">
 							 	<md-datepicker style="display:none" id="filterdate" ng-model="dateFilter" md-placeholder="Enter date"></md-datepicker>
@@ -262,20 +262,20 @@
 							    </md-menu>
 						</div>
 				</div>
-			    <div flex id="globalchatscroll" style="max-height: 75vh;  overflow: scroll; overflow-x: hidden;">
-			    			<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" style="position:relative">
+			    <div flex id="globalchatscroll" style="max-height: 75vh; overflow: scroll; overflow-x: hidden;">
+			    			<md-list-item ng-repeat="message in chatMessages() | filter:filterMessages" class="relative">
 						     	<a href="#/user/{{message.user}}">
 						     	<img data-ng-src="{{getImage(message.user.image, message.user.imageType)}}" class="md-avatar"/>
 							     </a>
-							      <div class="md-list-item-text">
-							        <a href="#/user/{{message.user}}" style="text-decoration:none">{{message.user.name}}</a>
+							      <div class="md-list-item-text nodecoration">
+							        <a href="#/user/{{message.user}}">{{message.user.name}}</a>
 							         <p>		
 							         	<span class="md-body-2">
 							         	<div ng-bind-html="message.text | colonToSmiley"></div>
 							         	</span>
 							         </p>
 							      </div>
-							      <div style="color:gray;position:absolute;right:0;top:0;bottom:0;margin:auto" class="md-caption">
+							      <div class="md-caption timeago">
 							      	{{message.date | timeago}}
 							      </div>
 							      <md-divider ng-if="!$last"></md-divider>
@@ -293,7 +293,7 @@
 							Send emoticon
 						</md-tooltip>
 				   	</md-button>
-				   	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex style="background:white" ng-model="chatMessage" placeholder="New message" ></textarea>
+				   	<textarea mentio mentio-typed-term='typedTerm' mentio-require-leading-space='true' id="inputchat" flex class="whitebackground" ng-model="chatMessage" placeholder="New message" ></textarea>
 					<mentio-menu ng-if="index"
 						mentio-for="'inputchat'"
 					    mentio-template-url="mentio-menu.tpl.html"
@@ -313,11 +313,11 @@
 				</form>
 			</div>
 		</div>
-		<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="notifications" style="background-color:#e3f2fd;width:60vh">
+		<md-sidenav class="md-sidenav-right md-whiteframe-z2 sidebackground" md-component-id="notifications" style="width:60vh">
 		      <div style="position:relative;padding:1em;background-color:#737373;">
-		        <h2 style="color:white">Notifications</h2>
-		         <md-button style="position:absolute;right:0.2em;top:0.2em"ng-click="close('notifications')" class="md-icon-button launch">
-		          <md-icon style="color:white">
+		        <h2 class="white">Notifications</h2>
+		         <md-button id="closerightnav1" ng-click="close('notifications')" class="md-icon-button launch absolute">
+		          <md-icon class="white">
 		          	forward
 		          </md-icon>
 		        </md-button>
@@ -326,11 +326,11 @@
 		      <md-tab id="tab1">
 		        <md-tab-label>Invites</md-tab-label>
 		        <md-tab-body>
-		 			<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
-		 					<div ng-show="roomInvitations().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+		 			<div id="notifications1">
+		 					<div ng-show="roomInvitations().length==0" align="center" style="padding:1em" class="md-whiteframe-z2 whitebackground">
 		 						You have no invitations
 		 					</div>
-							<md-table-container ng-hide="roomInvitations().length==0" style="background-color:white" class="md-whiteframe-z2">
+							<md-table-container ng-hide="roomInvitations().length==0" class="md-whiteframe-z2 whitebackground">
 							  <table md-table>
 							    <thead md-head>
 							      <th md-column>Room</th>
@@ -344,12 +344,12 @@
 							        <td md-cell>{{invitation.user.name}}</td>
 							        <td md-cell>
 							        	<md-button class="md-icon-button" ng-click="acceptRoomInvitation(invitation)" title="Accept request" aria-label="Accept">
-			    							<md-icon style="color:green">check_circle</md-icon>
+			    							<md-icon class="green">check_circle</md-icon>
 			    						</md-button>
 							        </td>
 							        <td md-cell>
 							        	<md-button class="md-icon-button" ng-click="denyRoomInvitation(invitation)" title="Deny request" aria-label="Deny">
-			     							<md-icon style="color:red">cancel</md-icon>
+			     							<md-icon class="red">cancel</md-icon>
 			     						</md-button>
 			     					</td>
 							      </tr>
@@ -362,11 +362,11 @@
 			  <md-tab id="tab2" data-ng-if="user.privileges>0 || participateUser.teamPrivileges>0">
 			       <md-tab-label>Team</md-tab-label>
 			       <md-tab-body>
-			       	<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
-			 			<div ng-show="requests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+			       	<div id="notifications2">
+			 			<div ng-show="requests().length==0" align="center" style="padding:1em" class="md-whiteframe-z2 whitebackground">
 			 						There's no pending team requests
 			 			</div>
-				 		<md-table-container ng-hide="requests().length==0" style="background-color:white" class="md-whiteframe-z2">
+				 		<md-table-container ng-hide="requests().length==0" class="md-whiteframe-z2 whitebackground">
 							<table md-table>
 								<thead md-head>
 								      <th md-column>User</th>
@@ -378,12 +378,12 @@
 									        <td md-cell>{{request.user.name}}</td>
 									        <td md-cell>
 									        	<md-button class="md-icon-button" ng-click="acceptRequest(request)" title="Accept request" aria-label="Accept">
-						    						<md-icon style="color:green">check_circle</md-icon>
+						    						<md-icon class="green">check_circle</md-icon>
 						    					</md-button>
 									        </td>
 									        <td md-cell>
 									        	<md-button class="md-icon-button" ng-click="denyRequest(request)" title="Deny request" aria-label="Deny">
-						     						<md-icon style="color:red">cancel</md-icon>
+						     						<md-icon class="red">cancel</md-icon>
 						     					</md-button>
 						     				</td>
 									      </tr>
@@ -396,11 +396,11 @@
 		      <md-tab id="tab3">
 		        <md-tab-label>Rooms</md-tab-label>
 		        <md-tab-body>        
-						<div style="padding:1em;max-height: 40em; overflow-y:auto; overflow-x: hidden;">
-							<div ng-show="roomRequests().length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+						<div id="notifications3">
+							<div ng-show="roomRequests().length==0" align="center" style="padding:1em" class="md-whiteframe-z2 whitebackground">
 		 						You have no pending room requests
 		 					</div>
-							<md-table-container ng-hide="roomRequests().length==0" style="background-color:white" class="md-whiteframe-z2">
+							<md-table-container ng-hide="roomRequests().length==0" class="md-whiteframe-z2 whitebackground">
 							  <table md-table>
 							    <thead md-head>
 							      <th md-column>Room</th>
@@ -414,12 +414,12 @@
 								        <td md-cell>{{request.user.name}}</td>
 								        <td md-cell>
 								        	<md-button class="md-icon-button" ng-click="acceptRoomRequest(request)" title="Accept request" aria-label="Accept">
-				    							<md-icon style="color:green">check_circle</md-icon>
+				    							<md-icon class="green">check_circle</md-icon>
 				    						</md-button>
 								        </td>
 								        <td md-cell>
 								        	<md-button class="md-icon-button" ng-click="denyRoomRequest(request)" title="Deny request" aria-label="Deny">
-				     							<md-icon style="color:red">cancel</md-icon>
+				     							<md-icon class="red">cancel</md-icon>
 				     						</md-button>
 				     					</td>
 								      </tr>
@@ -432,21 +432,21 @@
 		    </md-tabs>
 		    </md-sidenav>
 		     
-		     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="mentions" style="background-color:#e3f2fd;">
-		      <div style="position:relative;padding:1em;background-color:#737373;">
-		        <h2 style="color:white">Mentions</h2>
-		         <md-button style="position:absolute;right:0.2em;top:0.2em"ng-click="close('mentions')" class="md-icon-button launch">
-		          <md-icon style="color:white">
+		     <md-sidenav class="md-sidenav-right sidebackground md-whiteframe-z2" md-component-id="mentions">
+		      <div class="relative greybackground" style="padding:1em">
+		        <h2 class="white">Mentions</h2>
+		         <md-button id="closerightnav1" ng-click="close('mentions')" class="md-icon-button launch">
+		          <md-icon class="white">
 						forward
 		          </md-icon>
 		        </md-button>
 		      </div>
 		      <md-content>
-		      <div style="padding:1em;background-color:#e3f2fd;">
-			      	<div ng-show="(chatMessages() | filter:mentionsFilter).length==0" style="text-align:center;padding:1em;background-color:white" class="md-whiteframe-z2">
+		      <div class="sidebackground" style="padding:1em;">
+			      	<div ng-show="(chatMessages() | filter:mentionsFilter).length==0" align="center" style="padding:1em" class="whitebackground md-whiteframe-z2">
 						Nobody mentioned you for now
 		 			</div>
-			      	<div style="background-color:white;max-height: 45em; overflow-y:auto; overflow-x: hidden;" class="md-whiteframe-z2">
+			      	<div id="mentionlist" class="whitebackground md-whiteframe-z2">
 				 		<md-list-item ng-repeat="mention in chatMessages() | filter:mentionsFilter">
 				    			<p> <b>{{mention.user.name}}</b></p>
 				    			<p>{{mention.text}}</p>
@@ -457,8 +457,8 @@
 		</md-content>
     </md-sidenav>
 </div>
-<div ng-hide="member || user.privileges>0" style="text-align:center;padding-top:2em">
-	<div class="window" style="width:50%;margin: 0 auto;background-color:white;text-align:center;color:red">
+<div ng-hide="member || user.privileges>0" id="errorparticipate" align="center">
+	<div class="window whitebackground red" align="center">
 		<b>You don't participate in this team.</b>
 	</div>
 </div>
