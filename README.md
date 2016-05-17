@@ -42,15 +42,15 @@ create database perseus;
 
 #### Option 1: Run the JAR file
 #####Download the .jar file
-Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/perseus-0.1.jar).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/v2.0/perseus-2.0.jar).
 
 #####Download the keystore
-Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.1/keystore.jks).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/v2.0/keystore.jks).
 
 #####Execute the jar file
 Put both files on the same folder and execute the jar file with the following command:
 ```
-java -jar perseus-1.0.jar
+java -jar perseus-2.0.jar
 ```
 
 #### Option 2: Compile the project source files
@@ -71,9 +71,9 @@ It take a few minutes, be patient.
 ##### Download the application
 Click on one of the formats below in order to download the application in zip format or tar.gz format:
 
-A) [Zip format](https://github.com/sergiobanegas/perseus/archive/0.1.zip).
+A) [Zip format](https://github.com/sergiobanegas/perseus/archive/v2.0.zip).
 
-B) [Tar.gz format](https://github.com/sergiobanegas/perseus/archive/0.1.tar.gz).
+B) [Tar.gz format](https://github.com/sergiobanegas/perseus/archive/v2.0.tar.gz).
 
 Decompress the chosen file in order to run it.
 
@@ -82,7 +82,7 @@ Decompress the chosen file in order to run it.
 cd perseus
 mvn compile exec:java
 ```
-The administrator user and password is set default as "admin" - "1234".
+You'll have to create the default administrator via command line.
 
 Release notes
 ---------------
@@ -100,6 +100,24 @@ v0.1
 * Chat messages.
 * A single administrator.
 * Admin panel: remove teams and users.
+---------------
+v0.2
+* New visual framework: Angular Material.
+* Desktop notifications.
+* Mail notifications.
+* Mail confirmation.
+* Password recovery.
+* Team invitations.
+* Team requests.
+* Room invitations.
+* Room requests.
+* Room privileges.
+* Chat emoticons.
+* Chat mentions.
+* Chat messages filters: date, content and author.
+* Private messages.
+* User/team profile image.
+* Team admin panel: change credentials and admin users.
 
 Screenshots
 ---------------
