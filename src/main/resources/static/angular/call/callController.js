@@ -231,9 +231,9 @@ function inviteRoomController($scope, $mdDialog, $mdToast, $filter, serviceNotif
 	
 	$scope.notMembers= function(){
 		var notMembers=[];
-		for (var i=0;i<teamUsers.length;i++){
-			if (!serviceParticipateRoom.isMember(teamUsers[i].userid)){
-				notMembers.push(teamUsers[i]);
+		for (var i=0;i<$scope.teamUsers.length;i++){
+			if (!serviceParticipateRoom.isMember($scope.teamUsers[i].userid, room.id)){
+				notMembers.push(teamUsers[i]);				
 			}
 		}
 		return notMembers;

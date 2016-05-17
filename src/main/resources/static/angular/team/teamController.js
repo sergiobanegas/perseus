@@ -78,6 +78,11 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		serviceUser.logout();
 		$window.location.href = '#/';
 	}
+	
+	$scope.goToMainPage = function(){		
+		$window.location.href = '#/';
+	}
+	
 	//Screens
 	$scope.userReceiver={};
 	$scope.showUserMessages = function(user){

@@ -107,16 +107,19 @@
 					Menu
 				</md-tooltip>
   			</md-button>
-  			<md-menu>
+  			<md-menu>		
 				<md-button class="md-icon-button" ng-click="$mdOpenMenu()">
 			    	<md-icon md-menu-origin>
 			    		more_vert
 			    	</md-icon>
 			    	<md-tooltip>
-						Logout
+						Menu
 					</md-tooltip>
 				</md-button>
 				<md-menu-content width="1">
+					<md-menu-item>
+							<md-button ng-click="goToMainPage()">Main page</md-button>
+					</md-menu-item>
 					<md-menu-item>
 						<md-button ng-click="logout()">Logout</md-button>
 					</md-menu-item>
