@@ -100,6 +100,8 @@ v0.1
 * Chat messages.
 * A single administrator.
 * Admin panel: remove teams and users.
+
+
 ---------------
 v0.2
 * New visual framework: Angular Material.
