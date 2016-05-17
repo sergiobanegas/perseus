@@ -130,11 +130,7 @@ Screenshots
 ![register](https://cloud.githubusercontent.com/assets/10667581/11763453/5022980c-a10b-11e5-8af8-8af2eedb2d22.jpg)
 
 ###Profile
-![profile](https://cloud.githubusercontent.com/assets/10667581/11763445/2f59f8cc-a10b-11e5-9749-17fe4766368d.jpg)
-
-###Create team and join an existing one
-![joinateam](https://cloud.githubusercontent.com/assets/10667581/11763550/c1fe4bb6-a10f-11e5-8ea8-cb2b128b4339.jpg)
-![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
+![profile](https://cloud.githubusercontent.com/assets/10667581/15332532/47a843c6-1c66-11e6-81ee-2a707d46e328.png)<br/>
 
 ###Team
 ![team](https://cloud.githubusercontent.com/assets/10667581/15332327/76330ed4-1c65-11e6-9c36-9f3feae1c82f.png)
@@ -145,7 +141,7 @@ By clicking on the yellow and red lower left buttons you can exit or delete the 
 ###Room
 ![room](https://cloud.githubusercontent.com/assets/10667581/15332344/8534190a-1c65-11e6-9e27-721bdd7a8349.png)
 
-###Admin panel
+###Team admin panel
 ![admin1](https://cloud.githubusercontent.com/assets/10667581/15332342/852ee52a-1c65-11e6-8971-28c2e97d0170.png)
 
 Note: you can't remove the default administrator user.
