@@ -124,25 +124,19 @@ v0.2
 Screenshots
 ---------------
 ###Main page
-![main](https://cloud.githubusercontent.com/assets/10667581/15332343/853357b8-1c65-11e6-88a6-4ae5c6c1573d.png)
-###Login and registration
-![login2](https://cloud.githubusercontent.com/assets/10667581/11763460/817c5f3c-a10b-11e5-86d6-9f0fcfb1c165.jpg)	
-![register](https://cloud.githubusercontent.com/assets/10667581/11763453/5022980c-a10b-11e5-8af8-8af2eedb2d22.jpg)
+![main](https://cloud.githubusercontent.com/assets/10667581/15332343/853357b8-1c65-11e6-88a6-4ae5c6c1573d.png)<br/>
 
 ###Profile
-![profile](https://cloud.githubusercontent.com/assets/10667581/15332532/47a843c6-1c66-11e6-81ee-2a707d46e328.png)<br/>
+![profile](https://cloud.githubusercontent.com/assets/10667581/15332592/8435924e-1c66-11e6-89c1-21ac0a2fa634.png)<br/>
 
 ###Team
-![team](https://cloud.githubusercontent.com/assets/10667581/15332327/76330ed4-1c65-11e6-9c36-9f3feae1c82f.png)
-To create a new room, click on the blue top left button.
-![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
-By clicking on the yellow and red lower left buttons you can exit or delete the team if you have administrator privileges or team privileges.
+![team](https://cloud.githubusercontent.com/assets/10667581/15332327/76330ed4-1c65-11e6-9c36-9f3feae1c82f.png)<br/>
 
 ###Room
-![room](https://cloud.githubusercontent.com/assets/10667581/15332344/8534190a-1c65-11e6-9e27-721bdd7a8349.png)
+![room](https://cloud.githubusercontent.com/assets/10667581/15332344/8534190a-1c65-11e6-9e27-721bdd7a8349.png)<br/>
 
 ###Team admin panel
-![admin1](https://cloud.githubusercontent.com/assets/10667581/15332342/852ee52a-1c65-11e6-8971-28c2e97d0170.png)
+![admin1](https://cloud.githubusercontent.com/assets/10667581/15332342/852ee52a-1c65-11e6-8971-28c2e97d0170.png)<br/>
 
 Note: you can't remove the default administrator user.
 [Kurento]: http://kurento.org 
