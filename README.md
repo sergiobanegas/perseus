@@ -124,7 +124,7 @@ v0.2
 Screenshots
 ---------------
 ###Main page
-![main2](https://cloud.githubusercontent.com/assets/10667581/11827714/a4b6d0a6-a38e-11e5-9b70-a71729d0b51c.jpg)![main](https://cloud.githubusercontent.com/assets/10667581/11827719/a99379b2-a38e-11e5-8762-3e2099e85518.jpg)
+![main](https://cloud.githubusercontent.com/assets/10667581/15332343/853357b8-1c65-11e6-88a6-4ae5c6c1573d.png)
 ###Login and registration
 ![login2](https://cloud.githubusercontent.com/assets/10667581/11763460/817c5f3c-a10b-11e5-86d6-9f0fcfb1c165.jpg)	
 ![register](https://cloud.githubusercontent.com/assets/10667581/11763453/5022980c-a10b-11e5-8af8-8af2eedb2d22.jpg)
@@ -137,17 +137,16 @@ Screenshots
 ![newteam](https://cloud.githubusercontent.com/assets/10667581/11763534/fe5093a4-a10e-11e5-9b8f-0998b310a99f.jpg)<br/>
 
 ###Team
-![team](https://cloud.githubusercontent.com/assets/10667581/11827264/21f88e32-a38b-11e5-9bf7-64b836611111.jpg)
+![team](https://cloud.githubusercontent.com/assets/10667581/15332327/76330ed4-1c65-11e6-9c36-9f3feae1c82f.png)
 To create a new room, click on the blue top left button.
 ![newroom](https://cloud.githubusercontent.com/assets/10667581/11763456/6aba20fe-a10b-11e5-902f-25658777f5af.jpg)<br/> 
 By clicking on the yellow and red lower left buttons you can exit or delete the team if you have administrator privileges or team privileges.
 
 ###Room
-![room](https://cloud.githubusercontent.com/assets/10667581/11826872/2be3f128-a388-11e5-8248-3d810a6e9598.jpg)
+![room](https://cloud.githubusercontent.com/assets/10667581/15332344/8534190a-1c65-11e6-9e27-721bdd7a8349.png)
 
 ###Admin panel
-![admin2](https://cloud.githubusercontent.com/assets/10667581/11827069/c5dc11f6-a389-11e5-8680-73d1f25fb534.jpg)
-![admin1](https://cloud.githubusercontent.com/assets/10667581/11827068/c44d791a-a389-11e5-9a59-4c2cf6c38319.jpg)
+![admin1](https://cloud.githubusercontent.com/assets/10667581/15332342/852ee52a-1c65-11e6-8971-28c2e97d0170.png)
 
 Note: you can't remove the default administrator user.
 [Kurento]: http://kurento.org 
