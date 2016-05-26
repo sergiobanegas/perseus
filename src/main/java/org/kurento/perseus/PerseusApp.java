@@ -21,6 +21,8 @@ import java.util.Scanner;
 import org.kurento.commons.ConfigFileManager;
 import org.kurento.commons.PropertiesManager;
 import org.kurento.jsonrpc.JsonUtils;
+import org.kurento.perseus.user.User;
+import org.kurento.perseus.user.UserRepository;
 import org.kurento.room.KurentoRoomServerApp;
 import org.kurento.room.kms.KmsManager;
 import org.slf4j.Logger;
