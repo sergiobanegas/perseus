@@ -4,6 +4,21 @@ body, html {
     background-image:url('./img/background.jpg')
 }
 
+.view{
+	background-image:url('../../img/background.jpg');
+}
+
+#errorPage{
+	text-align:center;
+	padding-top:2em;
+}
+
+#errorPage div{
+	width:40%;
+	margin: 0 auto;
+	padding:2em;
+}
+
 .nodecoration{
 	text-decoration:none;
 }
