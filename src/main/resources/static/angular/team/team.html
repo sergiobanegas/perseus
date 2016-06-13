@@ -67,7 +67,7 @@
 		   <div id="publicrooms" class="whitebackground" style="display:none;max-height: 15em; overflow-y:auto; overflow-x: hidden;">
 			  <md-list-item ng-click="register(room, $event)" ng-repeat="room in publicRooms() track by $index" ng-mouseover="showPublicRoomButtons($index)" ng-mouseleave="hidePublicRoomButtons($index)">
 				    <p>{{ room.name }}</p>
-			   		<md-icon id="{{$index}}_public" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3 red" style="display:none;" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
+			   		<md-icon id="{{$index}}_public" ng-click="deleteRoom(room, $event)" aria-label="Delete room" class="md-secondary md-hue-3 red" style="display:none;color:red" ng-show="user.privileges>0 || participateUser.teamPrivileges>0 || room.creator==user.id">clear</md-icon>
 				  	<md-divider ng-if="!$last"></md-divider>
 			  </md-list-item>
 		  </div>
