@@ -7,7 +7,7 @@
           <span>Perseus</span>
         </h2>
         <span flex></span>
-        <md-button ng-hide="user.name" ng-click="login($event)">Login</md-button>
+        <md-button ng-hide="user.name" ng-click="login($event)" id="loginButton">Login</md-button>
         <md-button ng-show="user.name" ng-click="logout()" class="md-icon-button" aria-label="Power_settings_new">
           <md-icon>power_settings_new</md-icon>
           <md-tooltip>
@@ -54,18 +54,18 @@
 				</div>
 				<div class="indexmenubutton" id="firstindexmenubutton">
 					<a ng-href="#/user/{{user.id}}"> 
-						<md-button class="md-raised md-primary">
+						<md-button class="md-raised md-primary" id="myProfileButton">
 				        	My profile
 				        </md-button>
 			 		</a>
 		 		</div>
 		 		<div class="indexmenubutton">
-					<md-button ng-click="joinTeam($event)" class="md-raised md-primary">
+					<md-button ng-click="joinTeam($event)" class="md-raised md-primary" id="joinTeamButton">
 		           		Join a team
 					</md-button>
 				</div>
 				<div class="indexmenubutton">
-					<md-button ng-click="newTeam($event)" class="md-raised md-primary">
+					<md-button ng-click="newTeam($event)" class="md-raised md-primary" id="newTeamButton">
 		           		 New team
 		        	</md-button>
 				</div>

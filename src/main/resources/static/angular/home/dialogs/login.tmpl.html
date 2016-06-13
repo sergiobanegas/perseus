@@ -22,12 +22,12 @@
 					<md-input-container class="md-icon-float md-block">
 						<label>Username</label>
 						<md-icon aria-label="Name" class="blue">person</md-icon>
-						<input ng-model="userName">
+						<input ng-model="userName" id="nameField">
 					</md-input-container>
 					<md-input-container>
 						<label>Password</label>
 						<md-icon aria-label="vpn_key" class="blue">vpn_key</md-icon>
-						<input type="password" ng-model="password">
+						<input type="password" ng-model="password" id="passwordField">
 					</md-input-container>
 				<div>Did you forget your password?, click <a href="" ng-click="forgotPassword()" id="linkunderline">here</a>.</div>
 				<div>
@@ -38,7 +38,7 @@
 		</div>
 	</md-dialog-content>
 	<md-dialog-actions>
-		<md-button id="loginButton" class="md-raised md-primary" ng-click="login()">
+		<md-button id="loginSubmitButton" class="md-raised md-primary" ng-click="login()">
 			Login
 		</md-button>
 		<md-button id="forgotPasswordSendButton" class="md-raised md-primary" style="display:none" ng-click="sendForgetPassword()">

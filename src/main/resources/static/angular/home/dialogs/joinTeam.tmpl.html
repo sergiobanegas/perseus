@@ -18,15 +18,15 @@
 					<div layout="row">
 						<md-input-container flex class="nomargin">
 							<label>Team name</label>
-							<input ng-model="team.name">
+							<input ng-model="team.name" id="joinTeamNameField">
 						</md-input-container>
 						<md-input-container flex class="nomargin">
 							<label>Password</label>
-							<input ng-model="team.password" type="password">
+							<input ng-model="team.password" type="password" id="joinTeamPasswordField">
 						</md-input-container>
 					</div>
 					<div>
-						<md-button class="md-primary md-raised" ng-click="joinTeam(team)">
+						<md-button class="md-primary md-raised" ng-click="joinTeam(team)" id="joinTeamSubmitButton">
 							Join
 						</md-button>
 					</div>

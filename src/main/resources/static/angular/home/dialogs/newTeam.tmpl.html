@@ -16,19 +16,19 @@
 	<md-input-container class="md-icon-float md-block">
 	    <label>Name</label>
 	    <md-icon aria-label="Name" class="blue">person</md-icon>
-	    <input ng-model="Team.name">
+	    <input ng-model="Team.name" id="newTeamNameField">
 	</md-input-container>
 	<md-input-container class="md-icon-float md-block">
 	    <label>Password</label>
 	    <md-icon aria-label="Password" class="blue">vpn_key</md-icon>
-	    <input type="password" ng-model="Team.password">
+	    <input type="password" ng-model="Team.password" id="newTeamPasswordField">
 	</md-input-container>
 	<md-input-container class="md-icon-float md-block">
 	    <label>Confirm password</label>
 	    <md-icon aria-label="Confirm password" class="blue">vpn_key</md-icon>
-	    <input type="password" ng-model="password">
+	    <input type="password" ng-model="password" id="newTeamPassword2Field">
 	</md-input-container>
-	<md-button class="md-raised md-primary" type="submit">Create</md-button>
+	<md-button class="md-raised md-primary" type="submit" id="createTeamSubmitButton">Create</md-button>
 </form>
 
 		</div>
