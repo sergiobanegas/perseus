@@ -9,7 +9,6 @@ perseus.controller('registerController', function ($mdToast, $scope, $window, $f
 	}
 	$scope.register = function(newUnconfirmedUser) {
 		if ( $filter('filter')(serviceUser.getUsers(), { name: newUnconfirmedUser.name }).length==0 ){			
-			newUnconfirmedUser.privileges=0;
 			newUnconfirmedUser.confirmationCode=(Math.random() * 10000000 + 0);
 			serviceUnconfirmedUser.newUnconfirmedUser(newUnconfirmedUser);
 			serviceNotification.showNotification("Email validation needed", "Hello "+newUnconfirmedUser.name+", you have to confirm your email address in order to finish your registration, we've sent an email to you");

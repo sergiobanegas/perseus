@@ -51,23 +51,15 @@ public class NewPasswordRestController {
 			});
 			
 			try {
-				//Creamos un nuevo mensaje, y le pasamos nuestra sesión iniciada en el paso anterior.
 				Message message = new MimeMessage(session);
-				//Seteamos la dirección desde la cual enviaremos el mensaje
 				message.setFrom(new InternetAddress("perseuscontact@gmail.com", "Perseus App"));
-				//Seteamos el destino de nuestro mensaje
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-				//Seteamos el asunto
 				message.setSubject("New password");
-				//Y por ultimo el texto.
 				String text="Hello"+user.getName()+"!.<\br> Your new password is :<b>"+generatedString+"</b><br/>You can change the passsword again.";
 				message.setContent(text, "text/html; charset=utf-8");
-				//Esta orden envía el mensaje
 				Transport.send(message);
-				//Con esta imprimimos en consola que el mensaje fue enviado
 				System.out.println("Message about new password sent to the user "+user.getEmail()+" - "+email);
 				}catch (MessagingException e) {
-					//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 					System.out.println("Error sending a 'user joined' message.");
 					throw new RuntimeException(e);
 				}

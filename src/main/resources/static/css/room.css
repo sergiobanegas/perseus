@@ -517,36 +517,27 @@ video {
 }
 
 .video {
-    width: 23%;
-    /* whatever width you want */
-    position: relative;
-    display: table;
-    float:right;
+	background-color:white !important;
+	border-radius: 4px !important;
+	position: relative;
+	/* border: 2px groove; */
+	margin:0 !important;
+	text-align: center;
+	overflow: hide;
+	float: right;
+	padding: 5px;
+	border-radius: 10px !important;
+	-webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px
+		rgba(0, 0, 0, 0.3) !important;
+	box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px
+		rgba(0, 0, 0, 0.3) !important;
+	/*Transition*/
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	-o-transition: all 0.3s linear;
+	transition: all 0.3s linear;
 }
 
-.video:after {
-    padding-top: 56.25%;
-    /* 16:9 ratio */
-    display: block;
-    content: '';
-}
-
-.video>div {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    width: 100%;
-    /* fill parent */
-    background-color: #000000;
-    /* let's see it! */
-    color: white;
-    display: flex;
-    justify-content: center;
-    /* align horizontal */
-    align-items: center;
-}
 
 #logo {
     position: absolute;
@@ -1146,3 +1137,46 @@ a {
       visibility: visible;
     }
   }
+
+
+.animate {
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-fill-mode: both;
+	-moz-animation-duration: 0.5s;
+	-moz-animation-fill-mode: both;
+	-o-animation-duration: 0.5s;
+	-o-animation-fill-mode: both;
+	-ms-animation-duration: 0.5s;
+	-ms-animation-fill-mode: both;
+	animation-duration: 0.5s;
+	animation-fill-mode: both;
+}
+
+.removed {
+	-webkit-animation: disapear 1s;
+	-webkit-animation-fill-mode: forwards;
+	animation: disapear 1s;
+	animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes disapear {
+	50% {
+		-webkit-transform: translateX(-5%);
+		transform: translateX(-5%);
+	}
+	100%{
+		-webkit-transform:translateX(200%);
+		transform:translateX(200%);
+	}
+}
+
+@keyframes disapear {
+	50% {
+		-webkit-transform: translateX(-5%);
+		transform: translateX(-5%);
+	}
+	100%{
+		-webkit-transform:translateX(200%);
+		transform:translateX(200%);
+	}
+}

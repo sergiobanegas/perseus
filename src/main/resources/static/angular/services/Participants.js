@@ -44,17 +44,7 @@ function AppParticipant(stream) {
         that.videoElement.setAttribute("id", that.thumbnailId);
         that.videoElement.setAttribute("ng-drop", "true");
         that.videoElement.setAttribute("ng-drop-success", "onDropComplete($index, $data,$event)");
-        that.videoElement.className = "video";
-//        var buttonVideo = document.createElement('button');
-//        buttonVideo.className = 'action btn btn--m btn--orange btn--fab mdi md-desktop-mac';
-//        //FIXME this won't work, Angular can't get to bind the directive ng-click nor lx-ripple
-//        buttonVideo.setAttribute("ng-click", "disconnectStream();$event.stopPropagation();");
-//        buttonVideo.setAttribute("lx-ripple", "");
-//        buttonVideo.style.position = "absolute";
-//        buttonVideo.style.left = "75%";
-//        buttonVideo.style.top = "60%";
-//        buttonVideo.style.zIndex = "100";
-//        that.videoElement.appendChild(buttonVideo);      
+        that.videoElement.className="video";
         document.getElementById("participants").appendChild(that.videoElement);
         
         that.stream.playThumbnail(that.thumbnailId);
@@ -89,20 +79,22 @@ function Participants() {
 	}
     
     function updateVideoStyle() {
-        var MAX_WIDTH = 30;
+        var MAX_WIDTH = 20;
         var numParticipants = Object.keys(participants).length;
         var maxParticipantsWithMaxWidth = 98 / MAX_WIDTH;
         if (numParticipants > maxParticipantsWithMaxWidth) {
             $('.video').css({
-                "width": (98 / numParticipants) + "%",
-                "margin-left": "1em",
-                "border-radius": "15px"
+                "width": (98 / numParticipants) + "em",
+                "margin": "1em",
+                "border-radius": "10px"
             });
         } else {
             $('.video').css({
-                "width": MAX_WIDTH + "%",
-                "margin-left": "1em",
-                "border-radius": "15px"
+                "width": MAX_WIDTH+"em",
+                "background-color":"white",
+                "margin": "1em",
+                "padding": "5px",
+                "border-radius": "10px"
             });
         }
     };

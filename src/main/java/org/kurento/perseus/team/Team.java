@@ -30,7 +30,7 @@ public class Team {
 	private String imageType;
 		
 	public Team() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public Integer getId() {

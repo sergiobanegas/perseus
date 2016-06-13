@@ -25,7 +25,7 @@ public class Participate {
 	private boolean notifications;
 		
 	public Participate() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public Integer getId() {
