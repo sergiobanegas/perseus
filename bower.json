@@ -1,5 +1,5 @@
 {
-  "name": "${project.artifactId}",
+  "name": "perseus",
   "version": "${project.version}",
   "description": "${project.description}",
   "authors": [

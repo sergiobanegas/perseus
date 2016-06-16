@@ -10,7 +10,7 @@
 	<artifactId>perseus</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Perseus</name>
+	<name>perseus</name>
 	<description>A collaborative app</description>
 	<url>https://github.com/sergiobanegas/perseus</url>
 
