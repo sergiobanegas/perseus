@@ -29,7 +29,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     serviceParticipate.getTeamParticipates(serviceKurentoRoom.getTeam()).then(function (result){
 	    $scope.teamUsers=result.data;
 	});
-    //Has to be applied in the html, but the html show information before the REST call
+
     $scope.memberUser={};
     serviceParticipate.getUserParticipate(serviceKurentoRoom.getTeam(), $scope.user.id).then(function (result){
     	$scope.memberUser=result.data[0];
@@ -55,7 +55,6 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
         }
 	});
 	
-	//has to be fixed
 	$scope.memberUser= function(){
 		for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){
     		if (serviceParticipateRoom.getParticipateRooms()[i].userid==$scope.user.id && serviceParticipateRoom.getParticipateRooms()[i].roomid==serviceKurentoRoom.getRoomId()){
@@ -63,7 +62,7 @@ perseus.controller('callController', function ($mdDialog, $mdToast, $scope, $rou
     		}
     	}
 	}
-    //has to be fixed
+	
     $scope.members= function(){
     	var members=[];
     	for (var i=0;i<serviceParticipateRoom.getParticipateRooms().length;i++){

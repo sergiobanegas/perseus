@@ -38,7 +38,7 @@ function serviceRoom($resource, $timeout, $http) {
 	function getRooms() {
 		return rooms;
 	}
-	//has to be fixed
+
 	function getRoom(id) {
 		for (var i=0;i<rooms.length;i++){
     		if (rooms[i].id==id){

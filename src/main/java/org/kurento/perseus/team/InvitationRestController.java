@@ -38,25 +38,17 @@ public class InvitationRestController {
 		});
 		
 		try {
-			//Creamos un nuevo mensaje, y le pasamos nuestra sesión iniciada en el paso anterior.
 			Message message = new MimeMessage(session);
-			//Seteamos la dirección desde la cual enviaremos el mensaje
 			message.setFrom(new InternetAddress("perseuscontact@gmail.com", "Perseus App"));
-			//Seteamos el destino de nuestro mensaje
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-			//Seteamos el asunto
 			message.setSubject("Team invitation");
-			//Y por ultimo el texto.
 			String text="You have a new invitation to join the team <b>"+teamName+"</b>. You can join the team now with the following credentials:"
 					+ "<br>Team name: <b>"+teamName+"</b></br>"
 							+ "Password: <b>"+teamPassword+"</b>";
 			message.setContent(text, "text/html; charset=utf-8");
-			//Esta orden envía el mensaje
 			Transport.send(message);
-			//Con esta imprimimos en consola que el mensaje fue enviado
 			System.out.println("Message sent to "+email);
 			}catch (MessagingException e) {
-				//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 				System.out.println("Error sending the message.");
 				throw new RuntimeException(e);
 			}

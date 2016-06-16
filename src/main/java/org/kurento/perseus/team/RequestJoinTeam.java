@@ -24,7 +24,7 @@ public class RequestJoinTeam {
 	private Integer teamid;
 		
 	public RequestJoinTeam() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

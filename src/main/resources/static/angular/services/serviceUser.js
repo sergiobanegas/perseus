@@ -48,7 +48,7 @@ function serviceUser($resource, $timeout, $http, localStorageService) {
 	function getSession(){
 		return session;
 	}
-	//has to be fixed
+
 	function getUser(id) {
 		for (var i=0; i< users.length;i++){
 			if (users[i].id==id){

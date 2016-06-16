@@ -40,7 +40,7 @@ function serviceParticipate($resource, $timeout, $q, $http) {
 	function getParticipates() {
 		return Participates;
 	}
-	//has to be fixed
+
 	function getParticipate(id) {
 		for (var i = 0; i < Participates.length; i++) {
 			if (Participates[i].id.toString() === id.toString()) {

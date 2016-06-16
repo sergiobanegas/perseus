@@ -172,7 +172,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 		if ( $filter('filter')(serviceTeam.getTeams(), { name: Team.name, password: Team.password}).length!=0){	
 			var TeamJoined= ($filter('filter')(serviceTeam.getTeams(), { name: Team.name}))[0];
 				if ( $filter('filter')(serviceParticipate.getParticipates(), { userid: $scope.user.id, teamid: TeamJoined.id }).length==0 ){			
-					serviceParticipate.newParticipate({teamid: TeamJoined.id, userid: $scope.user.id, teamPrivileges: 0, notifications: false });	
+					serviceParticipate.newParticipate({teamid: TeamJoined.id, userid: $scope.user.id, teamPrivileges: 0 });	
 					$mdDialog.hide();
 					serviceNotification.showNotification("Joined!", "You succesfully joined the team!");	
 				}

@@ -28,7 +28,7 @@ public class ParticipateRoom {
 	private Integer roomPrivileges;
 	
 	public ParticipateRoom() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

@@ -28,7 +28,7 @@ public class RequestJoinRoom {
 	private Integer teamid;
 	
 	public RequestJoinRoom() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

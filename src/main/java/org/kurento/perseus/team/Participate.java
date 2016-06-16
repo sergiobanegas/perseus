@@ -22,7 +22,6 @@ public class Participate {
 	@ManyToOne
 	private Team team;
 	private Integer teamPrivileges;
-	private boolean notifications;
 		
 	public Participate() {
 		
@@ -42,10 +41,6 @@ public class Participate {
 	
 	public Integer getTeamPrivileges() {
 		return teamPrivileges;
-	}
-	
-	public boolean getNotifications() {
-		return notifications;
 	}
 	
 	public Integer getTeamid() {
@@ -70,10 +65,6 @@ public class Participate {
 	
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	public void setNotifications(boolean notifications) {
-		this.notifications = notifications;
 	}
 	
 	public void setUserid(Integer userId) {

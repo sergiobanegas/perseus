@@ -39,11 +39,8 @@ public class UserJoinedRestController {
 		});
 		
 		try {
-			//Creamos un nuevo mensaje, y le pasamos nuestra sesión iniciada en el paso anterior.
 			Message message = new MimeMessage(session);
-			//Seteamos la dirección desde la cual enviaremos el mensaje
 			message.setFrom(new InternetAddress("perseuscontact@gmail.com", "Perseus App"));
-			//Seteamos el destino de nuestro mensaje
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));			
 			String text;
 			if (response==1){
@@ -53,14 +50,10 @@ public class UserJoinedRestController {
 				message.setSubject("Petition to join "+teamName+" denied");
 				text="Sorry "+userName+".<\br> The administrative staff of the team <b>"+teamName+"</b> denied your petition to enter the team.";
 			}
-			//Y por ultimo el texto.
 			message.setContent(text, "text/html; charset=utf-8");
-			//Esta orden envía el mensaje
 			Transport.send(message);
-			//Con esta imprimimos en consola que el mensaje fue enviado
 			System.out.println("Message about new member sent to the user "+userName+" - "+email);
 			}catch (MessagingException e) {
-				//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 				System.out.println("Error sending a 'user joined' message.");
 				throw new RuntimeException(e);
 			}

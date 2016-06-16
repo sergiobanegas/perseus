@@ -26,11 +26,18 @@
 		    <md-icon aria-label="Name" class="blue">person</md-icon>
 		    <input ng-model="newUser.name" id="nameField">
 		</md-input-container>
+		<div layout="row">
 		<md-input-container class="md-icon-float md-block">
 		    <label>Password</label>
 		    <md-icon aria-label="Password" class="blue">vpn_key</md-icon>
 		    <input type="password" ng-model="newUser.password" id="passwordField">
 		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+		    <label>Password confirmation</label>
+		    <md-icon aria-label="Password confirmation" class="blue">vpn_key</md-icon>
+		    <input type="password" ng-model="password2" id="passwordField2">
+		</md-input-container>
+		</div>
 		<md-input-container class="md-icon-float md-block">
 		    <label>Email</label>
 		    <md-icon aria-label="Email" class="blue">email</md-icon>

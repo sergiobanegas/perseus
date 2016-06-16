@@ -29,7 +29,7 @@ public class PrivateMessage {
 	private String text;
 	private String date;	
 	public PrivateMessage() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

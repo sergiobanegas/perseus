@@ -31,7 +31,7 @@ public class RoomInvite {
 	private Integer roomid;
 		
 	public RoomInvite() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

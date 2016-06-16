@@ -7,12 +7,17 @@ perseus.controller('registerController', function ($mdToast, $scope, $window, $f
 	if ($scope.user){
 		$window.location.href = '#/';
 	}
+	$scope.password2="";
 	$scope.register = function(newUnconfirmedUser) {
 		if ( $filter('filter')(serviceUser.getUsers(), { name: newUnconfirmedUser.name }).length==0 ){			
-			newUnconfirmedUser.confirmationCode=(Math.random() * 10000000 + 0);
-			serviceUnconfirmedUser.newUnconfirmedUser(newUnconfirmedUser);
-			serviceNotification.showNotification("Email validation needed", "Hello "+newUnconfirmedUser.name+", you have to confirm your email address in order to finish your registration, we've sent an email to you");
-			$window.location.href = '#/';
+			if ($scope.password2==newUnconfirmedUser.password){
+				newUnconfirmedUser.confirmationCode=(Math.random() * 10000000 + 0);
+				serviceUnconfirmedUser.newUnconfirmedUser(newUnconfirmedUser);
+				serviceNotification.showNotification("Email validation needed", "Hello "+newUnconfirmedUser.name+", you have to confirm your email address in order to finish your registration, we've sent an email to you");
+				$window.location.href = '#/';
+			}else{
+				$scope.notification("The passwords don't match");
+			}
 		}
 		else{
 			$scope.notification("An user with that name already exist");

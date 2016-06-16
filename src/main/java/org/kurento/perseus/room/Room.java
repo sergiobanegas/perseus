@@ -26,7 +26,7 @@ public class Room {
 	private int privateRoom;
 	
 	public Room() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

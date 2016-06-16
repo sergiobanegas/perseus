@@ -25,7 +25,7 @@ public class User {
 	private int privileges;
 	
 	public User() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

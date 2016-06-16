@@ -20,7 +20,7 @@ public class UnconfirmedUser {
 	private String email;	
 	private int confirmationCode;
 	public UnconfirmedUser() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

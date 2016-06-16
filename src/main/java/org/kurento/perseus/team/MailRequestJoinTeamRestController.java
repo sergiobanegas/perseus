@@ -39,23 +39,15 @@ public class MailRequestJoinTeamRestController {
 		});
 		
 		try {
-			//Creamos un nuevo mensaje, y le pasamos nuestra sesión iniciada en el paso anterior.
 			Message message = new MimeMessage(session);
-			//Seteamos la dirección desde la cual enviaremos el mensaje
 			message.setFrom(new InternetAddress("perseuscontact@gmail.com", "Perseus App"));
-			//Seteamos el destino de nuestro mensaje
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adminEmail));
-			//Seteamos el asunto
 			message.setSubject("New request to join your team "+teamName);
-			//Y por ultimo el texto.
 			String text="Hello "+adminName+"!.<\br> The user "+userName+" wants to join your team <b>"+teamName+"</b>, enter to your team and press notifications to accept/deny the request.";
 			message.setContent(text, "text/html; charset=utf-8");
-			//Esta orden envía el mensaje
 			Transport.send(message);
-			//Con esta imprimimos en consola que el mensaje fue enviado
 			System.out.println("Message about new member sent to the user "+adminName+" - "+adminEmail);
 			}catch (MessagingException e) {
-				//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 				System.out.println("Error sending a 'user joined' message.");
 				throw new RuntimeException(e);
 			}

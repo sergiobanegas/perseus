@@ -41,6 +41,9 @@
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
         <script src="./angular/app.js"></script>
         
+        <!-- Fullscreen -->
+        <script src="bower_components/angular/angular-fullscreen.js"></script>
+        
 		<!-- Notifications -->        
 		<script type="text/javascript" src="bower_components/HTML5-Desktop-Notifications2/desktop-notify.js"></script>
 		<script type="text/javascript" src="bower_components/angular-web-notification/angular-web-notification.js"></script>
@@ -61,7 +64,6 @@
         <!-- services -->
         <script src="./angular/services/serviceNotification.js"></script>
         <script src="./angular/services/serviceParticipant.js"></script>
-        <script src="./angular/angular-fullscreen.js"></script>
         <script src="./angular/services/serviceTeam.js"></script>
         <script src="./angular/services/serviceParticipate.js"></script>
         <script src="./angular/services/serviceRoom.js"></script>
@@ -104,7 +106,7 @@
   		 <script src="bower_components/imagecrop/ng-img-crop.js"></script>
     </head>
 
-    <body ng-app="perseus">
-        <div ng-view layout-fill class="view"></div> 
+    <body ng-app="perseus" style="background-image:url('../../img/background.jpg');">
+        <div ng-view class="view"></div> 
     </body>
 </html>

@@ -24,7 +24,7 @@ public class TeamInvite {
 	private Integer teamid;
 		
 	public TeamInvite() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public Integer getId() {

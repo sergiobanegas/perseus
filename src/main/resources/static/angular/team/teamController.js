@@ -33,7 +33,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
         $scope.teamUsersWithoutUser = $filter('filter')(result.data, { userid: '!'+$scope.user.id});
 	});
     
-    $scope.member=false;//DOESN'T WORK   
+    $scope.member=false;
     serviceParticipate.getUserParticipate($routeParams.id, $scope.user.id).then(function (result){
     	if (result.data.length>0){
     		$scope.member = true;
@@ -510,10 +510,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 		
 		        room.addEventListener("error-media", function (msg) {
 		            ServiceParticipant.alertMediaError($window, LxNotificationService, msg.error, function (answer) {
-//		            	console.warn("Leave room because of error: " + answer);
-//		            	if (answer) {
-//		            		kurento.close(true);
-//		            	}
+
 		            });
 		        });
 		        

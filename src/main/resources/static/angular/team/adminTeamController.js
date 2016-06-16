@@ -2,7 +2,7 @@
  * @author Sergio Banegas Cortijo
  */
 
-perseus.controller('adminTeamController', function ($scope, $filter, $routeParams, $window, $mdDialog, serviceNotification, serviceTeam, serviceUser, serviceParticipate) {
+perseus.controller('adminTeamController', function ($scope, $filter, $routeParams, $window, $mdDialog, $mdToast, serviceNotification, serviceTeam, serviceUser, serviceParticipate) {
 	
 	$scope.section="administration";
     $scope.team={};
@@ -134,10 +134,19 @@ perseus.controller('adminTeamController', function ($scope, $filter, $routeParam
 					$scope.team.password=$scope.newTeamPassword1;
 					serviceTeam.updateTeam($scope.team);
 				}else{
-					//notification password no igual
+					$scope.notification("The passwords don't match");
 				}
 		}
 	}
+	
+	$scope.notification = function(text) {
+	    $mdToast.show(
+	      $mdToast.simple()
+	        .textContent(text)
+	        .position("bottom right")
+	        .hideDelay(3000)
+	    );
+	 };
 	//jQuery functions
 	 $("#sidenavButton").click(function(){
 		 if (!$('#sidenav').is(":visible")){

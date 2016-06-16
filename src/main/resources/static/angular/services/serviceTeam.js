@@ -40,7 +40,7 @@ function serviceTeam($resource, $timeout, $http) {
 	function getTeams() {
 		return teams;
 	}
-	//has to be fixed
+
 	function getTeam(id){
 		for (var i=0; i<teams.length;i++){
 			if (teams[i].id==id){

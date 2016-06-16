@@ -54,24 +54,17 @@ public class UnconfirmedUserRestController {
 		});
 		
 		try {
-			//Creamos un nuevo mensaje, y le pasamos nuestra sesión iniciada en el paso anterior.
 			Message message = new MimeMessage(session);
-			//Seteamos la dirección desde la cual enviaremos el mensaje
 			message.setFrom(new InternetAddress("perseuscontact@gmail.com", "Perseus App"));
-			//Seteamos el destino de nuestro mensaje
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));			
 			String text;
 			message.setSubject("Perseus -  Email confirmation");
 			text="Hello "+user.getName()+"!.<\br> To become a member of Perseus, you need to confirm your email</b>"
 					+ " click <a href='https://localhost:8443/#/emailvalidation/"+user.getConfirmationCode()+"'>here</a>";
-			//Y por ultimo el texto.
 			message.setContent(text, "text/html; charset=utf-8");
-			//Esta orden envía el mensaje
 			Transport.send(message);
-			//Con esta imprimimos en consola que el mensaje fue enviado
 			System.out.println("Email confirmation set to member "+user.getEmail());
 			}catch (MessagingException e) {
-				//Si existiera un error en el envío lo hacemos saber al cliente y lanzamos una excepcion.
 				System.out.println("Error sending a 'user joined' message.");
 				throw new RuntimeException(e);
 			}

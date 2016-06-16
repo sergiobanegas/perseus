@@ -12,7 +12,6 @@ perseus.filter('timeago', function() {
                 },
                 nowTime = (new Date()).getTime(),
                 date = (new Date(input)).getTime(),
-                //refreshMillis= 6e4, //A minute
                 allowFuture = p_allowFuture || false,
                 strings= {
                     prefixAgo: '',

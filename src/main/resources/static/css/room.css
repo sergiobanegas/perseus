@@ -1,7 +1,11 @@
-body, html {
-    width: 100%;
-    height: 100%;
-    background-image:url('./img/background.jpg')
+
+body{
+	background-image:url('../../img/background.jpg');
+	font-family: 'Open Sans', sans-serif;
+	height:100%;
+    width:100%;
+    font-size: 1.2rem;
+  color: #3e454c;
 }
 
 .view{
@@ -458,12 +462,6 @@ z-index:104;
   min-height: 140px;
 }
 
-body {
-    font-family: 'Open Sans', sans-serif;
-	height:100%;
-    width:100%;
-}
-
 #main-video {
     width: 23%;
     /* whatever width you want */
@@ -761,13 +759,6 @@ border-bottom:4px solid
 
 html {
   font-size: 62.5%;
-}
-
-body {
-  font-size: 1.2rem;
-  font-family: "Open Sans", sans-serif;
-  color: #3e454c;
-  background-color: #ffffff;
 }
 
 a {

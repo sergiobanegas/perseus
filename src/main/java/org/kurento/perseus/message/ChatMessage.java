@@ -30,10 +30,9 @@ public class ChatMessage {
 	private String text;
 	private String date;	
 	public ChatMessage() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
-
 	public String getText() {
 		return text;
 	}
