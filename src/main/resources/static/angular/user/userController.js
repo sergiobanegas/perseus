@@ -24,7 +24,10 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 		serviceUser.loginUser($scope.userProfile);
 		$scope.editName=0;
 		$scope.editEmail=0;
-		$route.reload();
+		$scope.notification("Your credentials have been updated");
+		setTimeout(function(){
+			$window.location.reload();
+  	    }, 500);
 	};
 	
 	$scope.notification = function(text) {

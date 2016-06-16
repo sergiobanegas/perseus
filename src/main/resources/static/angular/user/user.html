@@ -38,12 +38,14 @@
 	          </div>
 				<div layout="row" style="padding-bottom:2em">
 					<div flex>
+						<span ng-show="userProfile.id==user.id && user.name=='admin' && user.password=='1234'" class="red">We recommend you to change the the default administrator credentials</span>
 						<p>Name: {{userProfile.name}}</p>
+						<span ng-show="userProfile.id==user.id && user.email=='admin@perseus.com'" class="red">Please, change the default email in order to receive emails</span>
 						<p>Email: {{userProfile.email}}</p>
 					</div>
 					<div flex hide-xs>
-					    <md-button style="float:right"class="md-raised md-primary" id="editProfileLaunchButton" ng-show="userProfile.id==user.id || user.privileges>0">Edit profile</md-button>
-						<md-button style="float:right;display:none"class="md-raised md-primary" id="editProfilePhotoLaunchButton">Edit profile photo</md-button>
+					    <md-button style="float:right" class="md-raised md-primary" id="editProfileLaunchButton" ng-show="userProfile.id==user.id || user.privileges>0">Edit profile</md-button>
+						<md-button style="float:right;display:none" class="md-raised md-primary" id="editProfilePhotoLaunchButton">Edit profile photo</md-button>
 					</div>
 				</div>
 				<div id="editProfile" style="display:none">
