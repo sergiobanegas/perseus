@@ -42,10 +42,10 @@ create database perseus;
 
 #### Option 1: Run the JAR file
 #####Download the .jar file
-Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/v2.0/perseus-2.0.jar).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.3/perseus-0.3.jar).
 
 #####Download the keystore
-Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/v2.0/keystore.jks).
+Get it from [here](https://github.com/sergiobanegas/perseus/releases/download/0.3/keystore.jks).
 
 #####Execute the jar file
 Put both files on the same folder and execute the jar file with the following command:
@@ -71,9 +71,9 @@ It take a few minutes, be patient.
 ##### Download the application
 Click on one of the formats below in order to download the application in zip format or tar.gz format:
 
-A) [Zip format](https://github.com/sergiobanegas/perseus/archive/v2.0.zip).
+A) [Zip format](https://github.com/sergiobanegas/perseus/archive/0.3.zip).
 
-B) [Tar.gz format](https://github.com/sergiobanegas/perseus/archive/v2.0.tar.gz).
+B) [Tar.gz format](https://github.com/sergiobanegas/perseus/archive/0.3.tar.gz).
 
 Decompress the chosen file in order to run it.
 
