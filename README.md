@@ -121,6 +121,11 @@ v0.2
 * User/team profile image.
 * Team admin panel: change credentials and admin users.
 
+---------------
+v0.3
+* Bugs fixed.
+* Visual updates.
+
 Screenshots
 ---------------
 ###Main page
