@@ -47,6 +47,10 @@ public class PrivateMessageRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		PrivateMessage message = privateMessageRepository.findOne(id);
+		message.setReceiver(null);
+		message.setTeam(null);
+		message.setTransmitter(null);
 		privateMessageRepository.delete(id);
 	}
 

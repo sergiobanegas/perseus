@@ -77,6 +77,7 @@ perseus.controller('teamController', function ($filter, $mdDialog, $mdToast, $wi
 	$scope.logout = function(){		
 		serviceUser.logout();
 		$window.location.href = '#/';
+		$window.location.reload();
 	}
 	
 	$scope.goToMainPage = function(){		

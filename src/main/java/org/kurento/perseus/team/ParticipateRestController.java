@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.kurento.perseus.message.ChatMessage;
+import org.kurento.perseus.message.ChatMessageRepository;
 import org.kurento.perseus.message.PrivateMessage;
 import org.kurento.perseus.message.PrivateMessageRepository;
 import org.kurento.perseus.room.ParticipateRoom;
@@ -37,6 +39,8 @@ public class ParticipateRestController {
 	private RequestJoinRoomRepository requestJoinRoomRepository;
 	@Autowired
 	private RoomInviteRepository roomInviteRepository;
+	@Autowired
+	private ChatMessageRepository chatMessageRepository;
 	@Autowired
 	private PrivateMessageRepository privateMessageRepository;
 	@Autowired
@@ -72,11 +76,17 @@ public class ParticipateRestController {
 		for (int i=0;i<roomInvites.size();i++){
 			roomInviteRepository.delete(roomInvites.get(i).getId());
 		}
+		List<ChatMessage> messages= chatMessageRepository.findByUserid(participate.getUserid());
+		for(int i=0;i<messages.size();i++){
+			chatMessageRepository.delete(messages.get(i).getId());
+		}
 		List<PrivateMessage> privateMessages=privateMessageRepository.findByTeamidAndTransmitterid(participate.getTeamid(), participate.getUserid());
 		privateMessages.addAll(privateMessageRepository.findByTeamidAndReceiverid(participate.getTeamid(), participate.getUserid()));
 		for (int i=0;i<privateMessages.size();i++){
 			privateMessageRepository.delete(privateMessages.get(i).getId());
 		}
+		participate.setTeam(null);
+		participate.setUser(null);
 		participateRepository.delete(id);
 	}
 

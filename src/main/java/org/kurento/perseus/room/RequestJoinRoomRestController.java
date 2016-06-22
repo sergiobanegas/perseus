@@ -47,6 +47,10 @@ public class RequestJoinRoomRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		RequestJoinRoom request= requestJoinRoomRepository.findOne(id);
+		request.setRoom(null);
+		request.setTeam(null);
+		request.setUser(null);
 		requestJoinRoomRepository.delete(id);
 	}
 

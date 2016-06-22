@@ -47,6 +47,10 @@ public class ParticipateRoomRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		ParticipateRoom participates= participateRoomRepository.findOne(id);
+		participates.setRoom(null);
+		participates.setTeam(null);
+		participates.setUser(null);
 		participateRoomRepository.delete(id);
 	}
 

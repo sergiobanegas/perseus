@@ -43,6 +43,9 @@ public class TeamInviteRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		TeamInvite teamInvite= teamInviteRepository.findOne(id);
+		teamInvite.setTeam(null);
+		teamInvite.setUser(null);
 		teamInviteRepository.delete(id);
 	}
 

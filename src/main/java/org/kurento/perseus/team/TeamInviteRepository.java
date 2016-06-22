@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamInviteRepository extends JpaRepository<TeamInvite, Integer> {
 	List<TeamInvite> findByUserid(Integer user);
+	List<TeamInvite> findByTeamid(Integer team);
 }

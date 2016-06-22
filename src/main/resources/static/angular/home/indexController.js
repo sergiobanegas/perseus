@@ -46,7 +46,7 @@ perseus.controller('indexController', function ($scope, $mdDialog, $mdToast, $ro
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
-		$route.reload();
+		$window.location.reload();
 	};
 	
 	$scope.login = function($event) {
@@ -142,7 +142,7 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 			if (array.length!=0 && array[0].password==$scope.password){
 				$mdDialog.hide();
 				serviceUser.loginUser(array[0]);
-				$route.reload();
+				$window.location.reload();
 			}
 			else{
 				$scope.notification("The username or password are incorrect");	
@@ -155,7 +155,6 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 	
 	$scope.forgotPassword = function(){
 		$("#loginForm").hide();
-		$("#loginButton").hide();
 		$("#forgotPassword").show();
 		$("#forgotPasswordSendButton").show();
 	}
@@ -254,6 +253,8 @@ function DialogController($scope, $http, $mdDialog, $mdToast, $filter, $window, 
 	};
 	   
 	$scope.closeDialog = function() {
+		$("#loginForm").show();
+		$("#loginButton").show();
 		$mdDialog.hide();
 	}
 }

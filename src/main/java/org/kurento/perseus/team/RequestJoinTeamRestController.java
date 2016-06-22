@@ -43,6 +43,9 @@ public class RequestJoinTeamRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		RequestJoinTeam request= requestJoinTeamRepository.findOne(id);
+		request.setTeam(null);
+		request.setUser(null);
 		requestJoinTeamRepository.delete(id);
 	}
 

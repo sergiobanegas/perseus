@@ -49,6 +49,11 @@ public class RoomInviteRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		RoomInvite roomInvite= roomInviteRepository.findOne(id);
+		roomInvite.setRoom(null);
+		roomInvite.setTeam(null);
+		roomInvite.setUser(null);
+		roomInvite.setTransmitter(null);
 		roomInviteRepository.delete(id);
 	}
 

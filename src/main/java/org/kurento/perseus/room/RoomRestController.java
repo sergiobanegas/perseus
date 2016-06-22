@@ -31,6 +31,8 @@ public class RoomRestController {
 	@Autowired
 	private RequestJoinRoomRepository requestJoinRoomRepository;
 	@Autowired
+	private RoomInviteRepository roomInviteRepository;
+	@Autowired
 	private ChatMessageRepository chatMessageRepository;
 	@Autowired
 	private UserRepository userRepository;
@@ -64,7 +66,10 @@ public class RoomRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
-		roomRepository.delete(id);
+		List<RoomInvite> roomInvites=roomInviteRepository.findByRoomid(id);
+		for (int i=0;i<roomInvites.size();i++){
+			roomInviteRepository.delete(roomInvites.get(i).getId());
+		}
 		List<ParticipateRoom> participateRooms=participateRoomRepository.findByRoomid(id);
 		for (int i=0;i<participateRooms.size();i++){
 			participateRoomRepository.delete(participateRooms.get(i).getId());
@@ -81,6 +86,10 @@ public class RoomRestController {
 		for (int i=0;i<chatMessages.size();i++){
 			chatMessageRepository.delete(chatMessages.get(i).getId());
 		}
+		Room room=roomRepository.findOne(id);
+		room.setCreator(null);
+		room.setTeam(null);
+		roomRepository.delete(id);
 		
 	}
 

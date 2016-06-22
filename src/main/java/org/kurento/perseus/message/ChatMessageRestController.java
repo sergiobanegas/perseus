@@ -52,6 +52,10 @@ public class ChatMessageRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteItem(@PathVariable Integer id) {
+		ChatMessage message=ChatMessageRepository.findOne(id);
+		message.setRoom(null);
+		message.setTeam(null);
+		message.setUser(null);
 		ChatMessageRepository.delete(id);
 	}
 

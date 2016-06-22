@@ -141,7 +141,7 @@ perseus.controller('userController', function ($mdDialog, $mdToast, $scope, $rou
 	
 	$scope.logout = function(){		
 		serviceUser.logout();
-		$route.reload();
+		$window.location.reload();
 	};
 	
 	$scope.login = function($event) {
