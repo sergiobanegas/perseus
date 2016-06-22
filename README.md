@@ -121,6 +121,11 @@ v0.2
 * User/team profile image.
 * Team admin panel: change credentials and admin users.
 
+---------------
+v0.3
+* Bugs fixed.
+* Visual updates.
+
 Screenshots
 ---------------
 ###Main page
@@ -133,7 +138,7 @@ Screenshots
 ![team](https://cloud.githubusercontent.com/assets/10667581/15332327/76330ed4-1c65-11e6-9c36-9f3feae1c82f.png)<br/>
 
 ###Room
-![room](https://cloud.githubusercontent.com/assets/10667581/15332344/8534190a-1c65-11e6-9e27-721bdd7a8349.png)<br/>
+![room](https://cloud.githubusercontent.com/assets/10667581/16224765/cf98fe30-37a3-11e6-8769-2e4fd83a1aae.png)<br/>
 
 ###Team admin panel
 ![admin1](https://cloud.githubusercontent.com/assets/10667581/15332342/852ee52a-1c65-11e6-8971-28c2e97d0170.png)<br/>
